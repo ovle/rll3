@@ -17,10 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.ovle.rll3.*
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.model.GameEngine
+import com.ovle.rll3.model.ecs.system.AnimationSystem
 import com.ovle.rll3.model.ecs.system.MoveSystem
+import com.ovle.rll3.model.ecs.system.PlayerControlSystem
 import com.ovle.rll3.model.procedural.DungeonGridFactory
 import com.ovle.rll3.model.procedural.GridToTileArrayMapper
 import com.ovle.rll3.model.procedural.createTiles
+import com.ovle.rll3.view.tiles.LayerType
 import com.ovle.rll3.view.tiles.testLayer
 import ktx.actors.onClick
 import ktx.scene2d.textButton
@@ -53,7 +56,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 
         map = TiledMap()
         val tiles = createTiles(mapSizeInTiles, DungeonGridFactory(), GridToTileArrayMapper())
-        map.layers.add(testLayer(tiles, texture))
+        map.layers.add(testLayer(tiles, texture, LayerType.Floor))
+        map.layers.add(testLayer(tiles, texture, LayerType.Walls))
         mapRenderer = OrthogonalTiledMapRenderer(map, tileMapScale)
 
         sprite = Sprite(
@@ -64,12 +68,17 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         spriteDrawable = SpriteDrawable(sprite)
 
         val renderSystem = RenderSystem(batch)
+        val animationSystem = AnimationSystem()
         val moveSystem = MoveSystem()
-//        val controlSystem = PlayerControlSystem()
+        val controlSystem = PlayerControlSystem()
 //        val collisionSystem = CollisionSystem()
+//        val aiSystem = AISystem()
+//        val timeSystem = TimeSystem()
+//        val lightSystem = LightSystem()
 
+        val systems = listOf(animationSystem, renderSystem, moveSystem, controlSystem)
         gameEngine = GameEngine()
-        gameEngine.init(listOf(renderSystem, moveSystem), spriteDrawable)
+        gameEngine.init(systems, spriteDrawable)
     }
 
     override fun render(delta: Float) {
@@ -103,4 +112,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 
         pack()
     }
+
+//    fun scrollCamera(x: Float, y: Float) {
+//        camera.translate(x, y)
+//    }
 }
