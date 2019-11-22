@@ -25,8 +25,8 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         val moveComponent = entity[move]!!
         val positionComponent = entity[position]!!
         val timePercent = moveComponent.tilesPerSecond * deltaTime
-        val currentFrom = moveComponent.currentFrom()
-        val currentTo = moveComponent.currentTo()
+//        val currentFrom = moveComponent.currentFrom() ?: return
+        val currentTo = moveComponent.currentTo() ?: return //todo remove component ?
         val currentPosition = positionComponent.position
 
         val dx = if (currentTo.x > currentPosition.x) timePercent else -timePercent
