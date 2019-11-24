@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
-import com.ovle.rll3.model.ecs.component.MoveComponent
 import com.ovle.rll3.model.ecs.component.PlayerComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
@@ -17,12 +16,15 @@ class GameEngine {
         ecsEngine = PooledEngine()
         systems.forEach { ecsEngine.addSystem((it)) }
 
+        val gameEntity = ecsEngine.createEntity()
+        ecsEngine.addEntity(gameEntity)
+
         val startPosition = Vector2(8f, 8f)
         val playerEntity = ecsEngine.createEntity()
                 .add(PlayerComponent())
                 .add(RenderComponent(spriteDrawable))
                 .add(PositionComponent(startPosition))
-                .add(MoveComponent(initialPath = listOf(startPosition, Vector2(0f, 14f), Vector2(5f, 1f))))
+//                .add(MoveComponent(initialPath = listOf(startPosition, Vector2(0f, 14f), Vector2(5f, 1f))))
 
         ecsEngine.addEntity(playerEntity)
     }

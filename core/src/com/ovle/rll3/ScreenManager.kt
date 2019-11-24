@@ -2,7 +2,7 @@ package com.ovle.rll3
 
 import com.ovle.rll3.ScreenManager.ScreenType.*
 import com.ovle.rll3.screen.BaseScreen
-import com.ovle.rll3.screen.GameScreen
+import com.ovle.rll3.screen.game.GameScreen
 import com.ovle.rll3.screen.MainMenuScreen
 import com.ovle.rll3.screen.ManageScreen
 import ktx.inject.Context

@@ -1,6 +1,8 @@
 package com.ovle.rll3.screen
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -29,8 +31,13 @@ abstract class BaseScreen(
             rootActor = rootActor()
             stage.addActor(rootActor)
         }
-        Gdx.input.inputProcessor = stage
+
+        val inputMultiplexer = InputMultiplexer(stage)
+        screenInputProcessor()?.let { inputMultiplexer.addProcessor(it) }
+        Gdx.input.inputProcessor = inputMultiplexer
     }
+
+    open fun screenInputProcessor(): InputProcessor? = null
 
     override fun hide() {
         super.hide()

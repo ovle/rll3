@@ -1,30 +1,27 @@
-package com.ovle.rll3.screen
+package com.ovle.rll3.screen.game
 
 import RenderSystem
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.TextureLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
-import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.maps.tiled.TiledMap
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.ovle.rll3.*
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.model.GameEngine
 import com.ovle.rll3.model.ecs.system.AnimationSystem
 import com.ovle.rll3.model.ecs.system.MoveSystem
-import com.ovle.rll3.model.ecs.system.PlayerControlSystem
 import com.ovle.rll3.model.procedural.DungeonGridFactory
 import com.ovle.rll3.model.procedural.GridToTileArrayMapper
 import com.ovle.rll3.model.procedural.createTiles
+import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.tiles.LayerType
 import com.ovle.rll3.view.tiles.testLayer
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ktx.actors.onClick
 import ktx.scene2d.textButton
 import ktx.scene2d.verticalGroup
@@ -32,20 +29,23 @@ import ktx.scene2d.window
 import kotlin.math.min
 
 
+@ExperimentalCoroutinesApi
 class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManager, camera: OrthographicCamera): BaseScreen(screenManager, batch, assets, camera) {
 
     lateinit var map: TiledMap
-    lateinit var mapRenderer: TiledMapRenderer
+
     lateinit var texture: Texture
     lateinit var spriteTexture: Texture
     lateinit var sprite: Sprite
     lateinit var spriteDrawable: SpriteDrawable
 
     lateinit var gameEngine: GameEngine
+    private val controls = PlayerControls()
 
     override fun show() {
         super.show()
 
+        //todo async loading on separate screen
 //        assets.setLoader(TiledMap::class.java, TmxMapLoader(InternalFileHandleResolver()))
         assets.setLoader(Texture::class.java, TextureLoader(InternalFileHandleResolver()))
 
@@ -58,40 +58,40 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         val tiles = createTiles(mapSizeInTiles, DungeonGridFactory(), GridToTileArrayMapper())
         map.layers.add(testLayer(tiles, texture, LayerType.Floor))
         map.layers.add(testLayer(tiles, texture, LayerType.Walls))
-        mapRenderer = OrthogonalTiledMapRenderer(map, tileMapScale)
+        map.layers.add(testLayer(tiles, texture, LayerType.Decoration))
 
-        sprite = Sprite(
-                spriteTexture,
-                (spriteWidth * 0).toInt(), (spriteHeight * 1).toInt(),
-                spriteWidth.toInt(), spriteHeight.toInt()
-        )
-        spriteDrawable = SpriteDrawable(sprite)
+        spriteDrawable = playerSprite()
 
-        val renderSystem = RenderSystem(batch)
+        val renderSystem = RenderSystem(batch, camera, map)
         val animationSystem = AnimationSystem()
         val moveSystem = MoveSystem()
-        val controlSystem = PlayerControlSystem()
 //        val collisionSystem = CollisionSystem()
 //        val aiSystem = AISystem()
 //        val timeSystem = TimeSystem()
 //        val lightSystem = LightSystem()
 
-        val systems = listOf(animationSystem, renderSystem, moveSystem, controlSystem)
+        val systems = listOf(animationSystem, renderSystem, moveSystem)
         gameEngine = GameEngine()
         gameEngine.init(systems, spriteDrawable)
     }
 
+    private fun playerSprite(): SpriteDrawable {
+        sprite = Sprite(
+                spriteTexture,
+                (spriteWidth * 0).toInt(), (spriteHeight * 1).toInt(),
+                spriteWidth.toInt(), spriteHeight.toInt()
+        )
+        return SpriteDrawable(sprite)
+    }
+
+    override fun hide() {
+        super.hide()
+
+        //todo free resources?
+    }
+
     override fun render(delta: Float) {
         super.render(delta)
-
-        Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a)
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-
-        val cameraX = 0.0f
-        val cameraY = 0.0f
-        camera.translate(cameraX, cameraY)
-        mapRenderer.setView(camera)
-        mapRenderer.render()
 
         gameEngine.update(min(delta, 1 / 60f))
     }
@@ -113,7 +113,5 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         pack()
     }
 
-//    fun scrollCamera(x: Float, y: Float) {
-//        camera.translate(x, y)
-//    }
+    override fun screenInputProcessor() = controls
 }
