@@ -7,23 +7,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile
 import com.badlogic.gdx.utils.Array
+import com.ovle.rll3.*
 import com.ovle.rll3.model.tile.TileArray
-import com.ovle.rll3.tileHeight
-import com.ovle.rll3.tileWidth
 import com.ovle.rll3.view.tiles.NearTiles.Companion.nearTiles
-import com.ovle.rll3.withChance
+import kotlin.ranges.random
 
 class TextureTileSet(val id: String, val originX: Int = 0, val originY: Int = 0, val size: Int = 4)
 val roomWallTexTileSet = TextureTileSet("roomWall", originY = 4)
 val passageWallTexTileSet = TextureTileSet("passageWall", originX = 4, originY = 4)
 val roomFloorTexTileSet = TextureTileSet("roomFloor", originX = 4)
-
-const val wallTileId = 1
-const val roomFloorTileId = 0
-const val corridorFloorTileId = 2
-const val outOfMapTileId = 1
-
-
 
 fun hasWall(i: Int) = if (i == 1) 1 else 0
 fun hasFloor(i: Int) = if (i != 0) 1 else 0
@@ -38,7 +30,7 @@ enum class LayerType {
 fun testLayer(tiles: TileArray, texture: Texture, layerType: LayerType): MapLayer {
     val result = TiledMapTileLayer(tiles.width, tiles.height, tileWidth, tileHeight)
     // todo cache / memo
-    val textureRegions = TextureRegion.split(texture, tileWidth, tileHeight)
+    val textureRegions = TextureRegion.split(texture, textureTileWidth, textureTileHeight)
 
     for (x in 0 until tiles.width) {
         for (y in 0 until tiles.height) {
@@ -64,8 +56,7 @@ private fun textureTiles(layerType: LayerType, nearTiles: NearTiles, textureRegi
         hasFloor(rightTileId) + 2 * hasFloor(downTileId) + 4 * hasFloor(leftTileId) + 8 * hasFloor(upTileId)
     }
 
-//    val upTiles = arrayOf(nearTiles.upTileId)
-    val isRoomWall = nearTiles.upTileId == roomFloorTileId //upTiles.count { it == corridorFloorTileId } <= upTiles.count { it == roomFloorTileId }
+    val isRoomWall = nearTiles.upTileId == roomFloorTileId
     val wallTileSet = if (isRoomWall) roomWallTexTileSet else passageWallTexTileSet
     val floorTileSet = roomFloorTexTileSet
 
@@ -93,7 +84,7 @@ private fun textureTiles(layerType: LayerType, nearTiles: NearTiles, textureRegi
                     else -> arrayOf(textureRegions[0][0])
                 }
                 LayerType.Decoration -> when {
-                    isWall && isRoomWall -> arrayOf(textureRegions[0][(8..11).random().withChance(0.2f)])
+                    isWall && isRoomWall -> arrayOf(textureRegions[0][(8..11).random().withChance(0.25f)])
                     else -> arrayOf(textureRegions[0][0])
                 }
                 else -> arrayOf(textureRegions[0][0])

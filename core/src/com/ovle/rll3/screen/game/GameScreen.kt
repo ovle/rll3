@@ -15,9 +15,9 @@ import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.model.GameEngine
 import com.ovle.rll3.model.ecs.system.AnimationSystem
 import com.ovle.rll3.model.ecs.system.MoveSystem
-import com.ovle.rll3.model.procedural.DungeonGridFactory
-import com.ovle.rll3.model.procedural.GridToTileArrayMapper
-import com.ovle.rll3.model.procedural.createTiles
+import com.ovle.rll3.model.procedural.grid.DungeonGridFactory
+import com.ovle.rll3.model.procedural.grid.GridToTileArrayMapper
+import com.ovle.rll3.model.procedural.grid.createTiles
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.tiles.LayerType
 import com.ovle.rll3.view.tiles.testLayer

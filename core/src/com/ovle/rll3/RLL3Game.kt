@@ -29,9 +29,12 @@ class RLL3Game : KtxGame<BaseScreen>() {
         context.register {
             bindSingleton<Batch>(spriteBatch)
             bindSingleton(AssetManager())
-            bindSingleton(OrthographicCamera().apply { setToOrtho(false, screenWidth, screenHeight) })
+            bindSingleton(
+                OrthographicCamera().apply {
+                    setToOrtho(false, screenWidth, screenHeight); update()
+                }
+            )
             bindSingleton(screenManager)
-//            bindSingleton(PooledEngine())
 
             screenManager.screens().forEach { addScreen(it.javaClass, it) }
         }
