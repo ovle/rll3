@@ -1,8 +1,9 @@
-package com.ovle.rll3.view.tiles
+package com.ovle.rll3.model.tile
 
-import com.ovle.rll3.model.tile.TileArray
-
-data class NearTiles(val tileId: Int, val rightTileId: Int, val downTileId: Int, val leftTileId: Int, val upTileId: Int) {
+data class NearTiles(
+    val x: Int, val y: Int,
+    val tileId: Int, val rightTileId: Int, val downTileId: Int, val leftTileId: Int, val upTileId: Int
+) {
     companion object {
         fun nearTiles(tiles: TileArray, x: Int, y: Int): NearTiles {
             val tileId = tiles.get(y, x).typeId
@@ -10,7 +11,7 @@ data class NearTiles(val tileId: Int, val rightTileId: Int, val downTileId: Int,
             val downTileId = if (y < tiles.height - 1) tiles.get(y+1, x).typeId else outOfMapTileId
             val leftTileId  = if (x > 0) tiles.get(y, x-1).typeId else outOfMapTileId
             val rightTileId  = if (x < tiles.width - 1) tiles.get(y, x+1).typeId else outOfMapTileId
-            return NearTiles(tileId, rightTileId, downTileId, leftTileId, upTileId)
+            return NearTiles(x, y, tileId, rightTileId, downTileId, leftTileId, upTileId)
         }
     }
 

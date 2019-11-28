@@ -1,9 +1,17 @@
 package com.ovle.rll3.model.procedural.grid
 
+import com.ovle.rll3.model.tile.TileArray
+import com.ovle.rll3.model.tile.TilesInfo
+
 /**
  *
  */
-fun <T> createTiles(size: Int, gridFactory: GridFactory, mapper: GridMapper<T>): T = mapper.map(gridFactory.get(size))
+fun createTiles(size: Int, gridFactory: GridFactory, mapper: GridMapper<TileArray>) = mapper.map(gridFactory.get(size))
+    .run {
+        val result = TilesInfo(this)
+        DoorsTileArrayPostProcessor().process(result)   //todo
+        result
+    }
 
 /**
  *
