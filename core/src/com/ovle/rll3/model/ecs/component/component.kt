@@ -10,25 +10,37 @@ class PlayerComponent : Component
 
 class PositionComponent(var position: Vector2) : Component
 
-class MoveComponent(val tilesPerSecond: Float = 2f, initialPath: List<Vector2>?) : Component {
+class LightComponent(val radius: Int) : Component
 
-    private val path: MutableList<Vector2> = initialPath?.toMutableList() ?: mutableListOf()
-    val from = path.first()
-    val to = path.last()
+class MoveComponent(val tilesPerSecond: Float = 2f) : Component {
 
-    private var currentIndex = 0
-    fun currentFrom() = if (currentIndex < path.size) path[currentIndex] else null
-    fun currentTo() = if (currentIndex < path.size) path[currentIndex + 1] else null
-    fun finished() = currentIndex >= path.size - 1
+    private val path: MutableList<Vector2> = mutableListOf()
+
+    private var currentIndex = -1
+    private fun currentIndexValid() = currentIndex in (0..path.size-1)
+
+//    fun currentFrom() = if (currentIndexValid()) path[currentIndex] else null
+    fun currentTo() = if (currentIndexValid()) path[currentIndex] else null
+    fun finished() = currentIndex >= path.size
+    fun started() = currentIndex >= 0
+
+    fun start(){
+        check(!finished())
+        currentIndex = 0
+    }
 
     fun next() {
         check(!finished())
-
         currentIndex++
     }
 
     fun add(newTo: Vector2) {
         path.add(newTo)
+    }
+
+    fun reset() {
+        path.clear()
+        currentIndex = -1
     }
 }
 

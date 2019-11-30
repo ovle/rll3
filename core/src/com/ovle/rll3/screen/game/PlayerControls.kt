@@ -24,6 +24,7 @@ class PlayerControls : InputAdapter() {
         else -> false
     }
 
+
     override fun scrolled(amount: Int) = send(Event.CameraScrolled(amount)).run { true }
 
     private var lastDragPoint: Vector2? = null
@@ -36,8 +37,10 @@ class PlayerControls : InputAdapter() {
     }
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        lastDragPoint = Vector2(screenX.toFloat(), screenY.toFloat())
+        val screenPoint = Vector2(screenX.toFloat(), screenY.toFloat())
+        lastDragPoint = screenPoint
         lastDragId = pointer
+        send(Event.MouseLeftClick(screenPoint))    //todo
         return true
     }
 

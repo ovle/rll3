@@ -5,14 +5,13 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
-import com.ovle.rll3.model.ecs.component.PlayerComponent
-import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.component.RenderComponent
+import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.procedural.grid.LightSourceInfo
 
 class GameEngine {
     private lateinit var ecsEngine: Engine
 
-    fun init(systems: List<EntitySystem>, spriteDrawable: SpriteDrawable) {
+    fun init(systems: List<EntitySystem>, spriteDrawable: SpriteDrawable, lightsInfo: Set<LightSourceInfo>) {
         ecsEngine = PooledEngine()
         systems.forEach { ecsEngine.addSystem((it)) }
 
@@ -24,9 +23,16 @@ class GameEngine {
                 .add(PlayerComponent())
                 .add(RenderComponent(spriteDrawable))
                 .add(PositionComponent(startPosition))
-//                .add(MoveComponent(initialPath = listOf(startPosition, Vector2(0f, 14f), Vector2(5f, 1f))))
+                .add(MoveComponent())
 
         ecsEngine.addEntity(playerEntity)
+
+        lightsInfo.forEach {
+            val lightEntity = ecsEngine.createEntity()
+                .add(PositionComponent(Vector2(it.x.toFloat(), it.y.toFloat())))
+                .add(LightComponent(5))
+            ecsEngine.addEntity(lightEntity)
+        }
     }
 
     fun dispose() {

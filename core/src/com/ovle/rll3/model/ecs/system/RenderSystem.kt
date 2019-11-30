@@ -12,11 +12,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.*
 import com.ovle.rll3.Event.*
+import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
 import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -37,9 +38,9 @@ class RenderSystem(private val batch: Batch, private val camera: OrthographicCam
 
     private val render: ComponentMapper<RenderComponent> = get()
     private val position: ComponentMapper<PositionComponent> = get()
-    private val renderConfig = RenderConfig()
-    lateinit var channel: ReceiveChannel<PlayerControlEvent>
+    private val renderConfig = RenderConfig()   //todo move system should know that ?
 
+    lateinit var channel: ReceiveChannel<PlayerControlEvent>
 
     //    todo move these to separate class
     override fun addedToEngine(engine: Engine?) {

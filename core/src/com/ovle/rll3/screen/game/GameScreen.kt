@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
-import com.ovle.rll3.*
+import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.model.GameEngine
 import com.ovle.rll3.model.ecs.system.AnimationSystem
@@ -18,7 +18,12 @@ import com.ovle.rll3.model.ecs.system.MoveSystem
 import com.ovle.rll3.model.procedural.grid.DungeonGridFactory
 import com.ovle.rll3.model.procedural.grid.GridToTileArrayMapper
 import com.ovle.rll3.model.procedural.grid.createTiles
+import com.ovle.rll3.model.procedural.mapSizeInTiles
 import com.ovle.rll3.screen.BaseScreen
+import com.ovle.rll3.view.spriteHeight
+import com.ovle.rll3.view.spriteTexturePath
+import com.ovle.rll3.view.spriteWidth
+import com.ovle.rll3.view.tileTexturePath
 import com.ovle.rll3.view.tiles.LayerType
 import com.ovle.rll3.view.tiles.testLayer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -56,6 +61,7 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 
         map = TiledMap()
         val tiles = createTiles(mapSizeInTiles, DungeonGridFactory(), GridToTileArrayMapper())
+        val lightsInfo = tiles.lights()
         map.layers.add(testLayer(tiles, texture, LayerType.Floor))
         map.layers.add(testLayer(tiles, texture, LayerType.Walls))
         map.layers.add(testLayer(tiles, texture, LayerType.Decoration))
@@ -72,7 +78,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 
         val systems = listOf(animationSystem, renderSystem, moveSystem)
         gameEngine = GameEngine()
-        gameEngine.init(systems, spriteDrawable)
+        //todo bad coupling
+        gameEngine.init(systems, spriteDrawable, lightsInfo)
     }
 
     private fun playerSprite(): SpriteDrawable {
