@@ -18,10 +18,10 @@ val dungeonGenerationSettings = DungeonGenerationSettings(
  *
  */
 fun createTiles(size: Int, gridFactory: GridFactory, mapper: GridMapper<TileArray>): TilesInfo {
-        val gridWrapper = gridFactory.get(size, dungeonGenerationSettings)
-        return mapper.map(gridWrapper)
+        val grid = gridFactory.get(size, dungeonGenerationSettings)
+        return mapper.map(grid)
             .run {
-                    val result = TilesInfo(tiles = this, source = gridWrapper)
+                    val result = TilesInfo(tiles = this)
 
                     RoomsInfoPostProcessor().process(result)   //todo
                     DoorTilesInfoPostProcessor().process(result)   //todo

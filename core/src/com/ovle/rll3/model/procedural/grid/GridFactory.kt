@@ -1,12 +1,11 @@
 package com.ovle.rll3.model.procedural.grid
 
 import com.github.czyzby.noise4j.map.Grid
-import com.github.czyzby.noise4j.map.generator.room.AbstractRoomGenerator
 import com.github.czyzby.noise4j.map.generator.room.RoomType
+import com.github.czyzby.noise4j.map.generator.room.dungeon.DungeonGenerator
 import com.ovle.rll3.model.procedural.grid.GridFactory.Companion.corridorTreshold
 import com.ovle.rll3.model.procedural.grid.GridFactory.Companion.floorTreshold
 import com.ovle.rll3.model.procedural.grid.GridFactory.Companion.wallTreshold
-import com.ovle.rll3.model.procedural.grid.ext.ExtDungeonGenerator
 
 interface GridFactory {
     companion object {
@@ -15,7 +14,7 @@ interface GridFactory {
         const val corridorTreshold = 0.2f
     }
 
-    fun get(size: Int, settings: DungeonGenerationSettings): GridWrapper
+    fun get(size: Int, settings: DungeonGenerationSettings): Grid
 }
 
 class DungeonGenerationSettings(
@@ -27,13 +26,12 @@ class DungeonGenerationSettings(
     val randomConnectorChance: Float
 )
 
-data class GridWrapper(val grid: Grid, val rooms: List<AbstractRoomGenerator.Room>)
 
 class DungeonGridFactory: GridFactory {
 
-    override fun get(size: Int, settings: DungeonGenerationSettings): GridWrapper {
+    override fun get(size: Int, settings: DungeonGenerationSettings): Grid {
         val grid = Grid(size)
-        val dungeonGenerator = ExtDungeonGenerator()
+        val dungeonGenerator = DungeonGenerator.getInstance()
 
         dungeonGenerator.apply {
             settings.roomTypes.forEach { addRoomType(it) }
@@ -51,6 +49,6 @@ class DungeonGridFactory: GridFactory {
             randomConnectorChance = settings.randomConnectorChance
         }.generate(grid)
 
-        return GridWrapper(grid, dungeonGenerator.rooms())
+        return grid
     }
 }

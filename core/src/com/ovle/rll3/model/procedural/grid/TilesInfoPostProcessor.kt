@@ -1,7 +1,10 @@
 package com.ovle.rll3.model.procedural.grid
 
+import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.isNear
 import com.ovle.rll3.model.procedural.floorTypes
 import com.ovle.rll3.model.procedural.lightSourceChance
+import com.ovle.rll3.model.procedural.roomFloorTypes
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.model.tile.NearTiles.Companion.nearTiles
 import java.lang.Math.random
@@ -51,16 +54,17 @@ class RoomStructurePostProcessor : TilesInfoPostProcessor {
 
     private fun processRoom(tiles: TileArray, room: RoomInfo) {
         val roomStructure = RoomStructure.values().random()
+        val params = roomStructure.initParams()
         for (x in room.x until room.x + room.width) {
             for (y in room.y until room.y + room.height) {
                 val nearTiles = nearTiles(tiles, x, y)
-                processRoomTile(nearTiles, room, tiles, roomStructure)
+                processRoomTile(nearTiles, room, tiles, roomStructure, params)
             }
         }
     }
 
-    private fun processRoomTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, roomStructure: RoomStructure) {
-        roomStructure.processTile(nearTiles, room, tiles)
+    private fun processRoomTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, roomStructure: RoomStructure, params: Map<RoomStructure.ParamKey, Any>) {
+        roomStructure.processTile(nearTiles, room, tiles, params)
     }
 }
 
@@ -92,14 +96,50 @@ class LightSourceTilesInfoPostProcessor : TilesInfoPostProcessor {
 }
 
 data class RoomInfo(val x: Int, val y: Int, val width: Int, val height: Int)
+typealias RoomTiles = MutableList<Vector2>
 
-//todo get from scratch
+
 class RoomsInfoPostProcessor : TilesInfoPostProcessor {
     override fun process(tilesInfo: TilesInfo) {
-        tilesInfo.infoDictionary[InfoDictionaryKey.Rooms] = processRooms(tilesInfo)
+        tilesInfo.infoDictionary[InfoDictionaryKey.Rooms] = processRooms(tilesInfo.tiles)
     }
 
-    private fun processRooms(tiles: TilesInfo): Set<RoomInfo>  {
-        return tiles.source.rooms.map { RoomInfo(x = it.x, y = it.y, width = it.width, height = it.height) }.toSet()
+    private fun processRooms(tiles: TileArray): Set<RoomInfo>  {
+        val roomsData = mutableListOf<RoomTiles>()
+        var currentRoom: RoomTiles? = null
+        for (x in 0 until tiles.width) {
+            for (y in 0 until tiles.height) {
+                val nearTiles = nearTiles(tiles, x, y)
+                val isRoomTile = nearTiles.tileId in roomFloorTypes
+                if (isRoomTile) {
+                    if (currentRoom == null) {
+                        currentRoom = roomsData.find {
+                            coords -> coords.any { coord -> isNear(coord.x.toInt(), coord.y.toInt(), x, y) }
+                        } ?: mutableListOf<Vector2>().apply { roomsData.add(this) }
+                    }
+                    currentRoom.add(Vector2(x.toFloat(), y.toFloat()))
+                } else {
+                    currentRoom = null
+                }
+            }
+        }
+
+        return roomsData.map {
+            coords ->
+            val minX = coords.minBy { it.x }!!.x.toInt()
+            val minY = coords.minBy { it.y }!!.y.toInt()
+            val maxX = coords.maxBy { it.x }!!.x.toInt()
+            val maxY = coords.maxBy { it.y }!!.y.toInt()
+            val room = RoomInfo(
+                x = minX,
+                y = minY,
+                width = maxX - minX,
+                height = maxY - minY
+            )
+            println(room)
+            return@map room
+        }.toSet()
     }
+
+
 }

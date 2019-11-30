@@ -1,7 +1,6 @@
 package com.ovle.rll3.model.tile
 import com.github.czyzby.noise4j.array.Object2dArray
 import com.ovle.rll3.model.procedural.grid.DoorInfo
-import com.ovle.rll3.model.procedural.grid.GridWrapper
 import com.ovle.rll3.model.procedural.grid.LightSourceInfo
 import com.ovle.rll3.model.procedural.grid.RoomInfo
 
@@ -28,7 +27,7 @@ class TileArray(
 }
 
 //todo
-data class TilesInfo(val tiles: TileArray, val source: GridWrapper, val infoDictionary: MutableMap<InfoDictionaryKey, Any> = mutableMapOf()) {
+data class TilesInfo(val tiles: TileArray, val infoDictionary: MutableMap<InfoDictionaryKey, Any> = mutableMapOf()) {
     private fun doorsInfo() = infoDictionary[InfoDictionaryKey.Doors] as Set<DoorInfo>? ?: setOf()
     private fun lightsInfo() = infoDictionary[InfoDictionaryKey.Lights] as Set<LightSourceInfo>? ?: setOf()
     private fun roomsInfo() = infoDictionary[InfoDictionaryKey.Rooms] as Set<RoomInfo>? ?: setOf()

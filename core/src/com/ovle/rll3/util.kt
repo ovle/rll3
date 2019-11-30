@@ -44,3 +44,12 @@ fun toScreenPoint(gamePoint: Vector2, renderConfig: RenderConfig): Vector2 {
 
     return Vector2(screenX, screenY)// - scrollOffset
 }
+
+fun isNearHV(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+    return x1 == x2 && y1 in ((y2 - 1)..(y2 + 1))
+        || y1 == y2 && x1 in ((x2 - 1)..(x2 + 1))
+}
+
+fun isNear(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+    return (x1 in ((x2 - 1)..(x2 + 1))) && (y1 in ((y2 - 1)..(y2 + 1)))
+}
