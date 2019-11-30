@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.ovle.rll3.ScreenManager
-import com.ovle.rll3.screenHeight
-import com.ovle.rll3.screenWidth
+import com.ovle.rll3.view.screenHeight
+import com.ovle.rll3.view.screenWidth
 import ktx.app.KtxScreen
 
 

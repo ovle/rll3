@@ -3,6 +3,8 @@ package com.ovle.rll3
 import RenderConfig
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.view.tileHeight
+import com.ovle.rll3.view.tileWidth
 import kotlin.math.roundToInt
 
 fun IntRange.random() = (Math.random() * (this.last - this.first)).roundToInt() + this.first

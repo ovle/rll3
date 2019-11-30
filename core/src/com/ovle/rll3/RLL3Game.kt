@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.ovle.rll3.screen.BaseScreen
+import com.ovle.rll3.view.screenHeight
+import com.ovle.rll3.view.screenWidth
+import com.ovle.rll3.view.skinPath
 import ktx.app.KtxGame
 import ktx.inject.Context
 import ktx.scene2d.Scene2DSkin

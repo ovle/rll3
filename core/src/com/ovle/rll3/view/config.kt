@@ -1,4 +1,4 @@
-package com.ovle.rll3
+package com.ovle.rll3.view
 
 import com.badlogic.gdx.graphics.Color
 
@@ -22,20 +22,4 @@ const val spriteTexturePath = "images/test-char.png"
 val blackColor = Color(0x272744ff)
 val bgColor = blackColor.cpy()
 
-val testRoomTemplate = arrayOf(
-        arrayOf(0, 0, 0, 0, 0, 0, 0, 0),
-        arrayOf(0, 0, 1, 1, 1, 1, 0, 0),
-        arrayOf(0, 1, 1, 1, 1, 1, 1, 0),
-        arrayOf(0, 1, 1, -1, -1, 1, 1, 0),
-        arrayOf(0, 1, 1, -1, -1, 1, 1, 0),
-        arrayOf(0, 1, 1, 1, 1, 1, 1, 0),
-        arrayOf(0, 0, 1, 1, 1, 1, 0, 0),
-        arrayOf(0, 0, 0, 0, 0, 0, 0, 0)
-)
-const val mapSizeInTiles = 33
-
-////todo global data
-//object RenderConfig {
-//    var scale: Float = initialScale
-//    var scrollOffset: Vector2 = Vector2()
-//}
+const val defaultAnimationInterval = 0.125f
