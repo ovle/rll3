@@ -1,46 +1,87 @@
 package com.ovle.rll3.model.procedural.grid
 
-import com.ovle.rll3.model.procedural.grid.RoomStructure.ParamKey.ColonnadeDirection
+import com.ovle.rll3.model.procedural.grid.RoomStructure.DirectionValue.*
+import com.ovle.rll3.model.procedural.grid.RoomStructure.ParamKey.*
 import com.ovle.rll3.model.procedural.roomFloorTypes
-import com.ovle.rll3.model.tile.NearTiles
-import com.ovle.rll3.model.tile.Tile
-import com.ovle.rll3.model.tile.TileArray
-import com.ovle.rll3.model.tile.wallTileId
+import com.ovle.rll3.model.tile.*
+import java.lang.Math.random
 
 enum class RoomStructure {
-//    NoOp {
-//        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray) {}
-//    },
-//    Pit {
-//        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray) {
-//            val isFreeSpaceTile = nearTiles.all.all { it in roomFloorTypes }
-//            if (!isFreeSpaceTile) return
-//
-//            setTile(tiles, nearTiles, pitFloorTileId)
-//        }
-//    },
-//    FilledCenter {
-//        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray) {
-////            val isFreeSpaceTile = nearTiles.all.all { it in roomFloorTypes }
-////            if (!isFreeSpaceTile) return
-//
-//            val roomCenterX = room.x + room.width / 2
-//            val roomCenterY = room.y + room.height / 2
-//            val sizeCoef = 4    //todo
-//            val sizeX = room.width/ sizeCoef
-//            val sizeY = room.height/ sizeCoef
-//            val xRange = (roomCenterX - sizeX..roomCenterX + sizeX)
-//            val yRange = (roomCenterY - sizeY..roomCenterY + sizeY)
-//            val isColumn = nearTiles.x in xRange && nearTiles.y in yRange
-//
-//            if (isColumn) {
-//                setTile(tiles, nearTiles, wallTileId)
-//            }
-//        }
-//    },
+    Nop {
+        override fun initParams(room: RoomInfo): Map<ParamKey, Any> = mapOf()
+        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {}
+    },
+
+    Pit {
+        override fun initParams(room: RoomInfo): Map<ParamKey, Any> = mapOf(
+            PitBridgeDirection to DirectionValue.values().random()
+        )
+
+        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
+            val isFreeSpaceTile = nearTiles.all.all { it in roomFloorTypes }
+            if (!isFreeSpaceTile) return
+
+            val dirValue = params[PitBridgeDirection]
+            if (dirValue != NoDirection) {
+                val haveHBridge = dirValue in setOf(H, HV)
+                val haveVBridge = dirValue in setOf(V, HV)
+                val isHBridgeTile = nearTiles.y == room.y + room.height / 2
+                val isVBridgeTile = nearTiles.x == room.x + room.width / 2
+                val isBridgeTile = haveHBridge && isHBridgeTile || haveVBridge && isVBridgeTile
+                if (isBridgeTile) return
+            }
+
+            setTile(tiles, nearTiles, pitFloorTileId)
+        }
+    },
+
+//    todo issue with castle and rombic rooms
+    FilledCenter {
+        override fun initParams(room: RoomInfo): Map<ParamKey, Any> {
+            val isHollow = arrayOf(true, false).random()
+            return mapOf(
+                FilledCenterSize to arrayOf(3, 4, 5).random(),
+                FilledCenterHollowness to isHollow,
+                FilledCenterPathDirection to DirectionValue.values().filter { !isHollow || it != NoDirection }.random()
+            )
+        }
+
+        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
+            val sizeCoef = params[FilledCenterSize] as Int
+            val isHollow = params[FilledCenterHollowness] as Boolean
+            val dirValue =  params[FilledCenterPathDirection]
+
+            val roomCenterX = room.x + room.width / 2
+            val roomCenterY = room.y + room.height / 2
+            val sizeX = room.width/ sizeCoef
+            val sizeY = room.height/ sizeCoef
+            val xRange = (roomCenterX - sizeX..roomCenterX + sizeX)
+            val yRange = (roomCenterY - sizeY..roomCenterY + sizeY)
+
+            val xInRange = nearTiles.x in xRange
+            val yInRange = nearTiles.y in yRange
+            val isColumn = if (!isHollow) xInRange && yInRange
+            else {
+                val isVWall = (nearTiles.x == xRange.first || nearTiles.x == xRange.last) && yInRange
+                val isHWall = (nearTiles.y == yRange.first || nearTiles.y == yRange.last) && xInRange
+                isVWall || isHWall
+            }
+
+            val isHPathTile = nearTiles.y == room.y + room.height / 2
+            val isVPathTile = nearTiles.x == room.x + room.width / 2
+            val haveHPath = dirValue in setOf(H, HV)
+            val haveVPath = dirValue in setOf(V, HV)
+            val isPathTile = haveHPath && isHPathTile || haveVPath && isVPathTile
+            if (isPathTile) return
+
+            if (isColumn) {
+                setTile(tiles, nearTiles, wallTileId)
+            }
+        }
+    },
 
     Colonnade {
-        override fun initParams(): Map<ParamKey, Any> = mapOf(ColonnadeDirection to ColonnadeDirValue.values().random())
+        override fun initParams(room: RoomInfo): Map<ParamKey, Any> = mapOf(ColonnadeDirection to DirectionValue.values().random())
 
         override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
             val dirValue = params[ColonnadeDirection]
@@ -49,46 +90,56 @@ enum class RoomStructure {
 
             val isHColumn = nearTiles.x % 2 == 0 && (nearTiles.y == room.y + 1 || nearTiles.y == room.y + room.height - 1)
             val isVColumn = nearTiles.y % 2 == 0 && (nearTiles.x == room.x + 1 || nearTiles.x == room.x + room.width - 1)
-            val isColumn = isHColumn && (dirValue in setOf(ColonnadeDirValue.H, ColonnadeDirValue.HV))
-                        || isVColumn && (dirValue in setOf(ColonnadeDirValue.V, ColonnadeDirValue.HV))
+            val isColumn = isHColumn && (dirValue in setOf(H, HV))
+                        || isVColumn && (dirValue in setOf(V, HV))
+                        || isHColumn && isVColumn && dirValue == NoDirection
             if (isColumn) {
                 setTile(tiles, nearTiles, wallTileId)
             }
         }
+    },
+
+    Random {
+        override fun initParams(room: RoomInfo): Map<ParamKey, Any> = mapOf(
+            RandomNoiseAmount to random().toFloat(),
+            RandomNoiseType to RandomNoiseTypeValue.values().random()
+        )
+
+        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
+            val amount = params[RandomNoiseAmount] as Float
+            if (random() >= amount) return
+
+            val type = params[RandomNoiseType]
+            val tileId = arrayOf(wallTileId, pitFloorTileId).random()
+
+            setTile(tiles, nearTiles, tileId)
+        }
     };
 
-//    Random {
-//        override fun initParams(): Map<ParamKey, Any> = mapOf(
-//            RandomNoiseAmountPit to random(),
-//            RandomNoiseAmountWall to random()
-//        )
-//
-//        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
-//            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//        }
-//    }
-//    ;
 
     protected fun setTile(tiles: TileArray, nearTiles: NearTiles, tileId: Int) {
         tiles.set(nearTiles.y, nearTiles.x, Tile(tileId))
     }
 
-    abstract fun initParams(): Map<ParamKey, Any>
+    abstract fun initParams(room: RoomInfo): Map<ParamKey, Any>
 
     abstract fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>)
 
 
-    enum class ColonnadeDirValue {
-        H, V, HV
+    enum class RandomNoiseTypeValue {
+        Pit, Wall, All
+    }
+    enum class DirectionValue {
+        H, V, HV, NoDirection
     }
 
     enum class ParamKey {
         ColonnadeDirection,
         FilledCenterSize,
-        FilledCenterEmpty,
-        PitSize,
+        FilledCenterHollowness,
+        FilledCenterPathDirection,
         PitBridgeDirection,
-        RandomNoiseAmountPit,
-        RandomNoiseAmountWall
+        RandomNoiseAmount,
+        RandomNoiseType
     }
 }
