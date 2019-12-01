@@ -17,6 +17,7 @@ import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
 import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.toScreenPoint
 import com.ovle.rll3.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
@@ -25,7 +26,6 @@ import kotlinx.coroutines.launch
 import ktx.ashley.get
 
 data class RenderConfig(
-    var scale: Float = initialScale,
     var scrollOffset: Vector2 = Vector2(screenWidth / 2, screenHeight / 2)
 )
 
@@ -86,21 +86,14 @@ class RenderSystem(private val batch: Batch, private val camera: OrthographicCam
     }
 
     private fun drawEntities(entities: List<Entity>) {
-        val scale = renderConfig.scale
-
         batch.begin()
         entities.forEach {
             val entityRender = it[render]!!
             val position = it[position]!!.position
             val sprite = entityRender.sprite
 
-            val screenPosition = Vector2(position).apply {
-                set(x * tileWidth * scale, y * tileHeight * scale )
-                //todo corrupted during scaling because of changed position of map during the scaling
-                // as scaling is relative to screen center, not to (0, 0)
-            }
-            val screenSize = Vector2(spriteWidth * scale, spriteHeight * scale)
-            sprite.draw(batch, screenPosition.x, screenPosition.y, screenSize.x, screenSize.y)
+            val screenPosition = toScreenPoint(position)
+            sprite.draw(batch, screenPosition.x, screenPosition.y, spriteWidth, spriteHeight)
         }
         batch.end()
     }
@@ -115,7 +108,6 @@ class RenderSystem(private val batch: Batch, private val camera: OrthographicCam
     }
 
     private fun onScaleChange(diff: Float) {
-        renderConfig.scale += diff
         camera.zoom -= diff
         camera.update()
     }
@@ -124,7 +116,6 @@ class RenderSystem(private val batch: Batch, private val camera: OrthographicCam
         val scrollOffset = renderConfig.scrollOffset
         scrollOffset.add(-diff.x, diff.y)
         camera.position.set(scrollOffset.x, scrollOffset.y, 0.0f)
-//        println("scrollOffset = $scrollOffset")
     }
 
 //    private fun onMapChange(newMap: TiledMap) {
