@@ -20,7 +20,7 @@ class GameEngine {
 
         val startPosition = Vector2(8f, 8f)
         val playerEntity = ecsEngine.createEntity()
-                .add(PlayerComponent())
+                .add(PlayerControlledComponent())
                 .add(RenderComponent(spriteDrawable))
                 .add(PositionComponent(startPosition))
                 .add(MoveComponent())

@@ -17,7 +17,6 @@ import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
 import com.ovle.rll3.model.ecs.get
-import com.ovle.rll3.toScreenPoint
 import com.ovle.rll3.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
@@ -25,9 +24,6 @@ import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
 import ktx.ashley.get
 
-data class RenderConfig(
-    var scrollOffset: Vector2 = Vector2(screenWidth / 2, screenHeight / 2)
-)
 
 class RenderSystem(private val batch: Batch, private val camera: OrthographicCamera, private var map: TiledMap)
     : IteratingSystem(all(RenderComponent::class.java).get()), CoroutineScope by GlobalScope {
@@ -38,7 +34,7 @@ class RenderSystem(private val batch: Batch, private val camera: OrthographicCam
 
     private val render: ComponentMapper<RenderComponent> = get()
     private val position: ComponentMapper<PositionComponent> = get()
-    private val renderConfig = RenderConfig()   //todo move system should know that ?
+    private    //todo move system should know that ?
 
     lateinit var channel: ReceiveChannel<PlayerControlEvent>
 
@@ -76,7 +72,7 @@ class RenderSystem(private val batch: Batch, private val camera: OrthographicCam
     }
 
     private fun draw(entities: List<Entity>) {
-        Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a)
+//        Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         mapRenderer.setView(camera)
@@ -92,8 +88,7 @@ class RenderSystem(private val batch: Batch, private val camera: OrthographicCam
             val position = it[position]!!.position
             val sprite = entityRender.sprite
 
-            val screenPosition = toScreenPoint(position)
-            sprite.draw(batch, screenPosition.x, screenPosition.y, spriteWidth, spriteHeight)
+            sprite.draw(batch, position.x * tileWidth, position.y * tileHeight, spriteWidth, spriteHeight)
         }
         batch.end()
     }
@@ -108,6 +103,7 @@ class RenderSystem(private val batch: Batch, private val camera: OrthographicCam
     }
 
     private fun onScaleChange(diff: Float) {
+        renderConfig.scale += diff
         camera.zoom -= diff
         camera.update()
     }

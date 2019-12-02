@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 
-class PlayerComponent : Component
+class PlayerControlledComponent : Component
 
 class PositionComponent(var position: Vector2) : Component
 
@@ -17,7 +17,7 @@ class MoveComponent(val tilesPerSecond: Float = 2f) : Component {
     private val path: MutableList<Vector2> = mutableListOf()
 
     private var currentIndex = -1
-    private fun currentIndexValid() = currentIndex in (0..path.size-1)
+    private fun currentIndexValid() = currentIndex in (0 until path.size)
 
 //    fun currentFrom() = if (currentIndexValid()) path[currentIndex] else null
     fun currentTo() = if (currentIndexValid()) path[currentIndex] else null

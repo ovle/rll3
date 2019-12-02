@@ -15,6 +15,7 @@ import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.model.GameEngine
 import com.ovle.rll3.model.ecs.system.AnimationSystem
 import com.ovle.rll3.model.ecs.system.MoveSystem
+import com.ovle.rll3.model.ecs.system.PlayerControlsSystem
 import com.ovle.rll3.model.procedural.grid.DungeonGridFactory
 import com.ovle.rll3.model.procedural.grid.GridToTileArrayMapper
 import com.ovle.rll3.model.procedural.grid.createTiles
@@ -71,12 +72,13 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         val renderSystem = RenderSystem(batch, camera, map)
         val animationSystem = AnimationSystem()
         val moveSystem = MoveSystem()
+        val playerControlsSystem = PlayerControlsSystem()
 //        val collisionSystem = CollisionSystem()
 //        val aiSystem = AISystem()
 //        val timeSystem = TimeSystem()
 //        val lightSystem = LightSystem()
 
-        val systems = listOf(animationSystem, renderSystem, moveSystem)
+        val systems = listOf(animationSystem, renderSystem, moveSystem, playerControlsSystem)
         gameEngine = GameEngine()
         //todo bad coupling
         gameEngine.init(systems, spriteDrawable, lightsInfo)
