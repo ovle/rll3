@@ -51,7 +51,6 @@ abstract class BaseScreen(
     override fun render(delta: Float) {
         super.render(delta)
 
-        camera.update()
         batch.projectionMatrix = camera.combined
 
         stage.act(delta)
@@ -60,6 +59,8 @@ abstract class BaseScreen(
 
     override fun resize(width: Int, height: Int) {
         stage.viewport.update(width, height)
+        camera.update()
+
         super.resize(width, height)
     }
 

@@ -1,4 +1,4 @@
-
+package com.ovle.rll3.model.ecs.system
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
@@ -25,8 +25,16 @@ import kotlinx.coroutines.launch
 import ktx.ashley.get
 
 
-class RenderSystem(private val batch: Batch, private val camera: OrthographicCamera, private var map: TiledMap)
+class RenderSystem(
+    private var map: TiledMap,
+    private val batch: Batch,
+    private val camera: OrthographicCamera
+)
     : IteratingSystem(all(RenderComponent::class.java).get()), CoroutineScope by GlobalScope {
+
+    init {
+        renderConfig.unproject = camera::unproject
+    }
 
     private val toRender = mutableListOf<Entity>()
 
@@ -112,6 +120,7 @@ class RenderSystem(private val batch: Batch, private val camera: OrthographicCam
         val scrollOffset = renderConfig.scrollOffset
         scrollOffset.add(-diff.x, diff.y)
         camera.position.set(scrollOffset.x, scrollOffset.y, 0.0f)
+        camera.update()
     }
 
 //    private fun onMapChange(newMap: TiledMap) {

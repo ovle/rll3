@@ -2,6 +2,7 @@ package com.ovle.rll3.view
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.Vector3
 
 const val initialScale = 1.0f
 const val scaleScrollCoeff = 0.1f
@@ -25,9 +26,11 @@ val bgColor = blackColor.cpy()
 
 const val defaultAnimationInterval = 0.125f
 
+//todo make entity/component?
 data class RenderConfig(
     var scale: Float = initialScale,
-    var scrollOffset: Vector2 = Vector2(screenWidth / 2, screenHeight / 2)
+    var scrollOffset: Vector2 = Vector2(screenWidth / 2, screenHeight / 2),
+    var unproject: ((Vector3) -> Vector3)? = null
 )
 
 val renderConfig = RenderConfig()

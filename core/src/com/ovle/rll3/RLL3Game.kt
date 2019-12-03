@@ -34,7 +34,8 @@ class RLL3Game : KtxGame<BaseScreen>() {
             bindSingleton(AssetManager())
             bindSingleton(
                 OrthographicCamera().apply {
-                    setToOrtho(false, screenWidth, screenHeight); update()
+                    setToOrtho(false, screenWidth, screenHeight);
+                    update()
                 }
             )
             bindSingleton(screenManager)

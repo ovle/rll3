@@ -1,6 +1,5 @@
 package com.ovle.rll3.screen.game
 
-import RenderSystem
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.TextureLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
@@ -16,6 +15,7 @@ import com.ovle.rll3.model.GameEngine
 import com.ovle.rll3.model.ecs.system.AnimationSystem
 import com.ovle.rll3.model.ecs.system.MoveSystem
 import com.ovle.rll3.model.ecs.system.PlayerControlsSystem
+import com.ovle.rll3.model.ecs.system.RenderSystem
 import com.ovle.rll3.model.procedural.grid.DungeonGridFactory
 import com.ovle.rll3.model.procedural.grid.GridToTileArrayMapper
 import com.ovle.rll3.model.procedural.grid.createTiles
@@ -69,7 +69,7 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 
         spriteDrawable = playerSprite()
 
-        val renderSystem = RenderSystem(batch, camera, map)
+        val renderSystem = RenderSystem(map, batch, camera)
         val animationSystem = AnimationSystem()
         val moveSystem = MoveSystem()
         val playerControlsSystem = PlayerControlsSystem()
@@ -100,9 +100,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
     }
 
     override fun render(delta: Float) {
-        super.render(delta)
-
         gameEngine.update(min(delta, 1 / 60f))
+        super.render(delta)
     }
 
     override fun dispose() {
