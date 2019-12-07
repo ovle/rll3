@@ -4,7 +4,12 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
+import com.ovle.rll3.model.tile.TileArray
+import com.ovle.rll3.view.initialScale
+import com.ovle.rll3.view.screenHeight
+import com.ovle.rll3.view.screenWidth
 
 class PlayerControlledComponent : Component
 
@@ -38,6 +43,11 @@ class MoveComponent(val tilesPerSecond: Float = 2f) : Component {
         path.add(newTo)
     }
 
+    fun set(newPath: List<Vector2>) {
+        reset()
+        path.addAll(newPath)
+    }
+
     fun reset() {
         path.clear()
         currentIndex = -1
@@ -55,3 +65,16 @@ class RenderComponent(
 val NO_ANIMATION = Animation<TextureRegion>(0f)
 
 class AnimationComponent(var animation: Animation<TextureRegion> = NO_ANIMATION) : Component
+
+//todo
+
+//todo make entity/component?
+data class RenderConfig(
+    var scale: Float = initialScale,
+    var scrollOffset: Vector2 = Vector2(screenWidth / 2, screenHeight / 2),
+    var unproject: ((Vector3) -> Vector3)? = null
+)
+
+val renderConfig = RenderConfig()
+
+lateinit var tileMap: TileArray

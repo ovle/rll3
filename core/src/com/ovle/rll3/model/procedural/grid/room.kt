@@ -18,7 +18,7 @@ enum class RoomStructure {
         )
 
         override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
-            val isFreeSpaceTile = nearTiles.all.all { it in roomFloorTypes }
+            val isFreeSpaceTile = nearTiles.all.all { it?.typeId in roomFloorTypes }
             if (!isFreeSpaceTile) return
 
             val dirValue = params[PitBridgeDirection]
@@ -85,7 +85,7 @@ enum class RoomStructure {
 
         override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
             val dirValue = params[ColonnadeDirection]
-            val isFreeSpaceTile = nearTiles.nearHV.all { it in roomFloorTypes }
+            val isFreeSpaceTile = nearTiles.nearHV.all { it?.typeId in roomFloorTypes }
             if (!isFreeSpaceTile) return
 
             val isHColumn = nearTiles.x % 2 == 0 && (nearTiles.y == room.y + 1 || nearTiles.y == room.y + room.height - 1)
@@ -101,15 +101,13 @@ enum class RoomStructure {
 
     Random {
         override fun initParams(room: RoomInfo): Map<ParamKey, Any> = mapOf(
-            RandomNoiseAmount to random().toFloat(),
-            RandomNoiseType to RandomNoiseTypeValue.values().random()
+            RandomNoiseAmount to random().toFloat()
         )
 
         override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
             val amount = params[RandomNoiseAmount] as Float
             if (random() >= amount) return
 
-            val type = params[RandomNoiseType]
             val tileId = arrayOf(wallTileId, pitFloorTileId).random()
 
             setTile(tiles, nearTiles, tileId)
@@ -126,9 +124,6 @@ enum class RoomStructure {
     abstract fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>)
 
 
-    enum class RandomNoiseTypeValue {
-        Pit, Wall, All
-    }
     enum class DirectionValue {
         H, V, HV, NoDirection
     }
@@ -139,7 +134,6 @@ enum class RoomStructure {
         FilledCenterHollowness,
         FilledCenterPathDirection,
         PitBridgeDirection,
-        RandomNoiseAmount,
-        RandomNoiseType
+        RandomNoiseAmount
     }
 }

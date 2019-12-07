@@ -7,17 +7,22 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
+import com.ovle.rll3.model.ecs.component.renderConfig
 import com.ovle.rll3.model.ecs.get
 import com.ovle.rll3.view.*
+import com.ovle.rll3.view.sprite.sprite
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -26,15 +31,12 @@ import ktx.ashley.get
 
 
 class RenderSystem(
-    private var map: TiledMap,
+    private var map: TiledMap,  //todo ?
     private val batch: Batch,
-    private val camera: OrthographicCamera
+    private val camera: OrthographicCamera,
+    private val spriteTexture: Texture
 )
     : IteratingSystem(all(RenderComponent::class.java).get()), CoroutineScope by GlobalScope {
-
-    init {
-        renderConfig.unproject = camera::unproject
-    }
 
     private val toRender = mutableListOf<Entity>()
 
@@ -42,9 +44,16 @@ class RenderSystem(
 
     private val render: ComponentMapper<RenderComponent> = get()
     private val position: ComponentMapper<PositionComponent> = get()
-    private    //todo move system should know that ?
 
-    lateinit var channel: ReceiveChannel<PlayerControlEvent>
+    private lateinit var channel: ReceiveChannel<PlayerControlEvent>
+
+    private val selectedScreenPoint = Vector2()
+    private var selectedTileSprite: SpriteDrawable
+
+    init {
+        renderConfig.unproject = camera::unproject
+        selectedTileSprite = sprite(spriteTexture, 0, 0)
+    }
 
     //    todo move these to separate class
     override fun addedToEngine(engine: Engine?) {
@@ -80,13 +89,14 @@ class RenderSystem(
     }
 
     private fun draw(entities: List<Entity>) {
-//        Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a)
+        Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         mapRenderer.setView(camera)
         mapRenderer.render()
 
         drawEntities(entities)
+//        drawGUI()
     }
 
     private fun drawEntities(entities: List<Entity>) {
@@ -98,8 +108,13 @@ class RenderSystem(
 
             sprite.draw(batch, position.x * tileWidth, position.y * tileHeight, spriteWidth, spriteHeight)
         }
+        selectedTileSprite.draw(batch, selectedScreenPoint.x, selectedScreenPoint.y, tileWidth.toFloat(), tileHeight.toFloat())
         batch.end()
     }
+
+//todo
+//    private fun drawGUI() {
+//    }
 
     private fun dispatch(event: PlayerControlEvent) {
         when (event) {
@@ -107,7 +122,16 @@ class RenderSystem(
             is CameraScaleDec -> onScaleChange(-0.1f)
             is CameraScrolled -> onScaleChange(-event.amount.toFloat() * scaleScrollCoeff)
             is CameraMoved -> onScrollOffsetChange(event.amount)
+            is MouseMoved -> onMousePositionChange(screenX = event.screenX, screenY = event.screenY)
         }
+    }
+
+    private fun onMousePositionChange(screenX: Int, screenY: Int) {
+        val projected = camera.unproject(Vector3(screenX.toFloat(), screenY.toFloat(), 0.0f))
+        selectedScreenPoint.set(
+            ((projected.x.toInt() / tileWidth) * tileWidth).toFloat(),
+            ((projected.y.toInt() / tileHeight) * tileHeight).toFloat()
+        )
     }
 
     private fun onScaleChange(diff: Float) {

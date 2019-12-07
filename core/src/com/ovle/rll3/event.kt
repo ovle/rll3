@@ -22,7 +22,8 @@ sealed class Event {
 //    class EntitiesUnloaded(val entities: Collection<Entity>) : Event()
 
     open class PlayerControlEvent : Event()
-    class MouseLeftClick(val screenPoint: Vector2) : PlayerControlEvent()
+    class MouseMoved(val screenX: Int, val screenY: Int) : PlayerControlEvent()
+    class MouseLeftClick(val screenX: Int, val screenY: Int) : PlayerControlEvent()
     class CameraScaleInc: PlayerControlEvent()
     class CameraScaleDec: PlayerControlEvent()
     class CameraScrolled(val amount: Int): PlayerControlEvent()

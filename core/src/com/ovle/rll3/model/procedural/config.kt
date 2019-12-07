@@ -8,4 +8,5 @@ const val mapSizeInTiles = 33
 const val lightSourceChance = 0.25f
 
 val roomFloorTypes = setOf(roomFloorTileId, pitFloorTileId)
+val corridorFloorTypes = setOf(corridorFloorTileId)
 val floorTypes = setOf(roomFloorTileId, pitFloorTileId, corridorFloorTileId)

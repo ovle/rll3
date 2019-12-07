@@ -11,8 +11,14 @@ interface GridMapper<T> {
 class GridToTileArrayMapper: GridMapper<TileArray> {
 
     override fun map(grid: Grid): TileArray {
-        val tiles = grid.array.map { Tile(gridValueToTileId(it)) }.toTypedArray()
         val size = grid.width
+        val tiles = grid.array.mapIndexed {
+            index, value -> Tile(
+                x = index / size,   //todo
+                y = index % size,
+                typeId = gridValueToTileId(value)
+            )
+        }.toTypedArray()
         return TileArray(tiles, size)
     }
 

@@ -6,7 +6,6 @@ import com.ovle.rll3.model.procedural.floorTypes
 import com.ovle.rll3.model.procedural.lightSourceChance
 import com.ovle.rll3.model.procedural.roomFloorTypes
 import com.ovle.rll3.model.tile.*
-import com.ovle.rll3.model.tile.NearTiles.Companion.nearTiles
 import java.lang.Math.random
 
 interface TilesInfoPostProcessor {
@@ -25,11 +24,11 @@ class DoorTilesInfoPostProcessor : TilesInfoPostProcessor {
         val result = mutableSetOf<DoorInfo>()
         for (x in 0 until tiles.width) {
             for (y in 0 until tiles.height) {
-                val nearTiles = nearTiles(tiles, x, y)
+                val nearTiles = nearValues(tiles, x, y)
 
-                val isCorridorFloor = nearTiles.tileId == corridorFloorTileId
-                val isRoomFloorNearHorisontal = nearTiles.nearH.contains(roomFloorTileId)
-                val isRoomFloorNearVertical = nearTiles.nearV.contains(roomFloorTileId)
+                val isCorridorFloor = nearTiles.value?.typeId == corridorFloorTileId
+                val isRoomFloorNearHorisontal = roomFloorTileId in nearTiles.nearH.mapNotNull { it?.typeId }
+                val isRoomFloorNearVertical = roomFloorTileId in nearTiles.nearV.mapNotNull { it?.typeId }
                 val isDoor = isCorridorFloor && (isRoomFloorNearHorisontal || isRoomFloorNearVertical)
 
                 if (isDoor) {
@@ -57,13 +56,13 @@ class RoomStructurePostProcessor : TilesInfoPostProcessor {
         val params = roomStructure.initParams(room)
         for (x in room.x until room.x + room.width) {
             for (y in room.y until room.y + room.height) {
-                val nearTiles = nearTiles(tiles, x, y)
+                val nearTiles = nearValues(tiles, x, y)
                 processRoomTile(nearTiles, room, tiles, roomStructure, params)
             }
         }
     }
 
-    private fun processRoomTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, roomStructure: RoomStructure, params: Map<RoomStructure.ParamKey, Any>) {
+    private fun processRoomTile(nearTiles: NearValues<Tile?>, room: RoomInfo, tiles: TileArray, roomStructure: RoomStructure, params: Map<RoomStructure.ParamKey, Any>) {
         roomStructure.processTile(nearTiles, room, tiles, params)
     }
 }
@@ -79,10 +78,10 @@ class LightSourceTilesInfoPostProcessor : TilesInfoPostProcessor {
         val result = mutableSetOf<LightSourceInfo>()
         for (x in 0 until tiles.width) {
             for (y in 0 until tiles.height) {
-                val nearTiles = nearTiles(tiles, x, y)
-                val isFloorTile = nearTiles.tileId in floorTypes
-                val isFreeSpaceTileNear = nearTiles.allHV.any { it in floorTypes }
-                val isWallTileNear = nearTiles.allHV.any { it == wallTileId }
+                val nearTiles = nearValues(tiles, x, y)
+                val isFloorTile = nearTiles.value?.typeId in floorTypes
+                val isFreeSpaceTileNear = nearTiles.allHV.map { it?.typeId }.any { it in floorTypes }
+                val isWallTileNear = nearTiles.allHV.map { it?.typeId }.any { it == wallTileId }
                 val isFreeForLightSource = isFloorTile && isFreeSpaceTileNear && isWallTileNear
                 val isLightSource = isFreeForLightSource && random() <= lightSourceChance
                 //todo check doors ?
@@ -109,8 +108,8 @@ class RoomsInfoPostProcessor : TilesInfoPostProcessor {
         var currentRoom: RoomTiles? = null
         for (x in 0 until tiles.width) {
             for (y in 0 until tiles.height) {
-                val nearTiles = nearTiles(tiles, x, y)
-                val isRoomTile = nearTiles.tileId in roomFloorTypes
+                val nearTiles = nearValues(tiles, x, y)
+                val isRoomTile = nearTiles.value?.typeId in roomFloorTypes
                 if (isRoomTile) {
                     if (currentRoom == null) {
                         currentRoom = roomsData.find {

@@ -8,11 +8,13 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event
 import com.ovle.rll3.EventBus
-import com.ovle.rll3.model.ecs.component.MoveComponent
-import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
+import com.ovle.rll3.model.ai.pathfinding.cost
+import com.ovle.rll3.model.ai.pathfinding.heuristics
+import com.ovle.rll3.model.ai.pathfinding.impl.path
+import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.model.tile.vectorCoords
 import com.ovle.rll3.toGamePoint
-import com.ovle.rll3.view.renderConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -23,6 +25,7 @@ import ktx.ashley.get
 class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::class.java).get()), CoroutineScope by GlobalScope {
 
     private val move: ComponentMapper<MoveComponent> = get()
+    private val position: ComponentMapper<PositionComponent> = get()
 
     lateinit var channel: ReceiveChannel<Event.PlayerControlEvent>
 
@@ -50,7 +53,10 @@ class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::clas
 
     private fun dispatch(event: Event.PlayerControlEvent, engine: Engine) {
         when (event) {
-            is Event.MouseLeftClick -> onMoveTargetSet(toGamePoint(event.screenPoint, renderConfig), engine)
+            is Event.MouseLeftClick -> {
+                val screenPoint = Vector2(event.screenX.toFloat(), event.screenY.toFloat())
+                onMoveTargetSet(toGamePoint(screenPoint, renderConfig), engine)
+            }
         }
     }
 
@@ -60,8 +66,16 @@ class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::clas
         val family = all(PlayerControlledComponent::class.java)
         val playerEntity = engine.getEntitiesFor(family.get()).singleOrNull() ?: return
         val moveComponent = playerEntity[move] ?: return
+        val positionComponent = playerEntity[position]!!
 
-        moveComponent.add(gamePoint)
+        val tiles = tileMap
+        val playerPosition = positionComponent.position
+        val fromTile = tileMap.get(playerPosition.x.toInt(), playerPosition.y.toInt())!!
+        val toTile = tileMap.get(playerPosition.x.toInt(), playerPosition.y.toInt()) ?: return
+
+        val path = path(fromTile, toTile, tiles, heuristics = ::heuristics, cost = ::cost)
+
+        moveComponent.set(path.map(::vectorCoords))
         if (!moveComponent.started()) moveComponent.start()
     }
 }

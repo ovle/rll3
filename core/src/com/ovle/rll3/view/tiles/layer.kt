@@ -7,10 +7,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile
 import com.badlogic.gdx.utils.Array
+import com.ovle.rll3.model.procedural.corridorFloorTypes
 import com.ovle.rll3.model.procedural.roomFloorTypes
 import com.ovle.rll3.model.tile.*
-import com.ovle.rll3.model.tile.NearTiles.Companion.nearTiles
 import com.ovle.rll3.view.*
+import java.lang.Math.random
 
 class TextureTileSet(val id: String, val originX: Int = 0, val originY: Int = 0, val size: Int = 4)
 val roomWallTexTileSet = TextureTileSet("roomWall", originY = 4)
@@ -29,11 +30,21 @@ fun testLayer(tilesInfo: TilesInfo, texture: Texture, layerType: LayerType): Map
     val tiles = tilesInfo.tiles
     val result = TiledMapTileLayer(tiles.width, tiles.height, tileWidth, tileHeight)
     // todo cache / memo
+
+    //todo
+//    val pm = texture.textureData.consumePixmap()
+//    for (x in 0..pm.width)
+//    for (y in 0..pm.height) {
+//        val p = pm.getPixel(x, y)
+//        if ()
+//        pm.drawPixel()
+//    }
+
     val textureRegions = TextureRegion.split(texture, textureTileWidth, textureTileHeight)
 
     for (x in 0 until tiles.width) {
         for (y in 0 until tiles.height) {
-            val nearTiles = nearTiles(tiles, x, y)
+            val nearTiles = nearValues(tiles, x, y)
 
             val tileTextureRegions = tileTextureRegions(layerType, nearTiles, textureRegions, tilesInfo)
             val cell = cellFromTileTextureRegions(tileTextureRegions)
@@ -49,8 +60,13 @@ typealias TextureRegions = kotlin.Array<kotlin.Array<TextureRegion>>
 
 private fun tileTextureRegions(layerType: LayerType, nearTiles: NearTiles, textureRegions: TextureRegions, tilesInfo: TilesInfo): kotlin.Array<TextureRegion> {
 
-    fun hasWall(tileId: Int, x: Int, y: Int) = if (tileId == wallTileId || tilesInfo.hasDoor(x, y)) 1 else 0
-    fun hasRoomWall(tileId: Int): Int = if (tileId != roomFloorTileId) 1 else 0
+    fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tilesInfo.hasDoor(x, y))) 1 else 0
+    fun hasRoomWall(tileId: Int?): Int = if (tileId != null && tileId != roomFloorTileId) 1 else 0
+
+    val upTileId = nearTiles.upValue?.typeId
+    val downTileId = nearTiles.downValue?.typeId
+    val rightTileId = nearTiles.rightValue?.typeId
+    val leftTileId = nearTiles.leftValue?.typeId
 
     val wallTileIndex = nearTiles.run {
         hasWall(rightTileId, x+1, y) + 2 * hasWall(downTileId, x, y+1) + 4 * hasWall(leftTileId, x-1, y) + 8 * hasWall(upTileId, x, y-1)
@@ -60,20 +76,22 @@ private fun tileTextureRegions(layerType: LayerType, nearTiles: NearTiles, textu
         hasRoomWall(rightTileId) + 2 * hasRoomWall(downTileId) + 4 * hasRoomWall(leftTileId) + 8 * hasRoomWall(upTileId)
     }
 
-    val tileId = nearTiles.tileId
+    val tileId = nearTiles.value?.typeId
     val isWall = tileId == wallTileId
     val isRoomFloor = tileId == roomFloorTileId
     val isPitFloor = tileId == pitFloorTileId
     val isCorridorFloor = tileId == corridorFloorTileId
-
-    val isRoomWall = nearTiles.upTileId in roomFloorTypes
-    val isPitFloorUp = nearTiles.downTileId == pitFloorTileId
-//    val isRoomFloorBorder = tileId in roomFloorTypes
-    val isRoomFloorNearVertical = nearTiles.nearV.contains(roomFloorTileId)
-
     val isDoor = tilesInfo.hasDoor(nearTiles.x, nearTiles.y)
-    val isTorch = tilesInfo.hasLight(nearTiles.x, nearTiles.y)
+    val isNextToDoor = tilesInfo.hasDoor(nearTiles.x, nearTiles.y-1)
 
+    val isRoomWall = upTileId in roomFloorTypes
+    val isCorridorWall = upTileId in corridorFloorTypes
+    val isPitFloorUp = downTileId == pitFloorTileId
+    val isRoomFloorNearVertical = roomFloorTileId in nearTiles.nearV.map { it?.typeId }
+
+    val isLightSource = tilesInfo.hasLight(nearTiles.x, nearTiles.y)
+    val isTrap = isRoomFloor && random() > 0.85f
+    val isPortal = isRoomFloor && random() > 0.95f
     val wallTileSet = if (isRoomWall) roomWallTexTileSet else passageWallTexTileSet
     val floorBorderTileSet = roomFloorBorderTexTileSet
     val emptyTile  = arrayOf<TextureRegion>()
@@ -92,14 +110,35 @@ private fun tileTextureRegions(layerType: LayerType, nearTiles: NearTiles, textu
             else -> emptyTile
         }
         LayerType.Decoration -> when {
-            isTorch -> arrayOf(
-                textureRegions[3][8],
-                textureRegions[3][9],
-                textureRegions[3][10],
-                textureRegions[3][11]
+            //todo
+            isLightSource -> arrayOf(
+                textureRegions[8][8],
+                textureRegions[8][9],
+                textureRegions[8][10],
+                textureRegions[8][11]
+            )
+            isTrap -> arrayOf(
+                textureRegions[7][8],
+                textureRegions[7][9],
+                textureRegions[7][10],
+                textureRegions[7][11]
+            )
+            isPortal -> arrayOf(
+                textureRegions[9][8],
+                textureRegions[9][9],
+                textureRegions[9][10],
+                textureRegions[9][11],
+                textureRegions[10][8],
+                textureRegions[10][9],
+                textureRegions[10][10],
+                textureRegions[10][11]
             )
             else -> when {
-                isWall && isRoomWall -> arrayOf(textureRegions[(0..2).random()][(8..11).random()]).withChance(0.6f, defaultValue = emptyTile)
+                isWall && !isNextToDoor -> when {
+                    isRoomWall -> arrayOf(textureRegions[(0..1).random()][(8..11).random()]).withChance(0.6f, defaultValue = emptyTile)
+                    isCorridorWall -> arrayOf(textureRegions[2][(8..11).random()]).withChance(0.6f, defaultValue = emptyTile)
+                    else -> emptyTile
+                }
                 else -> emptyTile
             }
         }
@@ -118,6 +157,7 @@ private fun cellFromTileTextureRegions(tileTextureRegions: kotlin.Array<TextureR
         val staticTiles = tileTextureRegions.map { StaticTiledMapTile(it) }.toTypedArray()
         cell.tile = if (staticTiles.size == 1) staticTiles.single()
             else AnimatedTiledMapTile(defaultAnimationInterval, Array(staticTiles))
+        cell.tile.properties
     }
     return cell
 }

@@ -12,6 +12,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class PlayerControls : InputAdapter() {
 
+    private var lastDragPoint: Vector2? = null
+    private var lastDragId: Int? = null
+
     override fun keyUp(keycode: Int) = when (keycode) {
         Input.Keys.MINUS -> {
             send(Event.CameraScaleDec())
@@ -24,15 +27,17 @@ class PlayerControls : InputAdapter() {
         else -> false
     }
 
-
     override fun scrolled(amount: Int) = send(Event.CameraScrolled(amount)).run { true }
 
-    private var lastDragPoint: Vector2? = null
-    private var lastDragId: Int? = null
+    override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
+        send(Event.MouseMoved(screenX, screenY))
+        return true
+    }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         lastDragPoint = null
         lastDragId = null
+        send(Event.MouseLeftClick(screenX, screenY))    //todo left?
         return true
     }
 
@@ -40,7 +45,6 @@ class PlayerControls : InputAdapter() {
         val screenPoint = Vector2(screenX.toFloat(), screenY.toFloat())
         lastDragPoint = screenPoint
         lastDragId = pointer
-        send(Event.MouseLeftClick(screenPoint))    //todo
         return true
     }
 

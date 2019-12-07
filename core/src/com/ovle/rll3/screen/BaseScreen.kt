@@ -57,11 +57,12 @@ abstract class BaseScreen(
         stage.draw()
     }
 
+    //    todo fix camera issue (corrupt of gamePoint evaluation)
     override fun resize(width: Int, height: Int) {
+        super.resize(width, height)
+
         stage.viewport.update(width, height)
         camera.update()
-
-        super.resize(width, height)
     }
 
     override fun dispose() {

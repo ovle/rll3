@@ -6,12 +6,12 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.model.GameEngine
+import com.ovle.rll3.model.ecs.component.tileMap
 import com.ovle.rll3.model.ecs.system.AnimationSystem
 import com.ovle.rll3.model.ecs.system.MoveSystem
 import com.ovle.rll3.model.ecs.system.PlayerControlsSystem
@@ -21,9 +21,8 @@ import com.ovle.rll3.model.procedural.grid.GridToTileArrayMapper
 import com.ovle.rll3.model.procedural.grid.createTiles
 import com.ovle.rll3.model.procedural.mapSizeInTiles
 import com.ovle.rll3.screen.BaseScreen
-import com.ovle.rll3.view.spriteHeight
+import com.ovle.rll3.view.sprite.sprite
 import com.ovle.rll3.view.spriteTexturePath
-import com.ovle.rll3.view.spriteWidth
 import com.ovle.rll3.view.tileTexturePath
 import com.ovle.rll3.view.tiles.LayerType
 import com.ovle.rll3.view.tiles.testLayer
@@ -42,8 +41,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 
     lateinit var texture: Texture
     lateinit var spriteTexture: Texture
-    lateinit var sprite: Sprite
-    lateinit var spriteDrawable: SpriteDrawable
+//    lateinit var sprite: Sprite
+    lateinit var playerSprite: SpriteDrawable
 
     lateinit var gameEngine: GameEngine
     private val controls = PlayerControls()
@@ -61,15 +60,20 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         spriteTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
 
         map = TiledMap()
-        val tiles = createTiles(mapSizeInTiles, DungeonGridFactory(), GridToTileArrayMapper())
-        val lightsInfo = tiles.lights()
+        val mapSize = mapSizeInTiles
+        val tiles = createTiles(mapSize, DungeonGridFactory(), GridToTileArrayMapper())
         map.layers.add(testLayer(tiles, texture, LayerType.Floor))
         map.layers.add(testLayer(tiles, texture, LayerType.Walls))
         map.layers.add(testLayer(tiles, texture, LayerType.Decoration))
 
-        spriteDrawable = playerSprite()
+        playerSprite = sprite(spriteTexture, 0, 2)
 
-        val renderSystem = RenderSystem(map, batch, camera)
+        //todo lights
+        val lightsInfo = tiles.lights()
+        //todo tiles
+        tileMap = tiles.tiles
+
+        val renderSystem = RenderSystem(map, batch, camera, spriteTexture)
         val animationSystem = AnimationSystem()
         val moveSystem = MoveSystem()
         val playerControlsSystem = PlayerControlsSystem()
@@ -79,18 +83,10 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 //        val lightSystem = LightSystem()
 
         val systems = listOf(animationSystem, renderSystem, moveSystem, playerControlsSystem)
-        gameEngine = GameEngine()
-        //todo bad coupling
-        gameEngine.init(systems, spriteDrawable, lightsInfo)
-    }
 
-    private fun playerSprite(): SpriteDrawable {
-        sprite = Sprite(
-                spriteTexture,
-                (spriteWidth * 0).toInt(), (spriteHeight * 1).toInt(),
-                spriteWidth.toInt(), spriteHeight.toInt()
-        )
-        return SpriteDrawable(sprite)
+       gameEngine = GameEngine()
+        //todo bad coupling
+        gameEngine.init(systems, playerSprite, lightsInfo)
     }
 
     override fun hide() {
