@@ -62,7 +62,6 @@ class RenderSystem(
         launch {
             channel = EventBus.receive()
             for (event in channel) {
-                println(event)
                 dispatch(event)
             }
         }
@@ -122,12 +121,12 @@ class RenderSystem(
             is CameraScaleDec -> onScaleChange(-0.1f)
             is CameraScrolled -> onScaleChange(-event.amount.toFloat() * scaleScrollCoeff)
             is CameraMoved -> onScrollOffsetChange(event.amount)
-            is MouseMoved -> onMousePositionChange(screenX = event.screenX, screenY = event.screenY)
+            is MouseMoved -> onMousePositionChange(event.screenPoint)
         }
     }
 
-    private fun onMousePositionChange(screenX: Int, screenY: Int) {
-        val projected = camera.unproject(Vector3(screenX.toFloat(), screenY.toFloat(), 0.0f))
+    private fun onMousePositionChange(screenPoint: Vector2) {
+        val projected = camera.unproject(Vector3(screenPoint, 0.0f))
         selectedScreenPoint.set(
             ((projected.x.toInt() / tileWidth) * tileWidth).toFloat(),
             ((projected.y.toInt() / tileHeight) * tileHeight).toFloat()

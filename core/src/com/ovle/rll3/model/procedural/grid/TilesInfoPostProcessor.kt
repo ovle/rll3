@@ -52,7 +52,7 @@ class RoomStructurePostProcessor : TilesInfoPostProcessor {
     }
 
     private fun processRoom(tiles: TileArray, room: RoomInfo) {
-        val roomStructure = RoomStructure.values().filter { it != RoomStructure.Random }.random()
+        val roomStructure = RoomStructure.values().filter { it == RoomStructure.Pit }.random()
         val params = roomStructure.initParams(room)
         for (x in room.x until room.x + room.width) {
             for (y in room.y until room.y + room.height) {

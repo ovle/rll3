@@ -1,14 +1,25 @@
 package com.ovle.rll3.model.ai.pathfinding
 
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.model.tile.PassTypeFn
 import com.ovle.rll3.model.tile.Tile
+import com.ovle.rll3.model.tile.TilePassType
 
-typealias MoveCost = ((Tile, Tile?) -> Int)
+typealias MoveCostFn = ((Tile, Tile?, PassTypeFn) -> Int)
 
-fun cost(from: Tile, to: Tile?): Int = 1
+const val maxMoveCost = 9999
 
-fun heuristics(from: Tile, to: Tile?): Int {
-    if (to == null) return Integer.MAX_VALUE
+
+fun cost(from: Tile, to: Tile?, passTypeFn: PassTypeFn): Int {
+    if (to == null) return maxMoveCost
+    return when (passTypeFn(to)) {
+        TilePassType.Passable -> 1
+        else -> maxMoveCost
+    }
+}
+
+fun heuristics(from: Tile, to: Tile?, passTypeFn: PassTypeFn): Int {
+    if (to == null) return maxMoveCost
 
     val fromVector = Vector2(from.x.toFloat(), from.y.toFloat())
     val toVector = Vector2(to.x.toFloat(), to.y.toFloat())

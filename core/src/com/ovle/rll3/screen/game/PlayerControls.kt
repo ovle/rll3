@@ -30,19 +30,19 @@ class PlayerControls : InputAdapter() {
     override fun scrolled(amount: Int) = send(Event.CameraScrolled(amount)).run { true }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-        send(Event.MouseMoved(screenX, screenY))
+        send(Event.MouseMoved(screenPoint(screenX, screenY)))
         return true
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         lastDragPoint = null
         lastDragId = null
-        send(Event.MouseLeftClick(screenX, screenY))    //todo left?
+        send(Event.MouseLeftClick(screenPoint(screenX, screenY)))    //todo left?
         return true
     }
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        val screenPoint = Vector2(screenX.toFloat(), screenY.toFloat())
+        val screenPoint = screenPoint(screenX, screenY)
         lastDragPoint = screenPoint
         lastDragId = pointer
         return true
@@ -54,6 +54,8 @@ class PlayerControls : InputAdapter() {
         lastDragPoint!!.set(screenX.toFloat(), screenY.toFloat())
         return true
     }
+
+    private fun screenPoint(screenX: Int, screenY: Int) = Vector2(screenX.toFloat(), screenY.toFloat())
 }
 
 

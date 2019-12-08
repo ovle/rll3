@@ -116,7 +116,9 @@ enum class RoomStructure {
 
 
     protected fun setTile(tiles: TileArray, nearTiles: NearTiles, tileId: Int) {
-        tiles.set(nearTiles.y, nearTiles.x, Tile(tileId))
+        val x = nearTiles.x
+        val y = nearTiles.y
+        tiles.set(x, y, Tile(x, y, tileId))
     }
 
     abstract fun initParams(room: RoomInfo): Map<ParamKey, Any>

@@ -14,8 +14,8 @@ class GridToTileArrayMapper: GridMapper<TileArray> {
         val size = grid.width
         val tiles = grid.array.mapIndexed {
             index, value -> Tile(
-                x = index / size,   //todo
-                y = index % size,
+                x = index % size,
+                y = index / size,
                 typeId = gridValueToTileId(value)
             )
         }.toTypedArray()

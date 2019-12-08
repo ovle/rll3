@@ -2,6 +2,7 @@ package com.ovle.rll3.model.tile
 
 typealias TileType = Int
 typealias NearTiles = NearValues<Tile?>
+typealias PassTypeFn = ((Tile) -> TilePassType)
 
 data class Tile(
     val x: Int = -1,
