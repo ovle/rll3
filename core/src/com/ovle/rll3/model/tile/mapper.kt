@@ -14,6 +14,6 @@ fun entityTilePassMapper(tile: Tile) = when(tile.typeId) {
 }
 
 fun lightTilePassMapper(tile: Tile) = when(tile.typeId) {
-    wallTileId -> TilePassType.Solid
-    else -> TilePassType.Passable
+    wallTileId -> LightPassType.Solid
+    else -> LightPassType.Passable
 }

@@ -8,13 +8,13 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus
-import com.ovle.rll3.model.ai.pathfinding.cost
-import com.ovle.rll3.model.ai.pathfinding.heuristics
-import com.ovle.rll3.model.ai.pathfinding.impl.path
 import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.get
 import com.ovle.rll3.model.tile.entityTilePassMapper
 import com.ovle.rll3.model.tile.vectorCoords
+import com.ovle.rll3.model.util.pathfinding.cost
+import com.ovle.rll3.model.util.pathfinding.heuristics
+import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.toGamePoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
@@ -79,7 +79,7 @@ class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::clas
             tiles,
             heuristicsFn = ::heuristics,
             costFn = ::cost,
-            passTypeFn = ::entityTilePassMapper
+            tilePassTypeFn = ::entityTilePassMapper
         )
 
         moveComponent.set(path.map(::vectorCoords))
@@ -93,7 +93,7 @@ class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::clas
         selectedGamePoint.set(gamePoint.x, gamePoint.y)
 
         val tiles = tileMap
-        println("tile ${tiles[gamePoint.x.toInt(), gamePoint.y.toInt()]}")
+//        println("tile ${tiles[gamePoint.x.toInt(), gamePoint.y.toInt()]}")
     }
 
     private fun isValid(gamePoint: Vector2): Boolean {

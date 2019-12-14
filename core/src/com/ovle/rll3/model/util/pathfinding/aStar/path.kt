@@ -1,10 +1,10 @@
-package com.ovle.rll3.model.ai.pathfinding.impl
+package com.ovle.rll3.model.util.pathfinding.aStar
 
-import com.ovle.rll3.model.ai.pathfinding.MoveCostFn
-import com.ovle.rll3.model.tile.PassTypeFn
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray
+import com.ovle.rll3.model.tile.TilePassTypeFn
 import com.ovle.rll3.model.tile.nearValues
+import com.ovle.rll3.model.util.pathfinding.MoveCostFn
 
 
 private fun path(end: Tile, cameFrom: Map<Tile, Tile>): List<Tile> {
@@ -18,11 +18,11 @@ private fun path(end: Tile, cameFrom: Map<Tile, Tile>): List<Tile> {
 }
 
 
-fun path(from: Tile, to: Tile, tiles: TileArray, heuristicsFn: MoveCostFn, costFn: MoveCostFn, passTypeFn: PassTypeFn): List<Tile> {
+fun path(from: Tile, to: Tile, tiles: TileArray, heuristicsFn: MoveCostFn, costFn: MoveCostFn, tilePassTypeFn: TilePassTypeFn): List<Tile> {
     val open = mutableSetOf(from)
     val closed = mutableSetOf<Tile>()
     val costFromStart = mutableMapOf(from to 0)
-    val estimatedTotalCost = mutableMapOf(from to heuristicsFn(from, to, passTypeFn))
+    val estimatedTotalCost = mutableMapOf(from to heuristicsFn(from, to, tilePassTypeFn))
     val cameFrom = mutableMapOf<Tile, Tile>()
 
     while (open.isNotEmpty()) {
@@ -39,10 +39,10 @@ fun path(from: Tile, to: Tile, tiles: TileArray, heuristicsFn: MoveCostFn, costF
             .filterNot { it in closed }
 
         for (neighbour in nearValues) {
-            val score = costFromStart.getValue(currentPos) + costFn(currentPos, neighbour, passTypeFn)
+            val score = costFromStart.getValue(currentPos) + costFn(currentPos, neighbour, tilePassTypeFn)
             if (score >= costFromStart.getOrDefault(neighbour, Int.MAX_VALUE)) continue
 
-            val totalScore = score + heuristicsFn(neighbour, to, passTypeFn)
+            val totalScore = score + heuristicsFn(neighbour, to, tilePassTypeFn)
 
             open += neighbour
             cameFrom[neighbour] = currentPos

@@ -26,9 +26,10 @@ enum class LayerType {
     Bottom,
 }
 
+
 fun testLayer(tilesInfo: TilesInfo, texture: Texture, layerType: LayerType): MapLayer {
     val tiles = tilesInfo.tiles
-    val result = TiledMapTileLayer(tiles.width, tiles.height, tileWidth, tileHeight)
+    val result = CustomTiledMapTileLayer(tiles.width, tiles.height, tileWidth, tileHeight)
     // todo cache / memo
 
     //todo
@@ -157,7 +158,6 @@ private fun cellFromTileTextureRegions(tileTextureRegions: kotlin.Array<TextureR
         val staticTiles = tileTextureRegions.map { StaticTiledMapTile(it) }.toTypedArray()
         cell.tile = if (staticTiles.size == 1) staticTiles.single()
             else AnimatedTiledMapTile(defaultAnimationInterval, Array(staticTiles))
-        cell.tile.properties
     }
     return cell
 }

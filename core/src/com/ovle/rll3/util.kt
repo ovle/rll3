@@ -16,7 +16,7 @@ operator fun Vector2.component2() = y
 
 
 fun toGamePoint(screenPoint: Vector2, renderConfig: RenderConfig): Vector2 {
-    println("screenPoint $screenPoint")
+//    println("screenPoint $screenPoint")
     val mapScreenPoint = toMapScreenPoint(screenPoint, renderConfig)
 
     val x = mapScreenPoint.x / tileWidth

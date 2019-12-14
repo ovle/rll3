@@ -15,14 +15,14 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
+import com.ovle.rll3.Event
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus
-import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.component.RenderComponent
-import com.ovle.rll3.model.ecs.component.renderConfig
+import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.get
 import com.ovle.rll3.view.*
 import com.ovle.rll3.view.sprite.sprite
+import com.ovle.rll3.view.tiles.CustomTiledMapTileLayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -44,11 +44,14 @@ class RenderSystem(
 
     private val render: ComponentMapper<RenderComponent> = get()
     private val position: ComponentMapper<PositionComponent> = get()
+    private val sight: ComponentMapper<SightComponent> = get()
+    private val playerControlled: ComponentMapper<PlayerControlledComponent> = get()
 
-    private lateinit var channel: ReceiveChannel<PlayerControlEvent>
+    private lateinit var channel: ReceiveChannel<Event>
 
     private val selectedScreenPoint = Vector2()
     private var selectedTileSprite: SpriteDrawable
+
 
     init {
         renderConfig.unproject = camera::unproject
@@ -65,7 +68,13 @@ class RenderSystem(
                 dispatch(event)
             }
         }
+
+        //todo
+//        val family = all(PlayerControlledComponent::class.java)
+//        val playerEntity = engine!!.getEntitiesFor(family.get()).singleOrNull()
+//        onEntityMoved(playerEntity)
     }
+
     //    todo move these to separate class
     override fun removedFromEngine(engine: Engine?) {
         super.removedFromEngine(engine)
@@ -115,13 +124,14 @@ class RenderSystem(
 //    private fun drawGUI() {
 //    }
 
-    private fun dispatch(event: PlayerControlEvent) {
+    private fun dispatch(event: Event) {
         when (event) {
             is CameraScaleInc -> onScaleChange(0.1f)
             is CameraScaleDec -> onScaleChange(-0.1f)
             is CameraScrolled -> onScaleChange(-event.amount.toFloat() * scaleScrollCoeff)
             is CameraMoved -> onScrollOffsetChange(event.amount)
             is MouseMoved -> onMousePositionChange(event.screenPoint)
+            is EntityMoved -> onEntityMoved(event.entity)
         }
     }
 
@@ -144,6 +154,22 @@ class RenderSystem(
         scrollOffset.add(-diff.x, diff.y)
         camera.position.set(scrollOffset.x, scrollOffset.y, 0.0f)
         camera.update()
+    }
+
+    private fun onEntityMoved(entity: Entity?) {
+        if (entity == null) return
+        val playerControlledComponent = entity[playerControlled] ?: return
+        val sightComponent = entity[sight] ?: return
+
+        markSightArea(sightComponent)
+    }
+
+    private fun markSightArea(sightComponent: SightComponent) {
+        val mapLayers = map.layers
+        for (i in 0 until mapLayers.size()) {
+            val layer = mapLayers.get(i)
+            (layer as CustomTiledMapTileLayer).markVisiblePositions(sightComponent.positions)
+        }
     }
 
 //    private fun onMapChange(newMap: TiledMap) {

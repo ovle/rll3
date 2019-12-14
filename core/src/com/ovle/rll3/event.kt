@@ -3,6 +3,7 @@ package com.ovle.rll3
 //import model.game.chunk.Chunk
 //import model.game.entity.Entity
 //import model.game.entity.action.Action
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,6 +29,10 @@ sealed class Event {
     class CameraScaleDec: PlayerControlEvent()
     class CameraScrolled(val amount: Int): PlayerControlEvent()
     class CameraMoved(val amount: Vector2): PlayerControlEvent()
+
+    open class GameEvent : Event()
+    open class EntityEvent(val entity: Entity) : GameEvent()
+    open class EntityMoved(entity: Entity) : EntityEvent(entity)
 }
 
 //fun chunksLoaded(chunks: Collection<Chunk>) = Messenger.publish(Event.ChunksLoaded(chunks))
@@ -62,19 +67,3 @@ object EventBus : CoroutineScope by GlobalScope {
         return bus.openSubscription().filter { it is T }.map { it as T }
     }
 }
-
-//private object OldEventBus {
-//
-//    val subscribers = mutableMapOf<KClass<Event>, MutableCollection<(Event) -> Unit>>()
-//
-//    fun publish(event: Event) {
-//        subscribers[event.javaClass.kotlin]?.forEach { it.invoke(event) }
-//    }
-//
-//    inline fun <reified T : Event> subscribe(noinline callback: (T) -> Unit) {
-//        val clazz = T::class as KClass<Event>
-//        val eventSubscribers = subscribers[clazz]
-//                ?: mutableListOf<(Event) -> Unit>().apply { subscribers[clazz] = this }
-//        eventSubscribers.add(callback as (Event) -> Unit)
-//    }
-//}

@@ -12,14 +12,14 @@ import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.model.GameEngine
 import com.ovle.rll3.model.ecs.component.tileMap
-import com.ovle.rll3.model.ecs.system.AnimationSystem
-import com.ovle.rll3.model.ecs.system.MoveSystem
-import com.ovle.rll3.model.ecs.system.PlayerControlsSystem
-import com.ovle.rll3.model.ecs.system.RenderSystem
+import com.ovle.rll3.model.ecs.system.*
 import com.ovle.rll3.model.procedural.grid.DungeonGridFactory
 import com.ovle.rll3.model.procedural.grid.GridToTileArrayMapper
 import com.ovle.rll3.model.procedural.grid.createTiles
 import com.ovle.rll3.model.procedural.mapSizeInTiles
+import com.ovle.rll3.model.tile.TilePassType
+import com.ovle.rll3.model.tile.entityTilePassMapper
+import com.ovle.rll3.model.tile.vectorCoords
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.sprite.sprite
 import com.ovle.rll3.view.spriteTexturePath
@@ -41,17 +41,16 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 
     lateinit var texture: Texture
     lateinit var spriteTexture: Texture
-//    lateinit var sprite: Sprite
     lateinit var playerSprite: SpriteDrawable
 
     lateinit var gameEngine: GameEngine
     private val controls = PlayerControls()
 
+    //todo refactor
     override fun show() {
         super.show()
 
         //todo async loading on separate screen
-//        assets.setLoader(TiledMap::class.java, TmxMapLoader(InternalFileHandleResolver()))
         assets.setLoader(Texture::class.java, TextureLoader(InternalFileHandleResolver()))
 
         assets.load(tileTexturePath, Texture::class.java)
@@ -77,16 +76,18 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         val animationSystem = AnimationSystem()
         val moveSystem = MoveSystem()
         val playerControlsSystem = PlayerControlsSystem()
+        val sightSystem = SightSystem()
 //        val collisionSystem = CollisionSystem()
 //        val aiSystem = AISystem()
 //        val timeSystem = TimeSystem()
 //        val lightSystem = LightSystem()
 
-        val systems = listOf(animationSystem, renderSystem, moveSystem, playerControlsSystem)
+        val systems = listOf(animationSystem, renderSystem, moveSystem, playerControlsSystem, sightSystem)
 
        gameEngine = GameEngine()
+        val startTile = tiles.tiles.filterNotNull().find { entityTilePassMapper(it) == TilePassType.Passable }
         //todo bad coupling
-        gameEngine.init(systems, playerSprite, lightsInfo)
+        gameEngine.init(systems, playerSprite, lightsInfo, vectorCoords(startTile!!))
     }
 
     override fun hide() {

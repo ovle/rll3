@@ -11,19 +11,19 @@ import com.ovle.rll3.model.procedural.grid.LightSourceInfo
 class GameEngine {
     private lateinit var ecsEngine: Engine
 
-    fun init(systems: List<EntitySystem>, spriteDrawable: SpriteDrawable, lightsInfo: Set<LightSourceInfo>) {
+    fun init(systems: List<EntitySystem>, spriteDrawable: SpriteDrawable, lightsInfo: Set<LightSourceInfo>, startPosition: Vector2) {
         ecsEngine = PooledEngine()
         systems.forEach { ecsEngine.addSystem((it)) }
 
         val gameEntity = ecsEngine.createEntity()
         ecsEngine.addEntity(gameEntity)
 
-        val startPosition = Vector2(8f, 8f)
         val playerEntity = ecsEngine.createEntity()
                 .add(PlayerControlledComponent())
                 .add(RenderComponent(spriteDrawable))
                 .add(PositionComponent(startPosition))
                 .add(MoveComponent())
+                .add(SightComponent(5))
 
         ecsEngine.addEntity(playerEntity)
 

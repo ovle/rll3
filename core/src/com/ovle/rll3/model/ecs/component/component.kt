@@ -17,6 +17,10 @@ class PositionComponent(var position: Vector2) : Component
 
 class LightComponent(val radius: Int) : Component
 
+class SightComponent(val radius: Int) : Component {
+    var positions: Set<TilePosition> = setOf()
+}
+
 class MoveComponent(val tilesPerSecond: Float = 2f) : Component {
 
     private val path: MutableList<Vector2> = mutableListOf()
@@ -66,14 +70,14 @@ val NO_ANIMATION = Animation<TextureRegion>(0f)
 
 class AnimationComponent(var animation: Animation<TextureRegion> = NO_ANIMATION) : Component
 
-//todo
-
 //todo make entity/component?
 data class RenderConfig(
     var scale: Float = initialScale,
     var scrollOffset: Vector2 = Vector2(screenWidth / 2, screenHeight / 2),
     var unproject: ((Vector3) -> Vector3)? = null
 )
+
+typealias TilePosition = Pair<Int, Int>
 
 val renderConfig = RenderConfig()
 
