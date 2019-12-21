@@ -1,27 +1,36 @@
 package com.ovle.rll3.model.procedural.grid
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.isNear
+import com.ovle.rll3.model.GameEngine
+import com.ovle.rll3.model.ecs.component.DoorComponent
+import com.ovle.rll3.model.ecs.component.LightComponent
+import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.procedural.floorTypes
 import com.ovle.rll3.model.procedural.lightSourceChance
 import com.ovle.rll3.model.procedural.roomFloorTypes
 import com.ovle.rll3.model.tile.*
 import java.lang.Math.random
 
+
+//todo need rework
 interface TilesInfoPostProcessor {
-    fun process(tilesInfo: TilesInfo)
+
+    fun process(levelInfo: LevelInfo, gameEngine: GameEngine) {
+        levelInfo.objects.plusAssign(process(levelInfo.tiles, gameEngine))
+    }
+
+    fun process(tiles: TileArray, gameEngine: GameEngine): Collection<Entity> {
+        throw UnsupportedOperationException("")
+    }
 }
 
 
-data class DoorInfo(val x: Int, val y: Int)
-
 class DoorTilesInfoPostProcessor : TilesInfoPostProcessor {
-    override fun process(tilesInfo: TilesInfo) {
-        tilesInfo.infoDictionary[InfoDictionaryKey.Doors] = processDoors(tilesInfo.tiles)
-    }
 
-    private fun processDoors(tiles: TileArray): Set<DoorInfo> {
-        val result = mutableSetOf<DoorInfo>()
+    override fun process(tiles: TileArray, gameEngine: GameEngine): Collection<Entity> {
+        val result = mutableListOf<Entity>()
         for (x in 0 until tiles.width) {
             for (y in 0 until tiles.height) {
                 val nearTiles = nearValues(tiles, x, y)
@@ -32,22 +41,29 @@ class DoorTilesInfoPostProcessor : TilesInfoPostProcessor {
                 val isDoor = isCorridorFloor && (isRoomFloorNearHorisontal || isRoomFloorNearVertical)
 
                 if (isDoor) {
-                    result.add(DoorInfo(x, y))
+                    result.add(door(x, y, gameEngine))
                 }
             }
         }
         return result
     }
+
+    private fun door(x: Int, y: Int, gameEngine: GameEngine): Entity {
+        return gameEngine.entity(
+            PositionComponent(Vector2(x.toFloat(), y.toFloat())),
+            DoorComponent()
+        )
+    }
 }
 
 class RoomStructurePostProcessor : TilesInfoPostProcessor {
-    override fun process(tilesInfo: TilesInfo) {
-        processRooms(tilesInfo)
+    override fun process(levelInfo: LevelInfo,  gameEngine: GameEngine) {
+        processRooms(levelInfo)
     }
 
-    private fun processRooms(tiles: TilesInfo) {
-        tiles.rooms().forEach {
-            processRoom(tiles.tiles, it)
+    private fun processRooms(level: LevelInfo) {
+        level.rooms.forEach {
+            processRoom(level.tiles, it)
         }
     }
 
@@ -67,15 +83,10 @@ class RoomStructurePostProcessor : TilesInfoPostProcessor {
     }
 }
 
-data class LightSourceInfo(val x: Int, val y: Int)
-
 class LightSourceTilesInfoPostProcessor : TilesInfoPostProcessor {
-    override fun process(tilesInfo: TilesInfo) {
-        tilesInfo.infoDictionary[InfoDictionaryKey.Lights] = processLights(tilesInfo.tiles)
-    }
 
-    private fun processLights(tiles: TileArray): Set<LightSourceInfo> {
-        val result = mutableSetOf<LightSourceInfo>()
+    override fun process(tiles: TileArray, gameEngine: GameEngine): Collection<Entity> {
+        val result = mutableListOf<Entity>()
         for (x in 0 until tiles.width) {
             for (y in 0 until tiles.height) {
                 val nearTiles = nearValues(tiles, x, y)
@@ -86,24 +97,29 @@ class LightSourceTilesInfoPostProcessor : TilesInfoPostProcessor {
                 val isLightSource = isFreeForLightSource && random() <= lightSourceChance
                 //todo check doors ?
                 if (isLightSource) {
-                    result.add(LightSourceInfo(x, y))
+                    result.add(lightSource(x, y, gameEngine))
                 }
             }
         }
         return result
     }
+
+    private fun lightSource(x: Int, y: Int, gameEngine: GameEngine): Entity {
+        return gameEngine.entity(
+            PositionComponent(Vector2(x.toFloat(), y.toFloat())),
+            LightComponent(5)
+        )
+    }
 }
 
+//todo component ?
 data class RoomInfo(val x: Int, val y: Int, val width: Int, val height: Int)
 typealias RoomTiles = MutableList<Vector2>
 
-
 class RoomsInfoPostProcessor : TilesInfoPostProcessor {
-    override fun process(tilesInfo: TilesInfo) {
-        tilesInfo.infoDictionary[InfoDictionaryKey.Rooms] = processRooms(tilesInfo.tiles)
-    }
 
-    private fun processRooms(tiles: TileArray): Set<RoomInfo>  {
+    override fun process(levelInfo: LevelInfo, gameEngine: GameEngine) {
+        val tiles = levelInfo.tiles
         val roomsData = mutableListOf<RoomTiles>()
         var currentRoom: RoomTiles? = null
         for (x in 0 until tiles.width) {
@@ -123,8 +139,7 @@ class RoomsInfoPostProcessor : TilesInfoPostProcessor {
             }
         }
 
-        return roomsData.map {
-            coords ->
+        val result = roomsData.map { coords ->
             val minX = coords.minBy { it.x }!!.x.toInt()
             val minY = coords.minBy { it.y }!!.y.toInt()
             val maxX = coords.maxBy { it.x }!!.x.toInt()
@@ -137,8 +152,8 @@ class RoomsInfoPostProcessor : TilesInfoPostProcessor {
             )
             println(room)
             return@map room
-        }.toSet()
+        }
+
+        levelInfo.rooms.addAll(result)
     }
-
-
 }

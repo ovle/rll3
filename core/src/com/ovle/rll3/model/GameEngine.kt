@@ -1,38 +1,34 @@
 package com.ovle.rll3.model
 
-import com.badlogic.ashley.core.Engine
-import com.badlogic.ashley.core.EntitySystem
-import com.badlogic.ashley.core.PooledEngine
+import com.badlogic.ashley.core.*
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.ovle.rll3.model.ecs.component.*
-import com.ovle.rll3.model.procedural.grid.LightSourceInfo
 
 class GameEngine {
-    private lateinit var ecsEngine: Engine
+    private var ecsEngine: Engine = PooledEngine()
 
-    fun init(systems: List<EntitySystem>, spriteDrawable: SpriteDrawable, lightsInfo: Set<LightSourceInfo>, startPosition: Vector2) {
-        ecsEngine = PooledEngine()
+    fun init(systems: List<EntitySystem>, spriteDrawable: SpriteDrawable, startPosition: Vector2) {
         systems.forEach { ecsEngine.addSystem((it)) }
 
         val gameEntity = ecsEngine.createEntity()
         ecsEngine.addEntity(gameEntity)
 
-        val playerEntity = ecsEngine.createEntity()
-                .add(PlayerControlledComponent())
-                .add(RenderComponent(spriteDrawable))
-                .add(PositionComponent(startPosition))
-                .add(MoveComponent())
-                .add(SightComponent(5))
+        val playerEntity = entity(
+            PlayerControlledComponent(),
+            RenderComponent(spriteDrawable),
+            PositionComponent(startPosition),
+            MoveComponent(),
+            SightComponent(5)
+        )
 
         ecsEngine.addEntity(playerEntity)
+    }
 
-        lightsInfo.forEach {
-            val lightEntity = ecsEngine.createEntity()
-                .add(PositionComponent(Vector2(it.x.toFloat(), it.y.toFloat())))
-                .add(LightComponent(5))
-            ecsEngine.addEntity(lightEntity)
-        }
+    fun entity(vararg components: Component): Entity {
+        val result = ecsEngine.createEntity()
+        components.forEach { result.add(it) }
+        return result
     }
 
     fun dispose() {

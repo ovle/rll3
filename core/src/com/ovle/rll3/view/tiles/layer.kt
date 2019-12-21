@@ -7,6 +7,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile
 import com.badlogic.gdx.utils.Array
+import com.ovle.rll3.model.ecs.component.DoorComponent
+import com.ovle.rll3.model.ecs.component.LightComponent
 import com.ovle.rll3.model.procedural.corridorFloorTypes
 import com.ovle.rll3.model.procedural.roomFloorTypes
 import com.ovle.rll3.model.tile.*
@@ -27,8 +29,8 @@ enum class LayerType {
 }
 
 
-fun testLayer(tilesInfo: TilesInfo, texture: Texture, layerType: LayerType): MapLayer {
-    val tiles = tilesInfo.tiles
+fun testLayer(levelInfo: LevelInfo, texture: Texture, layerType: LayerType): MapLayer {
+    val tiles = levelInfo.tiles
     val result = CustomTiledMapTileLayer(tiles.width, tiles.height, tileWidth, tileHeight)
     // todo cache / memo
 
@@ -47,7 +49,7 @@ fun testLayer(tilesInfo: TilesInfo, texture: Texture, layerType: LayerType): Map
         for (y in 0 until tiles.height) {
             val nearTiles = nearValues(tiles, x, y)
 
-            val tileTextureRegions = tileTextureRegions(layerType, nearTiles, textureRegions, tilesInfo)
+            val tileTextureRegions = tileTextureRegions(layerType, nearTiles, textureRegions, levelInfo)
             val cell = cellFromTileTextureRegions(tileTextureRegions)
             result.setCell(x, y, cell)
         }
@@ -59,9 +61,11 @@ fun testLayer(tilesInfo: TilesInfo, texture: Texture, layerType: LayerType): Map
 
 typealias TextureRegions = kotlin.Array<kotlin.Array<TextureRegion>>
 
-private fun tileTextureRegions(layerType: LayerType, nearTiles: NearTiles, textureRegions: TextureRegions, tilesInfo: TilesInfo): kotlin.Array<TextureRegion> {
+private fun tileTextureRegions(layerType: LayerType, nearTiles: NearTiles, textureRegions: TextureRegions, levelInfo: LevelInfo): kotlin.Array<TextureRegion> {
 
-    fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tilesInfo.hasDoor(x, y))) 1 else 0
+    fun hasDoor(x: Int, y: Int, levelInfo: LevelInfo): Boolean = levelInfo.hasEntityOnPosition(x, y, DoorComponent::class)
+    fun hasLight(x: Int, y: Int, levelInfo: LevelInfo): Boolean = levelInfo.hasEntityOnPosition(x, y, LightComponent::class)
+    fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y, levelInfo))) 1 else 0
     fun hasRoomWall(tileId: Int?): Int = if (tileId != null && tileId != roomFloorTileId) 1 else 0
 
     val upTileId = nearTiles.upValue?.typeId
@@ -82,15 +86,15 @@ private fun tileTextureRegions(layerType: LayerType, nearTiles: NearTiles, textu
     val isRoomFloor = tileId == roomFloorTileId
     val isPitFloor = tileId == pitFloorTileId
     val isCorridorFloor = tileId == corridorFloorTileId
-    val isDoor = tilesInfo.hasDoor(nearTiles.x, nearTiles.y)
-    val isNextToDoor = tilesInfo.hasDoor(nearTiles.x, nearTiles.y-1)
+    val isDoor = hasDoor(nearTiles.x, nearTiles.y, levelInfo)
+    val isNextToDoor = hasDoor(nearTiles.x, nearTiles.y-1, levelInfo)
 
     val isRoomWall = upTileId in roomFloorTypes
     val isCorridorWall = upTileId in corridorFloorTypes
     val isPitFloorUp = downTileId == pitFloorTileId
     val isRoomFloorNearVertical = roomFloorTileId in nearTiles.nearV.map { it?.typeId }
 
-    val isLightSource = tilesInfo.hasLight(nearTiles.x, nearTiles.y)
+    val isLightSource = hasLight(nearTiles.x, nearTiles.y, levelInfo)
     val isTrap = isRoomFloor && random() > 0.85f
     val isPortal = isRoomFloor && random() > 0.95f
     val wallTileSet = if (isRoomWall) roomWallTexTileSet else passageWallTexTileSet

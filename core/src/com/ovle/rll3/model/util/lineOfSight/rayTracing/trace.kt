@@ -9,6 +9,7 @@ import com.ovle.rll3.model.util.discretization.bresenham.line
 
 fun trace(fromPosition: TilePosition, toPosition: TilePosition, lightPassTypeFn: LightPassTypeFn): List<TilePosition> {
     val positions = line(fromPosition, toPosition)
+    // todo add last to see the walls
     return positions.takeWhile { losPassable(it, lightPassTypeFn) }
 }
 

@@ -58,17 +58,16 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         texture = assets.finishLoadingAsset<Texture>(tileTexturePath)
         spriteTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
 
+        gameEngine = GameEngine()
         map = TiledMap()
         val mapSize = mapSizeInTiles
-        val tiles = createTiles(mapSize, DungeonGridFactory(), GridToTileArrayMapper())
+        val tiles = createTiles(mapSize, DungeonGridFactory(), GridToTileArrayMapper(), gameEngine)
         map.layers.add(testLayer(tiles, texture, LayerType.Floor))
         map.layers.add(testLayer(tiles, texture, LayerType.Walls))
         map.layers.add(testLayer(tiles, texture, LayerType.Decoration))
 
         playerSprite = sprite(spriteTexture, 0, 2)
 
-        //todo lights
-        val lightsInfo = tiles.lights()
         //todo tiles
         tileMap = tiles.tiles
 
@@ -83,11 +82,9 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 //        val lightSystem = LightSystem()
 
         val systems = listOf(animationSystem, renderSystem, moveSystem, playerControlsSystem, sightSystem)
-
-       gameEngine = GameEngine()
         val startTile = tiles.tiles.filterNotNull().find { entityTilePassMapper(it) == TilePassType.Passable }
         //todo bad coupling
-        gameEngine.init(systems, playerSprite, lightsInfo, vectorCoords(startTile!!))
+        gameEngine.init(systems, playerSprite, vectorCoords(startTile!!))
     }
 
     override fun hide() {

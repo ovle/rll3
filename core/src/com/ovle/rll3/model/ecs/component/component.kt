@@ -17,6 +17,8 @@ class PositionComponent(var position: Vector2) : Component
 
 class LightComponent(val radius: Int) : Component
 
+class DoorComponent() : Component
+
 class SightComponent(val radius: Int) : Component {
     var positions: Set<TilePosition> = setOf()
 }

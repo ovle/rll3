@@ -12,13 +12,6 @@ data class Tile(
     val typeId: TileType = outOfMapTileId
 )
 
-enum class InfoDictionaryKey {
-    Doors,
-    Lights,
-    Rooms,
-    Exits
-}
-
 enum class TilePassType {
     Solid,
     Passable,
