@@ -1,14 +1,15 @@
 package com.ovle.rll3
 
+import com.badlogic.gdx.utils.Disposable
 import com.ovle.rll3.ScreenManager.ScreenType.*
 import com.ovle.rll3.screen.BaseScreen
-import com.ovle.rll3.screen.game.GameScreen
 import com.ovle.rll3.screen.MainMenuScreen
 import com.ovle.rll3.screen.ManageScreen
+import com.ovle.rll3.screen.game.GameScreen
 import ktx.inject.Context
 
 
-class ScreenManager(private val context: Context, val setScreen: (BaseScreen) -> Unit) {
+class ScreenManager(private val context: Context, val setScreen: (BaseScreen) -> Unit): Disposable {
 
     enum class ScreenType {
         MainMenuScreenType,
@@ -25,6 +26,10 @@ class ScreenManager(private val context: Context, val setScreen: (BaseScreen) ->
                     GameScreenType to GameScreen(inject(), inject(), inject(), inject())
             )
         }
+    }
+
+    override fun dispose() {
+        screens().forEach{ it.dispose() }
     }
 
     fun screens() = screensByType.values

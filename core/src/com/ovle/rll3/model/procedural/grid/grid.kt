@@ -2,6 +2,7 @@ package com.ovle.rll3.model.procedural.grid
 
 import com.ovle.rll3.model.GameEngine
 import com.ovle.rll3.model.procedural.dungeonGenerationSettings
+import com.ovle.rll3.model.procedural.grid.processor.*
 import com.ovle.rll3.model.tile.LevelInfo
 import com.ovle.rll3.model.tile.TileArray
 
@@ -14,10 +15,12 @@ fun createTiles(size: Int, gridFactory: GridFactory, mapper: GridMapper<TileArra
         .run {
             val result = LevelInfo(tiles = this)
 
-            RoomsInfoPostProcessor().process(result, gameEngine)   //todo
-            RoomStructurePostProcessor().process(result, gameEngine)
-            DoorTilesInfoPostProcessor().process(result, gameEngine)   //todo
-            LightSourceTilesInfoPostProcessor().process(result, gameEngine)   //todo
+            //todo inject list by interface
+            RoomsInfoProcessor().process(result, gameEngine)
+            RoomStructureProcessor().process(result, gameEngine)
+            DoorProcessor().process(result, gameEngine)
+            LightSourceProcessor().process(result, gameEngine)
+            TrapProcessor().process(result, gameEngine)
 
             result
         }

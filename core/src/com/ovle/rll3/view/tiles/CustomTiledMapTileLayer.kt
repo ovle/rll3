@@ -6,7 +6,7 @@ import com.ovle.rll3.model.ecs.component.TilePosition
 
 class CustomTiledMapTileLayer(width: Int, height: Int, tileWidth: Int, tileHeight: Int): TiledMapTileLayer(width, height, tileWidth, tileHeight) {
 
-    public var bypassVisibilityFilter = false
+    private var bypassVisibilityFilter = true
     private var lastVisibleTiles: Set<TilePosition>? = null
 
 

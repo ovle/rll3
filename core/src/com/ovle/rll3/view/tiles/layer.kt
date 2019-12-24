@@ -1,5 +1,7 @@
 package com.ovle.rll3.view.tiles
 
+import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.maps.MapLayer
@@ -9,16 +11,14 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile
 import com.badlogic.gdx.utils.Array
 import com.ovle.rll3.model.ecs.component.DoorComponent
 import com.ovle.rll3.model.ecs.component.LightComponent
+import com.ovle.rll3.model.ecs.component.PositionComponent
+import com.ovle.rll3.model.ecs.component.TrapComponent
 import com.ovle.rll3.model.procedural.corridorFloorTypes
 import com.ovle.rll3.model.procedural.roomFloorTypes
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.view.*
-import java.lang.Math.random
-
-class TextureTileSet(val id: String, val originX: Int = 0, val originY: Int = 0, val size: Int = 4)
-val roomWallTexTileSet = TextureTileSet("roomWall", originY = 4)
-val passageWallTexTileSet = TextureTileSet("passageWall", originX = 4, originY = 4)
-val roomFloorBorderTexTileSet = TextureTileSet("roomFloor", originX = 4)
+import ktx.ashley.get
+import kotlin.reflect.KClass
 
 
 enum class LayerType {
@@ -61,10 +61,20 @@ fun testLayer(levelInfo: LevelInfo, texture: Texture, layerType: LayerType): Map
 
 typealias TextureRegions = kotlin.Array<kotlin.Array<TextureRegion>>
 
+//todo
+fun hasEntityOnPosition(levelInfo: LevelInfo, x: Int, y: Int, componentClass: KClass<out Component>): Boolean {
+    val positionMapper = ComponentMapper.getFor(PositionComponent::class.java)
+    return levelInfo.entitiesWith(componentClass)
+        .any {
+            it[positionMapper]?.position?.epsilonEquals(x.toFloat() ,y.toFloat()) ?: false
+        }
+}
+
 private fun tileTextureRegions(layerType: LayerType, nearTiles: NearTiles, textureRegions: TextureRegions, levelInfo: LevelInfo): kotlin.Array<TextureRegion> {
 
-    fun hasDoor(x: Int, y: Int, levelInfo: LevelInfo): Boolean = levelInfo.hasEntityOnPosition(x, y, DoorComponent::class)
-    fun hasLight(x: Int, y: Int, levelInfo: LevelInfo): Boolean = levelInfo.hasEntityOnPosition(x, y, LightComponent::class)
+    fun hasDoor(x: Int, y: Int, levelInfo: LevelInfo): Boolean = hasEntityOnPosition(levelInfo, x, y, DoorComponent::class)
+    fun hasLight(x: Int, y: Int, levelInfo: LevelInfo): Boolean = hasEntityOnPosition(levelInfo, x, y, LightComponent::class)
+    fun hasTrap(x: Int, y: Int, levelInfo: LevelInfo): Boolean = hasEntityOnPosition(levelInfo, x, y, TrapComponent::class)
     fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y, levelInfo))) 1 else 0
     fun hasRoomWall(tileId: Int?): Int = if (tileId != null && tileId != roomFloorTileId) 1 else 0
 
@@ -95,8 +105,7 @@ private fun tileTextureRegions(layerType: LayerType, nearTiles: NearTiles, textu
     val isRoomFloorNearVertical = roomFloorTileId in nearTiles.nearV.map { it?.typeId }
 
     val isLightSource = hasLight(nearTiles.x, nearTiles.y, levelInfo)
-    val isTrap = isRoomFloor && random() > 0.85f
-    val isPortal = isRoomFloor && random() > 0.95f
+    val isTrap = hasTrap(nearTiles.x, nearTiles.y, levelInfo)
     val wallTileSet = if (isRoomWall) roomWallTexTileSet else passageWallTexTileSet
     val floorBorderTileSet = roomFloorBorderTexTileSet
     val emptyTile  = arrayOf<TextureRegion>()
@@ -128,16 +137,16 @@ private fun tileTextureRegions(layerType: LayerType, nearTiles: NearTiles, textu
                 textureRegions[7][10],
                 textureRegions[7][11]
             )
-            isPortal -> arrayOf(
-                textureRegions[9][8],
-                textureRegions[9][9],
-                textureRegions[9][10],
-                textureRegions[9][11],
-                textureRegions[10][8],
-                textureRegions[10][9],
-                textureRegions[10][10],
-                textureRegions[10][11]
-            )
+//            isPortal -> arrayOf(
+//                textureRegions[9][8],
+//                textureRegions[9][9],
+//                textureRegions[9][10],
+//                textureRegions[9][11],
+//                textureRegions[10][8],
+//                textureRegions[10][9],
+//                textureRegions[10][10],
+//                textureRegions[10][11]
+//            )
             else -> when {
                 isWall && !isNextToDoor -> when {
                     isRoomWall -> arrayOf(textureRegions[(0..1).random()][(8..11).random()]).withChance(0.6f, defaultValue = emptyTile)

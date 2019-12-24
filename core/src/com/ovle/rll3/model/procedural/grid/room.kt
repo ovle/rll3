@@ -2,6 +2,7 @@ package com.ovle.rll3.model.procedural.grid
 
 import com.ovle.rll3.model.procedural.grid.RoomStructure.DirectionValue.*
 import com.ovle.rll3.model.procedural.grid.RoomStructure.ParamKey.*
+import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
 import com.ovle.rll3.model.procedural.roomFloorTypes
 import com.ovle.rll3.model.tile.*
 import java.lang.Math.random

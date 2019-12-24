@@ -66,7 +66,7 @@ abstract class BaseScreen(
     }
 
     override fun dispose() {
-        stage.dispose()
+        stage.dispose() //todo?
 
         super.dispose()
     }
