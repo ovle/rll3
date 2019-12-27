@@ -9,12 +9,14 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.entityWith
 import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.model.ecs.levelInfo
 import com.ovle.rll3.model.tile.entityTilePassMapper
 import com.ovle.rll3.model.tile.vectorCoords
+import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.model.util.pathfinding.cost
 import com.ovle.rll3.model.util.pathfinding.heuristics
-import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.toGamePoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
@@ -39,7 +41,7 @@ class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::clas
         launch {
             channel = EventBus.receive()
             for (event in channel) {
-                dispatch(event, engine)
+                dispatch(event)
             }
         }
     }
@@ -50,25 +52,29 @@ class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::clas
         channel.cancel()
     }
 
-    override fun processEntity(entity: Entity, deltaTime: Float) {}
+    override fun processEntity(entity: Entity, deltaTime: Float) {
+//        todo no iterating processing, only events. not IteratingSystem ?
+    }
 
-    private fun dispatch(event: PlayerControlEvent, engine: Engine) {
+    private fun dispatch(event: PlayerControlEvent) {
+        val level = levelInfo()
         when (event) {
-            is MouseLeftClick -> onMoveTargetSet(toGamePoint(event.screenPoint, renderConfig), engine)
-            is MouseMoved -> onMousePositionChange(toGamePoint(event.screenPoint, renderConfig))
+            is MouseLeftClick -> onMoveTargetSet(toGamePoint(event.screenPoint, renderConfig), level)
+            is MouseMoved -> onMousePositionChange(toGamePoint(event.screenPoint, renderConfig), level)
         }
     }
 
-    private fun onMoveTargetSet(gamePoint: Vector2, engine: Engine) {
-        if (!isValid(gamePoint)) return
+    private fun onMoveTargetSet(gamePoint: Vector2, level: LevelInfo) {
+        if (!isValid(gamePoint, level)) return
         println("gamePoint $gamePoint")
 
-        val family = all(PlayerControlledComponent::class.java)
-        val playerEntity = engine.getEntitiesFor(family.get()).singleOrNull() ?: return
+//        val family = all(PlayerControlledComponent::class.java)
+//        val playerEntity = engine.getEntitiesFor(family.get()).singleOrNull() ?: return
+        val playerEntity = entityWith(entities.toList(), PlayerControlledComponent::class) ?: return
         val moveComponent = playerEntity[move] ?: return
         val positionComponent = playerEntity[position]!!
 
-        val tiles = tileMap
+        val tiles = level.tiles
         val playerPosition = positionComponent.position
         val fromTile = tiles[playerPosition.x.toInt(), playerPosition.y.toInt()]!!
         val toTile = tiles[gamePoint.x.toInt(), gamePoint.y.toInt()] ?: return
@@ -86,18 +92,14 @@ class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::clas
         if (!moveComponent.started()) moveComponent.start()
     }
 
-    private fun onMousePositionChange(gamePoint: Vector2) {
-        if (!isValid(gamePoint)) return
+    private fun onMousePositionChange(gamePoint: Vector2, level: LevelInfo) {
+        if (!isValid(gamePoint, level)) return
         if (gamePoint.epsilonEquals(selectedGamePoint)) return
 
         selectedGamePoint.set(gamePoint.x, gamePoint.y)
-
-        val tiles = tileMap
-//        println("tile ${tiles[gamePoint.x.toInt(), gamePoint.y.toInt()]}")
     }
 
-    private fun isValid(gamePoint: Vector2): Boolean {
-        val tiles = tileMap
-        return tiles.isIndexValid(gamePoint.x.toInt(), gamePoint.y.toInt())
+    private fun isValid(gamePoint: Vector2, level: LevelInfo): Boolean {
+        return level.tiles.isIndexValid(gamePoint.x.toInt(), gamePoint.y.toInt())
     }
 }

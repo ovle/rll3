@@ -8,10 +8,12 @@ import com.ovle.rll3.model.ecs.component.*
 class GameEngine {
     private var ecsEngine: Engine = PooledEngine()
 
-    fun init(systems: List<EntitySystem>, spriteDrawable: SpriteDrawable, startPosition: Vector2) {
+    fun init(systems: List<EntitySystem>, spriteDrawable: SpriteDrawable, startPosition: Vector2, level: LevelInfo) {
         systems.forEach { ecsEngine.addSystem((it)) }
 
-        val gameEntity = ecsEngine.createEntity()
+        val gameEntity = entity(
+            LevelComponent(level)
+        )
         ecsEngine.addEntity(gameEntity)
 
         val playerEntity = entity(

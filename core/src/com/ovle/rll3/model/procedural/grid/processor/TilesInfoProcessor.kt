@@ -2,7 +2,7 @@ package com.ovle.rll3.model.procedural.grid.processor
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.model.GameEngine
-import com.ovle.rll3.model.tile.LevelInfo
+import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.tile.TileArray
 
 

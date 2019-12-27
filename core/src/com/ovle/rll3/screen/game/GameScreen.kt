@@ -11,11 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.model.GameEngine
-import com.ovle.rll3.model.ecs.component.tileMap
+import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.system.*
 import com.ovle.rll3.model.procedural.grid.DungeonGridFactory
 import com.ovle.rll3.model.procedural.grid.GridToTileArrayMapper
-import com.ovle.rll3.model.procedural.grid.createTiles
+import com.ovle.rll3.model.procedural.grid.tiles
 import com.ovle.rll3.model.procedural.mapSizeInTiles
 import com.ovle.rll3.model.tile.TilePassType
 import com.ovle.rll3.model.tile.entityTilePassMapper
@@ -59,17 +59,13 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         spriteTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
 
         gameEngine = GameEngine()
-        map = TiledMap()
         val mapSize = mapSizeInTiles
-        val tiles = createTiles(mapSize, DungeonGridFactory(), GridToTileArrayMapper(), gameEngine)
-        map.layers.add(testLayer(tiles, texture, LayerType.Floor))
-        map.layers.add(testLayer(tiles, texture, LayerType.Walls))
-        map.layers.add(testLayer(tiles, texture, LayerType.Decoration))
+        val tiles = tiles(mapSize, DungeonGridFactory(), GridToTileArrayMapper(), gameEngine)
+        val (map) = tiledMap(tiles)
+        this.map = map
 
+        //todo
         playerSprite = sprite(spriteTexture, 0, 2)
-
-        //todo tiles
-        tileMap = tiles.tiles
 
         val renderSystem = RenderSystem(map, batch, camera, spriteTexture)
         val animationSystem = AnimationSystem()
@@ -84,7 +80,15 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         val systems = listOf(animationSystem, renderSystem, moveSystem, playerControlsSystem, sightSystem)
         val startTile = tiles.tiles.filterNotNull().find { entityTilePassMapper(it) == TilePassType.Passable }
         //todo bad coupling
-        gameEngine.init(systems, playerSprite, vectorCoords(startTile!!))
+        gameEngine.init(systems, playerSprite, vectorCoords(startTile!!), tiles)
+    }
+
+    private fun tiledMap(tiles: LevelInfo): Pair<TiledMap, LevelInfo> {
+        val map = TiledMap()
+        map.layers.add(testLayer(tiles, texture, LayerType.Floor))
+        map.layers.add(testLayer(tiles, texture, LayerType.Walls))
+        map.layers.add(testLayer(tiles, texture, LayerType.Decoration))
+        return Pair(map, tiles)
     }
 
     override fun hide() {

@@ -9,10 +9,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile
 import com.badlogic.gdx.utils.Array
-import com.ovle.rll3.model.ecs.component.DoorComponent
-import com.ovle.rll3.model.ecs.component.LightComponent
-import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.component.TrapComponent
+import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.entitiesWith
 import com.ovle.rll3.model.procedural.corridorFloorTypes
 import com.ovle.rll3.model.procedural.roomFloorTypes
 import com.ovle.rll3.model.tile.*
@@ -64,7 +62,7 @@ typealias TextureRegions = kotlin.Array<kotlin.Array<TextureRegion>>
 //todo
 fun hasEntityOnPosition(levelInfo: LevelInfo, x: Int, y: Int, componentClass: KClass<out Component>): Boolean {
     val positionMapper = ComponentMapper.getFor(PositionComponent::class.java)
-    return levelInfo.entitiesWith(componentClass)
+    return entitiesWith(levelInfo.objects, componentClass)
         .any {
             it[positionMapper]?.position?.epsilonEquals(x.toFloat() ,y.toFloat()) ?: false
         }

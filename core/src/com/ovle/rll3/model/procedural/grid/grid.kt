@@ -1,15 +1,15 @@
 package com.ovle.rll3.model.procedural.grid
 
 import com.ovle.rll3.model.GameEngine
+import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.procedural.dungeonGenerationSettings
 import com.ovle.rll3.model.procedural.grid.processor.*
-import com.ovle.rll3.model.tile.LevelInfo
 import com.ovle.rll3.model.tile.TileArray
 
 /**
  *
  */
-fun createTiles(size: Int, gridFactory: GridFactory, mapper: GridMapper<TileArray>, gameEngine: GameEngine): LevelInfo {
+fun tiles(size: Int, gridFactory: GridFactory, mapper: GridMapper<TileArray>, gameEngine: GameEngine): LevelInfo {
     val grid = gridFactory.get(size, dungeonGenerationSettings)
     return mapper.map(grid)
         .run {
@@ -29,4 +29,4 @@ fun createTiles(size: Int, gridFactory: GridFactory, mapper: GridMapper<TileArra
 /**
  *
  */
-fun <T> createTiles(size: Int, factory: TileFactory) = factory.get(size)
+fun <T> tiles(size: Int, factory: TileFactory) = factory.get(size)

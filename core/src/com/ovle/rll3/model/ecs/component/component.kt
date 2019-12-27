@@ -1,15 +1,25 @@
 package com.ovle.rll3.model.ecs.component
 
 import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
+import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.screenHeight
 import com.ovle.rll3.view.screenWidth
+
+
+data class LevelInfo(val tiles: TileArray) {
+    val rooms: MutableCollection<RoomInfo> = mutableListOf()
+    val objects: MutableCollection<Entity> = mutableListOf()
+}
+
+class LevelComponent(var level: LevelInfo): Component
 
 class PlayerControlledComponent : Component
 
@@ -25,6 +35,7 @@ class SightComponent(val radius: Int) : Component {
     var positions: Set<TilePosition> = setOf()
 }
 
+//todo remove logic
 class MoveComponent(val tilesPerSecond: Float = 2f) : Component {
 
     private val path: MutableList<Vector2> = mutableListOf()
@@ -74,15 +85,13 @@ val NO_ANIMATION = Animation<TextureRegion>(0f)
 
 class AnimationComponent(var animation: Animation<TextureRegion> = NO_ANIMATION) : Component
 
-//todo make entity/component?
+typealias TilePosition = Pair<Int, Int>
+
+
 data class RenderConfig(
     var scale: Float = initialScale,
     var scrollOffset: Vector2 = Vector2(screenWidth / 2, screenHeight / 2),
     var unproject: ((Vector3) -> Vector3)? = null
 )
-
-typealias TilePosition = Pair<Int, Int>
-
+//todo make entity/component
 val renderConfig = RenderConfig()
-
-lateinit var tileMap: TileArray

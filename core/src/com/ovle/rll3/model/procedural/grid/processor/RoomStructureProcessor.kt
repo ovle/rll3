@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.procedural.grid.processor
 
 import com.ovle.rll3.model.GameEngine
+import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.procedural.grid.RoomStructure
 import com.ovle.rll3.model.tile.*
 

@@ -3,8 +3,8 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.isNear
 import com.ovle.rll3.model.GameEngine
+import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.procedural.roomFloorTypes
-import com.ovle.rll3.model.tile.LevelInfo
 import com.ovle.rll3.model.tile.nearValues
 
 typealias RoomTiles = MutableList<Vector2>

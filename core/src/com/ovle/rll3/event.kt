@@ -19,8 +19,8 @@ sealed class Event {
 //    class EntityDidAction(entity: Entity, val action: Action) : EntityEvent(entity)
 //    class ChunksLoaded(val chunks: Collection<Chunk>) : Event()
 //    class ChunksUnloaded(val chunks: Collection<Chunk>) : Event()
-//    class EntitiesLoaded(val entities: Collection<Entity>) : Event()
-//    class EntitiesUnloaded(val entities: Collection<Entity>) : Event()
+//    class EntitiesLoaded(val entitiesWith: Collection<Entity>) : Event()
+//    class EntitiesUnloaded(val entitiesWith: Collection<Entity>) : Event()
 
     open class PlayerControlEvent : Event()
     class MouseMoved(val screenPoint: Vector2) : PlayerControlEvent()
@@ -37,8 +37,8 @@ sealed class Event {
 
 //fun chunksLoaded(chunks: Collection<Chunk>) = Messenger.publish(Event.ChunksLoaded(chunks))
 //fun chunksUnloaded(chunks: Collection<Chunk>) = Messenger.publish(Event.ChunksUnloaded(chunks))
-//fun entitiesLoaded(entities: Collection<Entity>) = Messenger.publish(Event.EntitiesLoaded(entities))
-//fun entitiesUnloaded(entities: Collection<Entity>) = Messenger.publish(Event.EntitiesUnloaded(entities))
+//fun entitiesLoaded(entitiesWith: Collection<Entity>) = Messenger.publish(Event.EntitiesLoaded(entitiesWith))
+//fun entitiesUnloaded(entitiesWith: Collection<Entity>) = Messenger.publish(Event.EntitiesUnloaded(entitiesWith))
 //fun entityStartMove(entity: Entity) = Messenger.publish(Event.EntityStartMove(entity))
 //fun entityFinishMove(entity: Entity) = Messenger.publish(Event.EntityFinishMove(entity))
 //fun entityMoved(entity: Entity,  dx: Double, dy: Double) = Messenger.publish(Event.EntityMoved(entity, dx, dy))

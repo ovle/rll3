@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.SightComponent
 import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.model.ecs.levelInfo
 import com.ovle.rll3.model.tile.lightTilePassMapper
 import com.ovle.rll3.model.util.discretization.bresenham.circle
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.trace
@@ -28,8 +29,10 @@ class SightSystem : IteratingSystem(Family.all(SightComponent::class.java).get()
         val visiblePositionsCircle = circle(entityPosition, sightComponent.radius)
         val roundedEntityPosition = entityPosition.x.roundToInt() to entityPosition.y.roundToInt()
         val visiblePositions = visiblePositionsCircle.flatMap {
-            trace(roundedEntityPosition, it, ::lightTilePassMapper)
+            trace(roundedEntityPosition, it, ::lightTilePassMapper, levelInfo().tiles)
         }.toSet()
+
+        this.entities
 
         sightComponent.positions = visiblePositions
     }
