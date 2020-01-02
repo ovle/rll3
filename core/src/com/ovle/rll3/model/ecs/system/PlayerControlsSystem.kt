@@ -1,13 +1,10 @@
 package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.ComponentMapper
-import com.badlogic.ashley.core.Engine
-import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.Family.all
-import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
-import com.ovle.rll3.EventBus
+import com.ovle.rll3.EventBus.receive
+import com.ovle.rll3.model.ecs.allEntities
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.MoveComponent
 import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
@@ -22,45 +19,19 @@ import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.model.util.pathfinding.cost
 import com.ovle.rll3.model.util.pathfinding.heuristics
 import com.ovle.rll3.toGamePoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.ReceiveChannel
-import kotlinx.coroutines.launch
 import ktx.ashley.get
 
 
-class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::class.java).get()), CoroutineScope by GlobalScope {
-
+class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
     private val move: ComponentMapper<MoveComponent> = get()
+
     private val position: ComponentMapper<PositionComponent> = get()
-
-    lateinit var channel: ReceiveChannel<PlayerControlEvent>
-
     private val selectedGamePoint = Vector2()
 
-    //    todo move these to separate class
-    override fun addedToEngine(engine: Engine) {
-        super.addedToEngine(engine)
 
-        launch {
-            channel = EventBus.receive()
-            for (event in channel) {
-                dispatch(event)
-            }
-        }
-    }
+    override fun channel() = receive<PlayerControlEvent>()
 
-    //    todo move these to separate class
-    override fun removedFromEngine(engine: Engine) {
-        super.removedFromEngine(engine)
-        channel.cancel()
-    }
-
-    override fun processEntity(entity: Entity, deltaTime: Float) {
-//        todo no iterating processing, only events. not IteratingSystem ?
-    }
-
-    private fun dispatch(event: PlayerControlEvent) {
+    override fun dispatch(event: PlayerControlEvent) {
         val level = levelInfo()
         when (event) {
             is MouseLeftClick -> onMoveTargetSet(toGamePoint(event.screenPoint, RenderConfig), level)
@@ -71,7 +42,7 @@ class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::clas
     private fun onMoveTargetSet(gamePoint: Vector2, level: LevelInfo) {
         if (!isValid(gamePoint, level)) return
 
-        val playerEntity = entityWith(entities.toList(), PlayerControlledComponent::class)
+        val playerEntity = entityWith(allEntities().toList(), PlayerControlledComponent::class)
         val moveComponent = playerEntity[move] ?: return
         val positionComponent = playerEntity[position]!!
 

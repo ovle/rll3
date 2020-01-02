@@ -3,6 +3,7 @@ package com.ovle.rll3.model.ecs
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
+import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
 import com.ovle.rll3.model.ecs.component.LevelComponent
 import ktx.ashley.get
@@ -26,7 +27,7 @@ inline fun <reified T: Component> singleComponent(entities: Collection<Entity>, 
     entityWith(entities.toList(), componentClass).component(componentClass)!! as T
 
 fun IteratingSystem.hostEntities() = this.entities
-fun IteratingSystem.allEntities() = this.engine.entities
+fun EntitySystem.allEntities() = this.engine.entities
 
 
-fun IteratingSystem.levelInfo() = singleComponent(allEntities().toList(), LevelComponent::class).level
+fun EntitySystem.levelInfo() = singleComponent(allEntities().toList(), LevelComponent::class).level
