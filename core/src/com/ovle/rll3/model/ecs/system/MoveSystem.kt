@@ -21,7 +21,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val moveComponent = entity[move]!!
-        if (!moveComponent.started()) return
+        if (!moveComponent.path.started()) return
 
         val moved = move(entity, deltaTime)
         if (moved) send(Event.EntityMoved(entity))
@@ -32,7 +32,8 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         val moveComponent = entity[move]!!
         val positionComponent = entity[position]!!
         val timePercent = moveComponent.tilesPerSecond * deltaTime
-        val currentTo = moveComponent.currentTo() ?: return false
+        val movePath = moveComponent.path
+        val currentTo = movePath.currentTo() ?: return false
         val currentPosition = positionComponent.position
 
         val dx = if (currentTo.x > currentPosition.x) timePercent else -timePercent
@@ -44,11 +45,11 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         val distanceToTarget = abs(currentPosition.dst(currentTo))
         val moveFinished = distanceToTarget <= stopDelta
         if (moveFinished) {
-            moveComponent.next()
+            movePath.next()
         }
-        val pathFinished = moveComponent.finished()
+        val pathFinished = movePath.finished()
         if (pathFinished) {
-            moveComponent.reset()
+            movePath.reset()
         }
 
         return true

@@ -8,12 +8,16 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus
-import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.MoveComponent
+import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
+import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.entityWith
 import com.ovle.rll3.model.ecs.get
 import com.ovle.rll3.model.ecs.levelInfo
 import com.ovle.rll3.model.tile.entityTilePassMapper
 import com.ovle.rll3.model.tile.vectorCoords
+import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.model.util.pathfinding.cost
 import com.ovle.rll3.model.util.pathfinding.heuristics
@@ -59,18 +63,15 @@ class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::clas
     private fun dispatch(event: PlayerControlEvent) {
         val level = levelInfo()
         when (event) {
-            is MouseLeftClick -> onMoveTargetSet(toGamePoint(event.screenPoint, renderConfig), level)
-            is MouseMoved -> onMousePositionChange(toGamePoint(event.screenPoint, renderConfig), level)
+            is MouseLeftClick -> onMoveTargetSet(toGamePoint(event.screenPoint, RenderConfig), level)
+            is MouseMoved -> onMousePositionChange(toGamePoint(event.screenPoint, RenderConfig), level)
         }
     }
 
     private fun onMoveTargetSet(gamePoint: Vector2, level: LevelInfo) {
         if (!isValid(gamePoint, level)) return
-        println("gamePoint $gamePoint")
 
-//        val family = all(PlayerControlledComponent::class.java)
-//        val playerEntity = engine.getEntitiesFor(family.get()).singleOrNull() ?: return
-        val playerEntity = entityWith(entities.toList(), PlayerControlledComponent::class) ?: return
+        val playerEntity = entityWith(entities.toList(), PlayerControlledComponent::class)
         val moveComponent = playerEntity[move] ?: return
         val positionComponent = playerEntity[position]!!
 
@@ -88,8 +89,9 @@ class PlayerControlsSystem : IteratingSystem(all(PlayerControlledComponent::clas
             tilePassTypeFn = ::entityTilePassMapper
         )
 
-        moveComponent.set(path.map(::vectorCoords))
-        if (!moveComponent.started()) moveComponent.start()
+        val movePath = moveComponent.path
+        movePath.set(path.map(::vectorCoords))
+        if (!movePath.started()) movePath.start()
     }
 
     private fun onMousePositionChange(gamePoint: Vector2, level: LevelInfo) {

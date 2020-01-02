@@ -2,7 +2,7 @@ package com.ovle.rll3
 
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
-import com.ovle.rll3.model.ecs.component.RenderConfig
+import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 import kotlin.math.roundToInt

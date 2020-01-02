@@ -18,8 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.ovle.rll3.Event
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus
-import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
+import com.ovle.rll3.model.ecs.component.PositionComponent
+import com.ovle.rll3.model.ecs.component.RenderComponent
+import com.ovle.rll3.model.ecs.component.SightComponent
 import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.*
 import com.ovle.rll3.view.sprite.sprite
 import com.ovle.rll3.view.tiles.CustomTiledMapTileLayer
@@ -54,7 +58,7 @@ class RenderSystem(
 
 
     init {
-        renderConfig.unproject = camera::unproject
+        RenderConfig.unproject = camera::unproject
         selectedTileSprite = sprite(spriteTexture, 0, 0)
     }
 
@@ -144,13 +148,13 @@ class RenderSystem(
     }
 
     private fun onScaleChange(diff: Float) {
-        renderConfig.scale += diff
+        RenderConfig.scale += diff
         camera.zoom -= diff
         camera.update()
     }
 
     private fun onScrollOffsetChange(diff: Vector2) {
-        val scrollOffset = renderConfig.scrollOffset
+        val scrollOffset = RenderConfig.scrollOffset
         scrollOffset.add(-diff.x, diff.y)
         camera.position.set(scrollOffset.x, scrollOffset.y, 0.0f)
         camera.update()
@@ -158,6 +162,7 @@ class RenderSystem(
 
     private fun onEntityMoved(entity: Entity?) {
         if (entity == null) return
+
         val playerControlledComponent = entity[playerControlled] ?: return
         val sightComponent = entity[sight] ?: return
 
