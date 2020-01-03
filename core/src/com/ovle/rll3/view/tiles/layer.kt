@@ -51,7 +51,6 @@ fun testLayer(levelInfo: LevelInfo, texture: Texture, layerType: LayerType): Map
             val cell = cellFromTileTextureRegions(tileTextureRegions)
             result.setCell(x, y, cell)
         }
-        println()
     }
 
     return result

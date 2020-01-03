@@ -9,9 +9,9 @@ import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.MoveComponent
 import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.entityWith
+import com.ovle.rll3.model.ecs.entityWithNullable
 import com.ovle.rll3.model.ecs.get
-import com.ovle.rll3.model.ecs.levelInfo
+import com.ovle.rll3.model.ecs.levelInfoNullable
 import com.ovle.rll3.model.tile.entityTilePassMapper
 import com.ovle.rll3.model.tile.vectorCoords
 import com.ovle.rll3.model.util.config.RenderConfig
@@ -28,11 +28,10 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
     private val position: ComponentMapper<PositionComponent> = get()
     private val selectedGamePoint = Vector2()
 
-
     override fun channel() = receive<PlayerControlEvent>()
 
     override fun dispatch(event: PlayerControlEvent) {
-        val level = levelInfo()
+        val level = levelInfoNullable() ?: return
         when (event) {
             is MouseLeftClick -> onMoveTargetSet(toGamePoint(event.screenPoint, RenderConfig), level)
             is MouseMoved -> onMousePositionChange(toGamePoint(event.screenPoint, RenderConfig), level)
@@ -42,7 +41,8 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
     private fun onMoveTargetSet(gamePoint: Vector2, level: LevelInfo) {
         if (!isValid(gamePoint, level)) return
 
-        val playerEntity = entityWith(allEntities().toList(), PlayerControlledComponent::class)
+        val playerEntity = entityWithNullable(allEntities().toList(), PlayerControlledComponent::class)
+            ?: return
         val moveComponent = playerEntity[move] ?: return
         val positionComponent = playerEntity[position]!!
 

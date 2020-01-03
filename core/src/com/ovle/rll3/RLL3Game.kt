@@ -12,6 +12,7 @@ import com.ovle.rll3.view.screenHeight
 import com.ovle.rll3.view.screenWidth
 import com.ovle.rll3.view.skinPath
 import ktx.app.KtxGame
+import ktx.async.KtxAsync
 import ktx.inject.Context
 import ktx.scene2d.Scene2DSkin
 
@@ -23,6 +24,8 @@ class RLL3Game : KtxGame<BaseScreen>() {
 
 
     override fun create() {
+        KtxAsync.initiate()
+
         context = disposable(Context())
         val screenManager = disposable(ScreenManager(context) { bs: BaseScreen -> setScreen(bs.javaClass) })
 

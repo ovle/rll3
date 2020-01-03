@@ -1,31 +1,20 @@
 package com.ovle.rll3.screen.game
 
+import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.TextureLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.maps.tiled.TiledMap
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
+import com.ovle.rll3.Event
+import com.ovle.rll3.EventBus
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
-import com.ovle.rll3.model.GameEngine
-import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.system.*
-import com.ovle.rll3.model.procedural.grid.DungeonGridFactory
-import com.ovle.rll3.model.procedural.grid.GridToTileArrayMapper
-import com.ovle.rll3.model.procedural.grid.tiles
-import com.ovle.rll3.model.procedural.mapSizeInTiles
-import com.ovle.rll3.model.tile.TilePassType
-import com.ovle.rll3.model.tile.entityTilePassMapper
-import com.ovle.rll3.model.tile.vectorCoords
 import com.ovle.rll3.screen.BaseScreen
-import com.ovle.rll3.view.sprite.sprite
 import com.ovle.rll3.view.spriteTexturePath
 import com.ovle.rll3.view.tileTexturePath
-import com.ovle.rll3.view.tiles.LayerType
-import com.ovle.rll3.view.tiles.testLayer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ktx.actors.onClick
 import ktx.scene2d.textButton
@@ -36,14 +25,10 @@ import kotlin.math.min
 
 @ExperimentalCoroutinesApi
 class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManager, camera: OrthographicCamera): BaseScreen(screenManager, batch, assets, camera) {
-
-    lateinit var map: TiledMap
-
     lateinit var texture: Texture
     lateinit var spriteTexture: Texture
-    lateinit var playerSprite: SpriteDrawable
 
-    lateinit var gameEngine: GameEngine
+    private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls()
 
     //todo refactor
@@ -58,16 +43,9 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         texture = assets.finishLoadingAsset<Texture>(tileTexturePath)
         spriteTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
 
-        gameEngine = GameEngine()
-        val mapSize = mapSizeInTiles
-        val tiles = tiles(mapSize, DungeonGridFactory(), GridToTileArrayMapper(), gameEngine)
-        val (map) = tiledMap(tiles)
-        this.map = map
+        ecsEngine = PooledEngine()
 
-        //todo
-        playerSprite = sprite(spriteTexture, 0, 2)
-
-        val renderSystem = RenderSystem(map, batch, camera, spriteTexture)
+        val levelSystem = LevelSystem()
         val animationSystem = AnimationSystem()
         val moveSystem = MoveSystem()
         val playerControlsSystem = PlayerControlsSystem()
@@ -76,37 +54,40 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 //        val aiSystem = AISystem()
 //        val timeSystem = TimeSystem()
 //        val lightSystem = LightSystem()
+        val renderLevelSystem = RenderLevelSystem(camera, texture)
+        val renderObjectsSystem = RenderObjectsSystem(batch)
 
-        val systems = listOf(animationSystem, renderSystem, moveSystem, playerControlsSystem, sightSystem)
-        val startTile = tiles.tiles.filterNotNull().find { entityTilePassMapper(it) == TilePassType.Passable }
-        //todo bad coupling
-        gameEngine.init(systems, playerSprite, vectorCoords(startTile!!), tiles)
-    }
+        val systems = listOf(
+            animationSystem,
+            renderLevelSystem,
+            renderObjectsSystem,
+            levelSystem,
+            moveSystem,
+            playerControlsSystem,
+            sightSystem
+        )
+        systems.forEach { ecsEngine.addSystem((it)) }
 
-    private fun tiledMap(tiles: LevelInfo): Pair<TiledMap, LevelInfo> {
-        val map = TiledMap()
-        map.layers.add(testLayer(tiles, texture, LayerType.Floor))
-        map.layers.add(testLayer(tiles, texture, LayerType.Walls))
-        map.layers.add(testLayer(tiles, texture, LayerType.Decoration))
-        return Pair(map, tiles)
+        EventBus.send(Event.NextLevelEvent())
     }
 
     override fun hide() {
         super.hide()
 
-        //todo free resources?
+        ecsEngine.clearPools()
+        ecsEngine.removeAllEntities()
+        ecsEngine.systems.iterator().forEach {
+            ecsEngine.removeSystem(it)
+        }
+
+        //todo free other resources?
     }
 
     override fun render(delta: Float) {
-        gameEngine.update(min(delta, 1 / 60f))
+        ecsEngine.update(min(delta, 1 / 60f))
         super.render(delta)
     }
 
-    override fun dispose() {
-        map.dispose()
-
-        super.dispose()
-    }
 
     override fun rootActor() = window(title = "Game") {
 

@@ -16,21 +16,17 @@ class PlayerControls : InputAdapter() {
     private var lastDragId: Int? = null
 
     override fun keyUp(keycode: Int) = when (keycode) {
-        Input.Keys.MINUS -> {
-            send(Event.CameraScaleDec())
-            true
-        }
-        Input.Keys.PLUS -> {
-            send(Event.CameraScaleInc())
-            true
-        }
+        Input.Keys.MINUS -> { send(Event.CameraScaleDec()); true }
+        Input.Keys.PLUS -> { send(Event.CameraScaleInc()); true }
+        Input.Keys.Z -> { send(Event.PrevLevelEvent()); true }
+        Input.Keys.X -> { send(Event.NextLevelEvent()); true }
         else -> false
     }
 
     override fun scrolled(amount: Int) = send(Event.CameraScrolled(amount)).run { true }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-        send(Event.MouseMoved(screenPoint(screenX, screenY)))
+//        send(Event.MouseMoved(screenPoint(screenX, screenY)))
         return true
     }
 

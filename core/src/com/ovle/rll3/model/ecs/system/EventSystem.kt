@@ -3,22 +3,23 @@ package com.ovle.rll3.model.ecs.system
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.EntitySystem
 import com.ovle.rll3.Event
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
+import ktx.async.KtxAsync
 
 
-abstract class EventSystem <T: Event>: EntitySystem(), CoroutineScope by GlobalScope {
+abstract class EventSystem <T: Event>: EntitySystem() {
 
     lateinit var channel: ReceiveChannel<T>
 
     override fun addedToEngine(engine: Engine) {
         super.addedToEngine(engine)
 
-        launch {
+        KtxAsync.launch {
             channel = channel()
+            //todo
             for (event in channel) {
+                println("dispatch: $event")
                 dispatch(event)
             }
         }

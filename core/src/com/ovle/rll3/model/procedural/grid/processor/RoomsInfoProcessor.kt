@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.procedural.grid.processor
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.isNear
-import com.ovle.rll3.model.GameEngine
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.procedural.roomFloorTypes
 import com.ovle.rll3.model.tile.nearValues
@@ -15,7 +15,7 @@ data class RoomInfo(val x: Int, val y: Int, val width: Int, val height: Int)
 
 class RoomsInfoProcessor : TilesInfoProcessor {
 
-    override fun process(levelInfo: LevelInfo, gameEngine: GameEngine) {
+    override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
         val tiles = levelInfo.tiles
         val roomsData = mutableListOf<RoomTiles>()
         var currentRoom: RoomTiles? = null
@@ -47,7 +47,7 @@ class RoomsInfoProcessor : TilesInfoProcessor {
                 width = maxX - minX,
                 height = maxY - minY
             )
-            println(room)
+//            println(room)
             return@map room
         }
 

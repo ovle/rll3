@@ -1,0 +1,55 @@
+package com.ovle.rll3.model.ecs.system
+
+import com.badlogic.ashley.core.ComponentMapper
+import com.badlogic.ashley.core.Entity
+import com.badlogic.ashley.core.Family.all
+import com.badlogic.ashley.systems.IteratingSystem
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.ovle.rll3.model.ecs.component.PositionComponent
+import com.ovle.rll3.model.ecs.component.RenderComponent
+import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.view.spriteHeight
+import com.ovle.rll3.view.spriteWidth
+import com.ovle.rll3.view.tileHeight
+import com.ovle.rll3.view.tileWidth
+import ktx.ashley.get
+
+
+class RenderObjectsSystem(
+    private val batch: Batch
+) : IteratingSystem(all(RenderComponent::class.java).get()) {
+
+    private val render: ComponentMapper<RenderComponent> = get()
+    private val position: ComponentMapper<PositionComponent> = get()
+
+    private val toRender = mutableListOf<Entity>()
+
+
+    override fun processEntity(entity: Entity, deltaTime: Float) {
+        val renderComponent = entity[render]!!
+        if (renderComponent.visible) {
+            toRender.add(entity)
+        }
+    }
+
+    override fun update(deltaTime: Float) {
+        super.update(deltaTime)
+
+        toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.position.y }))
+        draw(toRender)
+        toRender.clear()
+    }
+
+    private fun draw(entities: List<Entity>) {
+        batch.begin()
+        entities.forEach {
+            val entityRender = it[render]!!
+            val position = it[position]!!.position
+            val sprite = entityRender.sprite
+
+            sprite.draw(batch, position.x * tileWidth, position.y * tileHeight, spriteWidth, spriteHeight)
+        }
+//        selectedTileSprite.draw(batch, selectedScreenPoint.x, selectedScreenPoint.y, tileWidth.toFloat(), tileHeight.toFloat())
+        batch.end()
+    }
+}
