@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
@@ -21,13 +20,14 @@ import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.*
 import com.ovle.rll3.view.tiles.CustomTiledMapTileLayer
 import com.ovle.rll3.view.tiles.LayerType
+import com.ovle.rll3.view.tiles.Textures
 import com.ovle.rll3.view.tiles.testLayer
 import ktx.ashley.get
 
 
 class RenderLevelSystem(
     private val camera: OrthographicCamera,
-    private val texture: Texture
+    private val textures: Textures
 ): EventSystem<Event>() {
 
     private val sight: ComponentMapper<SightComponent> = get()
@@ -37,7 +37,7 @@ class RenderLevelSystem(
     private var tiledMap: TiledMap? = null
     private val selectedScreenPoint = Vector2()
 
-//    private var selectedTileSprite: SpriteDrawable = sprite(spriteTexture, 0, 0)
+//    private var selectedTileSprite: SpriteDrawable = sprite(objectsTexture, 0, 0)
 
     init {
         RenderConfig.unproject = camera::unproject
@@ -58,20 +58,14 @@ class RenderLevelSystem(
     }
 
     private fun onLevelLoaded(level: LevelInfo) {
-        println("onLevelLoaded 1")
         tiledMap = tiledMap(level)
-
-        println("onLevelLoaded 2")
-
         mapRenderer = OrthogonalTiledMapRenderer(tiledMap, initialScale)
-        //camera.update()
-        println("onLevelLoaded 3")
     }
 
     private fun tiledMap(tiles: LevelInfo) = TiledMap().apply {
-        layers.add(testLayer(tiles, texture, LayerType.Floor))
-        layers.add(testLayer(tiles, texture, LayerType.Walls))
-        layers.add(testLayer(tiles, texture, LayerType.Decoration))
+        layers.add(testLayer(tiles, textures, LayerType.Floor))
+        layers.add(testLayer(tiles, textures, LayerType.Walls))
+        layers.add(testLayer(tiles, textures, LayerType.Decoration))
     }
 
     override fun update(deltaTime: Float) {

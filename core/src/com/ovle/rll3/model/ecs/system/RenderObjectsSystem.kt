@@ -8,15 +8,18 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
 import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.view.sprite.sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
+import com.ovle.rll3.view.tiles.Textures
 import ktx.ashley.get
 
 
 class RenderObjectsSystem(
-    private val batch: Batch
+    private val batch: Batch,
+    private val spriteTexture: Textures
 ) : IteratingSystem(all(RenderComponent::class.java).get()) {
 
     private val render: ComponentMapper<RenderComponent> = get()
@@ -27,6 +30,12 @@ class RenderObjectsSystem(
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val renderComponent = entity[render]!!
+        if (renderComponent.sprite == null) {
+            //todo use all texture versions
+            val texture = spriteTexture.texture
+            renderComponent.sprite = sprite(entity, texture)
+        }
+
         if (renderComponent.visible) {
             toRender.add(entity)
         }
@@ -42,10 +51,10 @@ class RenderObjectsSystem(
 
     private fun draw(entities: List<Entity>) {
         batch.begin()
-        entities.forEach {
-            val entityRender = it[render]!!
-            val position = it[position]!!.position
-            val sprite = entityRender.sprite
+        for (entity in entities) {
+            val entityRender = entity[render]!!
+            val position = entity[position]!!.position
+            val sprite = entityRender.sprite ?: continue
 
             sprite.draw(batch, position.x * tileWidth, position.y * tileHeight, spriteWidth, spriteHeight)
         }

@@ -15,6 +15,7 @@ import com.ovle.rll3.model.ecs.system.*
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.spriteTexturePath
 import com.ovle.rll3.view.tileTexturePath
+import com.ovle.rll3.view.tiles.Textures
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ktx.actors.onClick
 import ktx.scene2d.textButton
@@ -25,8 +26,8 @@ import kotlin.math.min
 
 @ExperimentalCoroutinesApi
 class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManager, camera: OrthographicCamera): BaseScreen(screenManager, batch, assets, camera) {
-    lateinit var texture: Texture
-    lateinit var spriteTexture: Texture
+    lateinit var levelTexture: Texture
+    lateinit var objectsTexture: Texture
 
     private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls()
@@ -40,8 +41,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 
         assets.load(tileTexturePath, Texture::class.java)
         assets.load(spriteTexturePath, Texture::class.java)
-        texture = assets.finishLoadingAsset<Texture>(tileTexturePath)
-        spriteTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
+        levelTexture = assets.finishLoadingAsset<Texture>(tileTexturePath)
+        objectsTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
 
         ecsEngine = PooledEngine()
 
@@ -54,8 +55,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 //        val aiSystem = AISystem()
 //        val timeSystem = TimeSystem()
 //        val lightSystem = LightSystem()
-        val renderLevelSystem = RenderLevelSystem(camera, texture)
-        val renderObjectsSystem = RenderObjectsSystem(batch)
+        val renderLevelSystem = RenderLevelSystem(camera, Textures(levelTexture))
+        val renderObjectsSystem = RenderObjectsSystem(batch, Textures(objectsTexture))
 
         val systems = listOf(
             animationSystem,

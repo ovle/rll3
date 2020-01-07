@@ -1,6 +1,6 @@
 package com.ovle.rll3.view
 
-import com.badlogic.gdx.graphics.Color
+import com.ovle.rll3.view.Palette.blackColor
 
 const val initialScale = 1.0f
 const val scaleScrollCoeff = 0.1f
@@ -19,7 +19,6 @@ const val skinPath = "skins/c64/uiskin.json"
 const val tileTexturePath = "images/tiles.png"
 const val spriteTexturePath = "images/sprites.png"
 
-val blackColor = Color(0x272744ff)
 val bgColor = blackColor.cpy()
 
 const val defaultAnimationInterval = 0.125f

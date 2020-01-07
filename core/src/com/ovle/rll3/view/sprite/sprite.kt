@@ -1,12 +1,13 @@
 package com.ovle.rll3.view.sprite
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 
-//todo sprite config
+//todo use config
 fun sprite(spriteTexture: Texture, x: Int, y: Int): SpriteDrawable {
     val sprite = Sprite(
         spriteTexture,
@@ -14,4 +15,9 @@ fun sprite(spriteTexture: Texture, x: Int, y: Int): SpriteDrawable {
         spriteWidth.toInt(), spriteHeight.toInt()
     )
     return SpriteDrawable(sprite)
+}
+
+//todo use config
+fun sprite(entity: Entity, spriteTexture: Texture): SpriteDrawable {
+    return sprite(spriteTexture, 0, 2)
 }

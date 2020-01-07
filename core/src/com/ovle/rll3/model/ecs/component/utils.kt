@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 
 val NO_ANIMATION = Animation<TextureRegion>(0f)
+val NO_TEXTURE = TextureRegion()
 
 typealias TilePosition = Pair<Int, Int>
 

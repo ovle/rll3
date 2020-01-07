@@ -2,7 +2,6 @@ package com.ovle.rll3.view.tiles
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.ComponentMapper
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.maps.MapLayer
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
@@ -26,22 +25,12 @@ enum class LayerType {
     Bottom,
 }
 
-
-fun testLayer(levelInfo: LevelInfo, texture: Texture, layerType: LayerType): MapLayer {
+fun testLayer(levelInfo: LevelInfo, textures: Textures, layerType: LayerType): MapLayer {
     val tiles = levelInfo.tiles
     val result = CustomTiledMapTileLayer(tiles.width, tiles.height, tileWidth, tileHeight)
-    // todo cache / memo
 
-    //todo
-//    val pm = texture.textureData.consumePixmap()
-//    for (x in 0..pm.width)
-//    for (y in 0..pm.height) {
-//        val p = pm.getPixel(x, y)
-//        if ()
-//        pm.drawPixel()
-//    }
-
-    val textureRegions = TextureRegion.split(texture, textureTileWidth, textureTileHeight)
+    //todo use all levelTexture versions
+    val textureRegions = TextureRegion.split(textures.texture, textureTileWidth, textureTileHeight)
 
     for (x in 0 until tiles.width) {
         for (y in 0 until tiles.height) {

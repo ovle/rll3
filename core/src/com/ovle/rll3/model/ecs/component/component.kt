@@ -36,9 +36,13 @@ class MoveComponent(val tilesPerSecond: Float = 2f, val path: MovePath = MovePat
 class SizeComponent(var size: Vector2) : Component
 
 class RenderComponent(
-        var sprite: SpriteDrawable,
+        var sprite: SpriteDrawable? = null, //todo
         var visible: Boolean = true,
         val zLevel: Int = 0
 ) : Component
 
-class AnimationComponent(var animation: Animation<TextureRegion> = NO_ANIMATION) : Component
+class AnimationComponent(
+    var animation: Animation<TextureRegion> = NO_ANIMATION
+) : Component {
+    var time: Float = 0.0f
+}
