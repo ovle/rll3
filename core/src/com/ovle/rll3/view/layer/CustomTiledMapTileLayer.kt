@@ -1,4 +1,4 @@
-package com.ovle.rll3.view.tiles
+package com.ovle.rll3.view.layer
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.ovle.rll3.model.ecs.component.TilePosition

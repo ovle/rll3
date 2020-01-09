@@ -6,7 +6,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 
-fun line(fromPosition: TilePosition, toPosition: TilePosition): List<Pair<Int, Int>> {
+fun line(fromPosition: TilePosition, toPosition: TilePosition): List<TilePosition> {
     val (fromX, fromY) = fromPosition
     val (toX, toY) = toPosition
     val stepsX = toX - fromX

@@ -22,3 +22,9 @@ enum class LightPassType {
     Solid,
     Passable
 }
+
+enum class LightValueType {
+    Full,
+    Half,
+    No
+}

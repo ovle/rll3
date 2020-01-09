@@ -10,7 +10,7 @@ import com.ovle.rll3.model.ecs.component.MoveComponent
 import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.entityWithNullable
-import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.model.ecs.componentMapper
 import com.ovle.rll3.model.ecs.levelInfoNullable
 import com.ovle.rll3.model.tile.entityTilePassMapper
 import com.ovle.rll3.model.tile.vectorCoords
@@ -23,9 +23,9 @@ import ktx.ashley.get
 
 
 class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
-    private val move: ComponentMapper<MoveComponent> = get()
+    private val move: ComponentMapper<MoveComponent> = componentMapper()
 
-    private val position: ComponentMapper<PositionComponent> = get()
+    private val position: ComponentMapper<PositionComponent> = componentMapper()
     private val selectedGamePoint = Vector2()
 
     override fun channel() = receive<PlayerControlEvent>()

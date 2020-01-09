@@ -15,23 +15,23 @@ import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
 import com.ovle.rll3.model.ecs.component.SightComponent
-import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.model.ecs.componentMapper
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.*
-import com.ovle.rll3.view.tiles.CustomTiledMapTileLayer
-import com.ovle.rll3.view.tiles.LayerType
-import com.ovle.rll3.view.tiles.Textures
-import com.ovle.rll3.view.tiles.testLayer
+import com.ovle.rll3.view.layer.CustomTiledMapTileLayer
+import com.ovle.rll3.view.layer.LayerType
+import com.ovle.rll3.view.layer.TexturesInfo
+import com.ovle.rll3.view.layer.testLayer
 import ktx.ashley.get
 
 
 class RenderLevelSystem(
     private val camera: OrthographicCamera,
-    private val textures: Textures
+    private val texturesInfo: TexturesInfo
 ): EventSystem<Event>() {
 
-    private val sight: ComponentMapper<SightComponent> = get()
-    private val playerControlled: ComponentMapper<PlayerControlledComponent> = get()
+    private val sight: ComponentMapper<SightComponent> = componentMapper()
+    private val playerControlled: ComponentMapper<PlayerControlledComponent> = componentMapper()
 
     private var mapRenderer: TiledMapRenderer? = null
     private var tiledMap: TiledMap? = null
@@ -63,9 +63,9 @@ class RenderLevelSystem(
     }
 
     private fun tiledMap(tiles: LevelInfo) = TiledMap().apply {
-        layers.add(testLayer(tiles, textures, LayerType.Floor))
-        layers.add(testLayer(tiles, textures, LayerType.Walls))
-        layers.add(testLayer(tiles, textures, LayerType.Decoration))
+        layers.add(testLayer(tiles, texturesInfo, LayerType.Floor))
+        layers.add(testLayer(tiles, texturesInfo, LayerType.Walls))
+        layers.add(testLayer(tiles, texturesInfo, LayerType.Decoration))
     }
 
     override fun update(deltaTime: Float) {

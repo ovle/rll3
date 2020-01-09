@@ -3,13 +3,16 @@ package com.ovle.rll3.model.ecs
 import com.badlogic.ashley.core.*
 import com.badlogic.ashley.systems.IteratingSystem
 import com.ovle.rll3.model.ecs.component.LevelComponent
+import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.PositionComponent
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.reflect.KClass
 
 
-inline fun <reified T : Component> get(): ComponentMapper<T> = ComponentMapper.getFor(T::class.java)
+inline fun <reified T : Component> componentMapper(): ComponentMapper<T> = ComponentMapper.getFor(T::class.java)
 
+//todo use families?
 
 fun entitiesWith(entities: Collection<Entity>, componentClass: KClass<out Component>) = ComponentMapper.getFor(componentClass.java)
     .run {
@@ -38,4 +41,12 @@ fun EntitySystem.levelInfo() = levelInfoNullable()!!
 fun Engine.entity(vararg components: Component) = createEntity().apply {
     components.forEach { component ->  this.add(component) }
     addEntity(this)
+}
+
+fun hasEntityOnPosition(levelInfo: LevelInfo, x: Int, y: Int, componentClass: KClass<out Component>): Boolean {
+    val positionMapper = componentMapper<PositionComponent>()
+    return entitiesWith(levelInfo.objects, componentClass)
+        .any {
+            it[positionMapper]?.position?.epsilonEquals(x.toFloat() ,y.toFloat()) ?: false
+        }
 }

@@ -1,15 +1,29 @@
-package com.ovle.rll3.view.tiles
+package com.ovle.rll3.view.layer
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.ovle.rll3.view.Palette
+import com.ovle.rll3.view.textureTileHeight
+import com.ovle.rll3.view.textureTileWidth
 
-class Textures(
+typealias TextureRegions = Array<Array<TextureRegion>>
+
+class TexturesInfo(
     val texture: Texture
 ) {
-    val darkTexture = texture(texture, Palette::next)
-    val lightTexture = texture(texture, Palette::prev)
+    val darkTexture = texture(texture, Palette::prev)
+    val lightTexture = texture(texture, Palette::next)
+}
+
+class TextureRegionsInfo(
+    texturesInfo: TexturesInfo
+) {
+    val regions = split(texturesInfo.texture, textureTileWidth, textureTileHeight)
+    val darkRegions = split(texturesInfo.darkTexture, textureTileWidth, textureTileHeight)
+    val lightRegions = split(texturesInfo.lightTexture, textureTileWidth, textureTileHeight)
 }
 
 private fun texture(texture: Texture, colorMapFunction: (Color) -> Color): Texture {

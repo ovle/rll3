@@ -22,7 +22,7 @@ import ktx.ashley.get
 
 class LevelSystem: EventSystem<LevelActionEvent>() {
 
-    private val levelMapper: ComponentMapper<LevelComponent> = get()
+    private val levelMapper: ComponentMapper<LevelComponent> = componentMapper()
 
     override fun channel() = receive<LevelActionEvent>()
 

@@ -15,7 +15,7 @@ import com.ovle.rll3.model.ecs.system.*
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.spriteTexturePath
 import com.ovle.rll3.view.tileTexturePath
-import com.ovle.rll3.view.tiles.Textures
+import com.ovle.rll3.view.layer.TexturesInfo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ktx.actors.onClick
 import ktx.scene2d.textButton
@@ -55,8 +55,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 //        val aiSystem = AISystem()
 //        val timeSystem = TimeSystem()
 //        val lightSystem = LightSystem()
-        val renderLevelSystem = RenderLevelSystem(camera, Textures(levelTexture))
-        val renderObjectsSystem = RenderObjectsSystem(batch, Textures(objectsTexture))
+        val renderLevelSystem = RenderLevelSystem(camera, TexturesInfo(levelTexture))
+        val renderObjectsSystem = RenderObjectsSystem(batch, TexturesInfo(objectsTexture))
 
         val systems = listOf(
             animationSystem,

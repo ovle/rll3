@@ -3,12 +3,20 @@ package com.ovle.rll3.model.ecs.component
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.model.ecs.componentMapper
+import com.ovle.rll3.model.ecs.entitiesWith
+import ktx.ashley.get
 
 val NO_ANIMATION = Animation<TextureRegion>(0f)
 val NO_TEXTURE = TextureRegion()
 
 typealias TilePosition = Pair<Int, Int>
 
+
+data class LightTilePosition(
+    val value: Int,
+    val tilePosition: TilePosition
+)
 
 class MovePath {
     private val path: MutableList<Vector2> = mutableListOf()
@@ -44,3 +52,14 @@ class MovePath {
         currentIndex = -1
     }
 }
+
+//todo cache / memoize
+fun lightTiles(levelInfo: LevelInfo): List<LightTilePosition> {
+    val lightSources = entitiesWith(levelInfo.objects, LightComponent::class)
+    val lightMapper = componentMapper<LightComponent>()
+    return lightSources.map { it[lightMapper]!!.lightPositions }.flatten()
+}
+
+//todo fix
+fun lightByPosition(lightTiles: List<LightTilePosition>) = lightTiles.groupBy { it.tilePosition }
+    .mapValues { it.value.sumBy { lightTilePosition -> lightTilePosition.value } }

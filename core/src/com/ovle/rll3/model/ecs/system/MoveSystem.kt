@@ -8,14 +8,14 @@ import com.ovle.rll3.Event
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.model.ecs.component.MoveComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.model.ecs.componentMapper
 import ktx.ashley.get
 import kotlin.math.abs
 
 
 class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionComponent::class.java).get()) {
-    private val move: ComponentMapper<MoveComponent> = get()
-    private val position: ComponentMapper<PositionComponent> = get()
+    private val move: ComponentMapper<MoveComponent> = componentMapper()
+    private val position: ComponentMapper<PositionComponent> = componentMapper()
     private val stopDelta = 0.25f
     private val minMoveDistance = 0.25f
 
@@ -27,7 +27,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         if (moved) send(Event.EntityMoved(entity))
     }
 
-    //todo move by tiles only?
+    //todo move by layer only?
     private fun move(entity: Entity, deltaTime: Float): Boolean {
         val moveComponent = entity[move]!!
         val positionComponent = entity[position]!!

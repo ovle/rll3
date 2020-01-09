@@ -34,6 +34,8 @@ sealed class Event {
     open class LevelActionEvent: PlayerControlEvent()
     class NextLevelEvent: LevelActionEvent()
     class PrevLevelEvent: LevelActionEvent()
+    class SaveLevelEvent: LevelActionEvent()
+    class LoadLevelEvent: LevelActionEvent() //todo
 
     open class GameEvent : Event()
     open class EntityEvent(val entity: Entity) : GameEvent()

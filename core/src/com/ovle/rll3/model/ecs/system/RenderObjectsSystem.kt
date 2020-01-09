@@ -7,23 +7,23 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
-import com.ovle.rll3.model.ecs.get
+import com.ovle.rll3.model.ecs.componentMapper
 import com.ovle.rll3.view.sprite.sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
-import com.ovle.rll3.view.tiles.Textures
+import com.ovle.rll3.view.layer.TexturesInfo
 import ktx.ashley.get
 
 
 class RenderObjectsSystem(
     private val batch: Batch,
-    private val spriteTexture: Textures
+    private val spriteTexture: TexturesInfo
 ) : IteratingSystem(all(RenderComponent::class.java).get()) {
 
-    private val render: ComponentMapper<RenderComponent> = get()
-    private val position: ComponentMapper<PositionComponent> = get()
+    private val render: ComponentMapper<RenderComponent> = componentMapper()
+    private val position: ComponentMapper<PositionComponent> = componentMapper()
 
     private val toRender = mutableListOf<Entity>()
 
