@@ -14,7 +14,7 @@ typealias TilePosition = Pair<Int, Int>
 
 
 data class LightTilePosition(
-    val value: Int,
+    val value: Float,
     val tilePosition: TilePosition
 )
 
@@ -60,6 +60,5 @@ fun lightTiles(levelInfo: LevelInfo): List<LightTilePosition> {
     return lightSources.map { it[lightMapper]!!.lightPositions }.flatten()
 }
 
-//todo fix
 fun lightByPosition(lightTiles: List<LightTilePosition>) = lightTiles.groupBy { it.tilePosition }
-    .mapValues { it.value.sumBy { lightTilePosition -> lightTilePosition.value } }
+    .mapValues { it.value.sumByDouble { lightTilePosition -> lightTilePosition.value.toDouble() } }

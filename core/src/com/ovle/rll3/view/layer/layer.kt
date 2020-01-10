@@ -47,7 +47,7 @@ fun testLayer(levelInfo: LevelInfo, texturesInfo: TexturesInfo, layerType: Layer
 
 
 private fun tileTextureRegions(
-    layerType: LayerType, nearTiles: NearTiles, textureRegions: TextureRegionsInfo, levelInfo: LevelInfo, lightInfo: Map<TilePosition, Int>
+    layerType: LayerType, nearTiles: NearTiles, textureRegions: TextureRegionsInfo, levelInfo: LevelInfo, lightInfo: Map<TilePosition, Double>
 ): kotlin.Array<TextureRegion> {
     val position = nearTiles.x to nearTiles.y
     val positionDown = nearTiles.x to nearTiles.y - 1
@@ -80,13 +80,14 @@ private fun tileTextureRegions(
     val isNextToDoor = hasDoor(nearTiles.x, nearTiles.y-1)
     val isRoomWall = upTileId in roomFloorTypes
     val isCorridorWall = upTileId in corridorFloorTypes
+    val isDoorUp = hasDoor(nearTiles.x, nearTiles.y - 1)
     val isRoomFloorUp = downTileId == roomFloorTileId
     val isPitFloorUp = downTileId == pitFloorTileId
     val isRoomFloorNearVertical = roomFloorTileId in nearTiles.nearV.map { it?.typeId }
 
     val isLightSource = hasLightSource(nearTiles.x, nearTiles.y)
     val isTrap = hasTrap(nearTiles.x, nearTiles.y)
-    val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall)
+    val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, isDoorUp)
 
     val wallTileSet = if (isRoomWall) roomWallTileSet else passageWallTileSet
     val floorBorderTileSet = floorBorderTileSet
@@ -150,13 +151,16 @@ private fun tileTextureRegions(
     }
 }
 
-private fun lightValueType(lightInfo: Map<TilePosition, Int>, position: Pair<Int, Int>, positionDown: Pair<Int, Int>, isPitFloor: Boolean, isRoomFloorUp: Boolean, isWall: Boolean): LightValueType {
-    val tileLightValue = lightInfo[position] ?: 0
-    val tileLightDownValue = lightInfo[positionDown] ?: 0
-    val isFullLight = tileLightValue >= LightConfig.fullLightValue
-    val isHalfLight = !isFullLight && tileLightValue >= LightConfig.halfLightValue
-    val isFullLightDown = tileLightDownValue >= LightConfig.fullLightValue
-    val isHalfLightDown = !isFullLightDown && tileLightDownValue >= LightConfig.halfLightValue
+private fun lightValueType(
+    lightInfo: Map<TilePosition, Double>, position: Pair<Int, Int>, positionDown: Pair<Int, Int>, isPitFloor: Boolean, isRoomFloorUp: Boolean, isWall: Boolean, isDoorUp: Boolean
+): LightValueType {
+    val tileLightValue = lightInfo[position] ?: 0.0
+    val tileLightDownValue = lightInfo[positionDown] ?: 0.0
+
+    val isFullLight = tileLightValue > LightConfig.halfLightCap
+    val isHalfLight = !isFullLight && tileLightValue > LightConfig.darknessCap
+    val isFullLightDown = tileLightDownValue > LightConfig.halfLightCap
+    val isHalfLightDown = !isFullLightDown && tileLightDownValue > LightConfig.darknessCap
 
     return when {
         isFullLight -> when {
@@ -168,8 +172,8 @@ private fun lightValueType(lightInfo: Map<TilePosition, Int>, position: Pair<Int
             else -> No
         }
         else -> when {
-            isWall && isFullLightDown -> Full
-            isWall && isHalfLightDown -> Half
+            isWall && isFullLightDown && !isDoorUp -> Full
+            isWall && isHalfLightDown && !isDoorUp -> Half
             else -> No
         }
     }

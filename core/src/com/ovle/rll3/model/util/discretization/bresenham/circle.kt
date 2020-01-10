@@ -13,7 +13,7 @@ fun circle(center: Vector2, radius: Int): List<TilePosition> {
     val result = mutableListOf<TilePosition>()
     val centerX = center.x.roundToInt()
     val centerY = center.y.roundToInt()
-    var d = (5 - radius * 4) / 4
+    var d = ((5 - radius * 4) / 4.0f).roundToInt()
     var x = 0
     var y = radius
 
@@ -46,10 +46,11 @@ fun circle(center: Vector2, radius: Int): List<TilePosition> {
 }
 
 
+//todo bad for radius 5+
 fun filledCircle(center: Vector2, radius: Int, passMapper: (Tile) -> LightPassType, tiles: TileArray): List<TilePosition> {
     val result = circle(center, radius)
     val roundedCenter = center.x.roundToInt() to center.y.roundToInt()
     return result.flatMap {
         trace(roundedCenter, it, passMapper, tiles)
-    }
+    }.distinctBy { it }
 }
