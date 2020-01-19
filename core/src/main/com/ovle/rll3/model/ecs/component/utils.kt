@@ -3,9 +3,11 @@ package com.ovle.rll3.model.ecs.component
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.GridPoint2
+import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.componentMapper
 import com.ovle.rll3.model.ecs.entitiesWith
 import ktx.ashley.get
+import kotlin.math.roundToInt
 
 val NO_ANIMATION = Animation<TextureRegion>(0f)
 val NO_TEXTURE = TextureRegion()
@@ -15,6 +17,7 @@ operator fun GridPoint2.component1() = x
 operator fun GridPoint2.component2() = y
 
 fun point(x: Int = 0, y: Int = 0) = GridPoint2(x, y)
+fun point(floatPoint: Vector2) = point(floatPoint.x.roundToInt(), floatPoint.y.roundToInt())
 
 
 data class LightTilePosition(

@@ -28,14 +28,14 @@ enum class LayerType {
 
 fun testLayer(levelInfo: LevelInfo, texturesInfo: TexturesInfo, layerType: LayerType): MapLayer {
     val tiles = levelInfo.tiles
-    val result = CustomTiledMapTileLayer(tiles.width, tiles.height, tileWidth, tileHeight)
+    val result = CustomTiledMapTileLayer(tiles.size, tiles.size, tileWidth, tileHeight)
 
     val textureRegions = TextureRegionsInfo(texturesInfo)
     val lightTiles = lightTiles(levelInfo)
     val lightInfo = lightByPosition(lightTiles)
 
-    for (x in 0 until tiles.width) {
-        for (y in 0 until tiles.height) {
+    for (x in 0 until tiles.size) {
+        for (y in 0 until tiles.size) {
             val nearTiles = nearValues(tiles, x, y)
             val tileTextureRegions = tileTextureRegions(layerType, nearTiles, textureRegions, levelInfo, lightInfo)
             val cell = cellFromTileTextureRegions(tileTextureRegions)

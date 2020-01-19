@@ -1,6 +1,5 @@
 package com.ovle.rll3.model.procedural.grid
 
-import com.ovle.rll3.model.ecs.component.point
 import com.ovle.rll3.model.procedural.grid.RoomStructure.DirectionValue.*
 import com.ovle.rll3.model.procedural.grid.RoomStructure.ParamKey.*
 import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
@@ -116,12 +115,11 @@ enum class RoomStructure {
         }
     };
 
-
     protected fun setTile(tiles: TileArray, nearTiles: NearTiles, tileId: Int) {
         val x = nearTiles.x
         val y = nearTiles.y
-        //todo tile position?
-        tiles.set(x, y, Tile(point(x, y), tileId))
+
+        tiles.setTile(x, y, Tile(tileId))
     }
 
     abstract fun initParams(room: RoomInfo): Map<ParamKey, Any>

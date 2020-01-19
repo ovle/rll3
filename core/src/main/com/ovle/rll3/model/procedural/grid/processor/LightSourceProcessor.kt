@@ -22,8 +22,8 @@ class LightSourceProcessor : TilesInfoProcessor {
 
     override fun process(tiles: TileArray, gameEngine: Engine): Collection<Entity> {
         val result = mutableListOf<Entity>()
-        for (x in 0 until tiles.width) {
-            for (y in 0 until tiles.height) {
+        for (x in 0 until tiles.size) {
+            for (y in 0 until tiles.size) {
                 val nearTiles = nearValues(tiles, x, y)
                 val isFloorTile = nearTiles.value?.typeId in floorTypes
                 val isFreeSpaceTileNear = nearTiles.allHV.map { it?.typeId }.any { it in floorTypes }

@@ -1,7 +1,6 @@
 package com.ovle.rll3.model.util
 
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.model.ecs.component.point
 import com.ovle.rll3.model.procedural.grid.GridFactory
 import com.ovle.rll3.model.tile.*
 
@@ -15,7 +14,7 @@ fun gridToTileArray(grid: Grid): TileArray {
 fun floatValueArrayToTiles(floatValues: FloatArray, size: Int): Array<Tile> {
     return floatValues.mapIndexed { index, value ->
         Tile(
-            point(index % size, index / size),
+//            point(index % size, index / size),
             gridValueToTileId(value)
         )
     }.toTypedArray()
@@ -29,16 +28,6 @@ private fun gridValueToTileId(gridValue: Float): Int {
         else -> -1
     }
 }
-
-fun typeArrayToTiles(typeValues: Array<Int>, size: Int) = typeValues.mapIndexed { index, value ->
-    Tile(
-        point(
-            index % size,
-            size - 1 - index / size
-        ),
-        value
-    )
-}.toTypedArray()
 
 fun entityTilePassMapper(tile: Tile) = when(tile.typeId) {
     wallTileId -> TilePassType.Solid

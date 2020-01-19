@@ -1,7 +1,6 @@
 package com.ovle.rll3.model.tile
 
-import com.github.czyzby.noise4j.array.Object2dArray
-
+typealias NearTiles = NearValues<Tile?>
 
 class NearValues<T>(
     val x: Int, val y: Int,
@@ -17,23 +16,24 @@ class NearValues<T>(
     val nearV = setOf(upValue, downValue)
 }
 
-fun <T> nearValues(values: Object2dArray<T>, x: Int, y: Int, defaultValue: T? = null): NearValues<T> {
-    val value = values.get(x, y)
+fun nearValues(tiles: TileArray, x: Int, y: Int): NearTiles {
+    val value = tiles.tile(x, y)
+    val defaultValue = null
 
     val xLeftValid = x > 0
-    val xRightValid = x < values.width - 1
+    val xRightValid = x < tiles.size - 1
     val yDownValid = y > 0
-    val yUpValid = y < values.height - 1
+    val yUpValid = y < tiles.size - 1
 
-    val upValue = if (yDownValid) values.get(x,y-1) else defaultValue
-    val downValue = if (yUpValid) values.get(x, y+1) else defaultValue
-    val leftValue  = if (xLeftValid) values.get(x-1, y) else defaultValue
-    val rightValue  = if (xRightValid) values.get(x+1, y) else defaultValue
+    val upValue = if (yDownValid) tiles.tile(x, y-1) else defaultValue
+    val downValue = if (yUpValid) tiles.tile(x, y+1) else defaultValue
+    val leftValue  = if (xLeftValid) tiles.tile(x-1, y) else defaultValue
+    val rightValue  = if (xRightValid) tiles.tile(x+1, y) else defaultValue
 
-    val rightUpValue = if (yDownValid && xRightValid) values.get(x+1, y-1) else defaultValue
-    val rightDownValue = if (yUpValid && xRightValid) values.get(x+1, y+1) else defaultValue
-    val leftUpValue = if (yDownValid && xLeftValid) values.get(x-1, y-1) else defaultValue
-    val leftDownValue = if (yUpValid && xLeftValid) values.get(x-1, y+1) else defaultValue
+    val rightUpValue = if (yDownValid && xRightValid) tiles.tile(x+1, y-1) else defaultValue
+    val rightDownValue = if (yUpValid && xRightValid) tiles.tile(x+1, y+1) else defaultValue
+    val leftUpValue = if (yDownValid && xLeftValid) tiles.tile(x-1, y-1) else defaultValue
+    val leftDownValue = if (yUpValid && xLeftValid) tiles.tile(x-1, y+1) else defaultValue
 
     return NearValues(x, y, value, rightValue, downValue, leftValue, upValue, rightUpValue, rightDownValue, leftUpValue, leftDownValue)
 }

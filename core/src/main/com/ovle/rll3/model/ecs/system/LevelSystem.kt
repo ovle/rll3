@@ -68,10 +68,13 @@ class LevelSystem: EventSystem<LevelActionEvent>() {
 //                TrapProcessor().process(result, engine)
 
                 //todo move out
-                val startTile = this.filterNotNull().find { entityTilePassMapper(it) == TilePassType.Passable }!!
+                val startTile = this.indexedTiles().find {
+                    entityTilePassMapper(it.second) == TilePassType.Passable
+                }!!
+                val startPosition = this.point(startTile.first)
                 engine.entity(
                     PlayerControlledComponent(),
-                    PositionComponent(startTile.position),
+                    PositionComponent(startPosition),
                     MoveComponent(),
                     SightComponent(5),
                     RenderComponent()

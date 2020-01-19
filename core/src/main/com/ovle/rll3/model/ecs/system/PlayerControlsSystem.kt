@@ -5,14 +5,10 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.model.ecs.allEntities
-import com.ovle.rll3.model.ecs.component.LevelInfo
-import com.ovle.rll3.model.ecs.component.MoveComponent
-import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
-import com.ovle.rll3.model.ecs.component.PositionComponent
+import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.componentMapper
 import com.ovle.rll3.model.ecs.entityWithNullable
 import com.ovle.rll3.model.ecs.levelInfoNullable
-import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.model.util.entityTilePassMapper
 import com.ovle.rll3.model.util.pathfinding.aStar.path
@@ -48,13 +44,12 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
         val positionComponent = playerEntity[position]!!
 
         val tiles = level.tiles
-        val playerPosition = positionComponent.position
-        val fromTile = tiles[playerPosition.x, playerPosition.y]!!
-        val toTile = tiles[gamePoint.x.roundToInt(), gamePoint.y.roundToInt()] ?: return
+        val from = positionComponent.position
+        val to = point(gamePoint) ?: return
 
         val path = path(
-            fromTile,
-            toTile,
+            from,
+            to,
             tiles,
             heuristicsFn = ::heuristics,
             costFn = ::cost,
@@ -62,7 +57,8 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
         )
 
         val movePath = moveComponent.path
-        movePath.set(path.map(Tile::position))
+        movePath.set(path)
+
         if (!movePath.started()) movePath.start()
     }
 
@@ -74,6 +70,9 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
     }
 
     private fun isValid(gamePoint: Vector2, level: LevelInfo): Boolean {
-        return level.tiles.isIndexValid(gamePoint.x.roundToInt(), gamePoint.y.roundToInt())
+        return level.tiles.isPointValid(
+            gamePoint.x.roundToInt(),
+            gamePoint.y.roundToInt()
+        )
     }
 }

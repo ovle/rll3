@@ -20,8 +20,8 @@ class RoomsInfoProcessor : TilesInfoProcessor {
         val tiles = levelInfo.tiles
         val roomsData = mutableListOf<RoomTiles>()
         var currentRoom: RoomTiles? = null
-        for (x in 0 until tiles.width) {
-            for (y in 0 until tiles.height) {
+        for (x in 0 until tiles.size) {
+            for (y in 0 until tiles.size) {
                 val nearTiles = nearValues(tiles, x, y)
                 val isRoomTile = nearTiles.value?.typeId in roomFloorTypes
                 if (isRoomTile) {

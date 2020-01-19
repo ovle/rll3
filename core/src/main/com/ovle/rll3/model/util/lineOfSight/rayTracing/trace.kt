@@ -16,17 +16,18 @@ fun trace(fromPosition: GridPoint2, toPosition: GridPoint2, obstacles: Collectio
     val result = positions.takeWhile { it !in obstacles }
     //add last to see the walls
     //if (result.size < positions.size) result += positions[result.size]
+//    return positions.toList()
     return result
 }
 
 private fun losPassable(tilePosition: GridPoint2, lightPassTypeFn: LightPassTypeFn, tiles: TileArray): Boolean {
     val (x, y) = tilePosition
-    val tile = tiles[x, y]!!
+    val tile = tiles.tile(x, y)
 
     return lightPassTypeFn(tile) == LightPassType.Passable
 }
 
-fun cropArea(area: Collection<GridPoint2>, tiles: TileArray) = area.filter { tiles.isIndexValid(it.x, it.y) }
+fun cropArea(area: Collection<GridPoint2>, tiles: TileArray) = area.filter { tiles.isPointValid(it.x, it.y) }
 
 fun obstacles(area: Collection<GridPoint2>, passMapper: LightPassTypeFn, tiles: TileArray): Collection<GridPoint2> {
     return area.filterNot {

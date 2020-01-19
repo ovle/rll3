@@ -7,6 +7,7 @@ import com.ovle.rll3.model.tile.TilePassTypeFn
 import kotlin.math.roundToInt
 
 typealias MoveCostFn = ((Tile, Tile?, TilePassTypeFn) -> Int)
+typealias MoveCostFn2 = ((GridPoint2, GridPoint2?, TilePassTypeFn) -> Int)
 typealias IsPassableFn = ((GridPoint2, TilePassTypeFn) -> Boolean)
 
 const val maxMoveCost = 9999
@@ -20,7 +21,7 @@ fun cost(from: Tile, to: Tile?, tilePassTypeFn: TilePassTypeFn): Int {
     }
 }
 
-fun heuristics(from: Tile, to: Tile?, tilePassTypeFn: TilePassTypeFn): Int {
+fun heuristics(from: GridPoint2, to: GridPoint2?, tilePassTypeFn: TilePassTypeFn): Int {
     if (to == null) return maxMoveCost
-    return from.position.dst(to.position).roundToInt()
+    return from.dst(to).roundToInt()
 }

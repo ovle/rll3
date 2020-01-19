@@ -1,12 +1,26 @@
 package com.ovle.rll3.model.tile
 
-import com.github.czyzby.noise4j.array.Object2dArray
+import com.badlogic.gdx.math.GridPoint2
 
 
 class TileArray(
-    tiles: Array<Tile>,
+    val tiles: Array<Tile>,
     val size: Int
-): Object2dArray<Tile?>(tiles, size) {
+) {
+    fun index(x: Int, y: Int) = size * y + x
+    fun point(index: Int) = GridPoint2(
+        index % size,
+//        index / size
+        size - 1 - index / size
+    )
 
-    override fun getArray(size: Int): Array<Tile> = Array(size) { Tile() }
+    fun tile(x: Int, y: Int) = tiles[index(x, y)]
+    fun setTile(x: Int, y: Int, tile: Tile) {
+        tiles[index(x, y)] = tile
+    }
+
+    fun indexedTiles() = tiles.mapIndexed { index, tile -> index to tile }
+    fun positions() = tiles.mapIndexed { index, _ -> point(index) }
+
+    fun isPointValid(x: Int, y: Int) = x in (0 until size) && y in (0 until size)
 }

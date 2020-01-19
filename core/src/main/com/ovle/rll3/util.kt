@@ -37,3 +37,5 @@ fun isNearHV(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
 fun isNear(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     return (x1 in ((x2 - 1)..(x2 + 1))) && (y1 in ((y2 - 1)..(y2 + 1)))
 }
+
+public fun Float.roundToClosestByAbsInt() = if (this > 0) this.roundToInt() else -((-this).roundToInt())
