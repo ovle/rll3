@@ -27,6 +27,8 @@ class LevelSystem: EventSystem<LevelActionEvent>() {
 
     override fun dispatch(event: LevelActionEvent) {
         val levelInfo = levelInfoNullable()
+        engine.removeAllEntities()
+
         val newLevelInfo = when (event) {
             is PrevLevelEvent -> prevLevelInfo(levelInfo)
             is NextLevelEvent -> nextLevelInfo(levelInfo) ?: newLevelInfo(mapSizeInTiles, DungeonGridFactory())
