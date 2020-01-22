@@ -43,6 +43,8 @@ fun Engine.entity(vararg components: Component) = createEntity().apply {
     addEntity(this)
 }
 
+fun Entity.has( componentClass: KClass<out Component>) = this.has(ComponentMapper.getFor(componentClass.java))
+
 fun hasEntityOnPosition(levelInfo: LevelInfo, position: GridPoint2, componentClass: KClass<out Component>): Boolean {
     val positionMapper = componentMapper<PositionComponent>()
     return entitiesWith(levelInfo.objects, componentClass)

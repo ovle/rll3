@@ -12,8 +12,9 @@ import com.ovle.rll3.view.textureTileWidth
 typealias TextureRegions = Array<Array<TextureRegion>>
 
 class TexturesInfo(
-    val texture: Texture
+    initialTexture: Texture
 ) {
+    val texture: Texture = texture(initialTexture, Palette::map)
     val darkTexture = texture(texture, Palette::prev)
     val lightTexture = texture(texture, Palette::next)
 }
@@ -28,7 +29,8 @@ class TextureRegionsInfo(
 
 private fun texture(texture: Texture, colorMapFunction: (Color) -> Color): Texture {
     val textureData = texture.textureData
-    textureData.prepare()
+    if (!textureData.isPrepared) textureData.prepare()
+
     val sourcePm = textureData.consumePixmap()
     val width = sourcePm.width
     val height = sourcePm.height

@@ -54,7 +54,6 @@ private fun tileTextureRegions(
     val positionDown = point(nearTiles.x, nearTiles.y - 1)
 
     fun hasDoor(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), DoorComponent::class)
-    fun hasLightSource(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LightComponent::class)
     fun hasTrap(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), TrapComponent::class)
     fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
     fun hasRoomWall(tileId: Int?): Int = if (tileId != null && tileId != roomFloorTileId) 1 else 0
@@ -78,7 +77,7 @@ private fun tileTextureRegions(
     val isPitFloor = tileId == pitFloorTileId
     val isCorridorFloor = tileId == corridorFloorTileId
     val isDoor = hasDoor(nearTiles.x, nearTiles.y)
-    val isNextToDoor = hasDoor(nearTiles.x, nearTiles.y-1)
+    val isNextToDoor = hasDoor(nearTiles.x, nearTiles.y - 1)
     val isRoomWall = upTileId in roomFloorTypes
     val isCorridorWall = upTileId in corridorFloorTypes
     val isDoorUp = hasDoor(nearTiles.x, nearTiles.y - 1)
@@ -86,21 +85,21 @@ private fun tileTextureRegions(
     val isPitFloorUp = downTileId == pitFloorTileId
     val isRoomFloorNearVertical = roomFloorTileId in nearTiles.nearV.map { it?.typeId }
 
-    val isLightSource = hasLightSource(nearTiles.x, nearTiles.y)
     val isTrap = hasTrap(nearTiles.x, nearTiles.y)
+    val isPortal = false
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, isDoorUp)
 
     val wallTileSet = if (isRoomWall) roomWallTileSet else passageWallTileSet
     val floorBorderTileSet = floorBorderTileSet
 
-    val emptyTile  = arrayOf<TextureRegion>()
-    val regions = when(lightValueType) {
+    val emptyTile = arrayOf<TextureRegion>()
+    val regions = when (lightValueType) {
         Full -> textureRegions.lightRegions
         Half -> textureRegions.regions
         else -> textureRegions.darkRegions
     }
 
-    return when(layerType) {
+    return when (layerType) {
         LayerType.Walls -> when {
             isWall -> arrayOf(indexedTextureTile(wallTileSet, wallTileIndex, regions))
             isRoomFloor -> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
@@ -114,29 +113,8 @@ private fun tileTextureRegions(
             else -> emptyTile
         }
         LayerType.Decoration -> when {
-            //todo
-            isLightSource -> arrayOf(
-                regions[8][8],
-                regions[8][9],
-                regions[8][10],
-                regions[8][11]
-            )
-            isTrap -> arrayOf(
-                regions[7][8],
-                regions[7][9],
-                regions[7][10],
-                regions[7][11]
-            )
-//            isPortal -> arrayOf(
-//                textureRegions[9][8],
-//                textureRegions[9][9],
-//                textureRegions[9][10],
-//                textureRegions[9][11],
-//                textureRegions[10][8],
-//                textureRegions[10][9],
-//                textureRegions[10][10],
-//                textureRegions[10][11]
-//            )
+            isTrap -> trapsTR(regions)
+            isPortal -> portalTR(regions)
             else -> when {
                 isWall && !isNextToDoor -> when {
                     isRoomWall -> arrayOf(regions[(0..1).random()][(8..11).random()])
@@ -180,7 +158,8 @@ private fun lightValueType(
     }
 }
 
-private fun kotlin.Array<TextureRegion>.withChance(chance: Float, defaultValue: kotlin.Array<TextureRegion>) = if (Math.random() <= chance) this else defaultValue
+private fun kotlin.Array<TextureRegion>.withChance(chance: Float, defaultValue: kotlin.Array<TextureRegion>)
+    = if (Math.random() <= chance) this else defaultValue
 
 private fun indexedTextureTile(tileSetConfig: TextureTileSet, index: Int, textureRegions: TextureRegions) =
         textureRegions[tileSetConfig.originX + index % tileSetConfig.size][tileSetConfig.originY + index / tileSetConfig.size]

@@ -5,6 +5,8 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.TextureRegion.split
+import com.ovle.rll3.model.ecs.component.AnimationComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
 import com.ovle.rll3.model.ecs.componentMapper
@@ -23,17 +25,18 @@ class RenderObjectsSystem(
 ) : IteratingSystem(all(RenderComponent::class.java).get()) {
 
     private val render: ComponentMapper<RenderComponent> = componentMapper()
+    private val animation: ComponentMapper<AnimationComponent> = componentMapper()
     private val position: ComponentMapper<PositionComponent> = componentMapper()
 
     private val toRender = mutableListOf<Entity>()
+    //todo use all texture versions
+    private val regions = split(spriteTexture.texture, spriteWidth, spriteHeight)
 
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val renderComponent = entity[render]!!
         if (renderComponent.sprite == null) {
-            //todo use all texture versions
-            val texture = spriteTexture.texture
-            renderComponent.sprite = sprite(entity, texture)
+            renderComponent.sprite = sprite(entity, regions)
         }
 
         if (renderComponent.visible) {
@@ -45,27 +48,33 @@ class RenderObjectsSystem(
         super.update(deltaTime)
 
         toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.position.y }))
-        draw(toRender)
+        draw(toRender, deltaTime)
         toRender.clear()
     }
 
-    private fun draw(entities: List<Entity>) {
+    private fun draw(entities: List<Entity>, deltaTime: Float) {
         batch.begin()
-        for (entity in entities) {
-            val entityRender = entity[render]!!
-            val position = entity[position]!!.position
-            val sprite = entityRender.sprite ?: continue
 
-            sprite.draw(
-                batch,
-                (position.x * tileWidth).toFloat(),
-                (position.y * tileHeight).toFloat(),
-                spriteWidth.toFloat(),
-                spriteHeight.toFloat()
+        for (entity in entities) {
+            val renderComponent = entity[render]!!
+            val animationComponent = entity[animation]
+            val position = entity[position]!!.position
+            val sprite = renderComponent.sprite ?: continue
+            val currentAnimation = animationComponent?.current
+
+            val region = currentAnimation?.currentFrame(deltaTime)
+                ?: sprite.textureRegion()
+
+            val screenX = (position.x * tileWidth).toFloat()
+            val screenY = (position.y * tileHeight).toFloat()
+            batch.draw(
+                region,
+                screenX, screenY,
+                spriteWidth.toFloat(), spriteHeight.toFloat()
             )
         }
 
-        //selectedTileSprite.draw(batch, selectedScreenPoint.x, selectedScreenPoint.y, tileWidth.toFloat(), tileHeight.toFloat())
+//        selectedTileSprite.draw(batch, selectedScreenPoint.x, selectedScreenPoint.y, tileWidth.toFloat(), tileHeight.toFloat())
         batch.end()
     }
 }

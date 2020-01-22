@@ -43,11 +43,13 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         assets.load(spriteTexturePath, Texture::class.java)
         levelTexture = assets.finishLoadingAsset<Texture>(tileTexturePath)
         objectsTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
+        val levelTexturesInfo = TexturesInfo(levelTexture)
+        val objectsTextureInfo = TexturesInfo(objectsTexture)
 
         ecsEngine = PooledEngine()
 
         val levelSystem = LevelSystem()
-        val animationSystem = AnimationSystem()
+        val animationSystem = AnimationSystem(objectsTextureInfo)
         val moveSystem = MoveSystem()
         val playerControlsSystem = PlayerControlsSystem()
 //        val sightSystem = SightSystem()
@@ -55,8 +57,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 //        val aiSystem = AISystem()
 //        val timeSystem = TimeSystem()
 //        val lightSystem = LightSystem()
-        val renderLevelSystem = RenderLevelSystem(camera, TexturesInfo(levelTexture))
-        val renderObjectsSystem = RenderObjectsSystem(batch, TexturesInfo(objectsTexture))
+        val renderLevelSystem = RenderLevelSystem(camera, levelTexturesInfo)
+        val renderObjectsSystem = RenderObjectsSystem(batch, objectsTextureInfo)
 
         val systems = listOf(
             animationSystem,

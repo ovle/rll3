@@ -3,10 +3,7 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.LightComponent
-import com.ovle.rll3.model.ecs.component.LightTilePosition
-import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.component.point
+import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.entity
 import com.ovle.rll3.model.procedural.floorTypes
 import com.ovle.rll3.model.procedural.lightSourceChance
@@ -44,7 +41,9 @@ class LightSourceProcessor : TilesInfoProcessor {
     private fun lightSource(position: GridPoint2, gameEngine: Engine, tiles: TileArray, lightConfig: LightConfig) =
         gameEngine.entity(
             PositionComponent(position),
-            LightComponent(lightConfig.radius, lightPositions(position, tiles, lightConfig))
+            LightComponent(lightConfig.radius, lightPositions(position, tiles, lightConfig)),
+            RenderComponent(),
+            AnimationComponent()
         )
 
     private fun lightPositions(position: GridPoint2, tiles: TileArray, lightConfig: LightConfig): List<LightTilePosition> {
