@@ -44,7 +44,7 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
         val positionComponent = playerEntity[position]!!
 
         val tiles = level.tiles
-        val from = positionComponent.position
+        val from = positionComponent.gridPosition
         val to = point(gamePoint) ?: return
 
         val path = path(

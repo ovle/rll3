@@ -40,7 +40,7 @@ class LightSourceProcessor : TilesInfoProcessor {
 
     private fun lightSource(position: GridPoint2, gameEngine: Engine, tiles: TileArray, lightConfig: LightConfig) =
         gameEngine.entity(
-            PositionComponent(position),
+            PositionComponent(floatPoint(position)),
             LightComponent(lightConfig.radius, lightPositions(position, tiles, lightConfig)),
             RenderComponent(),
             AnimationComponent()

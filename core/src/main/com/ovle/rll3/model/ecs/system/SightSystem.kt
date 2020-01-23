@@ -30,7 +30,7 @@ class SightSystem : IteratingSystem(Family.all(SightComponent::class.java).get()
 
     private fun fov(positionComponent: PositionComponent, sightComponent: SightComponent): Set<GridPoint2> {
         return fieldOfView(
-            positionComponent.position,
+            positionComponent.gridPosition,
             sightComponent.radius,
             ::lightTilePassMapper,
             levelInfo().tiles

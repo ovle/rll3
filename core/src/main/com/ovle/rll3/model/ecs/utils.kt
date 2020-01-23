@@ -49,6 +49,6 @@ fun hasEntityOnPosition(levelInfo: LevelInfo, position: GridPoint2, componentCla
     val positionMapper = componentMapper<PositionComponent>()
     return entitiesWith(levelInfo.objects, componentClass)
         .any {
-            it[positionMapper]?.position?.equals(position) ?: false
+            it[positionMapper]?.gridPosition?.equals(position) ?: false
         }
 }

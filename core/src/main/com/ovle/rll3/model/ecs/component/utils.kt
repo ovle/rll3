@@ -18,7 +18,8 @@ operator fun GridPoint2.component2() = y
 
 fun point(x: Int = 0, y: Int = 0) = GridPoint2(x, y)
 fun point(floatPoint: Vector2) = point(floatPoint.x.roundToInt(), floatPoint.y.roundToInt())
-
+fun floatPoint(x: Float, y: Float) = Vector2(x, y)
+fun floatPoint(point: GridPoint2) = Vector2(point.x.toFloat(), point.y.toFloat())
 
 data class LightTilePosition(
     val value: Float,

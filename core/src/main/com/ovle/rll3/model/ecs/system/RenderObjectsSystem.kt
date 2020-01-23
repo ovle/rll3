@@ -18,10 +18,10 @@ import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 import ktx.ashley.get
 
-
+//todo event + iterating ?
 class RenderObjectsSystem(
     private val batch: Batch,
-    private val spriteTexture: TexturesInfo
+    spriteTexture: TexturesInfo
 ) : IteratingSystem(all(RenderComponent::class.java).get()) {
 
     private val render: ComponentMapper<RenderComponent> = componentMapper()
@@ -35,9 +35,7 @@ class RenderObjectsSystem(
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val renderComponent = entity[render]!!
-        if (renderComponent.sprite == null) {
-            renderComponent.sprite = sprite(entity, regions)
-        }
+        initSprite(renderComponent, entity)
 
         if (renderComponent.visible) {
             toRender.add(entity)
@@ -50,6 +48,13 @@ class RenderObjectsSystem(
         toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.position.y }))
         draw(toRender, deltaTime)
         toRender.clear()
+    }
+
+
+    private fun initSprite(renderComponent: RenderComponent, entity: Entity) {
+        if (renderComponent.sprite == null) {
+            renderComponent.sprite = sprite(entity, regions)
+        }
     }
 
     private fun draw(entities: List<Entity>, deltaTime: Float) {
@@ -65,8 +70,8 @@ class RenderObjectsSystem(
             val region = currentAnimation?.currentFrame(deltaTime)
                 ?: sprite.textureRegion()
 
-            val screenX = (position.x * tileWidth).toFloat()
-            val screenY = (position.y * tileHeight).toFloat()
+            val screenX = (position.x * tileWidth)
+            val screenY = (position.y * tileHeight)
             batch.draw(
                 region,
                 screenX, screenY,

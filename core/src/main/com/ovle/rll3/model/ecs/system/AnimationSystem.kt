@@ -2,11 +2,10 @@ package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.Family
-import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.ovle.rll3.Event
+import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.AnimationComponent
-import com.ovle.rll3.model.ecs.component.RenderComponent
 import com.ovle.rll3.model.ecs.componentMapper
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.sprite.animation.animations
@@ -16,21 +15,40 @@ import ktx.ashley.get
 
 
 class AnimationSystem(
-    private val spriteTexture: TexturesInfo
-) : IteratingSystem(Family.all(AnimationComponent::class.java, RenderComponent::class.java).get()) {
+    spriteTexture: TexturesInfo
+) : EventSystem<Event>() {
 
-    private val render: ComponentMapper<RenderComponent> = componentMapper()
     private val animation: ComponentMapper<AnimationComponent> = componentMapper()
 
     private val regions = TextureRegion.split(spriteTexture.texture, spriteWidth, spriteHeight)
 
-    override fun processEntity(entity: Entity, deltaTime: Float) {
-        initAnimations(entity)
 
-        //todo
+    override fun channel() = EventBus.receive<Event>()
+
+    override fun dispatch(event: Event) {
+        when (event) {
+            is Event.LevelLoaded -> onLevelLoaded(event.level.objects)
+            is Event.EntityAnimationStartEvent -> onEntityAnimationStart(event.entity, event.animationId)
+            is Event.EntityAnimationStopEvent -> onEntityAnimationStop(event.entity, event.animationId)
+        }
     }
 
-    //todo separate system ?
+    private fun onLevelLoaded(entities: Collection<Entity>) {
+        entities.forEach {
+            initAnimations(it)
+        }
+    }
+
+    private fun onEntityAnimationStart(entity: Entity, animationId: String) {
+        val animationComponent = entity[animation]
+        animationComponent?.startAnimation(animationId)
+    }
+
+    private fun onEntityAnimationStop(entity: Entity, animationId: String) {
+        val animationComponent = entity[animation]
+        animationComponent?.stopAnimation(animationId)
+    }
+
     private fun initAnimations(entity: Entity) {
         val animationComponent = entity[animation]
         if (animationComponent?.animations?.isEmpty() == true) {

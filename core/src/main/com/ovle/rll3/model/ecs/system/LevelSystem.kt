@@ -76,7 +76,7 @@ class LevelSystem: EventSystem<LevelActionEvent>() {
                 val startPosition = this.point(startTile.first)
                 engine.entity(
                     PlayerControlledComponent(),
-                    PositionComponent(startPosition),
+                    PositionComponent(floatPoint(startPosition)),
                     MoveComponent(),
                     SightComponent(5),
                     RenderComponent()

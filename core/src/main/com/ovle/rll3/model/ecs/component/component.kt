@@ -19,7 +19,10 @@ class LevelComponent(var level: LevelInfo): Component
 
 class PlayerControlledComponent : Component
 
-class PositionComponent(var position: GridPoint2) : Component
+class PositionComponent(var position: Vector2) : Component {
+    val gridPosition: GridPoint2
+        get() = point(position)
+}
 
 class LightComponent(
     val radius: Int,
@@ -50,13 +53,13 @@ class AnimationComponent(
     var current: FrameAnimation? = null
 
     fun startAnimation(id: String) {
-        current = animations[id] ?: return;
+        current = animations[id]
         current?.start()
     }
 
     fun stopAnimation(id: String) {
-        val animationToStop = animations[id] ?: return;
-        animationToStop.stop()
+        val animationToStop = animations[id]
+        animationToStop?.stop()
         if (animationToStop == current) {
             current = null;
         }

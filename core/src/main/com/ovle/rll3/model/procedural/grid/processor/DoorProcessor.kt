@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.model.ecs.component.DoorComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.component.point
+import com.ovle.rll3.model.ecs.component.floatPoint
 import com.ovle.rll3.model.ecs.entity
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.tile.corridorFloorTileId
@@ -34,7 +34,7 @@ class DoorProcessor : TilesInfoProcessor {
 
     private fun door(x: Int, y: Int, gameEngine: Engine): Entity {
         return gameEngine.entity(
-            PositionComponent(point(x, y)),
+            PositionComponent(floatPoint(x.toFloat(), y.toFloat())),
             DoorComponent()
         )
     }

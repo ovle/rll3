@@ -20,8 +20,9 @@ class PlayerControls : InputAdapter() {
         Input.Keys.PLUS -> { send(Event.CameraScaleInc()); true }
         Input.Keys.Z -> { send(Event.PrevLevelEvent()); true }
         Input.Keys.X -> { send(Event.NextLevelEvent()); true }
-        Input.Keys.S -> { send(Event.SaveLevelEvent()); true }
-        Input.Keys.L -> { send(Event.LoadLevelEvent()); true }
+        Input.Keys.C -> { send(Event.SaveLevelEvent()); true }
+        Input.Keys.V -> { send(Event.LoadLevelEvent()); true }
+        Input.Keys.L -> { send(Event.LightSwitchEvent()); true }
         else -> false
     }
 

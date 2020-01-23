@@ -30,7 +30,7 @@ class Test {
         val light = lightSourceEntity.component(LightComponent::class)!!
         val lightPosition = lightSourceEntity.component(PositionComponent::class)!!
 
-        val area = filledCircle(lightPosition.position, light.radius)
+        val area = filledCircle(lightPosition.gridPosition, light.radius)
         assertEquals(expectedResults.areaSize, area.size, "area size")
 
         val size = tileTemplate.size

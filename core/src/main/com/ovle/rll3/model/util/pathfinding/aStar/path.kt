@@ -27,7 +27,6 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, heuristicsFn: MoveC
     val estimatedTotalCost = mutableMapOf(from to heuristicsFn(from, to, tilePassTypeFn))
     val cameFrom = mutableMapOf<GridPoint2, GridPoint2>()
 
-    //todo
 //    while (open.isNotEmpty()) {
 //        val currentPosition = open.minBy { estimatedTotalCost.getValue(it) }!!
 //        val (x ,y) = currentPosition
@@ -41,7 +40,7 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, heuristicsFn: MoveC
 //
 //        val nearValues = nearValues(tiles.positions(), x, y).nearHV
 //            .filterNotNull()
-//            .filterNot { it in closed }
+//            .filterNot {  in closed }
 //
 //        for (neighbour in nearValues) {
 //            val score = costFromStart.getValue(currentTile) + costFn(currentTile, neighbour, tilePassTypeFn)
