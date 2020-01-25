@@ -3,7 +3,8 @@ package com.ovle.rll3.view.sprite
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.model.ecs.component.LightComponent
-import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
+import com.ovle.rll3.model.ecs.component.MoveComponent
+import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.has
 import com.ovle.rll3.view.layer.TextureRegions
 
@@ -15,17 +16,20 @@ fun sprite(regions: TextureRegions, x: Int, y: Int): Sprite {
     )
 }
 
-//todo use config
-//todo animation support
 fun sprite(entity: Entity, regions: TextureRegions): Sprite {
     return when {
-        entity.has(PlayerControlledComponent::class) -> sprite(
+        //todo hack, will use the template
+        entity.has(MoveComponent::class) -> sprite(
             regions,
             1, 1
         )
         entity.has(LightComponent::class) -> sprite(
             regions,
             0, 4
+        )
+        entity.has(PlayerInteractionComponent::class) -> sprite(
+            regions,
+            0, 0
         )
         else -> sprite(regions, 1, 0)
     }

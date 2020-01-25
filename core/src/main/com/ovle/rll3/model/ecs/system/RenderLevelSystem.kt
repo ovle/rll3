@@ -13,9 +13,9 @@ import com.ovle.rll3.Event
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.LevelInfo
-import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
 import com.ovle.rll3.model.ecs.component.SightComponent
 import com.ovle.rll3.model.ecs.componentMapper
+import com.ovle.rll3.model.ecs.playerInteractionInfo
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.*
 import com.ovle.rll3.view.layer.CustomTiledMapTileLayer
@@ -32,13 +32,11 @@ class RenderLevelSystem(
 ): EventSystem<Event>() {
 
     private val sight: ComponentMapper<SightComponent> = componentMapper()
-    private val playerControlled: ComponentMapper<PlayerControlledComponent> = componentMapper()
 
     private var mapRenderer: TiledMapRenderer? = null
     private var tiledMap: TiledMap? = null
     private val selectedScreenPoint = Vector2()
 
-//    private var selectedTileSprite: SpriteDrawable = sprite(objectsTexture, 0, 0)
 
     init {
         RenderConfig.unproject = camera::unproject
@@ -77,15 +75,13 @@ class RenderLevelSystem(
         }
     }
 
-    //todo
+
     private fun draw() {
         Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         mapRenderer!!.setView(camera)
         mapRenderer!!.render()
-
-//        selectedTileSprite.draw(batch, selectedScreenPoint.x, selectedScreenPoint.y, tileWidth.toFloat(), tileHeight.toFloat())
     }
 
     private fun onMousePositionChange(screenPoint: Vector2) {
@@ -112,9 +108,10 @@ class RenderLevelSystem(
     private fun onEntityMoved(entity: Entity?) {
         if (entity == null) return
 
-        val playerControlledComponent = entity[playerControlled] ?: return
-        val sightComponent = entity[sight] ?: return
+        val interactionInfo = playerInteractionInfo() ?: return
+        if (interactionInfo.controlledEntity != entity)  return
 
+        val sightComponent = entity[sight] ?: return
         markSightArea(sightComponent)
     }
 

@@ -82,7 +82,6 @@ class RenderObjectsSystem(
             )
         }
 
-//        selectedTileSprite.draw(batch, selectedScreenPoint.x, selectedScreenPoint.y, tileWidth.toFloat(), tileHeight.toFloat())
         batch.end()
     }
 }

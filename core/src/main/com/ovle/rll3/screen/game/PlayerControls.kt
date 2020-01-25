@@ -29,7 +29,7 @@ class PlayerControls : InputAdapter() {
     override fun scrolled(amount: Int) = send(Event.CameraScrolled(amount)).run { true }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-//        send(Event.MouseMoved(screenPoint(screenX, screenY)))
+        send(Event.MouseMoved(screenPoint(screenX, screenY)))
         return true
     }
 

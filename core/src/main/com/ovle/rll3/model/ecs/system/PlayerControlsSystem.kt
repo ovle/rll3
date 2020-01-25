@@ -5,14 +5,11 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
-import com.ovle.rll3.model.ecs.allEntities
+import com.ovle.rll3.model.ecs.*
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.MoveComponent
-import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
+import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.componentMapper
-import com.ovle.rll3.model.ecs.entityWithNullable
-import com.ovle.rll3.model.ecs.levelInfoNullable
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.model.util.entityTilePassMapper
 import com.ovle.rll3.model.util.pathfinding.aStar.path
@@ -26,9 +23,8 @@ import kotlin.math.roundToInt
 
 class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
     private val move: ComponentMapper<MoveComponent> = componentMapper()
-
     private val position: ComponentMapper<PositionComponent> = componentMapper()
-    private val selectedGamePoint = Vector2()
+    private val interaction: ComponentMapper<PlayerInteractionComponent> = componentMapper()
 
     override fun channel() = receive<PlayerControlEvent>()
 
@@ -43,8 +39,7 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
     private fun onMoveTargetSet(gamePoint: Vector2, level: LevelInfo) {
         if (!isValid(gamePoint, level)) return
 
-        val playerEntity = entityWithNullable(allEntities().toList(), PlayerControlledComponent::class)
-            ?: return
+        val playerEntity = playerInteractionInfo()?.controlledEntity ?: return
         val moveComponent = playerEntity[move] ?: return
         val positionComponent = playerEntity[position]!!
 
@@ -72,9 +67,22 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
 
     private fun onMousePositionChange(gamePoint: Vector2, level: LevelInfo) {
         if (!isValid(gamePoint, level)) return
-        if (gamePoint.epsilonEquals(selectedGamePoint)) return
+        val interactionEntity = entityWithNullable(allEntities().toList(), PlayerInteractionComponent::class) ?: return
+        val positionComponent = interactionEntity[position] ?: return
+        if (point(gamePoint) == positionComponent.gridPosition) return
 
-        selectedGamePoint.set(gamePoint.x, gamePoint.y)
+        val focusedGamePoint = positionComponent.position
+        focusedGamePoint.set(gamePoint.x, gamePoint.y)
+
+        val entitiesOnPosition = entitiesOnPosition(level, positionComponent.gridPosition) //todo filter interaction itself
+        val interactionComponent = interactionEntity[interaction] ?: return
+        interactionComponent.focusedEntities = entitiesOnPosition
+
+        println(
+            """---------------------
+                entities: ${entitiesOnPosition.print()}                
+            """.trimIndent()
+        )
     }
 
     private fun isValid(gamePoint: Vector2, level: LevelInfo): Boolean {

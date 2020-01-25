@@ -1,23 +1,20 @@
 package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.ComponentMapper
+import com.badlogic.ashley.core.Engine
+import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.*
 import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.system.level.levelInfo
 import com.ovle.rll3.model.procedural.dungeonGenerationSettings
 import com.ovle.rll3.model.procedural.grid.DungeonGridFactory
-import com.ovle.rll3.model.procedural.grid.GridFactory
-import com.ovle.rll3.model.procedural.grid.processor.DoorProcessor
-import com.ovle.rll3.model.procedural.grid.processor.LightSourceProcessor
-import com.ovle.rll3.model.procedural.grid.processor.RoomStructureProcessor
-import com.ovle.rll3.model.procedural.grid.processor.RoomsInfoProcessor
 import com.ovle.rll3.model.procedural.mapSizeInTiles
 import com.ovle.rll3.model.tile.TilePassType
 import com.ovle.rll3.model.util.entityTilePassMapper
-import com.ovle.rll3.model.util.gridToTileArray
 import ktx.ashley.get
 
 
@@ -33,13 +30,17 @@ class LevelSystem: EventSystem<LevelActionEvent>() {
 
         val newLevelInfo = when (event) {
             is PrevLevelEvent -> prevLevelInfo(levelInfo)
-            is NextLevelEvent -> nextLevelInfo(levelInfo) ?: newLevelInfo(mapSizeInTiles, DungeonGridFactory())
+            is NextLevelEvent -> nextLevelInfo(levelInfo)
+                ?: levelInfo(mapSizeInTiles, DungeonGridFactory(), dungeonGenerationSettings, engine)
             else -> null
         }
 
         newLevelInfo?.let {
             val level = entityWithNullable(allEntities().toList(), LevelComponent::class)
                 ?: engine.entity(LevelComponent(newLevelInfo))    //todo rewrite
+
+            initPlayerForLevel(level[levelMapper]!!.level, engine)
+
             level[levelMapper]?.level = it
 
 //            send(LevelUnloaded(it))
@@ -57,35 +58,29 @@ class LevelSystem: EventSystem<LevelActionEvent>() {
         return null
     }
 
-    //todo move out
-    private fun newLevelInfo(size: Int, gridFactory: GridFactory): LevelInfo {
-        val grid = gridFactory.get(size, dungeonGenerationSettings)
-        return gridToTileArray(grid)
-            .run {
-                val result = LevelInfo(tiles = this)
+    private fun initPlayerForLevel(level: LevelInfo, engine: Engine) {
+        val player = engine.entity(
+            PositionComponent(playerStartPosition(level)),
+            MoveComponent(),
+            SightComponent(5),
+            RenderComponent(),
+            AnimationComponent()
+        )
 
-                //todo inject list by interface
-                RoomsInfoProcessor().process(result, engine)
-                RoomStructureProcessor().process(result, engine)
-                DoorProcessor().process(result, engine)
-                LightSourceProcessor().process(result, engine)
-//                TrapProcessor().process(result, engine)
+        engine.entity(
+            PlayerInteractionComponent(
+                controlledEntity = player
+            ),
+            RenderComponent(),
+            PositionComponent()
+        )
+    }
 
-                //todo move out
-                val startTile = this.indexedTiles().find {
-                    entityTilePassMapper(it.second) == TilePassType.Passable
-                }!!
-                val startPosition = this.point(startTile.first)
-                engine.entity(
-                    PlayerControlledComponent(),
-                    PositionComponent(floatPoint(startPosition)),
-                    MoveComponent(),
-                    SightComponent(5),
-                    RenderComponent(),
-                    AnimationComponent()
-                )
-
-                result
-            }
+    private fun playerStartPosition(level: LevelInfo): Vector2 {
+        val tiles = level.tiles
+        val startTile = tiles.indexedTiles().find {
+            entityTilePassMapper(it.second) == TilePassType.Passable
+        }!!
+        return floatPoint(tiles.point(startTile.first))
     }
 }

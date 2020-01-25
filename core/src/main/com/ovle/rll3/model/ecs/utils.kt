@@ -5,6 +5,7 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.LevelComponent
 import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import ktx.ashley.get
 import ktx.ashley.has
@@ -36,7 +37,7 @@ fun EntitySystem.allEntities() = this.engine.entities
 
 fun EntitySystem.levelInfoNullable() = singleComponentNullable(allEntities().toList(), LevelComponent::class)?.level
 fun EntitySystem.levelInfo() = levelInfoNullable()!!
-
+fun EntitySystem.playerInteractionInfo() = singleComponentNullable(allEntities().toList(), PlayerInteractionComponent::class)
 
 fun Engine.entity(vararg components: Component) = createEntity().apply {
     components.forEach { component ->  this.add(component) }
@@ -52,3 +53,19 @@ fun hasEntityOnPosition(levelInfo: LevelInfo, position: GridPoint2, componentCla
             it[positionMapper]?.gridPosition?.equals(position) ?: false
         }
 }
+
+fun entitiesOnPosition(levelInfo: LevelInfo, position: GridPoint2): Collection<Entity> {
+    val positionMapper = componentMapper<PositionComponent>()
+    return levelInfo.objects.filter {
+        it[positionMapper]?.gridPosition?.equals(position) ?: false
+    }
+}
+
+fun Collection<Entity>.print() = map { it.print() }.foldRight("entities: ") { acc, it -> "$acc; $it" }
+
+fun Entity.print() = components.map { it.print() }.foldRight("components: ") { acc, it -> "$acc, $it" }
+
+fun Component.print(): String {
+    return this.toString()
+}
+

@@ -12,6 +12,10 @@ import com.ovle.rll3.point
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.sprite.animation.FrameAnimation
 
+//todo
+// for collections
+// var?
+// val + mutable ?
 
 data class LevelInfo(val tiles: TileArray) {
     val rooms: MutableCollection<RoomInfo> = mutableListOf()
@@ -20,11 +24,14 @@ data class LevelInfo(val tiles: TileArray) {
 
 class LevelComponent(var level: LevelInfo): Component
 
-class PlayerControlledComponent : Component
+class PlayerInteractionComponent(
+    val controlledEntity: Entity? = null,
+    var focusedEntities: Collection<Entity> = listOf()
+) : Component
 
-class PositionComponent(var position: Vector2) : Component {
+class PositionComponent(var position: Vector2 = Vector2()) : Component {
     val gridPosition: GridPoint2
-        get() = point(position)
+        get() = point(position.x, position.y)
 }
 
 class LightComponent(
