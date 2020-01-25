@@ -4,11 +4,13 @@ import com.badlogic.ashley.core.ComponentMapper
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
+import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.*
 import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.procedural.dungeonGenerationSettings
 import com.ovle.rll3.model.procedural.grid.DungeonGridFactory
 import com.ovle.rll3.model.procedural.grid.GridFactory
+import com.ovle.rll3.model.procedural.grid.processor.DoorProcessor
 import com.ovle.rll3.model.procedural.grid.processor.LightSourceProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomStructureProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomsInfoProcessor
@@ -65,7 +67,7 @@ class LevelSystem: EventSystem<LevelActionEvent>() {
                 //todo inject list by interface
                 RoomsInfoProcessor().process(result, engine)
                 RoomStructureProcessor().process(result, engine)
-//                DoorProcessor().process(result, engine)
+                DoorProcessor().process(result, engine)
                 LightSourceProcessor().process(result, engine)
 //                TrapProcessor().process(result, engine)
 
@@ -79,7 +81,8 @@ class LevelSystem: EventSystem<LevelActionEvent>() {
                     PositionComponent(floatPoint(startPosition)),
                     MoveComponent(),
                     SightComponent(5),
-                    RenderComponent()
+                    RenderComponent(),
+                    AnimationComponent()
                 )
 
                 result

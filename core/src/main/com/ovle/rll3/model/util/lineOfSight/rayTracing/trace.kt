@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.util.lineOfSight.rayTracing
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.component1
-import com.ovle.rll3.model.ecs.component.component2
+import com.ovle.rll3.component1
+import com.ovle.rll3.component2
 import com.ovle.rll3.model.tile.LightPassType
 import com.ovle.rll3.model.tile.LightPassTypeFn
 import com.ovle.rll3.model.tile.Tile

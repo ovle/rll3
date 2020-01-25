@@ -4,8 +4,12 @@ import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
+import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.model.ecs.allEntities
-import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.MoveComponent
+import com.ovle.rll3.model.ecs.component.PlayerControlledComponent
+import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.componentMapper
 import com.ovle.rll3.model.ecs.entityWithNullable
 import com.ovle.rll3.model.ecs.levelInfoNullable
@@ -14,6 +18,7 @@ import com.ovle.rll3.model.util.entityTilePassMapper
 import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.model.util.pathfinding.cost
 import com.ovle.rll3.model.util.pathfinding.heuristics
+import com.ovle.rll3.point
 import com.ovle.rll3.toGamePoint
 import ktx.ashley.get
 import kotlin.math.roundToInt
@@ -59,7 +64,10 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
         val movePath = moveComponent.path
         movePath.set(path)
 
-        if (!movePath.started()) movePath.start()
+        if (!movePath.started) {
+            movePath.start()
+            send(EntityAnimationStartEvent(playerEntity, "walk"))
+        }
     }
 
     private fun onMousePositionChange(gamePoint: Vector2, level: LevelInfo) {

@@ -4,6 +4,15 @@ import com.badlogic.gdx.graphics.Color
 
 object Palette {
     private val mappedPalette = arrayOf(
+        Color.valueOf("272744ff"),
+        Color.valueOf("494D7Eff"),
+        Color.valueOf("8B6D9Cff"),
+        Color.valueOf("C69FA5ff"),
+//        Color.valueOf("F2D3ABff"),
+        Color.valueOf("FBF5EFff")
+    )
+
+    private val paltte0 = arrayOf(
         Color.valueOf("140C1Cff"),
         Color.valueOf("30346Dff"),
         Color.valueOf("597DCEff"),
@@ -38,7 +47,7 @@ object Palette {
         Color.valueOf("DEEED6ff")
     )
 
-    private val palette = palette4
+    private val palette = mappedPalette
 
     val blackColor: Color = palette.first()
     val whiteColor: Color = palette.last()

@@ -17,6 +17,7 @@ import com.ovle.rll3.view.spriteWidth
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 import ktx.ashley.get
+import kotlin.math.roundToInt
 
 //todo event + iterating ?
 class RenderObjectsSystem(
@@ -70,8 +71,10 @@ class RenderObjectsSystem(
             val region = currentAnimation?.currentFrame(deltaTime)
                 ?: sprite.textureRegion()
 
-            val screenX = (position.x * tileWidth)
-            val screenY = (position.y * tileHeight)
+//            val screenX = (position.x * tileWidth)
+//            val screenY = (position.y * tileHeight)
+            val screenX = (position.x.roundToInt() * tileWidth).toFloat()
+            val screenY = (position.y.roundToInt() * tileHeight).toFloat()
             batch.draw(
                 region,
                 screenX, screenY,

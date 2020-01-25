@@ -4,8 +4,11 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.model.ecs.component.light.LightTilePosition
+import com.ovle.rll3.model.ecs.component.move.MovePath
 import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
 import com.ovle.rll3.model.tile.TileArray
+import com.ovle.rll3.point
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.sprite.animation.FrameAnimation
 

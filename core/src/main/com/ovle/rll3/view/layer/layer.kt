@@ -7,13 +7,18 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.utils.Array
-import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.component.DoorComponent
+import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.TrapComponent
+import com.ovle.rll3.model.ecs.component.light.lightByPosition
+import com.ovle.rll3.model.ecs.component.light.lightTiles
 import com.ovle.rll3.model.ecs.hasEntityOnPosition
 import com.ovle.rll3.model.procedural.corridorFloorTypes
 import com.ovle.rll3.model.procedural.roomFloorTypes
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.model.tile.LightValueType.*
 import com.ovle.rll3.model.util.config.LightConfig
+import com.ovle.rll3.point
 import com.ovle.rll3.view.defaultAnimationInterval
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
@@ -56,6 +61,7 @@ private fun tileTextureRegions(
     fun hasDoor(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), DoorComponent::class)
     fun hasTrap(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), TrapComponent::class)
     fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
+    fun hasWallOrPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId || hasDoor(x, y))) 1 else 0
     fun hasRoomWall(tileId: Int?): Int = if (tileId != null && tileId != roomFloorTileId) 1 else 0
 
     val upTileId = nearTiles.upValue?.typeId
@@ -68,7 +74,7 @@ private fun tileTextureRegions(
     }
     val tilesInSet = floorBorderTileSet.size * floorBorderTileSet.size - 1
     val floorBorderTileIndex = tilesInSet - nearTiles.run {
-        hasRoomWall(rightTileId) + 2 * hasRoomWall(downTileId) + 4 * hasRoomWall(leftTileId) + 8 * hasRoomWall(upTileId)
+        hasWallOrPit(rightTileId, x + 1, y) + 2 * hasWallOrPit(downTileId, x, y + 1) + 4 * hasWallOrPit(leftTileId, x - 1, y) + 8 * hasWallOrPit(upTileId, x, y - 1)
     }
 
     val tileId = nearTiles.value?.typeId
@@ -89,7 +95,8 @@ private fun tileTextureRegions(
     val isPortal = false
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, isDoorUp)
 
-    val wallTileSet = if (isRoomWall) roomWallTileSet else passageWallTileSet
+    val wallTileSet = roomWallTileSet
+//    val wallTileSet = if (isRoomWall) roomWallTileSet else passageWallTileSet
     val floorBorderTileSet = floorBorderTileSet
 
     val emptyTile = arrayOf<TextureRegion>()
@@ -101,15 +108,14 @@ private fun tileTextureRegions(
 
     return when (layerType) {
         LayerType.Walls -> when {
-            isWall -> arrayOf(indexedTextureTile(wallTileSet, wallTileIndex, regions))
-            isRoomFloor -> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
             isDoor -> arrayOf(regions[4][(if (isRoomFloorNearVertical) 8 else 9)])
+            isWall -> arrayOf(indexedTextureTile(wallTileSet, wallTileIndex, regions))
+            isRoomFloor || isCorridorFloor -> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
             else -> emptyTile
         }
         LayerType.Floor -> when {
-            isPitFloor -> arrayOf(regions[3][if (isPitFloorUp) 1 else 0])
-            isCorridorFloor -> arrayOf(regions[0][(1..3).random()])
-            isRoomFloor -> arrayOf(regions[(1..2).random()][(1..3).random()])
+            isPitFloor -> arrayOf(regions[0][if (isPitFloorUp) 2 else 1])
+            isRoomFloor || isCorridorFloor -> arrayOf(regions[(1..2).random()][(1..3).random()])
             else -> emptyTile
         }
         LayerType.Decoration -> when {

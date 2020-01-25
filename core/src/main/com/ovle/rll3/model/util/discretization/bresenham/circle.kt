@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.util.discretization.bresenham
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.point
+import com.ovle.rll3.point
 
 
 fun circle(center: GridPoint2, radius: Int): List<GridPoint2> {

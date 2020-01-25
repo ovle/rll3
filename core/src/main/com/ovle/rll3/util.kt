@@ -1,5 +1,6 @@
 package com.ovle.rll3
 
+import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.ovle.rll3.model.util.config.RenderConfig
@@ -7,12 +8,21 @@ import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 import kotlin.math.roundToInt
 
+
 fun IntRange.random() = (Math.random() * (this.last - this.first)).roundToInt() + this.first
 fun <T> List<T>.random(): T? = if (this.isEmpty()) null else this[(0 until size).random()]
 fun Int.withChance(chance: Float): Int = if (Math.random() <= chance) this else 0
 
 operator fun Vector2.component1() = x
 operator fun Vector2.component2() = y
+
+operator fun GridPoint2.component1() = x
+operator fun GridPoint2.component2() = y
+
+fun point(x: Int = 0, y: Int = 0) = GridPoint2(x, y)
+fun point(floatPoint: Vector2) = point(floatPoint.x.roundToInt(), floatPoint.y.roundToInt())
+fun floatPoint(x: Float, y: Float) = Vector2(x, y)
+fun floatPoint(point: GridPoint2) = Vector2(point.x.toFloat(), point.y.toFloat())
 
 
 fun toGamePoint(screenPoint: Vector2, renderConfig: RenderConfig): Vector2 {

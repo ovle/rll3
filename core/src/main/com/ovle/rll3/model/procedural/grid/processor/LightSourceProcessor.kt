@@ -3,7 +3,12 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.floatPoint
+import com.ovle.rll3.model.ecs.component.AnimationComponent
+import com.ovle.rll3.model.ecs.component.LightComponent
+import com.ovle.rll3.model.ecs.component.PositionComponent
+import com.ovle.rll3.model.ecs.component.RenderComponent
+import com.ovle.rll3.model.ecs.component.light.LightTilePosition
 import com.ovle.rll3.model.ecs.entity
 import com.ovle.rll3.model.procedural.floorTypes
 import com.ovle.rll3.model.procedural.lightSourceChance
@@ -13,6 +18,7 @@ import com.ovle.rll3.model.tile.wallTileId
 import com.ovle.rll3.model.util.config.LightConfig
 import com.ovle.rll3.model.util.lightTilePassMapper
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
+import com.ovle.rll3.point
 
 
 class LightSourceProcessor : TilesInfoProcessor {

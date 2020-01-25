@@ -15,7 +15,7 @@ val torchAnimation = AnimationTemplate(
 )
 val wizAnimationWalk = AnimationTemplate(
     id = "walk",
-    frameDuration = 0.25f,
+    frameDuration = 0.125f,
     frames = arrayOf(
         1 to 1,
         2 to 1,
@@ -31,5 +31,5 @@ val wizAnimationHit = AnimationTemplate(
         0 to 2,
         1 to 2
     ),
-    repeat = true
+    repeat = false
 )

@@ -1,9 +1,9 @@
 package com.ovle.rll3.model.util.discretization.bresenham
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.component1
-import com.ovle.rll3.model.ecs.component.component2
-import com.ovle.rll3.model.ecs.component.point
+import com.ovle.rll3.component1
+import com.ovle.rll3.component2
+import com.ovle.rll3.point
 import com.ovle.rll3.roundToClosestByAbsInt
 import kotlin.math.abs
 import kotlin.math.max

@@ -2,9 +2,9 @@ package com.ovle.rll3.model.procedural.grid.processor
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.TrapComponent
-import com.ovle.rll3.model.ecs.component.floatPoint
 import com.ovle.rll3.model.ecs.entity
 import com.ovle.rll3.model.procedural.trapChance
 import com.ovle.rll3.model.tile.TileArray

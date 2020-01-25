@@ -2,8 +2,7 @@ package com.ovle.rll3.view.layer
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.component1
-import com.ovle.rll3.model.ecs.component.component2
+
 
 class CustomTiledMapTileLayer(width: Int, height: Int, tileWidth: Int, tileHeight: Int): TiledMapTileLayer(width, height, tileWidth, tileHeight) {
 
@@ -25,8 +24,8 @@ class CustomTiledMapTileLayer(width: Int, height: Int, tileWidth: Int, tileHeigh
             }
         }
 
-        visibleTiles.forEach {(x, y) ->
-            setTileVisible(x, y, true)
+        visibleTiles.forEach {
+            setTileVisible(it.x, it.y, true)
         }
 
         lastVisibleTiles = visibleTiles
