@@ -61,6 +61,8 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
 
         if (!movePath.started) {
             movePath.start()
+            println("$path")
+
             send(EntityAnimationStartEvent(playerEntity, "walk"))
         }
     }
@@ -69,20 +71,20 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
         if (!isValid(gamePoint, level)) return
         val interactionEntity = entityWithNullable(allEntities().toList(), PlayerInteractionComponent::class) ?: return
         val positionComponent = interactionEntity[position] ?: return
-        if (point(gamePoint) == positionComponent.gridPosition) return
+//        if (point(gamePoint) == positionComponent.gridPosition) return
 
         val focusedGamePoint = positionComponent.position
         focusedGamePoint.set(gamePoint.x, gamePoint.y)
 
         val entitiesOnPosition = entitiesOnPosition(level, positionComponent.gridPosition) //todo filter interaction itself
         val interactionComponent = interactionEntity[interaction] ?: return
-        interactionComponent.focusedEntities = entitiesOnPosition
+        interactionComponent.hoveredEntities = entitiesOnPosition
 
-        println(
-            """---------------------
-                entities: ${entitiesOnPosition.print()}                
-            """.trimIndent()
-        )
+//        println(
+//            """---------------------
+//                entities: ${entitiesOnPosition.print()}
+//            """.trimIndent()
+//        )
     }
 
     private fun isValid(gamePoint: Vector2, level: LevelInfo): Boolean {

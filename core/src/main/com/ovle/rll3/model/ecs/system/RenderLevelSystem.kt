@@ -8,13 +8,17 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.math.Vector3
 import com.ovle.rll3.Event
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus
+import com.ovle.rll3.floatPoint
+import com.ovle.rll3.model.ecs.allEntities
 import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
+import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.SightComponent
 import com.ovle.rll3.model.ecs.componentMapper
+import com.ovle.rll3.model.ecs.entityWithNullable
 import com.ovle.rll3.model.ecs.playerInteractionInfo
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.*
@@ -23,7 +27,6 @@ import com.ovle.rll3.view.layer.LayerType
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.layer.testLayer
 import ktx.ashley.get
-import kotlin.math.roundToInt
 
 
 class RenderLevelSystem(
@@ -32,10 +35,11 @@ class RenderLevelSystem(
 ): EventSystem<Event>() {
 
     private val sight: ComponentMapper<SightComponent> = componentMapper()
+    private val position: ComponentMapper<PositionComponent> = componentMapper()
+    private val interaction: ComponentMapper<PlayerInteractionComponent> = componentMapper()
 
     private var mapRenderer: TiledMapRenderer? = null
     private var tiledMap: TiledMap? = null
-    private val selectedScreenPoint = Vector2()
 
 
     init {
@@ -50,7 +54,6 @@ class RenderLevelSystem(
             is CameraScaleDec -> onScaleChange(-0.1f)
             is CameraScrolled -> onScaleChange(-event.amount.toFloat() * scaleScrollCoeff)
             is CameraMoved -> onScrollOffsetChange(event.amount)
-            is MouseMoved -> onMousePositionChange(event.screenPoint)
             is EntityMoved -> onEntityMoved(event.entity)
             is LevelLoaded -> onLevelLoaded(event.level)
         }
@@ -70,9 +73,29 @@ class RenderLevelSystem(
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
 
+        focusCamera()
+
         if (mapRenderer != null) {
             draw()
         }
+    }
+
+    private fun focusCamera() {
+        val interactionEntity = entityWithNullable(allEntities().toList(), PlayerInteractionComponent::class)
+            ?: return
+        val interactionComponent = interactionEntity[interaction] ?: return
+        val focusedEntity = interactionComponent.focusedEntity ?: return
+        val focusedPosition = focusedEntity[position]?.position ?: return
+        val focusedScreenPosition = floatPoint(
+            focusedPosition.x * tileWidth,
+            focusedPosition.y * tileHeight
+        )
+
+        if (focusedScreenPosition.epsilonEquals(RenderConfig.scrollOffset)) return
+
+        RenderConfig.scrollOffset = focusedScreenPosition
+        camera.position.set(RenderConfig.scrollOffset.x, RenderConfig.scrollOffset.y, 0.0f)
+        camera.update()
     }
 
 
@@ -84,13 +107,6 @@ class RenderLevelSystem(
         mapRenderer!!.render()
     }
 
-    private fun onMousePositionChange(screenPoint: Vector2) {
-        val projected = camera.unproject(Vector3(screenPoint, 0.0f))
-        selectedScreenPoint.set(
-            ((projected.x.roundToInt() / tileWidth) * tileWidth).toFloat(),
-            ((projected.y.roundToInt() / tileHeight) * tileHeight).toFloat()
-        )
-    }
 
     private fun onScaleChange(diff: Float) {
         RenderConfig.scale += diff

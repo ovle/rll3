@@ -10,6 +10,7 @@ import com.ovle.rll3.model.ecs.component.AnimationComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
 import com.ovle.rll3.model.ecs.componentMapper
+import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.sprite.sprite
 import com.ovle.rll3.view.spriteHeight
@@ -17,7 +18,6 @@ import com.ovle.rll3.view.spriteWidth
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 import ktx.ashley.get
-import kotlin.math.roundToInt
 
 //todo event + iterating ?
 class RenderObjectsSystem(
@@ -47,7 +47,7 @@ class RenderObjectsSystem(
         super.update(deltaTime)
 
         toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.position.y }))
-        draw(toRender, deltaTime)
+        draw(toRender, deltaTime, RenderConfig)
         toRender.clear()
     }
 
@@ -58,7 +58,7 @@ class RenderObjectsSystem(
         }
     }
 
-    private fun draw(entities: List<Entity>, deltaTime: Float) {
+    private fun draw(entities: List<Entity>, deltaTime: Float, renderConfig: RenderConfig) {
         batch.begin()
 
         for (entity in entities) {
@@ -71,14 +71,17 @@ class RenderObjectsSystem(
             val region = currentAnimation?.currentFrame(deltaTime)
                 ?: sprite.textureRegion()
 
-//            val screenX = (position.x * tileWidth)
-//            val screenY = (position.y * tileHeight)
-            val screenX = (position.x.roundToInt() * tileWidth).toFloat()
-            val screenY = (position.y.roundToInt() * tileHeight).toFloat()
+            val scale = renderConfig.scale
+            val screenX = (position.x * tileWidth * scale)
+            val screenY = (position.y * tileHeight * scale)
+//            val screenX = (position.x.roundToInt() * tileWidth).toFloat()
+//            val screenY = (position.y.roundToInt() * tileHeight).toFloat()
             batch.draw(
                 region,
-                screenX, screenY,
-                spriteWidth.toFloat(), spriteHeight.toFloat()
+                screenX,
+                screenY,
+                spriteWidth.toFloat() * scale,
+                spriteHeight.toFloat() * scale
             )
         }
 

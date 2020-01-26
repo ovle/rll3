@@ -24,9 +24,15 @@ data class LevelInfo(val tiles: TileArray) {
 
 class LevelComponent(var level: LevelInfo): Component
 
+/**
+ * @property controlledEntity   entity, controlled by the player (affected by the user input events)
+ * @property focusedEntity      entity, which has the camera focus
+ * @property hoveredEntities   entities under the cursor
+ */
 class PlayerInteractionComponent(
     val controlledEntity: Entity? = null,
-    var focusedEntities: Collection<Entity> = listOf()
+    val focusedEntity: Entity? = null,
+    var hoveredEntities: Collection<Entity> = listOf()
 ) : Component
 
 class PositionComponent(var position: Vector2 = Vector2()) : Component {

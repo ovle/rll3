@@ -12,6 +12,7 @@ import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.componentMapper
 import ktx.ashley.get
 import kotlin.math.abs
+import kotlin.math.min
 
 
 class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionComponent::class.java).get()) {
@@ -34,14 +35,18 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         val currentPosition = positionComponent.position
 
         val moveComponent = entity[move]!!
-        val timePercent = moveComponent.tilesPerSecond * deltaTime
+        val tilesInTime = moveComponent.tilesPerSecond * deltaTime
         val movePath = moveComponent.path
         val currentTarget = movePath.currentTarget ?: return false
 
-        val dx = if (currentTarget.x > currentPosition.x) timePercent else -timePercent
-        val dy = if (currentTarget.y > currentPosition.y) timePercent else -timePercent
+        val dx = currentTarget.x - currentPosition.x
+        val dy = currentTarget.y - currentPosition.y
+        val dxInTimeAbs = min(tilesInTime, abs(dx))
+        val dyInTimeAbs = min(tilesInTime, abs(dy))
+        val dxInTime = if (dx > 0) dxInTimeAbs else -dxInTimeAbs
+        val dyInTime = if (dy > 0) dyInTimeAbs else -dyInTimeAbs
 
-        currentPosition.add(dx, dy)
+        currentPosition.add(dxInTime, dyInTime)
 
         val distanceToTarget = abs(currentPosition.dst(floatPoint(currentTarget)))
         val moveFinished = distanceToTarget <= stopDelta

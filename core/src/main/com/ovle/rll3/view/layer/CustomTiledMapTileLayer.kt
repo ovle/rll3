@@ -1,5 +1,6 @@
 package com.ovle.rll3.view.layer
 
+import com.badlogic.gdx.maps.tiled.TiledMapTile
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.math.GridPoint2
 
@@ -38,4 +39,10 @@ class CustomTiledMapTileLayer(width: Int, height: Int, tileWidth: Int, tileHeigh
     }
 
     private fun getCellIntr(x: Int, y: Int): Cell? = super.getCell(x, y)
+
+    private fun TiledMapTile?.isVisible() = (this?.properties?.get("visible") as Boolean?) ?: false
+
+    private fun TiledMapTile?.setVisible(value: Boolean?) {
+        this?.properties?.put("visible", value)
+    }
 }

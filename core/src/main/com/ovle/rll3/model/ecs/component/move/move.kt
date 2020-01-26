@@ -42,4 +42,10 @@ class MovePath {
         path.clear()
         currentIndex = -1
     }
+
+    override fun toString(): String {
+        return """
+            path: [${path.map { it }.joinToString(", ")}]
+        """.trimIndent()
+    }
 }
