@@ -69,8 +69,8 @@ class LevelSystem: EventSystem<LevelActionEvent>() {
 
         engine.entity(
             PlayerInteractionComponent(
-                controlledEntity = player
-//                focusedEntity = player
+                controlledEntity = player,
+                focusedEntity = player
             ),
             RenderComponent(),
             PositionComponent()

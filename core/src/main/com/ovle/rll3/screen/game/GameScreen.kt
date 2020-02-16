@@ -7,6 +7,8 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.utils.Align
 import com.ovle.rll3.Event
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.ScreenManager
@@ -18,9 +20,10 @@ import com.ovle.rll3.view.spriteTexturePath
 import com.ovle.rll3.view.tileTexturePath
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ktx.actors.onClick
+import ktx.scene2d.container
+import ktx.scene2d.horizontalGroup
+import ktx.scene2d.label
 import ktx.scene2d.textButton
-import ktx.scene2d.verticalGroup
-import ktx.scene2d.window
 import kotlin.math.min
 
 
@@ -31,6 +34,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 
     private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls()
+
+    lateinit var infoLabel: Label
 
     //todo refactor
     override fun show() {
@@ -45,6 +50,7 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         objectsTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
         val levelTexturesInfo = TexturesInfo(levelTexture)
         val objectsTextureInfo = TexturesInfo(objectsTexture)
+        val camera = batchViewport.camera as OrthographicCamera
 
         ecsEngine = PooledEngine()
 
@@ -57,11 +63,13 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 //        val aiSystem = AISystem()
 //        val timeSystem = TimeSystem()
 //        val lightSystem = LightSystem()
+        val cameraSystem = CameraSystem(camera)
         val renderLevelSystem = RenderLevelSystem(camera, levelTexturesInfo)
         val renderObjectsSystem = RenderObjectsSystem(batch, objectsTextureInfo)
 
         val systems = listOf(
             animationSystem,
+            cameraSystem,
             renderLevelSystem,
             renderObjectsSystem,
             levelSystem,
@@ -85,22 +93,27 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         //todo free other resources?
     }
 
-    override fun render(delta: Float) {
+    override fun renderIntr(delta: Float) {
         ecsEngine.update(min(delta, 1 / 60f))
-        super.render(delta)
     }
 
 
-    override fun rootActor() = window(title = "Game") {
+    override fun rootActor() =
+        container {
+            horizontalGroup {
+                textButton(text = "Menu") {
+                    align(Align.bottom)
+                    onClick { screenManager.goToScreen(MainMenuScreenType) }
+                }
 
-        verticalGroup {
-            textButton(text = "Back") {
-                onClick { screenManager.goToScreen(MainMenuScreenType) }
+                label(text = "text:") {
+                    //todo bind to game events
+                    infoLabel = this
+                }
             }
+            pack()
         }
 
-        pack()
-    }
 
     override fun screenInputProcessor() = controls
 }

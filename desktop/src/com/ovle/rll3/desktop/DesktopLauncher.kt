@@ -16,8 +16,9 @@ object DesktopLauncher {
             width = screenWidth.roundToInt()
             height = screenHeight.roundToInt()
 
-//            initialBackgroundColor =
+//            initialBackgroundColor = bgColor
         }
+
         LwjglApplication(RLL3Game(), config)
     }
 }

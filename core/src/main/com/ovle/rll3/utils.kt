@@ -28,11 +28,13 @@ fun floatPoint(point: GridPoint2) = Vector2(point.x.toFloat(), point.y.toFloat()
 
 
 fun toGamePoint(screenPoint: Vector2, renderConfig: RenderConfig): Vector2 {
-//    println("screenPoint $screenPoint")
+    println("screenPoint $screenPoint")
+//    val mapScreenPoint = screenPoint
     val mapScreenPoint = toMapScreenPoint(screenPoint, renderConfig)
 
     val x = mapScreenPoint.x / tileWidth
     val y = mapScreenPoint.y / tileHeight
+    println("gamePoint ($x $y)")
 
     return Vector2(x, y)
 }

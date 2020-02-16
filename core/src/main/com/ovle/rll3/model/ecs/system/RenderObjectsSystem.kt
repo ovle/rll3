@@ -51,12 +51,12 @@ class RenderObjectsSystem(
         toRender.clear()
     }
 
-
     private fun initSprite(renderComponent: RenderComponent, entity: Entity) {
         if (renderComponent.sprite == null) {
             renderComponent.sprite = sprite(entity, regions)
         }
     }
+
 
     private fun draw(entities: List<Entity>, deltaTime: Float, renderConfig: RenderConfig) {
         batch.begin()
@@ -74,8 +74,6 @@ class RenderObjectsSystem(
             val scale = renderConfig.scale
             val screenX = (position.x * tileWidth * scale)
             val screenY = (position.y * tileHeight * scale)
-//            val screenX = (position.x.roundToInt() * tileWidth).toFloat()
-//            val screenY = (position.y.roundToInt() * tileHeight).toFloat()
             batch.draw(
                 region,
                 screenX,

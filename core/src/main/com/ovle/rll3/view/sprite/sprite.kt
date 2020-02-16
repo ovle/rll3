@@ -19,18 +19,9 @@ fun sprite(regions: TextureRegions, x: Int, y: Int): Sprite {
 fun sprite(entity: Entity, regions: TextureRegions): Sprite {
     return when {
         //todo hack, will use the template
-        entity.has(MoveComponent::class) -> sprite(
-            regions,
-            1, 1
-        )
-        entity.has(LightComponent::class) -> sprite(
-            regions,
-            0, 4
-        )
-        entity.has(PlayerInteractionComponent::class) -> sprite(
-            regions,
-            0, 0
-        )
+        entity.has(MoveComponent::class) -> sprite(regions,1, 1)
+        entity.has(LightComponent::class) -> sprite(regions,7, 1)
+        entity.has(PlayerInteractionComponent::class) -> sprite(regions,0, 0)
         else -> sprite(regions, 1, 0)
     }
 }

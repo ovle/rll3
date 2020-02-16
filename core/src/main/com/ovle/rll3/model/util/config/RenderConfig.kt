@@ -8,7 +8,7 @@ import com.ovle.rll3.view.screenWidth
 
 
 object RenderConfig {
-    var scale: Float = initialScale //todo fix scale <> 1
+    val scale: Float = initialScale
     var scrollOffset: Vector2 = Vector2(screenWidth / 2, screenHeight / 2)
     var unproject: ((Vector3) -> Vector3)? = null
 }

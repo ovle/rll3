@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Color
 
 object Palette {
     private val mappedPalette = arrayOf(
-        Color.valueOf("272744ff"),
+        Color.valueOf("272744ff"),  //r 0.286 g 0.302 b 0.494
         Color.valueOf("494D7Eff"),
-        Color.valueOf("8B6D9Cff"),
+        Color.valueOf("8B6D9Cff"),  //r 0.545 g 0.427 b 0.611
         Color.valueOf("C69FA5ff"),
 //        Color.valueOf("F2D3ABff"),
-        Color.valueOf("FBF5EFff")
+        Color.valueOf("FBF5EFff")   //r 0.984 g 0.96 b 0.937
     )
 
     private val paltte0 = arrayOf(

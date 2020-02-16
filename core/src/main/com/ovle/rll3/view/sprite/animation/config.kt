@@ -5,10 +5,10 @@ val torchAnimation = AnimationTemplate(
     id = "default",
     frameDuration = 0.125f,
     frames = arrayOf(
-        0 to 4,
-        1 to 4,
-        2 to 4,
-        3 to 4
+        7 to 1,
+        8 to 1,
+        9 to 1,
+        10 to 1
     ),
     repeat = true,
     alwaysPlaying = true
