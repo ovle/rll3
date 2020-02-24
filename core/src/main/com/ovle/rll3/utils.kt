@@ -28,13 +28,10 @@ fun floatPoint(point: GridPoint2) = Vector2(point.x.toFloat(), point.y.toFloat()
 
 
 fun toGamePoint(screenPoint: Vector2, renderConfig: RenderConfig): Vector2 {
-    println("screenPoint $screenPoint")
-//    val mapScreenPoint = screenPoint
     val mapScreenPoint = toMapScreenPoint(screenPoint, renderConfig)
 
     val x = mapScreenPoint.x / tileWidth
     val y = mapScreenPoint.y / tileHeight
-    println("gamePoint ($x $y)")
 
     return Vector2(x, y)
 }
@@ -42,6 +39,10 @@ fun toGamePoint(screenPoint: Vector2, renderConfig: RenderConfig): Vector2 {
 fun toMapScreenPoint(screenPoint: Vector2, renderConfig: RenderConfig): Vector3 =
     renderConfig.unproject?.invoke(Vector3(screenPoint, 0.0f))!!
 
+
+fun isNearHV(p1: GridPoint2, p2: GridPoint2?) =
+    if (p2 == null) false
+    else isNearHV(p1.x, p1.y, p2.x, p2.y)
 
 fun isNearHV(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     return x1 == x2 && y1 in ((y2 - 1)..(y2 + 1))

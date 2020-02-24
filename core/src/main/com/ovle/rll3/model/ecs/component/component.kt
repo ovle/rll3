@@ -6,18 +6,23 @@ import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.light.LightTilePosition
 import com.ovle.rll3.model.ecs.component.move.MovePath
+import com.ovle.rll3.model.ecs.system.level.LevelId
 import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.point
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.sprite.animation.FrameAnimation
+import java.util.*
 
 //todo
 // for collections
 // var?
 // val + mutable ?
 
-data class LevelInfo(val tiles: TileArray) {
+data class LevelInfo(
+    val id: LevelId = UUID.randomUUID(),
+    val tiles: TileArray
+) {
     val rooms: MutableCollection<RoomInfo> = mutableListOf()
     val objects: MutableCollection<Entity> = mutableListOf()
 }
@@ -48,6 +53,10 @@ class LightComponent(
 class DoorComponent : Component
 
 class TrapComponent : Component
+
+class LevelConnectionComponent(
+    val id: UUID = UUID.randomUUID()
+) : Component
 
 class SightComponent(val radius: Int) : Component {
     var positions: Set<GridPoint2> = setOf()

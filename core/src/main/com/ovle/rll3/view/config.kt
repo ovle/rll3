@@ -14,7 +14,7 @@ const val textureTileHeight = tileHeight
 
 const val spriteWidth = 24
 const val spriteHeight = 24
-const val gameFullscreen = true
+const val gameFullscreen = false
 const val skinPath = "skins/c64/uiskin.json"
 const val tileTexturePath = "images/tiles.png"
 const val spriteTexturePath = "images/sprites.png"
@@ -22,3 +22,7 @@ const val spriteTexturePath = "images/sprites.png"
 val bgColor = blackColor.cpy()
 
 const val defaultAnimationInterval = 0.125f
+
+//debug
+const val noLightning = true
+const val noVisibilityFilter = true

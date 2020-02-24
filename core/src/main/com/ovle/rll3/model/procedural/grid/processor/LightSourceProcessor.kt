@@ -3,13 +3,8 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.AnimationComponent
-import com.ovle.rll3.model.ecs.component.LightComponent
-import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.component.RenderComponent
 import com.ovle.rll3.model.ecs.component.light.LightTilePosition
-import com.ovle.rll3.model.ecs.entity
+import com.ovle.rll3.model.ecs.entity.newLightSource
 import com.ovle.rll3.model.procedural.floorTypes
 import com.ovle.rll3.model.procedural.lightSourceChance
 import com.ovle.rll3.model.tile.TileArray
@@ -37,20 +32,12 @@ class LightSourceProcessor : TilesInfoProcessor {
                 //todo check doors ?
                 if (isLightSource) {
                     val position = point(x, y)
-                    result.add(lightSource(position, gameEngine, tiles, LightConfig))
+                    result.add(newLightSource(position, gameEngine, lightPositions(position, tiles, LightConfig)))
                 }
             }
         }
         return result
     }
-
-    private fun lightSource(position: GridPoint2, gameEngine: Engine, tiles: TileArray, lightConfig: LightConfig) =
-        gameEngine.entity(
-            PositionComponent(floatPoint(position)),
-            LightComponent(lightConfig.radius, lightPositions(position, tiles, lightConfig)),
-            RenderComponent(),
-            AnimationComponent()
-        )
 
     private fun lightPositions(position: GridPoint2, tiles: TileArray, lightConfig: LightConfig): List<LightTilePosition> {
         return fieldOfView(

@@ -34,6 +34,5 @@ class ScreenManager(private val context: Context, val setScreen: (BaseScreen) ->
 
     fun screens() = screensByType.values
     fun initScreen() = MainMenuScreen::class.java
-    fun goToScreen(screenType: ScreenType) = setScreen(screensByType[screenType]
-            ?: error("screen $screenType not found"))
+    fun goToScreen(screenType: ScreenType) = setScreen(screensByType[screenType] ?: error("screen $screenType not found"))
 }

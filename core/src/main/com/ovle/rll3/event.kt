@@ -3,6 +3,7 @@ package com.ovle.rll3
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -18,20 +19,16 @@ sealed class Event {
     class CameraScaleDec: PlayerControlEvent()
     class CameraScrolled(val amount: Int): PlayerControlEvent()
     class CameraMoved(val amount: Vector2): PlayerControlEvent()
-    //test
-    open class LevelActionEvent: Event()
-    open class LevelEditEvent: Event()
 
-    class NextLevelEvent: LevelActionEvent()
-    class PrevLevelEvent: LevelActionEvent()
-    class SaveLevelEvent: LevelActionEvent()
-    class LoadLevelEvent: LevelActionEvent()
+    open class GameStartedEvent: Event()
+    open class LevelEditEvent: Event()
 
     class LightSwitchEvent: LevelEditEvent() //todo
 
     open class GameEvent : Event()
     open class EntityEvent(val entity: Entity) : GameEvent()
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
+    open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
     class LevelUnloaded(val level: LevelInfo): GameEvent()
     class LevelLoaded(val level: LevelInfo): GameEvent()
 

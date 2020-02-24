@@ -1,15 +1,13 @@
 package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.ComponentMapper
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.model.ecs.*
-import com.ovle.rll3.model.ecs.component.LevelInfo
-import com.ovle.rll3.model.ecs.component.MoveComponent
-import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
-import com.ovle.rll3.model.ecs.component.PositionComponent
+import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.model.util.entityTilePassMapper
 import com.ovle.rll3.model.util.pathfinding.aStar.path
@@ -24,6 +22,7 @@ import kotlin.math.roundToInt
 class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
     private val move: ComponentMapper<MoveComponent> = componentMapper()
     private val position: ComponentMapper<PositionComponent> = componentMapper()
+    private val levelConnection: ComponentMapper<LevelConnectionComponent> = componentMapper()
     private val interaction: ComponentMapper<PlayerInteractionComponent> = componentMapper()
 
     override fun channel() = receive<PlayerControlEvent>()
@@ -31,8 +30,30 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
     override fun dispatch(event: PlayerControlEvent) {
         val level = levelInfoNullable() ?: return
         when (event) {
-            is MouseLeftClick -> onMoveTargetSet(toGamePoint(event.screenPoint, RenderConfig), level)
+            is MouseLeftClick -> {
+                val gamePoint = toGamePoint(event.screenPoint, RenderConfig)
+                val connectionEntity = connectionOnPosition(level, point(gamePoint))
+                when {
+                    connectionEntity != null -> onTransitionAction(gamePoint, level, connectionEntity)
+                    else -> onMoveTargetSet(gamePoint, level)
+                }
+
+            }
             is MouseMoved -> onMousePositionChange(toGamePoint(event.screenPoint, RenderConfig), level)
+        }
+    }
+
+    //todo other actions
+    private fun onTransitionAction(gamePoint: Vector2, level: LevelInfo, connectionEntity: Entity) {
+        val connectionPositionComponent = connectionEntity[position]
+        val playerEntity = playerInteractionInfo()?.controlledEntity ?: return
+        val playerPositionComponent = playerEntity[position]!!
+
+        val playerIsNearTransition = true// isNearHV(playerPositionComponent.gridPosition, connectionPositionComponent?.gridPosition)
+        if (playerIsNearTransition) {
+            val connectionComponent = connectionEntity[levelConnection]!!
+
+            send(EntityLevelTransition(playerEntity, connectionComponent.id))
         }
     }
 
@@ -61,7 +82,7 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
 
         if (!movePath.started) {
             movePath.start()
-            println("$path")
+//            println("$path")
 
             send(EntityAnimationStartEvent(playerEntity, "walk"))
         }

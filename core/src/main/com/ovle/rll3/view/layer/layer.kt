@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.utils.Array
 import com.ovle.rll3.model.ecs.component.DoorComponent
 import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.LevelConnectionComponent
 import com.ovle.rll3.model.ecs.component.TrapComponent
 import com.ovle.rll3.model.ecs.component.light.lightByPosition
 import com.ovle.rll3.model.ecs.component.light.lightTiles
@@ -20,6 +21,7 @@ import com.ovle.rll3.model.tile.LightValueType.*
 import com.ovle.rll3.model.util.config.LightConfig
 import com.ovle.rll3.point
 import com.ovle.rll3.view.defaultAnimationInterval
+import com.ovle.rll3.view.noLightning
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 
@@ -60,6 +62,7 @@ private fun tileTextureRegions(
 
     fun hasDoor(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), DoorComponent::class)
     fun hasTrap(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), TrapComponent::class)
+    fun hasTransition(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
     fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
     fun hasWallOrPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId || hasDoor(x, y))) 1 else 0
     fun hasRoomWall(tileId: Int?): Int = if (tileId != null && tileId != roomFloorTileId) 1 else 0
@@ -93,22 +96,24 @@ private fun tileTextureRegions(
 
     val isTrap = hasTrap(nearTiles.x, nearTiles.y)
     val isPortal = false
+    val isTransition = hasTransition(nearTiles.x, nearTiles.y)
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, isDoorUp)
 
     val wallTileSet = roomWallTileSet
-//    val wallTileSet = if (isRoomWall) roomWallTileSet else passageWallTileSet
     val floorBorderTileSet = floorBorderTileSet
 
     val emptyTile = arrayOf<TextureRegion>()
-    val regions = when (lightValueType) {
-        Full -> textureRegions.lightRegions
-        Half -> textureRegions.regions
-        else -> textureRegions.darkRegions
-    }
+
+    val regions =
+        if (noLightning) textureRegions.regions else
+        when (lightValueType) {
+            Full -> textureRegions.lightRegions
+            Half -> textureRegions.regions
+            else -> textureRegions.darkRegions
+        }
 
     return when (layerType) {
         LayerType.Walls -> when {
-            isDoor -> arrayOf(regions[4][(if (isRoomFloorNearVertical) 8 else 9)])
             isWall -> arrayOf(indexedTextureTile(wallTileSet, wallTileIndex, regions))
             isRoomFloor || isCorridorFloor -> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
             else -> emptyTile
@@ -119,6 +124,8 @@ private fun tileTextureRegions(
             else -> emptyTile
         }
         LayerType.Decoration -> when {
+            isTransition -> arrayOf(regions[4][10])
+            isDoor -> arrayOf(regions[4][8])
             isTrap -> trapsTR(regions)
             isPortal -> portalTR(regions)
             else -> when {

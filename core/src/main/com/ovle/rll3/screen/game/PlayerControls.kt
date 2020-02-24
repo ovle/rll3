@@ -18,10 +18,6 @@ class PlayerControls : InputAdapter() {
     override fun keyUp(keycode: Int) = when (keycode) {
         Input.Keys.MINUS -> { send(Event.CameraScaleDec()); true }
         Input.Keys.PLUS -> { send(Event.CameraScaleInc()); true }
-        Input.Keys.Z -> { send(Event.PrevLevelEvent()); true }
-        Input.Keys.X -> { send(Event.NextLevelEvent()); true }
-        Input.Keys.C -> { send(Event.SaveLevelEvent()); true }
-        Input.Keys.V -> { send(Event.LoadLevelEvent()); true }
         Input.Keys.L -> { send(Event.LightSwitchEvent()); true }
         else -> false
     }

@@ -11,11 +11,11 @@ import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
 import com.ovle.rll3.model.ecs.componentMapper
 import com.ovle.rll3.model.util.config.RenderConfig
+import com.ovle.rll3.roundToClosestByAbsInt
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.sprite.sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
-import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 import ktx.ashley.get
 
@@ -72,12 +72,12 @@ class RenderObjectsSystem(
                 ?: sprite.textureRegion()
 
             val scale = renderConfig.scale
-            val screenX = (position.x * tileWidth * scale)
-            val screenY = (position.y * tileHeight * scale)
+            val screenX = (position.x * scale).roundToClosestByAbsInt() * tileWidth
+            val screenY = (position.y * scale).roundToClosestByAbsInt() * tileWidth
             batch.draw(
                 region,
-                screenX,
-                screenY,
+                screenX.toFloat(),
+                screenY.toFloat(),
                 spriteWidth.toFloat() * scale,
                 spriteHeight.toFloat() * scale
             )

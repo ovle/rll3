@@ -78,7 +78,7 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
         )
         systems.forEach { ecsEngine.addSystem((it)) }
 
-        EventBus.send(Event.NextLevelEvent())
+        EventBus.send(Event.GameStartedEvent())
     }
 
     override fun hide() {

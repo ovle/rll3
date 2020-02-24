@@ -6,8 +6,9 @@ import com.ovle.rll3.model.tile.corridorFloorTileId
 import com.ovle.rll3.model.tile.pitFloorTileId
 import com.ovle.rll3.model.tile.roomFloorTileId
 
-const val mapSizeInTiles = 55
+const val mapSizeInTiles = 25
 const val lightSourceChance = 0.05f
+const val doorChance = 0.5f
 const val trapChance = 0.05f
 
 val roomFloorTypes = setOf(roomFloorTileId, pitFloorTileId)

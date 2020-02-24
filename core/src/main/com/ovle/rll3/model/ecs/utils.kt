@@ -3,10 +3,7 @@ package com.ovle.rll3.model.ecs
 import com.badlogic.ashley.core.*
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.LevelComponent
-import com.ovle.rll3.model.ecs.component.LevelInfo
-import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
-import com.ovle.rll3.model.ecs.component.PositionComponent
+import com.ovle.rll3.model.ecs.component.*
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.reflect.KClass
@@ -61,6 +58,11 @@ fun entitiesOnPosition(levelInfo: LevelInfo, position: GridPoint2): Collection<E
     }
 }
 
+fun connectionOnPosition(levelInfo: LevelInfo, position: GridPoint2) = entitiesOnPosition(levelInfo, position)
+    .singleOrNull {
+        it.has(LevelConnectionComponent::class)
+    }
+
 fun Collection<Entity>.print() = map { it.print() }.foldRight("entities: ") { acc, it -> "$acc; $it" }
 
 fun Entity.print() = components.map { it.print() }.foldRight("components: ") { acc, it -> "$acc, $it" }
@@ -68,4 +70,3 @@ fun Entity.print() = components.map { it.print() }.foldRight("components: ") { a
 fun Component.print(): String {
     return this.toString()
 }
-

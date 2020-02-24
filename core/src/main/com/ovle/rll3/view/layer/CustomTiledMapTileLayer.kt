@@ -3,11 +3,11 @@ package com.ovle.rll3.view.layer
 import com.badlogic.gdx.maps.tiled.TiledMapTile
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.view.noVisibilityFilter
 
 
 class CustomTiledMapTileLayer(width: Int, height: Int, tileWidth: Int, tileHeight: Int): TiledMapTileLayer(width, height, tileWidth, tileHeight) {
 
-    private var bypassVisibilityFilter = true
     private var lastVisibleTiles: Set<GridPoint2>? = null
 
 
@@ -15,7 +15,7 @@ class CustomTiledMapTileLayer(width: Int, height: Int, tileWidth: Int, tileHeigh
         val cell = getCellIntr(x, y)
         val isVisible = cell?.tile.isVisible()
 
-        return if (!isVisible && !bypassVisibilityFilter) null else cell
+        return if (!isVisible && !noVisibilityFilter) null else cell
     }
 
     fun markVisiblePositions(visibleTiles: Set<GridPoint2>) {

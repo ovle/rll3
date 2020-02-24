@@ -6,7 +6,6 @@ typealias TilePassTypeFn = ((Tile) -> TilePassType)
 typealias LightPassTypeFn = ((Tile) -> LightPassType)
 
 data class Tile(
-//    val position: GridPoint2 = point(),
     val typeId: TileType = outOfMapTileId
 )
 
