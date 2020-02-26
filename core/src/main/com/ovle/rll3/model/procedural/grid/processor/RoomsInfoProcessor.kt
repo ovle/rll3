@@ -4,7 +4,8 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.isNear
 import com.ovle.rll3.model.ecs.component.LevelInfo
-import com.ovle.rll3.model.procedural.roomFloorTypes
+import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
+import com.ovle.rll3.model.procedural.grid.roomFloorTypes
 import com.ovle.rll3.model.tile.nearValues
 import kotlin.math.roundToInt
 
@@ -14,9 +15,9 @@ typealias RoomTiles = MutableList<Vector2>
 data class RoomInfo(val x: Int, val y: Int, val width: Int, val height: Int)
 
 
-class RoomsInfoProcessor : TilesInfoProcessor {
+class RoomsInfoProcessor : TilesProcessor {
 
-    override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
+    override fun process(levelInfo: LevelInfo, generationSettings: LevelGenerationSettings, gameEngine: Engine) {
         val tiles = levelInfo.tiles
         val roomsData = mutableListOf<RoomTiles>()
         var currentRoom: RoomTiles? = null

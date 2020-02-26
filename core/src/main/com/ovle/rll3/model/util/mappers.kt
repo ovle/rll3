@@ -4,23 +4,17 @@ import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.procedural.grid.GridFactory
 import com.ovle.rll3.model.tile.*
 
-fun gridToTileArray(grid: Grid): TileArray {
+
+fun gridToTileArray(grid: Grid, mapFunction: (Float) -> TileType): TileArray {
     val size = grid.width
     val floatValues = grid.array
-    val tiles = floatValueArrayToTiles(floatValues, size)
+    val tiles = floatValues.map {
+        Tile(mapFunction(it))
+    }.toTypedArray()
     return TileArray(tiles, size)
 }
 
-fun floatValueArrayToTiles(floatValues: FloatArray, size: Int): Array<Tile> {
-    return floatValues.mapIndexed { index, value ->
-        Tile(
-//            point(index % size, index / size),
-            gridValueToTileId(value)
-        )
-    }.toTypedArray()
-}
-
-private fun gridValueToTileId(gridValue: Float): Int {
+fun dungeonGridValueToTileType(gridValue: Float): TileType {
     return when {
         gridValue >= GridFactory.wallTreshold -> wallTileId
         gridValue == GridFactory.floorTreshold -> roomFloorTileId

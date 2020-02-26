@@ -17,12 +17,10 @@ import com.ovle.rll3.model.ecs.system.level.ConnectionData
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.ecs.system.level.LevelTransitionInfo
-import com.ovle.rll3.model.procedural.dungeonGenerationSettings
-import com.ovle.rll3.model.procedural.grid.DungeonGenerationSettings
-import com.ovle.rll3.model.procedural.grid.DungeonGridFactory
+import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
+import com.ovle.rll3.model.procedural.config.LevelSettings
+import com.ovle.rll3.model.procedural.config.dungeonLevelSettings
 import com.ovle.rll3.model.procedural.grid.GridFactory
-import com.ovle.rll3.model.procedural.grid.processor.*
-import com.ovle.rll3.model.procedural.mapSizeInTiles
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
 import ktx.ashley.get
@@ -50,7 +48,10 @@ class LevelSystem: EventSystem<Event>() {
     }
 
     private fun loadLevel(oldLevel: LevelInfo? = null, connectionId: ConnectionId? = null): LevelInfo {
-        val newTransition = changeLevel(oldLevel, connectionId, engine)
+        //todo
+        val levelSettings = dungeonLevelSettings
+
+        val newTransition = changeLevel(oldLevel, connectionId, engine, levelSettings)
         val newLevel = newTransition.levelInfo
         if (!newTransition.isNew) {
             restoreEntities(newLevel)
@@ -82,12 +83,12 @@ class LevelSystem: EventSystem<Event>() {
         levelEntity[levelMapper]?.level = newLevel
 
         //            send(LevelUnloaded(it))
-        send(LevelLoaded(newLevel))
+        send(LevelLoaded(newLevel, levelSettings))
 
         return newLevel
     }
 
-    fun changeLevel(level: LevelInfo?, connectionId: ConnectionId?, engine: Engine): LevelTransitionInfo {
+    fun changeLevel(level: LevelInfo?, connectionId: ConnectionId?, engine: Engine, levelSettings: LevelSettings<LevelGenerationSettings, GridFactory>): LevelTransitionInfo {
         val connection = LevelRegistry.connection(connectionId)
         var backConnectionId: ConnectionId? = null
         val isNewLevel = connection == null
@@ -97,8 +98,11 @@ class LevelSystem: EventSystem<Event>() {
             backConnectionId = connection.connectionId
             LevelRegistry.levelInfo(connection.levelId)
         } else {
-            val newLevel = newLevelInfo(mapSizeInTiles, DungeonGridFactory(), dungeonGenerationSettings)
-            postProcess(newLevel, engine)
+            val newLevel = newLevelInfo(levelSettings)
+
+            levelSettings.postProcessors.forEach {
+                it.process(newLevel, levelSettings.generationSettings, engine)
+            }
 
             println("create new level ${newLevel.id}")
             println("                        transition: $connectionId")
@@ -117,26 +121,20 @@ class LevelSystem: EventSystem<Event>() {
         return LevelTransitionInfo(newLevel, backConnectionId, isNewLevel)
     }
 
-    private fun newLevelInfo(size: Int, gridFactory: GridFactory, generationSettings: DungeonGenerationSettings): LevelInfo {
-        val grid = gridFactory.get(size, generationSettings)
-        val tiles = gridToTileArray(grid)
+    private fun newLevelInfo(levelSettings: LevelSettings<LevelGenerationSettings, GridFactory>): LevelInfo {
+        val generationSettings = levelSettings.generationSettings
+        val grid = levelSettings.gridFactory.get(
+            generationSettings.size,
+            generationSettings
+        )
+
+        val tiles = gridToTileArray(grid, levelSettings.gridValueToTileType)
         return LevelInfo(tiles = tiles)
     }
 
     private fun randomConnection(level: LevelInfo): ConnectionId {
         val connections = entitiesWith(level.objects, LevelConnectionComponent::class)
         return connections.random().component(LevelConnectionComponent::class)!!.id
-    }
-
-    private fun postProcess(newLevel: LevelInfo, engine: Engine) {
-        //todo inject list by interface
-        RoomsInfoProcessor().process(newLevel, engine)
-        RoomStructureProcessor().process(newLevel, engine)
-
-        LevelConnectionProcessor().process(newLevel, engine)
-        DoorProcessor().process(newLevel, engine)
-        LightSourceProcessor().process(newLevel, engine)
-//                TrapProcessor().process(newLevel, engine)
     }
 
     private fun playerStartPosition(level: LevelInfo, connectionId: ConnectionId?): GridPoint2 {

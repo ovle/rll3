@@ -5,14 +5,15 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.entity.newConnection
+import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
 import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.model.tile.roomFloorTileId
 import com.ovle.rll3.model.tile.wallTileId
 import com.ovle.rll3.point
 
-class LevelConnectionProcessor : TilesInfoProcessor {
+class LevelConnectionProcessor : TilesProcessor {
 
-    override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
+    override fun process(levelInfo: LevelInfo, generationSettings: LevelGenerationSettings, gameEngine: Engine) {
         val tiles = levelInfo.tiles
         val connectionsToHave = 2
         val maxAttempts = 10

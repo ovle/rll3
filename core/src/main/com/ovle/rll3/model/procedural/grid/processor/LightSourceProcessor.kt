@@ -5,8 +5,9 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.light.LightTilePosition
 import com.ovle.rll3.model.ecs.entity.newLightSource
-import com.ovle.rll3.model.procedural.floorTypes
-import com.ovle.rll3.model.procedural.lightSourceChance
+import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
+import com.ovle.rll3.model.procedural.config.LevelGenerationSettings.DungeonGenerationSettings
+import com.ovle.rll3.model.procedural.grid.floorTypes
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.model.tile.wallTileId
@@ -16,10 +17,12 @@ import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
 import com.ovle.rll3.point
 
 
-class LightSourceProcessor : TilesInfoProcessor {
+class LightSourceProcessor : TilesProcessor {
 
-    override fun process(tiles: TileArray, gameEngine: Engine): Collection<Entity> {
+    override fun process(tiles: TileArray, generationSettings: LevelGenerationSettings, gameEngine: Engine): Collection<Entity> {
         val result = mutableListOf<Entity>()
+        generationSettings as DungeonGenerationSettings
+
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
                 val nearTiles = nearValues(tiles, x, y)
@@ -28,7 +31,7 @@ class LightSourceProcessor : TilesInfoProcessor {
                 val isWallTileNear = nearTiles.allHV.map { it?.typeId }.any { it == wallTileId }
                 val isFreeForLightSource = isFloorTile && isFreeSpaceTileNear && isWallTileNear
                 //todo this should depend on distance to nearest light source
-                val isLightSource = isFreeForLightSource && Math.random() <= lightSourceChance
+                val isLightSource = isFreeForLightSource && Math.random() <= generationSettings.lightSourceChance
                 //todo check doors ?
                 if (isLightSource) {
                     val position = point(x, y)

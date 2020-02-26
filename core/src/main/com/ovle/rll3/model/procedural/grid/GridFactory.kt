@@ -1,8 +1,10 @@
 package com.ovle.rll3.model.procedural.grid
 
 import com.github.czyzby.noise4j.map.Grid
-import com.github.czyzby.noise4j.map.generator.room.RoomType
 import com.github.czyzby.noise4j.map.generator.room.dungeon.DungeonGenerator
+import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
+import com.ovle.rll3.model.procedural.config.LevelGenerationSettings.DungeonGenerationSettings
+import com.ovle.rll3.model.procedural.config.LevelGenerationSettings.TemplateGenerationSettings
 import com.ovle.rll3.model.procedural.grid.GridFactory.Companion.corridorTreshold
 import com.ovle.rll3.model.procedural.grid.GridFactory.Companion.floorTreshold
 import com.ovle.rll3.model.procedural.grid.GridFactory.Companion.wallTreshold
@@ -14,22 +16,14 @@ interface GridFactory {
         const val corridorTreshold = 0.2f
     }
 
-    fun get(size: Int, settings: DungeonGenerationSettings): Grid
+    fun get(size: Int, settings: LevelGenerationSettings): Grid
 }
-
-class DungeonGenerationSettings(
-    val roomTypes: Array<RoomType>,
-    val maxRoomSize: Int,
-    val minRoomSize: Int,
-    val tolerance: Int, // Max difference between width and height.
-    val windingChance: Float,
-    val randomConnectorChance: Float
-)
-
 
 class DungeonGridFactory: GridFactory {
 
-    override fun get(size: Int, settings: DungeonGenerationSettings): Grid {
+    override fun get(size: Int, settings: LevelGenerationSettings): Grid {
+        settings as DungeonGenerationSettings
+
         val grid = Grid(size)
         val dungeonGenerator = DungeonGenerator.getInstance()
 
@@ -51,4 +45,16 @@ class DungeonGridFactory: GridFactory {
 
         return grid
     }
+}
+
+//todo
+class TemplateGridFactory: GridFactory {
+    override fun get(size: Int, settings: LevelGenerationSettings): Grid {
+        settings as TemplateGenerationSettings
+
+        val grid = Grid(size)
+        return grid
+    }
+
+    //private fun tileIndexToTile(index: Int, size: Int) = Tile(typeId = template[index % size][index / size])
 }

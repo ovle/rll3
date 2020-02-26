@@ -3,6 +3,7 @@ package com.ovle.rll3.model.procedural.grid
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray
 
+//todo
 interface TileFactory {
     fun get(size: Int): TileArray
 }
