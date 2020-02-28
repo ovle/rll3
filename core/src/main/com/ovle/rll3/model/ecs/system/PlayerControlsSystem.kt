@@ -6,8 +6,13 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
-import com.ovle.rll3.model.ecs.*
 import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.entity.EntityQuery.connectionOnPosition
+import com.ovle.rll3.model.ecs.entity.EntityQuery.entitiesOnPosition
+import com.ovle.rll3.model.ecs.entity.EntityQuery.entityWithNullable
+import com.ovle.rll3.model.ecs.entity.allEntities
+import com.ovle.rll3.model.ecs.entity.levelInfoNullable
+import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.model.util.entityTilePassMapper
 import com.ovle.rll3.model.util.pathfinding.aStar.path

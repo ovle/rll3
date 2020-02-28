@@ -7,8 +7,8 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.SightComponent
-import com.ovle.rll3.model.ecs.componentMapper
-import com.ovle.rll3.model.ecs.levelInfo
+import com.ovle.rll3.model.ecs.component.componentMapper
+import com.ovle.rll3.model.ecs.entity.levelInfo
 import com.ovle.rll3.model.util.lightTilePassMapper
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
 import ktx.ashley.get

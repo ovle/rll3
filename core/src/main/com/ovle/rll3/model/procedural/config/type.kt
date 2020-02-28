@@ -8,9 +8,9 @@ import com.ovle.rll3.model.tile.TileType
 import com.ovle.rll3.view.layer.level.TileToTextureParams
 
 
-data class LevelSettings<S: LevelGenerationSettings, out G: GridFactory>(
-    val generationSettings: S,
-    val gridFactory: G,
+data class LevelSettings (
+    val generationSettings: LevelGenerationSettings,
+    val gridFactory: GridFactory,
     val gridValueToTileType: (Float) -> TileType,
     val tileToTexture: (TileToTextureParams) -> Array<TextureRegion>,
     val postProcessors: Array<TilesProcessor>

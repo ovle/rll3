@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.Event
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.AnimationComponent
-import com.ovle.rll3.model.ecs.componentMapper
-import com.ovle.rll3.model.ecs.has
+import com.ovle.rll3.model.ecs.component.componentMapper
+import com.ovle.rll3.model.ecs.component.has
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.sprite.animation.animations
 import com.ovle.rll3.view.spriteHeight

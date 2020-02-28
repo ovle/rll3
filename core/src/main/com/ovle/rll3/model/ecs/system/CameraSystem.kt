@@ -6,11 +6,11 @@ import com.ovle.rll3.Event
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.allEntities
 import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.componentMapper
-import com.ovle.rll3.model.ecs.entityWithNullable
+import com.ovle.rll3.model.ecs.component.componentMapper
+import com.ovle.rll3.model.ecs.entity.EntityQuery.entityWithNullable
+import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.rll3.view.tileHeight

@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.ovle.rll3.model.ecs.component.AnimationComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.RenderComponent
-import com.ovle.rll3.model.ecs.componentMapper
+import com.ovle.rll3.model.ecs.component.componentMapper
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.roundToClosestByAbsInt
 import com.ovle.rll3.view.layer.TexturesInfo

@@ -4,9 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
-import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
 import com.ovle.rll3.model.procedural.config.LevelSettings
-import com.ovle.rll3.model.procedural.grid.GridFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -33,7 +31,7 @@ sealed class Event {
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
     open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
     class LevelUnloaded(val level: LevelInfo): GameEvent()
-    class LevelLoaded(val level: LevelInfo, val levelSettings: LevelSettings<LevelGenerationSettings, GridFactory>): GameEvent()
+    class LevelLoaded(val level: LevelInfo, val levelSettings: LevelSettings): GameEvent()
 
     open class EntityAnimationEvent(entity: Entity, val animationId: String) : EntityEvent(entity)
     class EntityAnimationStartEvent(entity: Entity, animationId: String): EntityAnimationEvent(entity, animationId)

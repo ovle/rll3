@@ -15,11 +15,9 @@ import com.ovle.rll3.Event.LevelLoaded
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.SightComponent
-import com.ovle.rll3.model.ecs.componentMapper
-import com.ovle.rll3.model.ecs.playerInteractionInfo
-import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
+import com.ovle.rll3.model.ecs.component.componentMapper
+import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.procedural.config.LevelSettings
-import com.ovle.rll3.model.procedural.grid.GridFactory
 import com.ovle.rll3.view.bgColor
 import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.layer.CustomTiledMapTileLayer
@@ -51,7 +49,7 @@ class RenderLevelSystem(
     }
 
 
-    private fun onLevelLoaded(level: LevelInfo, levelSettings: LevelSettings<LevelGenerationSettings, GridFactory>) {
+    private fun onLevelLoaded(level: LevelInfo, levelSettings: LevelSettings) {
         tiledMap = tiledMap(level, levelSettings.tileToTexture)
         mapRenderer = OrthogonalTiledMapRenderer(tiledMap, initialScale)
     }

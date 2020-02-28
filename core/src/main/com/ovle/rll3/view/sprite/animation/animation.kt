@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.model.ecs.component.LightComponent
 import com.ovle.rll3.model.ecs.component.MoveComponent
-import com.ovle.rll3.model.ecs.has
+import com.ovle.rll3.model.ecs.component.has
 import com.ovle.rll3.view.layer.TextureRegions
 
 data class AnimationTemplate(

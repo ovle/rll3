@@ -9,7 +9,7 @@ import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.MoveComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.componentMapper
+import com.ovle.rll3.model.ecs.component.componentMapper
 import ktx.ashley.get
 import kotlin.math.abs
 import kotlin.math.min

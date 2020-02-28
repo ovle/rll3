@@ -3,6 +3,7 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.entity.newConnection
 import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
@@ -15,7 +16,7 @@ class LevelConnectionProcessor : TilesProcessor {
 
     override fun process(levelInfo: LevelInfo, generationSettings: LevelGenerationSettings, gameEngine: Engine) {
         val tiles = levelInfo.tiles
-        val connectionsToHave = 2
+        val connectionsToHave = 2   //todo take from world descriptor
         val maxAttempts = 10
         var attempts = 0
         val result= mutableListOf<Entity>()
@@ -36,7 +37,8 @@ class LevelConnectionProcessor : TilesProcessor {
             if (attempts >= maxAttempts) break
             if (candidatePositions.isEmpty()) break
 
-            result.add(newConnection(candidatePositions.random(), gameEngine))
+            val connectionType = if (result.isEmpty()) LevelConnectionType.Up else LevelConnectionType.Down
+            result.add(newConnection(candidatePositions.random(), gameEngine, connectionType))
             attempts++
         }
 

@@ -55,8 +55,20 @@ class DoorComponent : Component
 class TrapComponent : Component
 
 class LevelConnectionComponent(
-    val id: UUID = UUID.randomUUID()
-) : Component
+    val id: UUID = UUID.randomUUID(),
+    var visited: Boolean = false,
+    val type: LevelConnectionType
+) : Component {
+    enum class LevelConnectionType {
+        Up,
+        Down;
+
+        fun opposite() = when(this) {
+            Up -> Down
+            Down -> Up
+        }
+    }
+}
 
 class SightComponent(val radius: Int) : Component {
     var positions: Set<GridPoint2> = setOf()

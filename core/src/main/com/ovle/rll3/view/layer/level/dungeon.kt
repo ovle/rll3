@@ -1,10 +1,10 @@
 package com.ovle.rll3.view.layer.level
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.ovle.rll3.model.ecs.component.DoorComponent
-import com.ovle.rll3.model.ecs.component.LevelConnectionComponent
-import com.ovle.rll3.model.ecs.component.TrapComponent
-import com.ovle.rll3.model.ecs.hasEntityOnPosition
+import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
+import com.ovle.rll3.model.ecs.entity.EntityQuery.entitiesOnPosition
+import com.ovle.rll3.model.ecs.entity.EntityQuery.hasEntityOnPosition
 import com.ovle.rll3.model.procedural.grid.corridorFloorTypes
 import com.ovle.rll3.model.procedural.grid.roomFloorTypes
 import com.ovle.rll3.model.tile.*
@@ -22,9 +22,10 @@ fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegio
     val position = point(nearTiles.x, nearTiles.y)
     val positionDown = point(nearTiles.x, nearTiles.y - 1)
 
+    val entities = entitiesOnPosition(levelInfo, position)
     fun hasDoor(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), DoorComponent::class)
     fun hasTrap(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), TrapComponent::class)
-    fun hasTransition(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
+    fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
     fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
     fun hasWallOrPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId || hasDoor(x, y))) 1 else 0
     fun hasRoomWall(tileId: Int?): Int = if (tileId != null && tileId != roomFloorTileId) 1 else 0
@@ -58,7 +59,7 @@ fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegio
 
     val isTrap = hasTrap(nearTiles.x, nearTiles.y)
     val isPortal = false
-    val isTransition = hasTransition(nearTiles.x, nearTiles.y)
+    val isLevelConnection = hasLevelConnection(nearTiles.x, nearTiles.y)
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, isDoorUp)
 
     val wallTileSet = roomWallTileSet
@@ -86,7 +87,17 @@ fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegio
             else -> emptyTile
         }
         LayerType.Decoration -> when {
-            isTransition -> arrayOf(regions[4][10])
+            isLevelConnection -> {
+                val connectionComponent = entities.find { it.has(LevelConnectionComponent::class) }!!
+                    .component(LevelConnectionComponent::class)!!
+                val type = connectionComponent.type
+                when {
+                    !connectionComponent.visited -> arrayOf(regions[4][10])
+                    type == LevelConnectionType.Up -> arrayOf(regions[4][11])
+                    type == LevelConnectionType.Down -> arrayOf(regions[3][11])
+                    else -> throw IllegalStateException("bad connection : type = $type")
+                }
+            }
             isDoor -> arrayOf(regions[4][8])
             isTrap -> trapsTR(regions)
             isPortal -> portalTR(regions)

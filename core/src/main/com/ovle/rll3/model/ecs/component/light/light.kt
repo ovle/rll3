@@ -3,8 +3,8 @@ package com.ovle.rll3.model.ecs.component.light
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.LightComponent
-import com.ovle.rll3.model.ecs.componentMapper
-import com.ovle.rll3.model.ecs.entitiesWith
+import com.ovle.rll3.model.ecs.component.componentMapper
+import com.ovle.rll3.model.ecs.entity.EntityQuery.entitiesWith
 import ktx.ashley.get
 
 

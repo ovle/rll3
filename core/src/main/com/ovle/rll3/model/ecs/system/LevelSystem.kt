@@ -9,18 +9,18 @@ import com.ovle.rll3.Event.LevelLoaded
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.*
 import com.ovle.rll3.model.ecs.component.*
-import com.ovle.rll3.model.ecs.entity.newPlayer
-import com.ovle.rll3.model.ecs.entity.newPlayerInteraction
+import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
+import com.ovle.rll3.model.ecs.entity.*
+import com.ovle.rll3.model.ecs.entity.EntityQuery.connection
+import com.ovle.rll3.model.ecs.entity.EntityQuery.entitiesWith
+import com.ovle.rll3.model.ecs.entity.EntityQuery.entityWithNullable
 import com.ovle.rll3.model.ecs.system.level.ConnectionData
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.ecs.system.level.LevelTransitionInfo
-import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
 import com.ovle.rll3.model.procedural.config.LevelSettings
 import com.ovle.rll3.model.procedural.config.dungeonLevelSettings
-import com.ovle.rll3.model.procedural.grid.GridFactory
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
 import ktx.ashley.get
@@ -35,23 +35,19 @@ class LevelSystem: EventSystem<Event>() {
     override fun dispatch(event: Event) {
         when (event) {
             is Event.GameStartedEvent -> loadLevel()
-            is Event.EntityLevelTransition -> loadLevelOnTransition(event.connectionId)
+            is Event.EntityLevelTransition -> loadLevel(levelInfo(), event.connectionId)
         }
     }
 
-    private fun loadLevelOnTransition(connectionId: ConnectionId) {
-        val oldLevelInfo = levelInfoNullable()?.also {
-            storeEntities(it)
-        }
-
-        loadLevel(oldLevelInfo!!, connectionId)
-    }
 
     private fun loadLevel(oldLevel: LevelInfo? = null, connectionId: ConnectionId? = null): LevelInfo {
-        //todo
         val levelSettings = dungeonLevelSettings
+        val connection = connection(oldLevel, connectionId)
+        val connectionType = connection?.component(LevelConnectionComponent::class)?.type ?: LevelConnectionType.Down
 
-        val newTransition = changeLevel(oldLevel, connectionId, engine, levelSettings)
+        if (oldLevel != null) storeEntities(oldLevel)
+
+        val newTransition = changeLevel(oldLevel, connectionId, connectionType, engine, levelSettings)
         val newLevel = newTransition.levelInfo
         if (!newTransition.isNew) {
             restoreEntities(newLevel)
@@ -60,27 +56,24 @@ class LevelSystem: EventSystem<Event>() {
 
         val entities = allEntities().toList()
         var levelEntity = entityWithNullable(entities, LevelComponent::class)
-        if (levelEntity == null) {
-            levelEntity = engine.entity(LevelComponent(newLevel))!!
-        }
+        if (levelEntity == null) levelEntity = engine.entity(LevelComponent(newLevel))!!
 
         var playerEntity: Entity? = null
         var interactionEntity = entityWithNullable(entities, PlayerInteractionComponent::class)
 
-        if (interactionEntity != null) {
-            playerEntity = interactionEntity.component(PlayerInteractionComponent::class)?.controlledEntity
-        }
-        if (playerEntity == null) {
-            playerEntity = newPlayer(engine)
-        }
+        if (interactionEntity != null) playerEntity = interactionEntity.component(PlayerInteractionComponent::class)?.controlledEntity
+        if (playerEntity == null) playerEntity = newPlayer(engine)
 
         playerEntity!!.component(PositionComponent::class)!!.position = floatPoint(startPosition)
+        playerEntity.component(MoveComponent::class)!!.path.reset()
 
-        if (interactionEntity == null) {
-            interactionEntity = newPlayerInteraction(playerEntity, engine)
-        }
+        if (interactionEntity == null) interactionEntity = newPlayerInteraction(playerEntity, engine)
 
         levelEntity[levelMapper]?.level = newLevel
+
+        //todo
+//        setVisited(connectionId, level)
+        setVisited(newTransition.connectionId, newLevel)
 
         //            send(LevelUnloaded(it))
         send(LevelLoaded(newLevel, levelSettings))
@@ -88,15 +81,15 @@ class LevelSystem: EventSystem<Event>() {
         return newLevel
     }
 
-    fun changeLevel(level: LevelInfo?, connectionId: ConnectionId?, engine: Engine, levelSettings: LevelSettings<LevelGenerationSettings, GridFactory>): LevelTransitionInfo {
-        val connection = LevelRegistry.connection(connectionId)
+    private fun changeLevel(level: LevelInfo?, connectionId: ConnectionId?, connectionType: LevelConnectionType, engine: Engine, levelSettings: LevelSettings): LevelTransitionInfo {
+        val storedConnection = LevelRegistry.connection(connectionId)
         var backConnectionId: ConnectionId? = null
-        val isNewLevel = connection == null
+        val isNewLevel = storedConnection == null
 
         val newLevel = if (!isNewLevel) {
-            println("load cached level ${connection!!.levelId}, transition: $connectionId")
-            backConnectionId = connection.connectionId
-            LevelRegistry.levelInfo(connection.levelId)
+            println("load cached level ${storedConnection!!.levelId}, transition: $connectionId")
+            backConnectionId = storedConnection.connectionId
+            LevelRegistry.levelInfo(storedConnection.levelId)
         } else {
             val newLevel = newLevelInfo(levelSettings)
 
@@ -108,7 +101,8 @@ class LevelSystem: EventSystem<Event>() {
             println("                        transition: $connectionId")
             LevelRegistry.addLevel(newLevel)
             if (connectionId != null) {
-                backConnectionId = randomConnection(newLevel)
+                val backConnectionType = connectionType.opposite()
+                backConnectionId = randomConnection(newLevel, backConnectionType)
                 LevelRegistry.addConnection(connectionId, ConnectionData(newLevel.id, backConnectionId))
                 if (level != null) {
                     LevelRegistry.addConnection(backConnectionId, ConnectionData(level.id, connectionId))
@@ -121,7 +115,16 @@ class LevelSystem: EventSystem<Event>() {
         return LevelTransitionInfo(newLevel, backConnectionId, isNewLevel)
     }
 
-    private fun newLevelInfo(levelSettings: LevelSettings<LevelGenerationSettings, GridFactory>): LevelInfo {
+    private fun setVisited(connectionId: ConnectionId?, level: LevelInfo?) {
+        if (connectionId == null) return
+        if (level == null) return
+
+        val connections = entitiesWith(level.objects, LevelConnectionComponent::class)
+        val connection = connections.find { it.component(LevelConnectionComponent::class)!!.id == connectionId }
+        connection!!.component(LevelConnectionComponent::class)!!.visited = true
+    }
+
+    private fun newLevelInfo(levelSettings: LevelSettings): LevelInfo {
         val generationSettings = levelSettings.generationSettings
         val grid = levelSettings.gridFactory.get(
             generationSettings.size,
@@ -132,9 +135,10 @@ class LevelSystem: EventSystem<Event>() {
         return LevelInfo(tiles = tiles)
     }
 
-    private fun randomConnection(level: LevelInfo): ConnectionId {
+    private fun randomConnection(level: LevelInfo, type: LevelConnectionType): ConnectionId {
         val connections = entitiesWith(level.objects, LevelConnectionComponent::class)
-        return connections.random().component(LevelConnectionComponent::class)!!.id
+            .map { it.component(LevelConnectionComponent::class)!! }
+        return connections.filter { it.type == type }.random().id
     }
 
     private fun playerStartPosition(level: LevelInfo, connectionId: ConnectionId?): GridPoint2 {
