@@ -7,12 +7,7 @@ import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.model.ecs.component.*
-import com.ovle.rll3.model.ecs.entity.EntityQuery.connectionOnPosition
-import com.ovle.rll3.model.ecs.entity.EntityQuery.entitiesOnPosition
-import com.ovle.rll3.model.ecs.entity.EntityQuery.entityWithNullable
-import com.ovle.rll3.model.ecs.entity.allEntities
-import com.ovle.rll3.model.ecs.entity.levelInfoNullable
-import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
+import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.model.util.entityTilePassMapper
 import com.ovle.rll3.model.util.pathfinding.aStar.path
@@ -95,7 +90,7 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
 
     private fun onMousePositionChange(gamePoint: Vector2, level: LevelInfo) {
         if (!isValid(gamePoint, level)) return
-        val interactionEntity = entityWithNullable(allEntities().toList(), PlayerInteractionComponent::class) ?: return
+        val interactionEntity = entityWith(allEntities().toList(), PlayerInteractionComponent::class) ?: return
         val positionComponent = interactionEntity[position] ?: return
 //        if (point(gamePoint) == positionComponent.gridPosition) return
 

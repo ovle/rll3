@@ -11,10 +11,11 @@ import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
+import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
+import com.ovle.rll3.model.ecs.component.Mappers.move
+import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
+import com.ovle.rll3.model.ecs.component.Mappers.position
 import com.ovle.rll3.model.ecs.entity.*
-import com.ovle.rll3.model.ecs.entity.EntityQuery.connection
-import com.ovle.rll3.model.ecs.entity.EntityQuery.entitiesWith
-import com.ovle.rll3.model.ecs.entity.EntityQuery.entityWithNullable
 import com.ovle.rll3.model.ecs.system.level.ConnectionData
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
@@ -43,7 +44,7 @@ class LevelSystem: EventSystem<Event>() {
     private fun loadLevel(oldLevel: LevelInfo? = null, connectionId: ConnectionId? = null): LevelInfo {
         val levelSettings = dungeonLevelSettings
         val connection = connection(oldLevel, connectionId)
-        val connectionType = connection?.component(LevelConnectionComponent::class)?.type ?: LevelConnectionType.Down
+        val connectionType = connection?.get(levelConnection)?.type ?: LevelConnectionType.Down
 
         if (oldLevel != null) storeEntities(oldLevel)
 
@@ -55,27 +56,26 @@ class LevelSystem: EventSystem<Event>() {
         val startPosition = playerStartPosition(newLevel, newTransition.connectionId)
 
         val entities = allEntities().toList()
-        var levelEntity = entityWithNullable(entities, LevelComponent::class)
+        var levelEntity = entityWith(entities, LevelComponent::class)
         if (levelEntity == null) levelEntity = engine.entity(LevelComponent(newLevel))!!
 
         var playerEntity: Entity? = null
-        var interactionEntity = entityWithNullable(entities, PlayerInteractionComponent::class)
+        var interactionEntity = entityWith(entities, PlayerInteractionComponent::class)
 
-        if (interactionEntity != null) playerEntity = interactionEntity.component(PlayerInteractionComponent::class)?.controlledEntity
-        if (playerEntity == null) playerEntity = newPlayer(engine)
+        if (interactionEntity != null) playerEntity = interactionEntity[playerInteraction]?.controlledEntity
+        if (playerEntity == null) playerEntity = newPlayer(engine)!!
 
-        playerEntity!!.component(PositionComponent::class)!!.position = floatPoint(startPosition)
-        playerEntity.component(MoveComponent::class)!!.path.reset()
+        playerEntity[position]!!.position = floatPoint(startPosition)
+        playerEntity[move]!!.path.reset()
 
         if (interactionEntity == null) interactionEntity = newPlayerInteraction(playerEntity, engine)
 
         levelEntity[levelMapper]?.level = newLevel
 
-        //todo
-//        setVisited(connectionId, level)
+        //setVisited(connectionId, level)
         setVisited(newTransition.connectionId, newLevel)
 
-        //            send(LevelUnloaded(it))
+        //send(LevelUnloaded(it))
         send(LevelLoaded(newLevel, levelSettings))
 
         return newLevel
@@ -120,8 +120,8 @@ class LevelSystem: EventSystem<Event>() {
         if (level == null) return
 
         val connections = entitiesWith(level.objects, LevelConnectionComponent::class)
-        val connection = connections.find { it.component(LevelConnectionComponent::class)!!.id == connectionId }
-        connection!!.component(LevelConnectionComponent::class)!!.visited = true
+        val connection = connections.find { it[levelConnection]!!.id == connectionId }!!
+        connection[levelConnection]!!.visited = true
     }
 
     private fun newLevelInfo(levelSettings: LevelSettings): LevelInfo {
@@ -137,7 +137,7 @@ class LevelSystem: EventSystem<Event>() {
 
     private fun randomConnection(level: LevelInfo, type: LevelConnectionType): ConnectionId {
         val connections = entitiesWith(level.objects, LevelConnectionComponent::class)
-            .map { it.component(LevelConnectionComponent::class)!! }
+            .map { it[levelConnection]!! }
         return connections.filter { it.type == type }.random().id
     }
 
@@ -146,8 +146,8 @@ class LevelSystem: EventSystem<Event>() {
         check(connections.isNotEmpty())
 
         val floatPoint =
-            if (connectionId == null) connections.random().component(PositionComponent::class)?.position
-            else connections.find { it.component(LevelConnectionComponent::class)!!.id == connectionId }?.component(PositionComponent::class)?.position
+            if (connectionId == null) connections.random()[position]?.position
+            else connections.find { it[levelConnection]!!.id == connectionId }?.get(position)?.position
 
         return point(floatPoint!!)
     }

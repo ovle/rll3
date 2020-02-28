@@ -19,10 +19,10 @@ data class AnimationTemplate(
 fun animations(entity: Entity, regions: TextureRegions): Array<FrameAnimation> {
     return when {
         //todo hack, will use the template
-        entity.has(MoveComponent::class) -> arrayOf(
+        entity.has<MoveComponent>() -> arrayOf(
             FrameAnimation(regions, wizAnimationWalk)
         )
-        entity.has(LightComponent::class) -> arrayOf(
+        entity.has<LightComponent>() -> arrayOf(
             FrameAnimation(regions, torchAnimation)
         )
         else -> arrayOf()

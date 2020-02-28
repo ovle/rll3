@@ -9,8 +9,8 @@ import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.componentMapper
-import com.ovle.rll3.model.ecs.entity.EntityQuery.entityWithNullable
 import com.ovle.rll3.model.ecs.entity.allEntities
+import com.ovle.rll3.model.ecs.entity.entityWith
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.rll3.view.tileHeight
@@ -43,7 +43,7 @@ class CameraSystem(
     }
 
     private fun focusCamera() {
-        val interactionEntity = entityWithNullable(allEntities().toList(), PlayerInteractionComponent::class)
+        val interactionEntity = entityWith(allEntities().toList(), PlayerInteractionComponent::class)
             ?: return
         val interactionComponent = interactionEntity[interaction] ?: return
         val focusedEntity = interactionComponent.focusedEntity ?: return

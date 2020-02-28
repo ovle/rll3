@@ -1,10 +1,14 @@
 package com.ovle.rll3.view.layer.level
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.component.DoorComponent
+import com.ovle.rll3.model.ecs.component.LevelConnectionComponent
 import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
-import com.ovle.rll3.model.ecs.entity.EntityQuery.entitiesOnPosition
-import com.ovle.rll3.model.ecs.entity.EntityQuery.hasEntityOnPosition
+import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
+import com.ovle.rll3.model.ecs.component.TrapComponent
+import com.ovle.rll3.model.ecs.component.has
+import com.ovle.rll3.model.ecs.entity.entitiesOnPosition
+import com.ovle.rll3.model.ecs.entity.hasEntityOnPosition
 import com.ovle.rll3.model.procedural.grid.corridorFloorTypes
 import com.ovle.rll3.model.procedural.grid.roomFloorTypes
 import com.ovle.rll3.model.tile.*
@@ -14,6 +18,7 @@ import com.ovle.rll3.view.layer.portalTR
 import com.ovle.rll3.view.layer.roomWallTileSet
 import com.ovle.rll3.view.layer.trapsTR
 import com.ovle.rll3.view.noLightning
+import ktx.ashley.get
 
 
 fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegion> {
@@ -88,8 +93,7 @@ fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegio
         }
         LayerType.Decoration -> when {
             isLevelConnection -> {
-                val connectionComponent = entities.find { it.has(LevelConnectionComponent::class) }!!
-                    .component(LevelConnectionComponent::class)!!
+                val connectionComponent = entities.find { it.has<LevelConnectionComponent>() }!![levelConnection]!!
                 val type = connectionComponent.type
                 when {
                     !connectionComponent.visited -> arrayOf(regions[4][10])

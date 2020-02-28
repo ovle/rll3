@@ -35,7 +35,7 @@ class AnimationSystem(
     }
 
     private fun onLevelLoaded(entities: Collection<Entity>) {
-        entities.filter { it.has(AnimationComponent::class) }
+        entities.filter { it.has<AnimationComponent>() }
             .forEach {
                 initAnimations(it)
             }
