@@ -1,23 +1,21 @@
 package com.ovle.rll3.model.ecs.system
 
-import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
 import com.ovle.rll3.Event
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.floatPoint
+import com.ovle.rll3.model.ecs.component.Mappers.move
+import com.ovle.rll3.model.ecs.component.Mappers.position
 import com.ovle.rll3.model.ecs.component.MoveComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.component.componentMapper
 import ktx.ashley.get
 import kotlin.math.abs
 import kotlin.math.min
 
 
 class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionComponent::class.java).get()) {
-    private val move: ComponentMapper<MoveComponent> = componentMapper()
-    private val position: ComponentMapper<PositionComponent> = componentMapper()
 
     private val stopDelta = 0.25f
 

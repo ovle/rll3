@@ -1,15 +1,14 @@
 package com.ovle.rll3.model.ecs.system
 
-import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
-import com.ovle.rll3.model.ecs.component.AnimationComponent
-import com.ovle.rll3.model.ecs.component.PositionComponent
+import com.ovle.rll3.model.ecs.component.Mappers.animation
+import com.ovle.rll3.model.ecs.component.Mappers.position
+import com.ovle.rll3.model.ecs.component.Mappers.render
 import com.ovle.rll3.model.ecs.component.RenderComponent
-import com.ovle.rll3.model.ecs.component.componentMapper
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.roundToClosestByAbsInt
 import com.ovle.rll3.view.layer.TexturesInfo
@@ -24,10 +23,6 @@ class RenderObjectsSystem(
     private val batch: Batch,
     spriteTexture: TexturesInfo
 ) : IteratingSystem(all(RenderComponent::class.java).get()) {
-
-    private val render: ComponentMapper<RenderComponent> = componentMapper()
-    private val animation: ComponentMapper<AnimationComponent> = componentMapper()
-    private val position: ComponentMapper<PositionComponent> = componentMapper()
 
     private val toRender = mutableListOf<Entity>()
     //todo use all texture versions

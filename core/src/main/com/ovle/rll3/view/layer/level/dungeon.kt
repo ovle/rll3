@@ -5,7 +5,7 @@ import com.ovle.rll3.model.ecs.component.DoorComponent
 import com.ovle.rll3.model.ecs.component.LevelConnectionComponent
 import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
-import com.ovle.rll3.model.ecs.component.TrapComponent
+import com.ovle.rll3.model.ecs.component.TriggerComponent
 import com.ovle.rll3.model.ecs.component.has
 import com.ovle.rll3.model.ecs.entity.entitiesOnPosition
 import com.ovle.rll3.model.ecs.entity.hasEntityOnPosition
@@ -29,7 +29,7 @@ fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegio
 
     val entities = entitiesOnPosition(levelInfo, position)
     fun hasDoor(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), DoorComponent::class)
-    fun hasTrap(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), TrapComponent::class)
+    fun hasTrap(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), TriggerComponent::class)
     fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
     fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
     fun hasWallOrPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId || hasDoor(x, y))) 1 else 0

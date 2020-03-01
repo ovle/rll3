@@ -1,6 +1,9 @@
 package com.ovle.rll3.model.ecs.entity
 
-import com.badlogic.ashley.core.*
+import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.ComponentMapper
+import com.badlogic.ashley.core.Entity
+import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.*
@@ -32,6 +35,9 @@ fun entitiesOnPosition(levelInfo: LevelInfo, position: GridPoint2): Collection<E
         it[Mappers.position]?.gridPosition?.equals(position) ?: false
     }
 
+fun IteratingSystem.hostEntities() = this.entities
+fun EntitySystem.allEntities() = this.engine.entities
+
 //----------------------------------------------------------------------------------------------------------------------------------
 
 fun connectionOnPosition(levelInfo: LevelInfo, position: GridPoint2) = entitiesOnPosition(levelInfo, position)
@@ -51,10 +57,3 @@ fun EntitySystem.levelInfo() = levelInfoNullable()!!
 fun EntitySystem.playerInteractionInfo() = entityWith(allEntities().toList(), PlayerInteractionComponent::class)
     ?.get(Mappers.playerInteraction)
 
-fun IteratingSystem.hostEntities() = this.entities
-fun EntitySystem.allEntities() = this.engine.entities
-
-fun Engine.entity(vararg components: Component) = createEntity().apply {
-    components.forEach { component -> this.add(component) }
-    addEntity(this)
-}

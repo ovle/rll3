@@ -1,14 +1,13 @@
 package com.ovle.rll3.model.ecs.system
-import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.floatPoint
+import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
+import com.ovle.rll3.model.ecs.component.Mappers.position
 import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
-import com.ovle.rll3.model.ecs.component.PositionComponent
-import com.ovle.rll3.model.ecs.component.componentMapper
 import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.entityWith
 import com.ovle.rll3.model.util.config.RenderConfig
@@ -21,9 +20,6 @@ import ktx.ashley.get
 class CameraSystem(
     private val camera: OrthographicCamera
 ): EventSystem<Event>() {
-
-    private val position: ComponentMapper<PositionComponent> = componentMapper()
-    private val interaction: ComponentMapper<PlayerInteractionComponent> = componentMapper()
 
     override fun channel() = EventBus.receive<Event>()
 
@@ -45,7 +41,7 @@ class CameraSystem(
     private fun focusCamera() {
         val interactionEntity = entityWith(allEntities().toList(), PlayerInteractionComponent::class)
             ?: return
-        val interactionComponent = interactionEntity[interaction] ?: return
+        val interactionComponent = interactionEntity[playerInteraction] ?: return
         val focusedEntity = interactionComponent.focusedEntity ?: return
         val focusedPosition = focusedEntity[position]?.position ?: return
         val focusedScreenPosition = floatPoint(

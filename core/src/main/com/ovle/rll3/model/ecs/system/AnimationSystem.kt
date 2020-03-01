@@ -1,12 +1,11 @@
 package com.ovle.rll3.model.ecs.system
 
-import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.Event
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.AnimationComponent
-import com.ovle.rll3.model.ecs.component.componentMapper
+import com.ovle.rll3.model.ecs.component.Mappers.animation
 import com.ovle.rll3.model.ecs.component.has
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.sprite.animation.animations
@@ -18,8 +17,6 @@ import ktx.ashley.get
 class AnimationSystem(
     spriteTexture: TexturesInfo
 ) : EventSystem<Event>() {
-
-    private val animation: ComponentMapper<AnimationComponent> = componentMapper()
 
     private val regions = TextureRegion.split(spriteTexture.texture, spriteWidth, spriteHeight)
 

@@ -3,7 +3,7 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.light.LightTilePosition
+import com.ovle.rll3.model.ecs.component.LightTilePosition
 import com.ovle.rll3.model.ecs.entity.newLightSource
 import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
 import com.ovle.rll3.model.procedural.config.LevelGenerationSettings.DungeonGenerationSettings

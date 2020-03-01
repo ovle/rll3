@@ -1,6 +1,5 @@
 package com.ovle.rll3.model.ecs.system
 
-import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
@@ -14,8 +13,8 @@ import com.ovle.rll3.Event.EntityMoved
 import com.ovle.rll3.Event.LevelLoaded
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.Mappers.sight
 import com.ovle.rll3.model.ecs.component.SightComponent
-import com.ovle.rll3.model.ecs.component.componentMapper
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.procedural.config.LevelSettings
 import com.ovle.rll3.view.bgColor
@@ -32,8 +31,6 @@ class RenderLevelSystem(
     private val camera: OrthographicCamera,
     private val texturesInfo: TexturesInfo
 ) : EventSystem<Event>() {
-
-    private val sight: ComponentMapper<SightComponent> = componentMapper()
 
     private var mapRenderer: TiledMapRenderer? = null
     private var tiledMap: TiledMap? = null

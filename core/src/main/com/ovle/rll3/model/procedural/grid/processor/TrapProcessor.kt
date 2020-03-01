@@ -2,7 +2,7 @@ package com.ovle.rll3.model.procedural.grid.processor
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.ecs.entity.newTrap
+import com.ovle.rll3.model.ecs.entity.newTrigger
 import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
 import com.ovle.rll3.model.procedural.config.LevelGenerationSettings.DungeonGenerationSettings
 import com.ovle.rll3.model.tile.TileArray
@@ -24,7 +24,7 @@ class TrapProcessor : TilesProcessor {
                 val isFreeForTrap = isRoomFloorTile
                 val isTrap = isFreeForTrap && Math.random() <= generationSettings.trapChance
                 if (isTrap) {
-                    result.add(newTrap(point(x, y), gameEngine))
+                    result.add(newTrigger(point(x, y), gameEngine))
                 }
             }
         }

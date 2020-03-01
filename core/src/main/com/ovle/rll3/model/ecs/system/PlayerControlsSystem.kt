@@ -1,12 +1,16 @@
 package com.ovle.rll3.model.ecs.system
 
-import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
-import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
+import com.ovle.rll3.model.ecs.component.Mappers.move
+import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
+import com.ovle.rll3.model.ecs.component.Mappers.position
+import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.model.util.entityTilePassMapper
@@ -20,10 +24,6 @@ import kotlin.math.roundToInt
 
 
 class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
-    private val move: ComponentMapper<MoveComponent> = componentMapper()
-    private val position: ComponentMapper<PositionComponent> = componentMapper()
-    private val levelConnection: ComponentMapper<LevelConnectionComponent> = componentMapper()
-    private val interaction: ComponentMapper<PlayerInteractionComponent> = componentMapper()
 
     override fun channel() = receive<PlayerControlEvent>()
 
@@ -98,7 +98,7 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
         focusedGamePoint.set(gamePoint.x, gamePoint.y)
 
         val entitiesOnPosition = entitiesOnPosition(level, positionComponent.gridPosition) //todo filter interaction itself
-        val interactionComponent = interactionEntity[interaction] ?: return
+        val interactionComponent = interactionEntity[playerInteraction] ?: return
         interactionComponent.hoveredEntities = entitiesOnPosition
 
 //        println(

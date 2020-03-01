@@ -7,8 +7,8 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile
 import com.badlogic.gdx.utils.Array
 import com.ovle.rll3.model.ecs.component.LevelInfo
-import com.ovle.rll3.model.ecs.component.light.lightByPosition
-import com.ovle.rll3.model.ecs.component.light.lightTiles
+import com.ovle.rll3.model.ecs.component.lightByPosition
+import com.ovle.rll3.model.ecs.component.lightTiles
 import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.view.defaultAnimationInterval
 import com.ovle.rll3.view.layer.level.LayerType

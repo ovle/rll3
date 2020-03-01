@@ -1,6 +1,5 @@
 package com.ovle.rll3.model.ecs.system
 
-import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
@@ -9,12 +8,17 @@ import com.ovle.rll3.Event.LevelLoaded
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.*
+import com.ovle.rll3.model.ecs.component.LevelComponent
+import com.ovle.rll3.model.ecs.component.LevelConnectionComponent
 import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
+import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.Mappers.animation
+import com.ovle.rll3.model.ecs.component.Mappers.level
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.Mappers.move
 import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.Mappers.position
+import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.ecs.system.level.ConnectionData
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
@@ -29,8 +33,6 @@ import ktx.ashley.get
 
 class LevelSystem: EventSystem<Event>() {
 
-    private val levelMapper: ComponentMapper<LevelComponent> = componentMapper()
-
     override fun channel() = receive<Event>()
 
     override fun dispatch(event: Event) {
@@ -42,6 +44,7 @@ class LevelSystem: EventSystem<Event>() {
 
 
     private fun loadLevel(oldLevel: LevelInfo? = null, connectionId: ConnectionId? = null): LevelInfo {
+//        val levelSettings = caveLevelSettings
         val levelSettings = dungeonLevelSettings
         val connection = connection(oldLevel, connectionId)
         val connectionType = connection?.get(levelConnection)?.type ?: LevelConnectionType.Down
@@ -57,28 +60,32 @@ class LevelSystem: EventSystem<Event>() {
 
         val entities = allEntities().toList()
         var levelEntity = entityWith(entities, LevelComponent::class)
-        if (levelEntity == null) levelEntity = engine.entity(LevelComponent(newLevel))!!
+        if (levelEntity == null) levelEntity = newLevel(newLevel, engine)!!
 
         var playerEntity: Entity? = null
         var interactionEntity = entityWith(entities, PlayerInteractionComponent::class)
 
         if (interactionEntity != null) playerEntity = interactionEntity[playerInteraction]?.controlledEntity
         if (playerEntity == null) playerEntity = newPlayer(engine)!!
-
-        playerEntity[position]!!.position = floatPoint(startPosition)
-        playerEntity[move]!!.path.reset()
+        resetEntity(playerEntity, startPosition)
 
         if (interactionEntity == null) interactionEntity = newPlayerInteraction(playerEntity, engine)
 
-        levelEntity[levelMapper]?.level = newLevel
+        levelEntity[level]?.level = newLevel
 
         //setVisited(connectionId, level)
         setVisited(newTransition.connectionId, newLevel)
 
-        //send(LevelUnloaded(it))
+        //send(LevelUnloaded(it))   todo
         send(LevelLoaded(newLevel, levelSettings))
 
         return newLevel
+    }
+
+    private fun resetEntity(entity: Entity, startPosition: GridPoint2) {
+        entity[position]!!.position = floatPoint(startPosition)
+        entity[move]?.path?.reset()
+        entity[animation]?.stopAnimation("walk")
     }
 
     private fun changeLevel(level: LevelInfo?, connectionId: ConnectionId?, connectionType: LevelConnectionType, engine: Engine, levelSettings: LevelSettings): LevelTransitionInfo {
