@@ -1,7 +1,8 @@
 package com.ovle.rll3.model.util
 
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.model.procedural.grid.GridFactory
+import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory
+import com.ovle.rll3.model.procedural.grid.factory.DungeonGridFactory
 import com.ovle.rll3.model.tile.*
 
 
@@ -16,10 +17,17 @@ fun gridToTileArray(grid: Grid, mapFunction: (Float) -> TileType): TileArray {
 
 fun dungeonGridValueToTileType(gridValue: Float): TileType {
     return when {
-        gridValue >= GridFactory.wallTreshold -> wallTileId
-        gridValue == GridFactory.floorTreshold -> roomFloorTileId
-        gridValue == GridFactory.corridorTreshold -> corridorFloorTileId
+        gridValue >= DungeonGridFactory.wallTreshold -> wallTileId
+        gridValue == DungeonGridFactory.floorTreshold -> roomFloorTileId
+        gridValue == DungeonGridFactory.corridorTreshold -> corridorFloorTileId
         else -> -1
+    }
+}
+
+fun caveGridValueToTileType(gridValue: Float): TileType {
+    return when {
+        gridValue >= CelullarAutomataGridFactory.wallMarker -> wallTileId
+        else -> roomFloorTileId //todo
     }
 }
 

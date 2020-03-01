@@ -2,7 +2,7 @@ package com.ovle.rll3.model.procedural.config
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.github.czyzby.noise4j.map.generator.room.RoomType
-import com.ovle.rll3.model.procedural.grid.GridFactory
+import com.ovle.rll3.model.procedural.grid.factory.GridFactory
 import com.ovle.rll3.model.procedural.grid.processor.TilesProcessor
 import com.ovle.rll3.model.tile.TileType
 import com.ovle.rll3.view.layer.level.TileToTextureParams
@@ -30,6 +30,10 @@ sealed class LevelGenerationSettings(
         val lightSourceChance: Float,
         val doorChance: Float,
         val trapChance: Float
+    ): LevelGenerationSettings(size)
+
+    class CelullarAutomataSettings(
+        size: Int
     ): LevelGenerationSettings(size)
 
     class TemplateGenerationSettings(

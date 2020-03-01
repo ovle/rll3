@@ -8,5 +8,5 @@ data class TextureTileSet(
 )
 
 val roomWallTileSet = TextureTileSet("roomWall", originY = 4)
-val passageWallTileSet = TextureTileSet("passageWall", originX = 4, originY = 4)
+val caveWallTileSet = TextureTileSet("passageWall", originX = 4, originY = 4)
 val floorBorderTileSet = TextureTileSet("roomFloor", originX = 4)
