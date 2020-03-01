@@ -38,7 +38,11 @@ class LevelConnectionProcessor : TilesProcessor {
             if (candidatePositions.isEmpty()) break
 
             val connectionType = if (result.isEmpty()) LevelConnectionType.Up else LevelConnectionType.Down
-            result.add(newConnection(candidatePositions.random(), gameEngine, connectionType))
+            val position = candidatePositions.random()
+            candidatePositions.remove(position)
+
+            result.add(newConnection(position, gameEngine, connectionType))
+
             attempts++
         }
 
