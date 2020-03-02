@@ -27,6 +27,7 @@ fun dungeonGridValueToTileType(gridValue: Float): TileType {
 fun caveGridValueToTileType(gridValue: Float): TileType {
     return when {
         gridValue >= CelullarAutomataGridFactory.wallMarker -> wallTileId
+        gridValue >= CelullarAutomataGridFactory.pitMarker -> pitFloorTileId
         else -> roomFloorTileId //todo
     }
 }

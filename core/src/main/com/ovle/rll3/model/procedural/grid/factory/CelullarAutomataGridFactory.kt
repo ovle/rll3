@@ -9,37 +9,60 @@ class CelullarAutomataGridFactory: GridFactory {
 
     companion object {
         const val wallMarker = 1.0f
+        const val pitMarker = 0.5f
     }
 
     override fun get(size: Int, settings: LevelGenerationSettings): Grid {
         settings as CelullarAutomataSettings
 
-        val grid = Grid(size)
+        val wallGrid = Grid(size)
 
         val generator = CellularAutomataGenerator.getInstance()
         generator.apply {
             marker = wallMarker
             deathLimit = 2
-            birthLimit = 6
+            birthLimit = 5
             setInitiate(false)
-            //todo
         }
-        CellularAutomataGenerator.initiate(grid, generator)
-        init(grid, size)
 
-        generator.generate(grid)
+        CellularAutomataGenerator.initiate(wallGrid, generator)
+        init(wallGrid, size, wallMarker)
+        generator.generate(wallGrid)
 
-        return grid
+        val pitGrid = Grid(size)
+        generator.apply {
+            marker = pitMarker
+            deathLimit = 3
+            birthLimit = 6
+        }
+        CellularAutomataGenerator.initiate(pitGrid, generator)
+        generator.generate(pitGrid)
+
+        return merge(arrayOf(wallGrid, pitGrid), size)
     }
 
-    private fun init(grid: Grid, size: Int) {
+    //todo
+    private fun merge(grids: Array<Grid>, size: Int): Grid {
+        val emptyTileId = 0.0f
+        val result = Grid(size)
         for (x in (0 until size)) {
-            grid.set(x, 0, wallMarker)
-            grid.set(x, size - 1, wallMarker)
+            for (y in (0 until size)) {
+                val value = grids.map { it.get(x, y) }.findLast { it > emptyTileId }
+                    ?: continue
+                result.set(x, y, value)
+            }
+        }
+        return result
+    }
+
+    private fun init(grid: Grid, size: Int, marker: Float) {
+        for (x in (0 until size)) {
+            grid.set(x, 0, marker)
+            grid.set(x, size - 1, marker)
         }
         for (y in (0 until size)) {
-            grid.set(0, y, wallMarker)
-            grid.set(size - 1, y, wallMarker)
+            grid.set(0, y, marker)
+            grid.set(size - 1, y, marker)
         }
     }
 }

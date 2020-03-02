@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
@@ -22,6 +21,7 @@ import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.layer.CustomTiledMapTileLayer
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.layer.level.LayerType
+import com.ovle.rll3.view.layer.level.TileTextureInfo
 import com.ovle.rll3.view.layer.level.TileToTextureParams
 import com.ovle.rll3.view.layer.mapLayer
 import ktx.ashley.get
@@ -51,7 +51,7 @@ class RenderLevelSystem(
         mapRenderer = OrthogonalTiledMapRenderer(tiledMap, initialScale)
     }
 
-    private fun tiledMap(tiles: LevelInfo, tileToTexture: (TileToTextureParams) -> Array<TextureRegion>) =
+    private fun tiledMap(tiles: LevelInfo, tileToTexture: (TileToTextureParams) -> TileTextureInfo) =
         TiledMap().apply {
             arrayOf(LayerType.Floor, LayerType.Walls, LayerType.Decoration).forEach {
                 layers.add(mapLayer(tiles, texturesInfo, it, tileToTexture))

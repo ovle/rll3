@@ -15,15 +15,17 @@ import com.ovle.rll3.model.tile.pitFloorTileId
 import com.ovle.rll3.model.tile.roomFloorTileId
 import com.ovle.rll3.model.tile.wallTileId
 import com.ovle.rll3.point
-import com.ovle.rll3.view.layer.caveWallTileSet
-import com.ovle.rll3.view.layer.floorBorderTileSet
-import com.ovle.rll3.view.layer.portalTR
-import com.ovle.rll3.view.layer.trapsTR
+import com.ovle.rll3.view.defaultAnimationInterval
+import com.ovle.rll3.view.layer.*
 import com.ovle.rll3.view.noLightning
 import ktx.ashley.get
 
+data class TileTextureInfo(
+    val regions: Array<TextureRegion>,
+    val animationInterval: Float = defaultAnimationInterval
+)
 
-fun caveTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegion> {
+fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val (layerType, nearTiles, textureRegions, levelInfo, lightInfo) = params
 
     val position = point(nearTiles.x, nearTiles.y)
@@ -34,6 +36,7 @@ fun caveTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegion> 
     fun hasTrap(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), TriggerComponent::class)
     fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
     fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
+    fun hasPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == pitFloorTileId || hasDoor(x, y))) 1 else 0
     fun hasWallOrPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId || hasDoor(x, y))) 1 else 0
     fun hasRoomWall(tileId: Int?): Int = if (tileId != null && tileId != roomFloorTileId) 1 else 0
 
@@ -45,9 +48,9 @@ fun caveTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegion> 
     val wallTileIndex = nearTiles.run {
         hasWall(rightTileId, x + 1, y) + 2 * hasWall(downTileId, x, y + 1) + 4 * hasWall(leftTileId, x - 1, y) + 8 * hasWall(upTileId, x, y - 1)
     }
-    val tilesInSet = floorBorderTileSet.size * floorBorderTileSet.size - 1
+    val tilesInSet = indoorFloorBorderTileSet.size * indoorFloorBorderTileSet.size - 1
     val floorBorderTileIndex = tilesInSet - nearTiles.run {
-        hasWallOrPit(rightTileId, x + 1, y) + 2 * hasWallOrPit(downTileId, x, y + 1) + 4 * hasWallOrPit(leftTileId, x - 1, y) + 8 * hasWallOrPit(upTileId, x, y - 1)
+        hasPit(rightTileId, x + 1, y) + 2 * hasPit(downTileId, x, y + 1) + 4 * hasPit(leftTileId, x - 1, y) + 8 * hasPit(upTileId, x, y - 1)
     }
 
     val tileId = nearTiles.value?.typeId
@@ -68,7 +71,7 @@ fun caveTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegion> 
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, isDoorUp)
 
     val wallTileSet = caveWallTileSet
-//    val floorBorderTileSet = floorBorderTileSet
+    val floorBorderTileSet = outdoorFloorBorderTileSet
 
     val emptyTile = arrayOf<TextureRegion>()
 
@@ -80,15 +83,16 @@ fun caveTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegion> 
                 else -> textureRegions.darkRegions
             }
 
-    return when (layerType) {
+    var animationInterval = defaultAnimationInterval
+    val tileRegions =  when (layerType) {
         LayerType.Walls -> when {
             isWall -> arrayOf(indexedTextureTile(wallTileSet, wallTileIndex, regions))
-//            isRoomFloor -> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
+            isRoomFloor -> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
             else -> emptyTile
         }
         LayerType.Floor -> when {
-            isPitFloor -> arrayOf(regions[0][if (isPitFloorUp) 2 else 1])
-            isRoomFloor -> arrayOf(regions[3][(1..3).random()])
+            isRoomFloor -> arrayOf(regions[(12..13).random()][(1..3).random()])
+            isPitFloor -> if (isPitFloorUp) emptyTile else arrayOf(regions[11][(0..2).random()])
             else -> emptyTile
         }
         LayerType.Decoration -> when {
@@ -102,18 +106,24 @@ fun caveTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegion> 
                     else -> throw IllegalStateException("bad connection : type = $type")
                 }
             }
+            //todo
             isDoor -> arrayOf(regions[4][8])
             isTrap -> trapsTR(regions)
             isPortal -> portalTR(regions)
-            else -> when {
-                isWall && !isNextToDoor -> when {
-//                    isRoomWall -> arrayOf(regions[(0..1).random()][(8..11).random()])
-//                        .withChance(0.6f, defaultValue = emptyTile)
-                    else -> emptyTile
-                }
-                else -> emptyTile
+            isPitFloor -> {
+                animationInterval = 0.25f
+                arrayOf(
+                    regions[15][0],
+                    regions[15][1],
+                    regions[15][2]
+                )
             }
+            isRoomFloor -> arrayOf(regions[(12..13).random()][(8..11).random()])
+                .withChance(0.3f, defaultValue = emptyTile)
+            else -> emptyTile
         }
         else -> emptyTile
     }
+
+    return TileTextureInfo(tileRegions, animationInterval)
 }

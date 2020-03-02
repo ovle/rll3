@@ -25,7 +25,7 @@ import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.ecs.system.level.LevelTransitionInfo
 import com.ovle.rll3.model.procedural.config.LevelSettings
-import com.ovle.rll3.model.procedural.config.dungeonLevelSettings
+import com.ovle.rll3.model.procedural.config.caveLevelSettings
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
 import ktx.ashley.get
@@ -44,8 +44,9 @@ class LevelSystem: EventSystem<Event>() {
 
 
     private fun loadLevel(oldLevel: LevelInfo? = null, connectionId: ConnectionId? = null): LevelInfo {
-//        val levelSettings = caveLevelSettings
-        val levelSettings = dungeonLevelSettings
+        val levelSettings = caveLevelSettings
+//        val levelSettings = dungeonLevelSettings
+
         val connection = connection(oldLevel, connectionId)
         val connectionType = connection?.get(levelConnection)?.type ?: LevelConnectionType.Down
 

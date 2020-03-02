@@ -13,15 +13,16 @@ import com.ovle.rll3.model.procedural.grid.corridorFloorTypes
 import com.ovle.rll3.model.procedural.grid.roomFloorTypes
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.point
-import com.ovle.rll3.view.layer.floorBorderTileSet
+import com.ovle.rll3.view.defaultAnimationInterval
+import com.ovle.rll3.view.layer.dungeonWallTileSet
+import com.ovle.rll3.view.layer.indoorFloorBorderTileSet
 import com.ovle.rll3.view.layer.portalTR
-import com.ovle.rll3.view.layer.roomWallTileSet
 import com.ovle.rll3.view.layer.trapsTR
 import com.ovle.rll3.view.noLightning
 import ktx.ashley.get
 
 
-fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegion> {
+fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val (layerType, nearTiles, textureRegions, levelInfo, lightInfo) = params
 
     val position = point(nearTiles.x, nearTiles.y)
@@ -43,7 +44,7 @@ fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegio
     val wallTileIndex = nearTiles.run {
         hasWall(rightTileId, x + 1, y) + 2 * hasWall(downTileId, x, y + 1) + 4 * hasWall(leftTileId, x - 1, y) + 8 * hasWall(upTileId, x, y - 1)
     }
-    val tilesInSet = floorBorderTileSet.size * floorBorderTileSet.size - 1
+    val tilesInSet = indoorFloorBorderTileSet.size * indoorFloorBorderTileSet.size - 1
     val floorBorderTileIndex = tilesInSet - nearTiles.run {
         hasWallOrPit(rightTileId, x + 1, y) + 2 * hasWallOrPit(downTileId, x, y + 1) + 4 * hasWallOrPit(leftTileId, x - 1, y) + 8 * hasWallOrPit(upTileId, x, y - 1)
     }
@@ -67,8 +68,8 @@ fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegio
     val isLevelConnection = hasLevelConnection(nearTiles.x, nearTiles.y)
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, isDoorUp)
 
-    val wallTileSet = roomWallTileSet
-    val floorBorderTileSet = floorBorderTileSet
+    val wallTileSet = dungeonWallTileSet
+    val floorBorderTileSet = indoorFloorBorderTileSet
 
     val emptyTile = arrayOf<TextureRegion>()
 
@@ -80,7 +81,8 @@ fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegio
                 else -> textureRegions.darkRegions
             }
 
-    return when (layerType) {
+    var animationInterval = defaultAnimationInterval
+    val tileRegions = when (layerType) {
         LayerType.Walls -> when {
             isWall -> arrayOf(indexedTextureTile(wallTileSet, wallTileIndex, regions))
             isRoomFloor || isCorridorFloor -> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
@@ -102,9 +104,11 @@ fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegio
                     else -> throw IllegalStateException("bad connection : type = $type")
                 }
             }
+            //todo
             isDoor -> arrayOf(regions[4][8])
             isTrap -> trapsTR(regions)
             isPortal -> portalTR(regions)
+
             else -> when {
                 isWall && !isNextToDoor -> when {
                     isRoomWall -> arrayOf(regions[(0..1).random()][(8..11).random()])
@@ -118,4 +122,6 @@ fun dungeonTileToTexture(params: TileToTextureParams): kotlin.Array<TextureRegio
         }
         else -> emptyTile
     }
+
+    return TileTextureInfo(tileRegions, animationInterval)
 }
