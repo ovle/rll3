@@ -6,6 +6,7 @@ import com.ovle.rll3.model.procedural.config.LevelGenerationSettings.DungeonGene
 import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.DungeonGridFactory
 import com.ovle.rll3.model.procedural.grid.processor.*
+import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
 import com.ovle.rll3.model.util.caveGridValueToTileType
 import com.ovle.rll3.model.util.dungeonGridValueToTileType
 import com.ovle.rll3.view.layer.level.caveTileToTexture
@@ -38,7 +39,8 @@ val dungeonLevelSettings = LevelSettings(
 
 val caveLevelSettings = LevelSettings(
     generationSettings = CelullarAutomataSettings(
-        size = 25
+        size = 25,
+        connectionStrategy = ConnectionStrategy.ConnectUnconnectedWithPath
     ),
     gridFactory = CelullarAutomataGridFactory(),
     gridValueToTileType = ::caveGridValueToTileType,

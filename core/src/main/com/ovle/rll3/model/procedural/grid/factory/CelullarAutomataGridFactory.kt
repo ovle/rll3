@@ -4,6 +4,7 @@ import com.github.czyzby.noise4j.map.Grid
 import com.github.czyzby.noise4j.map.generator.cellular.CellularAutomataGenerator
 import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
 import com.ovle.rll3.model.procedural.config.LevelGenerationSettings.CelullarAutomataSettings
+import com.ovle.rll3.model.procedural.grid.utils.connect
 
 class CelullarAutomataGridFactory: GridFactory {
 
@@ -23,14 +24,14 @@ class CelullarAutomataGridFactory: GridFactory {
             marker = wallMarker
             deathLimit = 2  //more will kill the walls
             birthLimit = 4
-//            aliveChance = 0.6f
-            setInitiate(false)
+            aliveChance = 0.6f
+            setInitiate(false) //will do it manually
         }
 
         CellularAutomataGenerator.initiate(wallGrid, generator)
         init(wallGrid, size, wallMarker)
         generator.generate(wallGrid)
-        connect(wallGrid, emptyTileMarker, wallMarker)
+        connect(wallGrid, emptyTileMarker, wallMarker, settings.connectionStrategy)
 
         val pitGrid = Grid(size)
         generator.apply {

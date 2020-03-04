@@ -9,7 +9,6 @@ import com.ovle.rll3.model.ecs.component.TriggerComponent
 import com.ovle.rll3.model.ecs.component.has
 import com.ovle.rll3.model.ecs.entity.entitiesOnPosition
 import com.ovle.rll3.model.ecs.entity.hasEntityOnPosition
-import com.ovle.rll3.model.procedural.grid.roomFloorTypes
 import com.ovle.rll3.model.tile.LightValueType
 import com.ovle.rll3.model.tile.pitFloorTileId
 import com.ovle.rll3.model.tile.roomFloorTileId
@@ -36,9 +35,7 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
     fun hasTrap(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), TriggerComponent::class)
     fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
     fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
-    fun hasPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == pitFloorTileId || hasDoor(x, y))) 1 else 0
-    fun hasWallOrPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId || hasDoor(x, y))) 1 else 0
-    fun hasRoomWall(tileId: Int?): Int = if (tileId != null && tileId != roomFloorTileId) 1 else 0
+    fun hasPit(tileId: Int?, x: Int, y: Int) = if (tileId == pitFloorTileId) 1 else 0
 
     val upTileId = nearTiles.upValue?.typeId
     val downTileId = nearTiles.downValue?.typeId
@@ -58,12 +55,9 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val isRoomFloor = tileId == roomFloorTileId
     val isPitFloor = tileId == pitFloorTileId
     val isDoor = hasDoor(nearTiles.x, nearTiles.y)
-    val isNextToDoor = hasDoor(nearTiles.x, nearTiles.y - 1)
-    val isRoomWall = upTileId in roomFloorTypes
     val isDoorUp = hasDoor(nearTiles.x, nearTiles.y - 1)
     val isRoomFloorUp = downTileId == roomFloorTileId
     val isPitFloorUp = downTileId == pitFloorTileId
-    val isRoomFloorNearVertical = roomFloorTileId in nearTiles.nearV.map { it?.typeId }
 
     val isTrap = hasTrap(nearTiles.x, nearTiles.y)
     val isPortal = false
@@ -91,7 +85,7 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
             else -> emptyTile
         }
         LayerType.Floor -> when {
-            isRoomFloor -> arrayOf(regions[(12..13).random()][(1..3).random()])
+            isRoomFloor -> arrayOf(regions[(12..12).random()][(0..0).random()])
             isPitFloor -> if (isPitFloorUp) emptyTile else arrayOf(regions[11][(0..2).random()])
             else -> emptyTile
         }
