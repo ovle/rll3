@@ -3,8 +3,9 @@ package com.ovle.rll3
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.WorldInfo
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
-import com.ovle.rll3.model.procedural.config.LevelSettings
+import com.ovle.rll3.model.procedural.config.LevelParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -21,17 +22,20 @@ sealed class Event {
     class CameraScrolled(val amount: Int): PlayerControlEvent()
     class CameraMoved(val amount: Vector2): PlayerControlEvent()
 
-    open class GameStartedEvent: Event()
     open class LevelEditEvent: Event()
-
     class LightSwitchEvent: LevelEditEvent() //todo
 
-    open class GameEvent : Event()
+    open class GameEvent: Event()
+    open class GlobalGameEvent: Event()
+    open class GameStartedEvent: GlobalGameEvent()
+    open class GameFinishedEvent: GlobalGameEvent()
+    open class WorldInitEvent(val world: WorldInfo) : GlobalGameEvent()
+
     open class EntityEvent(val entity: Entity) : GameEvent()
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
     open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
     class LevelUnloaded(val level: LevelInfo): GameEvent()
-    class LevelLoaded(val level: LevelInfo, val levelSettings: LevelSettings): GameEvent()
+    class LevelLoaded(val level: LevelInfo, val levelParams: LevelParams): GameEvent()
 
     open class EntityAnimationEvent(entity: Entity, val animationId: String) : EntityEvent(entity)
     class EntityAnimationStartEvent(entity: Entity, animationId: String): EntityAnimationEvent(entity, animationId)

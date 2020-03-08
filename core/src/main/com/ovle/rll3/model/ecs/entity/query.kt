@@ -9,7 +9,9 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.component.Mappers.level
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
+import com.ovle.rll3.model.ecs.component.Mappers.world
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
+import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.reflect.KClass
@@ -52,8 +54,13 @@ fun connection(levelInfo: LevelInfo?, id: ConnectionId?) =
 
 
 fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), LevelComponent::class)?.get(level)?.level
-
 fun EntitySystem.levelInfo() = levelInfoNullable()!!
+
+fun EntitySystem.worldInfoNullable() = entityWith(allEntities().toList(), WorldComponent::class)?.get(world)?.world
+fun EntitySystem.worldInfo() = worldInfoNullable()!!
+
 fun EntitySystem.playerInteractionInfo() = entityWith(allEntities().toList(), PlayerInteractionComponent::class)
     ?.get(Mappers.playerInteraction)
 
+fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
+    worldInfo.levels.single { it.id == levelDescriptionId }

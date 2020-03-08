@@ -16,8 +16,6 @@ import com.ovle.rll3.point
 import com.ovle.rll3.view.defaultAnimationInterval
 import com.ovle.rll3.view.layer.dungeonWallTileSet
 import com.ovle.rll3.view.layer.indoorFloorBorderTileSet
-import com.ovle.rll3.view.layer.portalTR
-import com.ovle.rll3.view.layer.trapsTR
 import com.ovle.rll3.view.noLightning
 import ktx.ashley.get
 
@@ -98,23 +96,20 @@ fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
                 val connectionComponent = entities.find { it.has<LevelConnectionComponent>() }!![levelConnection]!!
                 val type = connectionComponent.type
                 when {
-                    !connectionComponent.visited -> arrayOf(regions[4][10])
-                    type == LevelConnectionType.Up -> arrayOf(regions[4][11])
-                    type == LevelConnectionType.Down -> arrayOf(regions[3][11])
+                    !connectionComponent.visited -> arrayOf(regions[3][10])
+                    type == LevelConnectionType.Up -> arrayOf(regions[3][11])
+                    type == LevelConnectionType.Down -> arrayOf(regions[2][11])
                     else -> throw IllegalStateException("bad connection : type = $type")
                 }
             }
             //todo
-            isDoor -> arrayOf(regions[4][8])
-            isTrap -> trapsTR(regions)
-            isPortal -> portalTR(regions)
-
+            isDoor -> arrayOf(regions[3][8])
             else -> when {
                 isWall && !isNextToDoor -> when {
                     isRoomWall -> arrayOf(regions[(0..1).random()][(8..11).random()])
                         .withChance(0.6f, defaultValue = emptyTile)
-                    isCorridorWall -> arrayOf(regions[2][(8..11).random()])
-                        .withChance(0.6f, defaultValue = emptyTile)
+//                    isCorridorWall -> arrayOf(regions[2][(8..11).random()])
+//                        .withChance(0.6f, defaultValue = emptyTile)
                     else -> emptyTile
                 }
                 else -> emptyTile

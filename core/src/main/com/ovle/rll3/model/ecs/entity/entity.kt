@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
-import com.ovle.rll3.model.ecs.component.LightTilePosition
+import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.util.config.LightConfig
 
 
@@ -55,7 +55,7 @@ fun newTrigger(position: GridPoint2, gameEngine: Engine): Entity = gameEngine.en
     TriggerComponent()
 )
 
-fun newConnection(position: GridPoint2, gameEngine: Engine, connectionType: LevelConnectionType): Entity = gameEngine.entity(
+fun newConnection(position: GridPoint2, gameEngine: Engine, connectionType: LevelConnectionType, levelDescriptionId: LevelDescriptionId): Entity = gameEngine.entity(
     PositionComponent(floatPoint(position)),
-    LevelConnectionComponent(type = connectionType)
+    LevelConnectionComponent(type = connectionType, levelDescriptionId = levelDescriptionId)
 )

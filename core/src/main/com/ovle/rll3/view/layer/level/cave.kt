@@ -15,7 +15,9 @@ import com.ovle.rll3.model.tile.roomFloorTileId
 import com.ovle.rll3.model.tile.wallTileId
 import com.ovle.rll3.point
 import com.ovle.rll3.view.defaultAnimationInterval
-import com.ovle.rll3.view.layer.*
+import com.ovle.rll3.view.layer.caveWallTileSet
+import com.ovle.rll3.view.layer.indoorFloorBorderTileSet
+import com.ovle.rll3.view.layer.outdoorFloorBorderTileSet
 import com.ovle.rll3.view.noLightning
 import ktx.ashley.get
 
@@ -85,8 +87,8 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
             else -> emptyTile
         }
         LayerType.Floor -> when {
-            isRoomFloor -> arrayOf(regions[(12..12).random()][(0..0).random()])
-            isPitFloor -> if (isPitFloorUp) emptyTile else arrayOf(regions[11][(0..2).random()])
+            isRoomFloor -> arrayOf(regions[4][(0..1).random()])
+            isPitFloor -> if (isPitFloorUp) emptyTile else arrayOf(regions[5][(0..2).random()])
             else -> emptyTile
         }
         LayerType.Decoration -> when {
@@ -94,16 +96,14 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
                 val connectionComponent = entities.find { it.has<LevelConnectionComponent>() }!![levelConnection]!!
                 val type = connectionComponent.type
                 when {
-                    !connectionComponent.visited -> arrayOf(regions[4][10])
-                    type == LevelConnectionType.Up -> arrayOf(regions[4][11])
-                    type == LevelConnectionType.Down -> arrayOf(regions[3][11])
+                    !connectionComponent.visited -> arrayOf(regions[3][10])
+                    type == LevelConnectionType.Up -> arrayOf(regions[3][11])
+                    type == LevelConnectionType.Down -> arrayOf(regions[2][11])
                     else -> throw IllegalStateException("bad connection : type = $type")
                 }
             }
             //todo
-            isDoor -> arrayOf(regions[4][8])
-            isTrap -> trapsTR(regions)
-            isPortal -> portalTR(regions)
+            isDoor -> arrayOf(regions[3][8])
             isPitFloor -> {
                 animationInterval = 0.25f
                 arrayOf(
@@ -112,7 +112,7 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
                     regions[15][2]
                 )
             }
-            isRoomFloor -> arrayOf(regions[(12..13).random()][(8..11).random()])
+            isRoomFloor -> arrayOf(regions[(4..7).random()][(8..11).random()])
                 .withChance(0.3f, defaultValue = emptyTile)
             else -> emptyTile
         }

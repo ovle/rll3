@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.procedural.config
 
 import com.github.czyzby.noise4j.map.generator.room.RoomType.DefaultRoomType.*
-import com.ovle.rll3.model.procedural.config.LevelGenerationSettings.CelullarAutomataSettings
-import com.ovle.rll3.model.procedural.config.LevelGenerationSettings.DungeonGenerationSettings
+import com.ovle.rll3.model.procedural.config.LevelFactoryParams.CelullarAutomataLevelFactoryParams
+import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.DungeonGridFactory
 import com.ovle.rll3.model.procedural.grid.processor.*
@@ -12,8 +12,8 @@ import com.ovle.rll3.model.util.dungeonGridValueToTileType
 import com.ovle.rll3.view.layer.level.caveTileToTexture
 import com.ovle.rll3.view.layer.level.dungeonTileToTexture
 
-val dungeonLevelSettings = LevelSettings(
-    generationSettings = DungeonGenerationSettings(
+val dungeonLevelParams = LevelParams(
+    factoryParams = DungeonLevelFactoryParams(
         size = 25,
         roomTypes = arrayOf(SQUARE, ROUNDED, CASTLE, DIAMOND),
         maxRoomSize = 15,
@@ -37,8 +37,8 @@ val dungeonLevelSettings = LevelSettings(
     )
 )
 
-val caveLevelSettings = LevelSettings(
-    generationSettings = CelullarAutomataSettings(
+val caveLevelParams = LevelParams(
+    factoryParams = CelullarAutomataLevelFactoryParams(
         size = 25,
         connectionStrategy = ConnectionStrategy.ConnectUnconnectedWithPath
     ),

@@ -8,24 +8,19 @@ import com.ovle.rll3.Event.LevelLoaded
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.LevelComponent
-import com.ovle.rll3.model.ecs.component.LevelConnectionComponent
+import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
-import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.Mappers.animation
 import com.ovle.rll3.model.ecs.component.Mappers.level
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.Mappers.move
 import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.Mappers.position
-import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.ecs.system.level.ConnectionData
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.ecs.system.level.LevelTransitionInfo
-import com.ovle.rll3.model.procedural.config.LevelSettings
-import com.ovle.rll3.model.procedural.config.caveLevelSettings
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
 import ktx.ashley.get
@@ -37,22 +32,31 @@ class LevelSystem: EventSystem<Event>() {
 
     override fun dispatch(event: Event) {
         when (event) {
-            is Event.GameStartedEvent -> loadLevel()
-            is Event.EntityLevelTransition -> loadLevel(levelInfo(), event.connectionId)
+            is Event.WorldInitEvent -> loadFirstLevel()
+            is Event.EntityLevelTransition -> loadNextLevel(levelInfo(), event.connectionId)
         }
     }
 
 
-    private fun loadLevel(oldLevel: LevelInfo? = null, connectionId: ConnectionId? = null): LevelInfo {
-        val levelSettings = caveLevelSettings
-//        val levelSettings = dungeonLevelSettings
+    private fun loadFirstLevel(): LevelInfo {
+        val worldInfo = worldInfo()
+        val newTransition = changeLevel(null, null, engine, worldInfo)
+        return initLevelEntities(newTransition, worldInfo)
+    }
 
-        val connection = connection(oldLevel, connectionId)
-        val connectionType = connection?.get(levelConnection)?.type ?: LevelConnectionType.Down
+    private fun loadNextLevel(oldLevel: LevelInfo, connectionId: ConnectionId): LevelInfo {
+        val connection = connection(oldLevel, connectionId)!!
+        val connectionComponent = connection[levelConnection]!!
 
-        if (oldLevel != null) storeEntities(oldLevel)
+        storeEntities(oldLevel)
 
-        val newTransition = changeLevel(oldLevel, connectionId, connectionType, engine, levelSettings)
+        val worldInfo = worldInfo()
+        val newTransition = changeLevel(oldLevel, connectionComponent, engine, worldInfo)
+        return initLevelEntities(newTransition, worldInfo)
+    }
+
+
+    private fun initLevelEntities(newTransition: LevelTransitionInfo, worldInfo: WorldInfo): LevelInfo {
         val newLevel = newTransition.levelInfo
         if (!newTransition.isNew) {
             restoreEntities(newLevel)
@@ -61,6 +65,7 @@ class LevelSystem: EventSystem<Event>() {
 
         val entities = allEntities().toList()
         var levelEntity = entityWith(entities, LevelComponent::class)
+
         if (levelEntity == null) levelEntity = newLevel(newLevel, engine)!!
 
         var playerEntity: Entity? = null
@@ -78,7 +83,8 @@ class LevelSystem: EventSystem<Event>() {
         setVisited(newTransition.connectionId, newLevel)
 
         //send(LevelUnloaded(it))   todo
-        send(LevelLoaded(newLevel, levelSettings))
+        val newLevelDescription = levelDescription(newLevel.descriptionId, worldInfo)
+        send(LevelLoaded(newLevel, newLevelDescription.params))
 
         return newLevel
     }
@@ -89,38 +95,46 @@ class LevelSystem: EventSystem<Event>() {
         entity[animation]?.stopAnimation("walk")
     }
 
-    private fun changeLevel(level: LevelInfo?, connectionId: ConnectionId?, connectionType: LevelConnectionType, engine: Engine, levelSettings: LevelSettings): LevelTransitionInfo {
+    private fun changeLevel(oldLevel: LevelInfo?, connection: LevelConnectionComponent?, engine: Engine, worldInfo: WorldInfo): LevelTransitionInfo {
+        val connectionId = connection?.id
+        val connectionType = connection?.type ?: LevelConnectionType.Down
+
         val storedConnection = LevelRegistry.connection(connectionId)
         var backConnectionId: ConnectionId? = null
-        val isNewLevel = storedConnection == null
+        val isAlreadyLoadedLevel = storedConnection != null
 
-        val newLevel = if (!isNewLevel) {
+        //todo case with multiple enter connections - go first, go back, go second - no storedConnection for already visited level
+        val newLevel = if (isAlreadyLoadedLevel) {
             println("load cached level ${storedConnection!!.levelId}, transition: $connectionId")
             backConnectionId = storedConnection.connectionId
             LevelRegistry.levelInfo(storedConnection.levelId)
         } else {
-            val newLevel = newLevelInfo(levelSettings)
+            val newLevelDescriptionId = connection?.levelDescriptionId ?: worldInfo.entryPoint
+            val newLevelDescription = levelDescription(newLevelDescriptionId, worldInfo)
+            val newLevel = newLevelInfo(newLevelDescription)
 
-            levelSettings.postProcessors.forEach {
-                it.process(newLevel, levelSettings.generationSettings, engine)
+            val levelParams = newLevelDescription.params
+            levelParams.postProcessors.forEach {
+                it.process(newLevel, engine, worldInfo, newLevelDescription)
             }
 
             println("create new level ${newLevel.id}")
+            println("                        description: ${newLevelDescription.id}")
             println("                        transition: $connectionId")
             LevelRegistry.addLevel(newLevel)
             if (connectionId != null) {
                 val backConnectionType = connectionType.opposite()
                 backConnectionId = randomConnection(newLevel, backConnectionType)
                 LevelRegistry.addConnection(connectionId, ConnectionData(newLevel.id, backConnectionId))
-                if (level != null) {
-                    LevelRegistry.addConnection(backConnectionId, ConnectionData(level.id, connectionId))
+                if (oldLevel != null) {
+                    LevelRegistry.addConnection(backConnectionId, ConnectionData(oldLevel.id, connectionId))
                     println("                   back transition: $backConnectionId")
                 }
             }
             newLevel
         }
 
-        return LevelTransitionInfo(newLevel, backConnectionId, isNewLevel)
+        return LevelTransitionInfo(newLevel, backConnectionId, !isAlreadyLoadedLevel)
     }
 
     private fun setVisited(connectionId: ConnectionId?, level: LevelInfo?) {
@@ -132,15 +146,16 @@ class LevelSystem: EventSystem<Event>() {
         connection[levelConnection]!!.visited = true
     }
 
-    private fun newLevelInfo(levelSettings: LevelSettings): LevelInfo {
-        val generationSettings = levelSettings.generationSettings
-        val grid = levelSettings.gridFactory.get(
-            generationSettings.size,
-            generationSettings
-        )
+    private fun newLevelInfo(levelDescription: LevelDescription): LevelInfo {
+        val levelParams = levelDescription.params
+        val factoryParams = levelParams.factoryParams
+        val grid = levelParams.gridFactory.get(factoryParams)
 
-        val tiles = gridToTileArray(grid, levelSettings.gridValueToTileType)
-        return LevelInfo(tiles = tiles)
+        val tiles = gridToTileArray(grid, levelParams.gridValueToTileType)
+        return LevelInfo(
+            tiles = tiles,
+            descriptionId = levelDescription.id
+        )
     }
 
     private fun randomConnection(level: LevelInfo, type: LevelConnectionType): ConnectionId {

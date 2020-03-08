@@ -54,27 +54,15 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
 
         ecsEngine = PooledEngine()
 
-        val levelSystem = LevelSystem()
-        val animationSystem = AnimationSystem(objectsTextureInfo)
-        val moveSystem = MoveSystem()
-        val playerControlsSystem = PlayerControlsSystem()
-//        val sightSystem = SightSystem()
-//        val collisionSystem = CollisionSystem()
-//        val aiSystem = AISystem()
-//        val timeSystem = TimeSystem()
-//        val lightSystem = LightSystem()
-        val cameraSystem = CameraSystem(camera)
-        val renderLevelSystem = RenderLevelSystem(camera, levelTexturesInfo)
-        val renderObjectsSystem = RenderObjectsSystem(batch, objectsTextureInfo)
-
         val systems = listOf(
-            animationSystem,
-            cameraSystem,
-            renderLevelSystem,
-            renderObjectsSystem,
-            levelSystem,
-            moveSystem,
-            playerControlsSystem
+            GameSystem(),
+            LevelSystem(),
+            PlayerControlsSystem(),
+            MoveSystem(),
+            CameraSystem(camera),
+            RenderLevelSystem(camera, levelTexturesInfo),
+            RenderObjectsSystem(batch, objectsTextureInfo),
+            AnimationSystem(objectsTextureInfo)
         )
         systems.forEach { ecsEngine.addSystem((it)) }
 

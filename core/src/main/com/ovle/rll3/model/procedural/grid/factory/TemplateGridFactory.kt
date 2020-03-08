@@ -1,14 +1,14 @@
 package com.ovle.rll3.model.procedural.grid.factory
 
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
+import com.ovle.rll3.model.procedural.config.LevelFactoryParams
 
 //todo
 class TemplateGridFactory: GridFactory {
-    override fun get(size: Int, settings: LevelGenerationSettings): Grid {
-        settings as LevelGenerationSettings.TemplateGenerationSettings
+    override fun get(factoryParams: LevelFactoryParams): Grid {
+        factoryParams as LevelFactoryParams.TemplateLevelFactoryParams
 
-        val grid = Grid(size)
+        val grid = Grid(factoryParams.size)
         return grid
     }
 

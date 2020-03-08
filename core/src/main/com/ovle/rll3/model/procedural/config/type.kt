@@ -9,18 +9,18 @@ import com.ovle.rll3.view.layer.level.TileTextureInfo
 import com.ovle.rll3.view.layer.level.TileToTextureParams
 
 
-data class LevelSettings (
-    val generationSettings: LevelGenerationSettings,
+data class LevelParams (
+    val factoryParams: LevelFactoryParams,
     val gridFactory: GridFactory,
     val gridValueToTileType: (Float) -> TileType,
     val tileToTexture: (TileToTextureParams) -> TileTextureInfo,
     val postProcessors: Array<TilesProcessor>
 )
 
-sealed class LevelGenerationSettings(
+sealed class LevelFactoryParams(
     val size: Int
 ) {
-    class DungeonGenerationSettings(
+    class DungeonLevelFactoryParams(
         size: Int,
         val roomTypes: Array<RoomType>,
         val maxRoomSize: Int,
@@ -31,15 +31,15 @@ sealed class LevelGenerationSettings(
         val lightSourceChance: Float,
         val doorChance: Float,
         val trapChance: Float
-    ): LevelGenerationSettings(size)
+    ): LevelFactoryParams(size)
 
-    class CelullarAutomataSettings(
+    class CelullarAutomataLevelFactoryParams(
         size: Int,
         val connectionStrategy: ConnectionStrategy
-    ): LevelGenerationSettings(size)
+    ): LevelFactoryParams(size)
 
-    class TemplateGenerationSettings(
+    class TemplateLevelFactoryParams(
         size: Int,
         val template: Array<Array<Int>>
-    ): LevelGenerationSettings(size)
+    ): LevelFactoryParams(size)
 }

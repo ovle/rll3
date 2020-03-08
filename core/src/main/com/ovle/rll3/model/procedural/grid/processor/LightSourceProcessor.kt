@@ -3,10 +3,11 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.model.ecs.component.LevelDescription
 import com.ovle.rll3.model.ecs.component.LightTilePosition
+import com.ovle.rll3.model.ecs.component.WorldInfo
 import com.ovle.rll3.model.ecs.entity.newLightSource
-import com.ovle.rll3.model.procedural.config.LevelGenerationSettings
-import com.ovle.rll3.model.procedural.config.LevelGenerationSettings.DungeonGenerationSettings
+import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 import com.ovle.rll3.model.procedural.grid.floorTypes
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.tile.nearValues
@@ -19,9 +20,11 @@ import com.ovle.rll3.point
 
 class LightSourceProcessor : TilesProcessor {
 
-    override fun process(tiles: TileArray, generationSettings: LevelGenerationSettings, gameEngine: Engine): Collection<Entity> {
+    override fun process2(tiles: TileArray, gameEngine: Engine, worldInfo: WorldInfo, levelDescription: LevelDescription): Collection<Entity> {
         val result = mutableListOf<Entity>()
-        generationSettings as DungeonGenerationSettings
+
+        val factoryParams = levelDescription.params.factoryParams
+        factoryParams as DungeonLevelFactoryParams
 
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
@@ -31,7 +34,7 @@ class LightSourceProcessor : TilesProcessor {
                 val isWallTileNear = nearTiles.allHV.map { it?.typeId }.any { it == wallTileId }
                 val isFreeForLightSource = isFloorTile && isFreeSpaceTileNear && isWallTileNear
                 //todo this should depend on distance to nearest light source
-                val isLightSource = isFreeForLightSource && Math.random() <= generationSettings.lightSourceChance
+                val isLightSource = isFreeForLightSource && Math.random() <= factoryParams.lightSourceChance
                 //todo check doors ?
                 if (isLightSource) {
                     val position = point(x, y)
