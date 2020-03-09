@@ -7,17 +7,16 @@ import com.ovle.rll3.model.ecs.component.LevelInfo
 object LevelRegistry {
 
     private val levelsById = mutableMapOf<LevelId, LevelInfo>()
-    private val connections = mutableMapOf<ConnectionId, ConnectionData>()
-    private val storedEntities = mutableMapOf<LevelId, Collection<StoredEntity>?>()
+    private val levelsByDescriptionId = mutableMapOf<LevelDescriptionId, LevelInfo>()
+    private val entitiesByLevel = mutableMapOf<LevelId, Collection<StoredEntity>?>()
 
-    fun levelInfo(levelId: LevelId) = levelsById[levelId]!!
+    fun levelInfo(levelId: LevelId) = levelsById[levelId]
+
+    fun levelInfoByDesciption(levelDescriptionId: LevelDescriptionId) = levelsByDescriptionId[levelDescriptionId]
+
     fun addLevel(levelInfo: LevelInfo) {
         levelsById[levelInfo.id] = levelInfo
-    }
-
-    fun connection(connectionId: ConnectionId?) = connections[connectionId]
-    fun addConnection(connectionId: ConnectionId, connectionData: ConnectionData) {
-        connections[connectionId] = connectionData
+        levelsByDescriptionId[levelInfo.descriptionId] = levelInfo
     }
 
     fun store(levelId: LevelId): Collection<Entity> {
@@ -25,19 +24,25 @@ object LevelRegistry {
         val entitiesToStore = level!!.objects.toList()
         val componentsToStore = entitiesToStore.map { StoredEntity(it.components.toList()) }
 
-        storedEntities[levelId] = componentsToStore
+        entitiesByLevel[levelId] = componentsToStore
         level.objects.clear()
 
         return entitiesToStore
     }
 
     fun restore(levelId: LevelId): Collection<StoredEntity>? {
-        val result = storedEntities[levelId]?.toList()
+        val result = entitiesByLevel[levelId]?.toList()
         clearStoredEntities(levelId)
         return result
     }
 
     private fun clearStoredEntities(levelId: LevelId) {
-        storedEntities[levelId] = null
+        entitiesByLevel[levelId] = null
+    }
+
+    fun clear() {
+        levelsById.clear()
+        levelsByDescriptionId.clear()
+        entitiesByLevel.clear()
     }
 }

@@ -1,6 +1,5 @@
 package com.ovle.rll3.model.ecs.system
 
-import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.Event
@@ -17,10 +16,8 @@ import com.ovle.rll3.model.ecs.component.Mappers.move
 import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.Mappers.position
 import com.ovle.rll3.model.ecs.entity.*
-import com.ovle.rll3.model.ecs.system.level.ConnectionData
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
-import com.ovle.rll3.model.ecs.system.level.LevelTransitionInfo
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
 import ktx.ashley.get
@@ -37,11 +34,10 @@ class LevelSystem: EventSystem<Event>() {
         }
     }
 
-
     private fun loadFirstLevel(): LevelInfo {
         val worldInfo = worldInfo()
-        val newTransition = changeLevel(null, null, engine, worldInfo)
-        return initLevelEntities(newTransition, worldInfo)
+        val (nextLevel, connectionId) = changeLevel(null, worldInfo)
+        return initLevelEntities(nextLevel, connectionId, worldInfo)
     }
 
     private fun loadNextLevel(oldLevel: LevelInfo, connectionId: ConnectionId): LevelInfo {
@@ -51,18 +47,12 @@ class LevelSystem: EventSystem<Event>() {
         storeEntities(oldLevel)
 
         val worldInfo = worldInfo()
-        val newTransition = changeLevel(oldLevel, connectionComponent, engine, worldInfo)
-        return initLevelEntities(newTransition, worldInfo)
+        val (nextLevel, connectionId) = changeLevel(connectionComponent, worldInfo)
+        return initLevelEntities(nextLevel, connectionId, worldInfo)
     }
 
 
-    private fun initLevelEntities(newTransition: LevelTransitionInfo, worldInfo: WorldInfo): LevelInfo {
-        val newLevel = newTransition.levelInfo
-        if (!newTransition.isNew) {
-            restoreEntities(newLevel)
-        }
-        val startPosition = playerStartPosition(newLevel, newTransition.connectionId)
-
+    private fun initLevelEntities(newLevel: LevelInfo, connectionId: ConnectionId?, worldInfo: WorldInfo): LevelInfo {
         val entities = allEntities().toList()
         var levelEntity = entityWith(entities, LevelComponent::class)
 
@@ -73,6 +63,7 @@ class LevelSystem: EventSystem<Event>() {
 
         if (interactionEntity != null) playerEntity = interactionEntity[playerInteraction]?.controlledEntity
         if (playerEntity == null) playerEntity = newPlayer(engine)!!
+        val startPosition = playerStartPosition(newLevel, connectionId)
         resetEntity(playerEntity, startPosition)
 
         if (interactionEntity == null) interactionEntity = newPlayerInteraction(playerEntity, engine)
@@ -80,7 +71,7 @@ class LevelSystem: EventSystem<Event>() {
         levelEntity[level]?.level = newLevel
 
         //setVisited(connectionId, level)
-        setVisited(newTransition.connectionId, newLevel)
+        setVisited(connectionId, newLevel)
 
         //send(LevelUnloaded(it))   todo
         val newLevelDescription = levelDescription(newLevel.descriptionId, worldInfo)
@@ -92,49 +83,41 @@ class LevelSystem: EventSystem<Event>() {
     private fun resetEntity(entity: Entity, startPosition: GridPoint2) {
         entity[position]!!.position = floatPoint(startPosition)
         entity[move]?.path?.reset()
-        entity[animation]?.stopAnimation("walk")
+        entity[animation]?.stopAnimation("walk") //todo stop all
     }
 
-    private fun changeLevel(oldLevel: LevelInfo?, connection: LevelConnectionComponent?, engine: Engine, worldInfo: WorldInfo): LevelTransitionInfo {
+    //todo case with multiple enter connections - go first, go back, go second - no storedConnection for already visited level
+    //todo for the circular path - go down using one path, go up using another enter
+    private fun changeLevel(connection: LevelConnectionComponent?, worldInfo: WorldInfo): Pair<LevelInfo, ConnectionId?> {
         val connectionId = connection?.id
         val connectionType = connection?.type ?: LevelConnectionType.Down
-
-        val storedConnection = LevelRegistry.connection(connectionId)
         var backConnectionId: ConnectionId? = null
-        val isAlreadyLoadedLevel = storedConnection != null
 
-        //todo case with multiple enter connections - go first, go back, go second - no storedConnection for already visited level
-        val newLevel = if (isAlreadyLoadedLevel) {
-            println("load cached level ${storedConnection!!.levelId}, transition: $connectionId")
-            backConnectionId = storedConnection.connectionId
-            LevelRegistry.levelInfo(storedConnection.levelId)
-        } else {
-            val newLevelDescriptionId = connection?.levelDescriptionId ?: worldInfo.entryPoint
-            val newLevelDescription = levelDescription(newLevelDescriptionId, worldInfo)
-            val newLevel = newLevelInfo(newLevelDescription)
+        val newLevelDescriptionId = connection?.levelDescriptionId ?: worldInfo.entryPoint
+        val newLevelDescription = levelDescription(newLevelDescriptionId, worldInfo)
 
-            val levelParams = newLevelDescription.params
-            levelParams.postProcessors.forEach {
-                it.process(newLevel, engine, worldInfo, newLevelDescription)
+        val storedLevel = LevelRegistry.levelInfoByDesciption(newLevelDescriptionId)?.also {
+            println("load cached level: ${it.id}, description: ${newLevelDescription.id}, transition: $connectionId")
+            restoreEntities(it)
+        }
+        val newLevel = storedLevel ?: newLevelInfo(newLevelDescription).also {
+            println("create new level ${it.id}, description: ${newLevelDescription.id}, transition: $connectionId")
+            newLevelDescription.params.postProcessors.forEach {
+                processor ->
+                processor.process(it, engine, worldInfo, newLevelDescription)
             }
-
-            println("create new level ${newLevel.id}")
-            println("                        description: ${newLevelDescription.id}")
-            println("                        transition: $connectionId")
-            LevelRegistry.addLevel(newLevel)
-            if (connectionId != null) {
-                val backConnectionType = connectionType.opposite()
-                backConnectionId = randomConnection(newLevel, backConnectionType)
-                LevelRegistry.addConnection(connectionId, ConnectionData(newLevel.id, backConnectionId))
-                if (oldLevel != null) {
-                    LevelRegistry.addConnection(backConnectionId, ConnectionData(oldLevel.id, connectionId))
-                    println("                   back transition: $backConnectionId")
-                }
-            }
-            newLevel
         }
 
-        return LevelTransitionInfo(newLevel, backConnectionId, !isAlreadyLoadedLevel)
+        LevelRegistry.addLevel(newLevel)
+
+        if (connectionId != null) {
+            val backConnectionType = connectionType.opposite()
+            //todo take existing
+            backConnectionId = randomConnection(newLevel, backConnectionType)
+            println("back transition: $backConnectionId")
+        }
+
+        return newLevel to backConnectionId
     }
 
     private fun setVisited(connectionId: ConnectionId?, level: LevelInfo?) {
@@ -150,18 +133,19 @@ class LevelSystem: EventSystem<Event>() {
         val levelParams = levelDescription.params
         val factoryParams = levelParams.factoryParams
         val grid = levelParams.gridFactory.get(factoryParams)
-
         val tiles = gridToTileArray(grid, levelParams.gridValueToTileType)
+
         return LevelInfo(
             tiles = tiles,
             descriptionId = levelDescription.id
         )
     }
 
+    //todo not exactly random - some connections may already be initialized if we were here earlier using another way
     private fun randomConnection(level: LevelInfo, type: LevelConnectionType): ConnectionId {
         val connections = entitiesWith(level.objects, LevelConnectionComponent::class)
             .map { it[levelConnection]!! }
-        return connections.filter { it.type == type }.random().id
+        return connections.filter { it.type == type && !it.visited }.random().id
     }
 
     private fun playerStartPosition(level: LevelInfo, connectionId: ConnectionId?): GridPoint2 {
