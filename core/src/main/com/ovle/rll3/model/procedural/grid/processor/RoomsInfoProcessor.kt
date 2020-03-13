@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.isNear
 import com.ovle.rll3.model.ecs.component.LevelDescription
 import com.ovle.rll3.model.ecs.component.LevelInfo
-import com.ovle.rll3.model.ecs.component.WorldInfo
 import com.ovle.rll3.model.procedural.grid.roomFloorTypes
 import com.ovle.rll3.model.tile.nearValues
 import kotlin.math.roundToInt
@@ -18,7 +17,7 @@ data class RoomInfo(val x: Int, val y: Int, val width: Int, val height: Int)
 
 class RoomsInfoProcessor : TilesProcessor {
 
-    override fun process(levelInfo: LevelInfo, gameEngine: Engine, worldInfo: WorldInfo, levelDescription: LevelDescription) {
+    override fun process(levelInfo: LevelInfo, gameEngine: Engine, levelDescription: LevelDescription) {
         val tiles = levelInfo.tiles
         val roomsData = mutableListOf<RoomTiles>()
         var currentRoom: RoomTiles? = null

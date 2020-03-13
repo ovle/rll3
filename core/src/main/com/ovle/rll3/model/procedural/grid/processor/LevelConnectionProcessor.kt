@@ -4,9 +4,9 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
-import com.ovle.rll3.model.ecs.component.LevelDescription
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.WorldInfo
+import com.ovle.rll3.model.ecs.entity.levelDescription
 import com.ovle.rll3.model.ecs.entity.newConnection
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.tile.nearValues
@@ -14,10 +14,12 @@ import com.ovle.rll3.model.tile.roomFloorTileId
 import com.ovle.rll3.model.tile.wallTileId
 import com.ovle.rll3.point
 
-class LevelConnectionProcessor : TilesProcessor {
+class LevelConnectionProcessor {
 
-    override fun process(levelInfo: LevelInfo, gameEngine: Engine, worldInfo: WorldInfo, levelDescription: LevelDescription) {
-        val levelDescriptionId = levelDescription.id
+    fun process(levelInfo: LevelInfo, gameEngine: Engine, worldInfo: WorldInfo) {
+        val levelDescriptionId = levelInfo.descriptionId
+        val levelDescription = levelDescription(levelDescriptionId, worldInfo)
+
         val connections = levelDescription.connections
         val enterConnections = worldInfo.levels
             .filter { levelDescriptionId in it.connections }
@@ -26,7 +28,8 @@ class LevelConnectionProcessor : TilesProcessor {
         val candidatePositions = candidatePositions(levelInfo)
 
         val result= mutableListOf<Entity>()
-        val enterConnectionType = LevelConnectionType.Up    //todo
+
+        val enterConnectionType = LevelConnectionType.Up //doesn't depend on how do we enter this level, only on world config
         result += fillConnections(enterConnectionType, candidatePositions, enterConnections, gameEngine)
         result += fillConnections(enterConnectionType.opposite(), candidatePositions, connections, gameEngine)
 
@@ -42,8 +45,9 @@ class LevelConnectionProcessor : TilesProcessor {
                 val isWall = (nearTiles.nearH + nearTiles.value)
                     .filterNotNull().all { it.typeId == wallTileId }
                 val isRoomFloorNear = nearTiles.upValue?.typeId == roomFloorTileId
+                val isWallBehind = nearTiles.downValue?.typeId == wallTileId
 
-                if (isWall && isRoomFloorNear) candidatePositions.add(point(x, y))
+                if (isWall && isRoomFloorNear && isWallBehind) candidatePositions.add(point(x, y))
             }
         }
         return candidatePositions

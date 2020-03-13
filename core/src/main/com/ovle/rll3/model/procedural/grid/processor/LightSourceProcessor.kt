@@ -4,8 +4,8 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.LevelDescription
+import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.LightTilePosition
-import com.ovle.rll3.model.ecs.component.WorldInfo
 import com.ovle.rll3.model.ecs.entity.newLightSource
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 import com.ovle.rll3.model.procedural.grid.floorTypes
@@ -17,11 +17,11 @@ import com.ovle.rll3.model.util.lightTilePassMapper
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
 import com.ovle.rll3.point
 
-
 class LightSourceProcessor : TilesProcessor {
 
-    override fun process2(tiles: TileArray, gameEngine: Engine, worldInfo: WorldInfo, levelDescription: LevelDescription): Collection<Entity> {
-        val result = mutableListOf<Entity>()
+    override fun process(levelInfo: LevelInfo, gameEngine: Engine, levelDescription: LevelDescription) {
+        val tiles = levelInfo.tiles
+        val lightSources = mutableListOf<Entity>()
 
         val factoryParams = levelDescription.params.factoryParams
         factoryParams as DungeonLevelFactoryParams
@@ -38,11 +38,12 @@ class LightSourceProcessor : TilesProcessor {
                 //todo check doors ?
                 if (isLightSource) {
                     val position = point(x, y)
-                    result.add(newLightSource(position, gameEngine, lightPositions(position, tiles, LightConfig)))
+                    lightSources.add(newLightSource(position, gameEngine, lightPositions(position, tiles, LightConfig)))
                 }
             }
         }
-        return result
+
+        levelInfo.objects.plusAssign(lightSources)
     }
 
     private fun lightPositions(position: GridPoint2, tiles: TileArray, lightConfig: LightConfig): List<LightTilePosition> {

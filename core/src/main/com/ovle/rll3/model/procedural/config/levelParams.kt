@@ -5,7 +5,10 @@ import com.ovle.rll3.model.procedural.config.LevelFactoryParams.CelullarAutomata
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.DungeonGridFactory
-import com.ovle.rll3.model.procedural.grid.processor.*
+import com.ovle.rll3.model.procedural.grid.processor.DoorProcessor
+import com.ovle.rll3.model.procedural.grid.processor.LightSourceProcessor
+import com.ovle.rll3.model.procedural.grid.processor.RoomStructureProcessor
+import com.ovle.rll3.model.procedural.grid.processor.RoomsInfoProcessor
 import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
 import com.ovle.rll3.model.util.caveGridValueToTileType
 import com.ovle.rll3.model.util.dungeonGridValueToTileType
@@ -22,7 +25,7 @@ val dungeonLevelParams = LevelParams(
         windingChance = 0.25f,
         randomConnectorChance = 0.05f,
         lightSourceChance = 0.05f,
-        doorChance = 0.5f,
+        doorChance = 0.6f,
         trapChance = 0.05f
     ),
     gridFactory = DungeonGridFactory(),
@@ -31,7 +34,6 @@ val dungeonLevelParams = LevelParams(
     postProcessors = arrayOf(
         RoomsInfoProcessor(),
         RoomStructureProcessor(),
-        LevelConnectionProcessor(),
         DoorProcessor(),
         LightSourceProcessor()
     )
@@ -45,7 +47,5 @@ val caveLevelParams = LevelParams(
     gridFactory = CelullarAutomataGridFactory(),
     gridValueToTileType = ::caveGridValueToTileType,
     tileToTexture = ::caveTileToTexture,
-    postProcessors = arrayOf(
-        LevelConnectionProcessor()
-    )
+    postProcessors = arrayOf()
 )
