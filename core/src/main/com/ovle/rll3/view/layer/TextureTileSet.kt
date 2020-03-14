@@ -7,8 +7,8 @@ data class TextureTileSet(
     val size: Int = 4
 )
 
-val dungeonWallTileSet = TextureTileSet("dungeonWall", originY = 4)
-//val townWallTileSet = TextureTileSet("caveWall", originX = 8, originY = 4)
-val caveWallTileSet = TextureTileSet("caveWall", originX = 4, originY = 4)
+val darkWallBorderTileSet = TextureTileSet("dungeonWall", originX = 12, originY = 4)
+val lightWallBorderTileSet = TextureTileSet("dungeonWall", originX = 12, originY = 8)
 val indoorFloorBorderTileSet = TextureTileSet("indoorFloorBorder", originX = 16)
-val outdoorFloorBorderTileSet = TextureTileSet("outdoorFloorBorder", originX = 16, originY = 4)
+val outdoorDarkFloorBorderTileSet = TextureTileSet("outdoorFloorBorder", originX = 16, originY = 4)
+val outdoorLightFloorBorderTileSet = TextureTileSet("outdoorFloorBorder", originX = 16, originY = 8)

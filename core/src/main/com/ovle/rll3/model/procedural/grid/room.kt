@@ -7,9 +7,7 @@ import com.ovle.rll3.model.tile.*
 import java.lang.Math.random
 
 val roomFloorTypes = setOf(roomFloorTileId, pitFloorTileId)
-val corridorFloorTypes = setOf(corridorFloorTileId)
 val floorTypes = setOf(roomFloorTileId, pitFloorTileId, corridorFloorTileId)
-
 
 enum class RoomStructure {
     Nop {
@@ -26,6 +24,7 @@ enum class RoomStructure {
             val isFreeSpaceTile = nearTiles.all.all { it?.typeId in roomFloorTypes }
             if (!isFreeSpaceTile) return
 
+            var resultTileId = pitFloorTileId
             val dirValue = params[PitBridgeDirection]
             if (dirValue != NoDirection) {
                 val haveHBridge = dirValue in setOf(H, HV)
@@ -33,10 +32,10 @@ enum class RoomStructure {
                 val isHBridgeTile = nearTiles.y == room.y + room.height / 2
                 val isVBridgeTile = nearTiles.x == room.x + room.width / 2
                 val isBridgeTile = haveHBridge && isHBridgeTile || haveVBridge && isVBridgeTile
-                if (isBridgeTile) return
+                if (isBridgeTile) resultTileId = roomFloorTileId
             }
 
-            setTile(tiles, nearTiles, pitFloorTileId)
+            setTile(tiles, nearTiles, resultTileId)
         }
     },
 

@@ -18,7 +18,7 @@ class CelullarAutomataGridFactory: GridFactory {
         factoryParams as CelullarAutomataLevelFactoryParams
 
         val size = factoryParams.size
-        val wallGrid = Grid(size)
+        val result = Grid(size)
 
         val generator = CellularAutomataGenerator.getInstance()
         generator.apply {
@@ -29,46 +29,11 @@ class CelullarAutomataGridFactory: GridFactory {
             setInitiate(false) //will do it manually
         }
 
-        CellularAutomataGenerator.initiate(wallGrid, generator)
-        init(wallGrid, size, wallMarker)
-        generator.generate(wallGrid)
-        connect(wallGrid, emptyTileMarker, wallMarker, factoryParams.connectionStrategy)
+        CellularAutomataGenerator.initiate(result, generator)
+        init(result, size, wallMarker)
+        generator.generate(result)
+        connect(result, emptyTileMarker, wallMarker, factoryParams.connectionStrategy)
 
-        val pitGrid = Grid(size)
-        generator.apply {
-            marker = pitMarker
-            deathLimit = 3
-            birthLimit = 6
-        }
-        CellularAutomataGenerator.initiate(pitGrid, generator)
-        generator.generate(pitGrid)
-
-        return merge(arrayOf(wallGrid), size, MergeType.LastNotEmpty)
-//        return merge(arrayOf(wallGrid, pitGrid), size, MergeType.LastNotEmpty)
-    }
-
-    //todo
-    enum class MergeType {
-        FirstNotEmpty {
-            override fun apply(grids: Array<Grid>, x: Int, y: Int): Float? =
-                grids.map { it.get(x, y) }.find { it != emptyTileMarker }
-        },
-        LastNotEmpty {
-            override fun apply(grids: Array<Grid>, x: Int, y: Int): Float? =
-                grids.map { it.get(x, y) }.findLast { it != emptyTileMarker }
-        };
-
-        abstract fun apply(grids: Array<Grid>, x: Int, y: Int): Float?
-    }
-
-    private fun merge(grids: Array<Grid>, size: Int, mergeType: MergeType): Grid {
-        val result = Grid(size)
-        for (x in (0 until size)) {
-            for (y in (0 until size)) {
-                val value = mergeType.apply(grids, x, y) ?: continue
-                result.set(x, y, value)
-            }
-        }
         return result
     }
 

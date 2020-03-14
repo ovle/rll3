@@ -154,13 +154,13 @@ class LevelSystem: EventSystem<Event>() {
         if (oldConnection == null) {
             //todo should be far away from any connection?
             val anyConnection = connections.random()
-            return point(anyConnection[position]?.position!!)
+            return point(anyConnection[position]?.position!!).apply { y -= 1 }
         }
 
         val newConnection = connections.find { it[levelConnection]!!.id == oldConnection.backConnectionId }!!
         val newConnectionPosition = newConnection[position]?.position!!
 
-        return point(newConnectionPosition)
+        return point(newConnectionPosition).apply { y -= 1 }
     }
 
     private fun storeEntities(level: LevelInfo) {
