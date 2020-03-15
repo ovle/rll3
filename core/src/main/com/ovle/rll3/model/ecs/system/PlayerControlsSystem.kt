@@ -33,13 +33,21 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
             is MouseLeftClick -> {
                 val gamePoint = toGamePoint(event.screenPoint, RenderConfig)
                 val connectionEntity = connectionOnPosition(level, point(gamePoint))
+                val entities = entitiesOnPosition(level, point(gamePoint))
                 when {
                     connectionEntity != null -> onTransitionAction(gamePoint, level, connectionEntity)
+                    entities.isNotEmpty() -> onEntityAction(gamePoint, level, entities)
                     else -> onMoveTargetSet(gamePoint, level)
                 }
 
             }
             is MouseMoved -> onMousePositionChange(toGamePoint(event.screenPoint, RenderConfig), level)
+        }
+    }
+
+    private fun onEntityAction(gamePoint: Vector2, level: LevelInfo, entities: Collection<Entity>) {
+        entities.forEach {
+            send(EntityEvent(it))
         }
     }
 

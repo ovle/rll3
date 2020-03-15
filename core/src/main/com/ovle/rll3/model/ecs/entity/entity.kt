@@ -39,6 +39,7 @@ fun newPlayerInteraction(playerEntity: Entity?, engine: Engine): Entity? = engin
 
 fun newDoor(position: GridPoint2, gameEngine: Engine): Entity = gameEngine.entity(
     PositionComponent(floatPoint(position)),
+    RenderComponent(),
     DoorComponent()
 )
 

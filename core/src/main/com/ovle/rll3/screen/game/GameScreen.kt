@@ -58,6 +58,7 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
             GameSystem(),
             LevelSystem(),
             PlayerControlsSystem(),
+            EntityInteractionSystem(),
             MoveSystem(),
             CameraSystem(camera),
             RenderLevelSystem(camera, levelTexturesInfo),
