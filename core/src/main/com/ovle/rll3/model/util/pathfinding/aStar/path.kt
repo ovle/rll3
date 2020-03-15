@@ -7,6 +7,7 @@ import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.tile.TilePassTypeFn
 import com.ovle.rll3.model.util.pathfinding.MoveCostFn
 import com.ovle.rll3.model.util.pathfinding.MoveCostFn2
+import com.ovle.rll3.model.util.pathfinding.maxMoveCost
 import com.ovle.rll3.point
 
 
@@ -47,7 +48,10 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, heuristicsFn: MoveC
             if (!tiles.isPointValid(nX, nY)) continue
 
             val neighbourTile = tiles.tile(nX, nY)
-            val score = costFromStart.getValue(currentPosition) + costFn(currentTile, neighbourTile, tilePassTypeFn)
+            val nextCost = costFn(currentTile, neighbourTile, tilePassTypeFn)
+            if (nextCost == maxMoveCost) continue
+
+            val score = costFromStart.getValue(currentPosition) + nextCost
             if (score >= costFromStart.getOrDefault(neighbour, Int.MAX_VALUE)) continue
 
             val totalScore = score + heuristicsFn(neighbour, to, tilePassTypeFn)
