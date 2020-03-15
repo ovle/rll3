@@ -74,7 +74,7 @@ class LevelSystem: EventSystem<Event>() {
 
         //send(LevelUnloaded(it))   todo
         val newLevelDescription = levelDescription(newLevel.descriptionId, worldInfo)
-        send(LevelLoaded(newLevel, newLevelDescription.params))
+        send(LevelLoaded(newLevel, newLevelDescription.params, playerEntity))
 
         return newLevel
     }
@@ -82,7 +82,9 @@ class LevelSystem: EventSystem<Event>() {
     private fun resetEntity(entity: Entity, startPosition: GridPoint2) {
         entity[position]!!.position = floatPoint(startPosition)
         entity[move]?.path?.reset()
-        entity[animation]?.stopAnimation("walk") //todo stop all
+
+        val animationComponent = entity[animation]
+        animationComponent?.stopAnimation("walk") //todo stop all
     }
 
     //todo case with multiple enter connections - go first, go back, go second - no storedConnection for already visited level

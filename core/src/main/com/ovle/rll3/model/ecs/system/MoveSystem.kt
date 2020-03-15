@@ -30,6 +30,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         if (moved) send(Event.EntityMoved(entity))
     }
 
+    //todo unfinished animation bug
     private fun move(entity: Entity, deltaTime: Float): Boolean {
         val positionComponent = entity[position]!!
         val currentPosition = positionComponent.position.cpy()

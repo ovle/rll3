@@ -35,7 +35,7 @@ sealed class Event {
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
     open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
     class LevelUnloaded(val level: LevelInfo): GameEvent()
-    class LevelLoaded(val level: LevelInfo, val levelParams: LevelParams): GameEvent()
+    class LevelLoaded(val level: LevelInfo, val levelParams: LevelParams, val playerEntity: Entity): GameEvent()
 
     open class EntityAnimationEvent(entity: Entity, val animationId: String) : EntityEvent(entity)
     class EntityAnimationStartEvent(entity: Entity, animationId: String): EntityAnimationEvent(entity, animationId)

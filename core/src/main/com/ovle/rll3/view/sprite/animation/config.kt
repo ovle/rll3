@@ -13,6 +13,30 @@ val torchAnimation = AnimationTemplate(
     repeat = true,
     alwaysPlaying = true
 )
+val scelAnimationIdle = AnimationTemplate(
+    id = "idle",
+    frameDuration = 0.125f,
+    frames = arrayOf(
+        7 to 10,
+        8 to 10,
+        9 to 10,
+        10 to 10
+    ),
+    repeat = true,
+    alwaysPlaying = true
+)
+val wizAnimationIdle = AnimationTemplate(
+    id = "idle",
+    frameDuration = 0.125f,
+    frames = arrayOf(
+        1 to 3,
+        2 to 3,
+        3 to 3,
+        4 to 3
+    ),
+    repeat = true,
+    alwaysPlaying = true
+)
 val wizAnimationWalk = AnimationTemplate(
     id = "walk",
     frameDuration = 0.125f,
