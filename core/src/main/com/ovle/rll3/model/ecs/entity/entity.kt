@@ -25,7 +25,8 @@ fun newPlayer(engine: Engine): Entity? = engine.entity(
     MoveComponent(),
     SightComponent(5),
     RenderComponent(),
-    AnimationComponent()
+    AnimationComponent(),
+    PlayerComponent()
 )
 
 fun newPlayerInteraction(playerEntity: Entity?, engine: Engine): Entity? = engine.entity(
@@ -36,6 +37,16 @@ fun newPlayerInteraction(playerEntity: Entity?, engine: Engine): Entity? = engin
     RenderComponent(),
     PositionComponent()
 )
+
+fun newCreature(position: GridPoint2, gameEngine: Engine): Entity {
+    return gameEngine.entity(
+        PositionComponent(floatPoint(position)),
+        RenderComponent(),
+        CollisionComponent(),
+        AnimationComponent(),
+        CreatureComponent()
+    )
+}
 
 fun newDoor(position: GridPoint2, gameEngine: Engine): Entity {
     val closed = true //todo

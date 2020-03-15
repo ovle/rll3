@@ -30,6 +30,7 @@ sealed class LevelFactoryParams(
         val randomConnectorChance: Float,
         val lightSourceChance: Float,
         val doorChance: Float,
+        val creatureChance: Float,
         val trapChance: Float
     ): LevelFactoryParams(size)
 
