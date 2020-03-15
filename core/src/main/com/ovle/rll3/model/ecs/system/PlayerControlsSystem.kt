@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
+import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.Mappers.move
@@ -31,7 +32,8 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
         val level = levelInfoNullable() ?: return
         when (event) {
             is MouseLeftClick -> {
-                val gamePoint = toGamePoint(event.screenPoint, RenderConfig)
+                val gamePoint = centered(toGamePoint(event.screenPoint, RenderConfig))
+
                 val connectionEntity = connectionOnPosition(level, point(gamePoint))
                 val entities = entitiesOnPosition(level, point(gamePoint))
                 when {
@@ -105,21 +107,22 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
 
         val interactionEntity = entityWith(allEntities().toList(), PlayerInteractionComponent::class) ?: return
         val positionComponent = interactionEntity[position] ?: return
-//        if (point(gamePoint) == positionComponent.gridPosition) return
 
-        val focusedGamePoint = positionComponent.position
-        focusedGamePoint.set(gamePoint.x, gamePoint.y)
+        positionComponent.position = centered(gamePoint.cpy())
 
         val entitiesOnPosition = entitiesOnPosition(level, positionComponent.gridPosition) //todo filter interaction itself
         val interactionComponent = interactionEntity[playerInteraction] ?: return
         interactionComponent.hoveredEntities = entitiesOnPosition
 
+//        if (point(gamePoint) == positionComponent.gridPosition) return
 //        println(
 //            """---------------------
 //                entities: ${entitiesOnPosition.print()}
 //            """.trimIndent()
 //        )
     }
+
+    private fun centered(gamePoint: Vector2) = floatPoint(gamePoint.x - 0.5f, gamePoint.y - 0.5f)
 
     private fun isValid(gamePoint: Vector2, level: LevelInfo): Boolean {
         return level.tiles.isPointValid(
