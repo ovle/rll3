@@ -16,6 +16,7 @@ object Mappers {
     val playerInteraction = componentMapper<PlayerInteractionComponent>()
     val levelConnection = componentMapper<LevelConnectionComponent>()
     val position = componentMapper<PositionComponent>()
+    val collision = componentMapper<CollisionComponent>()
     val light = componentMapper<LightComponent>()
     val door = componentMapper<DoorComponent>()
     val trigger = componentMapper<TriggerComponent>()

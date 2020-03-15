@@ -45,9 +45,9 @@ private fun traceFov(center: GridPoint2, area: List<GridPoint2>, obstacles: Coll
     return result.toList()
 }
 
-fun fieldOfView(center: GridPoint2, radius: Int, passMapper: (Tile) -> LightPassType, tiles: TileArray): List<GridPoint2> {
+fun fieldOfView(center: GridPoint2, radius: Int, passMapper: (Tile) -> LightPassType, tiles: TileArray, obstacles: Collection<GridPoint2>): List<GridPoint2> {
     val area = filledCircle(center, radius)
     val croppedArea = cropArea(area, tiles)
-    val obstacles = obstacles(croppedArea, passMapper, tiles)
-    return traceFov(center, croppedArea, obstacles)
+    val obstaclesTiles = obstacles(croppedArea, passMapper, tiles)
+    return traceFov(center, croppedArea, obstaclesTiles + obstacles)
 }

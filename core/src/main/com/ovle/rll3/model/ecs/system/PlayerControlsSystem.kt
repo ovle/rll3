@@ -51,7 +51,6 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
         }
     }
 
-    //todo other actions
     private fun onTransitionAction(gamePoint: Vector2, level: LevelInfo, connectionEntity: Entity) {
         val connectionPositionComponent = connectionEntity[position]
         val playerEntity = playerInteractionInfo()?.controlledEntity ?: return
@@ -65,6 +64,7 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
         }
     }
 
+    //todo at visible point only
     private fun onMoveTargetSet(gamePoint: Vector2, level: LevelInfo) {
         if (!isValid(gamePoint, level)) return
 
@@ -74,16 +74,19 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
 
         val tiles = level.tiles
         val from = positionComponent.gridPosition
-        val to = point(gamePoint) ?: return
+        val to = point(gamePoint)
 
         val path = path(
             from,
             to,
             tiles,
+            obstacles(level),
             heuristicsFn = ::heuristics,
             costFn = ::cost,
             tilePassTypeFn = ::entityTilePassMapper
         )
+
+        if (path.isEmpty()) return
 
         val movePath = moveComponent.path
         movePath.set(path)
@@ -96,8 +99,10 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
         }
     }
 
+    //todo center on cursor
     private fun onMousePositionChange(gamePoint: Vector2, level: LevelInfo) {
         if (!isValid(gamePoint, level)) return
+
         val interactionEntity = entityWith(allEntities().toList(), PlayerInteractionComponent::class) ?: return
         val positionComponent = interactionEntity[position] ?: return
 //        if (point(gamePoint) == positionComponent.gridPosition) return

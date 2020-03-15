@@ -37,11 +37,15 @@ fun newPlayerInteraction(playerEntity: Entity?, engine: Engine): Entity? = engin
     PositionComponent()
 )
 
-fun newDoor(position: GridPoint2, gameEngine: Engine): Entity = gameEngine.entity(
-    PositionComponent(floatPoint(position)),
-    RenderComponent(),
-    DoorComponent()
-)
+fun newDoor(position: GridPoint2, gameEngine: Engine): Entity {
+    val closed = true //todo
+    return gameEngine.entity(
+        PositionComponent(floatPoint(position)),
+        RenderComponent(),
+        CollisionComponent(active = closed),
+        DoorComponent(closed = closed)
+    )
+}
 
 fun newLightSource(position: GridPoint2, engine: Engine, lightPositions: List<LightTilePosition>) =
     engine.entity(

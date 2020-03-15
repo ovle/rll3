@@ -10,6 +10,9 @@ import com.ovle.rll3.model.ecs.component.Mappers.move
 import com.ovle.rll3.model.ecs.component.Mappers.position
 import com.ovle.rll3.model.ecs.component.MoveComponent
 import com.ovle.rll3.model.ecs.component.PositionComponent
+import com.ovle.rll3.model.ecs.entity.levelInfo
+import com.ovle.rll3.model.ecs.entity.obstacles
+import com.ovle.rll3.point
 import ktx.ashley.get
 import kotlin.math.abs
 import kotlin.math.min
@@ -27,10 +30,9 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         if (moved) send(Event.EntityMoved(entity))
     }
 
-    //todo move by layer only?
     private fun move(entity: Entity, deltaTime: Float): Boolean {
         val positionComponent = entity[position]!!
-        val currentPosition = positionComponent.position
+        val currentPosition = positionComponent.position.cpy()
 
         val moveComponent = entity[move]!!
         val tilesInTime = moveComponent.tilesPerSecond * deltaTime
@@ -45,6 +47,13 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         val dyInTime = if (dy > 0) dyInTimeAbs else -dyInTimeAbs
 
         currentPosition.add(dxInTime, dyInTime)
+
+        //it can be expensive to do that on every move processing. cache?
+        val obstacles = obstacles(levelInfo())
+        //should we finish move at that point, or consider obstacle to be temporary? or try to make another path?
+        if (point(currentPosition) in obstacles) return false
+
+        positionComponent.position = currentPosition
 
         val distanceToTarget = abs(currentPosition.dst(floatPoint(currentTarget)))
         val moveFinished = distanceToTarget <= stopDelta

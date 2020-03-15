@@ -52,6 +52,9 @@ fun connection(levelInfo: LevelInfo?, id: ConnectionId?) =
         ?: emptyList(), LevelConnectionComponent::class)
         .find { it[levelConnection]!!.id == id }
 
+fun obstacles(levelInfo: LevelInfo) = levelInfo.objects
+    .filter { it[Mappers.collision]?.active ?: false }
+    .mapNotNull { it[Mappers.position]?.gridPosition }
 
 fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), LevelComponent::class)?.get(level)?.level
 fun EntitySystem.levelInfo() = levelInfoNullable()!!

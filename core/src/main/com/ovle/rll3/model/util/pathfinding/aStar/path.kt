@@ -22,7 +22,7 @@ private fun path(end: GridPoint2, cameFrom: Map<GridPoint2, GridPoint2>): List<G
 }
 
 
-fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, heuristicsFn: MoveCostFn2, costFn: MoveCostFn, tilePassTypeFn: TilePassTypeFn): List<GridPoint2> {
+fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, obstacles: Collection<GridPoint2>, heuristicsFn: MoveCostFn2, costFn: MoveCostFn, tilePassTypeFn: TilePassTypeFn): List<GridPoint2> {
     val open = mutableSetOf(from)
     val closed = mutableSetOf<GridPoint2>()
     val costFromStart = mutableMapOf(from to 0)
@@ -46,6 +46,7 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, heuristicsFn: MoveC
         for (neighbour in nearValues) {
             val (nX, nY) = neighbour
             if (!tiles.isPointValid(nX, nY)) continue
+            if (obstacles.contains(point(nX, nY))) continue
 
             val neighbourTile = tiles.tile(nX, nY)
             val nextCost = costFn(currentTile, neighbourTile, tilePassTypeFn)

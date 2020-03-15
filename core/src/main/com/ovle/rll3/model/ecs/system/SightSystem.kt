@@ -9,6 +9,7 @@ import com.ovle.rll3.model.ecs.component.Mappers.sight
 import com.ovle.rll3.model.ecs.component.PositionComponent
 import com.ovle.rll3.model.ecs.component.SightComponent
 import com.ovle.rll3.model.ecs.entity.levelInfo
+import com.ovle.rll3.model.ecs.entity.obstacles
 import com.ovle.rll3.model.util.lightTilePassMapper
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
 import ktx.ashley.get
@@ -21,16 +22,18 @@ class SightSystem : IteratingSystem(Family.all(SightComponent::class.java).get()
         val sightComponent = entity[sight]!!
         val positionComponent = entity[position] ?: return
         if (sightComponent.positions.isEmpty()) {
-            sightComponent.positions = fov(positionComponent, sightComponent)
+            val obstacles = obstacles(levelInfo())
+            sightComponent.positions = fov(positionComponent, sightComponent, obstacles)
         }
     }
 
-    private fun fov(positionComponent: PositionComponent, sightComponent: SightComponent): Set<GridPoint2> {
+    private fun fov(positionComponent: PositionComponent, sightComponent: SightComponent, obstacles: List<GridPoint2>): Set<GridPoint2> {
         return fieldOfView(
             positionComponent.gridPosition,
             sightComponent.radius,
             ::lightTilePassMapper,
-            levelInfo().tiles
+            levelInfo().tiles,
+            obstacles
         ).toSet()
     }
 }

@@ -7,6 +7,7 @@ import com.ovle.rll3.model.ecs.component.LevelDescription
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.LightTilePosition
 import com.ovle.rll3.model.ecs.entity.newLightSource
+import com.ovle.rll3.model.ecs.entity.obstacles
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 import com.ovle.rll3.model.procedural.grid.floorTypes
 import com.ovle.rll3.model.tile.TileArray
@@ -22,6 +23,7 @@ class LightSourceProcessor : TilesProcessor {
     override fun process(levelInfo: LevelInfo, gameEngine: Engine, levelDescription: LevelDescription) {
         val tiles = levelInfo.tiles
         val lightSources = mutableListOf<Entity>()
+        val obstacles = obstacles(levelInfo)
 
         val factoryParams = levelDescription.params.factoryParams
         factoryParams as DungeonLevelFactoryParams
@@ -38,7 +40,7 @@ class LightSourceProcessor : TilesProcessor {
                 //todo check doors ?
                 if (isLightSource) {
                     val position = point(x, y)
-                    lightSources.add(newLightSource(position, gameEngine, lightPositions(position, tiles, LightConfig)))
+                    lightSources.add(newLightSource(position, gameEngine, lightPositions(position, tiles, LightConfig, obstacles)))
                 }
             }
         }
@@ -46,12 +48,13 @@ class LightSourceProcessor : TilesProcessor {
         levelInfo.objects.plusAssign(lightSources)
     }
 
-    private fun lightPositions(position: GridPoint2, tiles: TileArray, lightConfig: LightConfig): List<LightTilePosition> {
+    private fun lightPositions(position: GridPoint2, tiles: TileArray, lightConfig: LightConfig, obstacles: List<GridPoint2>): List<LightTilePosition> {
         return fieldOfView(
             position,
             lightConfig.radius,
             ::lightTilePassMapper,
-            tiles
+            tiles,
+            obstacles
         ).map {
             LightTilePosition(lightValue(lightConfig.fullLightCap, position, it), it)
         }

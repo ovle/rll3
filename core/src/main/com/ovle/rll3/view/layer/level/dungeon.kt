@@ -28,7 +28,7 @@ fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
     fun hasDoor(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), DoorComponent::class)
     fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
     fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
-    fun hasWallOrPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId || hasDoor(x, y))) 1 else 0
+    fun hasWallOrPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId /*|| hasDoor(x, y)*/)) 1 else 0
     fun hasPit(tileId: Int?) = if (tileId == pitFloorTileId) 1 else 0
 
     val upTileId = nearTiles.upValue?.typeId
@@ -55,6 +55,7 @@ fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val isPitFloorUp = downTileId == pitFloorTileId
     val isNextToDoor = hasDoor(nearTiles.x, nearTiles.y - 1)
     val isNextToFloor = upTileId in floorTypes && !isNextToDoor
+    val isWallOrDoor = isWall || isDoor
 
     val isLevelConnection = hasLevelConnection(nearTiles.x, nearTiles.y)
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, isNextToDoor)
@@ -75,15 +76,15 @@ fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
     var animationInterval = defaultAnimationInterval
     val tileRegions = when (layerType) {
         LayerType.Walls -> when {
-            isWall || isDoor -> arrayOf(indexedTextureTile(wallBorderTileSet, wallBorderTileIndex, regions))
+            isWallOrDoor -> arrayOf(indexedTextureTile(wallBorderTileSet, wallBorderTileIndex, regions))
             isRoomFloor || isCorridorFloor -> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
             isPitFloor -> if (isPitFloorUp) emptyTile else arrayOf(regions[13][pitFloorBorderTileIndex])
             else -> emptyTile
         }
         LayerType.Floor -> when {
+            isDoor -> emptyTile
             isWall && isNextToFloor -> arrayOf(regions[(1..2).random()][(4..7).random()])
                 .withChance(0.6f, defaultValue = arrayOf(regions[1][4]))
-            isDoor -> emptyTile
             isPitFloor -> arrayOf(regions[3][if (isPitFloorUp) 1 else 0])
             isRoomFloor || isCorridorFloor -> arrayOf(regions[(1..2).random()][(1..3).random()])
             else -> emptyTile
@@ -99,8 +100,6 @@ fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
                     else -> throw IllegalStateException("bad connection : type = $type")
                 }
             }
-            //todo
-            isDoor -> arrayOf(regions[2][8])
             else -> emptyTile
         }
         else -> emptyTile
