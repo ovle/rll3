@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
-import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
+import com.ovle.rll3.model.ecs.system.event.level.LevelDescriptionId
 import com.ovle.rll3.model.util.config.LightConfig
 
 

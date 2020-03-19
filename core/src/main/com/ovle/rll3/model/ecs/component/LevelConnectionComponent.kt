@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.ecs.component
 
 import com.badlogic.ashley.core.Component
-import com.ovle.rll3.model.ecs.system.level.ConnectionId
-import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
+import com.ovle.rll3.model.ecs.system.event.level.ConnectionId
+import com.ovle.rll3.model.ecs.system.event.level.LevelDescriptionId
 import java.util.*
 
 class LevelConnectionComponent(

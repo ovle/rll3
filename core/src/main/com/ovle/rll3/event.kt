@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.WorldInfo
-import com.ovle.rll3.model.ecs.system.level.ConnectionId
+import com.ovle.rll3.model.ecs.system.event.level.ConnectionId
 import com.ovle.rll3.model.procedural.config.LevelParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,6 +32,7 @@ sealed class Event {
     open class WorldInitEvent(val world: WorldInfo) : GlobalGameEvent()
 
     open class EntityEvent(val entity: Entity) : GameEvent()
+    open class EntityInteractionEvent(entity: Entity) : EntityEvent(entity)
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
     open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
     class LevelUnloaded(val level: LevelInfo): GameEvent()

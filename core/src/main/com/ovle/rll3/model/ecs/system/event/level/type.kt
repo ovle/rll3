@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system.level
+package com.ovle.rll3.model.ecs.system.event.level
 
 import com.badlogic.ashley.core.Component
 import java.util.*

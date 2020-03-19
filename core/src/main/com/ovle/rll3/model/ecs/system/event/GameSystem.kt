@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system
+package com.ovle.rll3.model.ecs.system.event
 
 import com.ovle.rll3.Event
 import com.ovle.rll3.Event.GlobalGameEvent

@@ -8,7 +8,7 @@ import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.WorldInfo
 import com.ovle.rll3.model.ecs.entity.levelDescription
 import com.ovle.rll3.model.ecs.entity.newConnection
-import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
+import com.ovle.rll3.model.ecs.system.event.level.LevelDescriptionId
 import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.model.tile.roomFloorTileId
 import com.ovle.rll3.model.tile.wallTileId

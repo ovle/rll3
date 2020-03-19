@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system
+package com.ovle.rll3.model.ecs.system.iterating
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
@@ -18,7 +18,7 @@ import com.ovle.rll3.view.spriteWidth
 import com.ovle.rll3.view.tileWidth
 import ktx.ashley.get
 
-//todo event + iterating ?
+
 class RenderObjectsSystem(
     private val batch: Batch,
     spriteTexture: TexturesInfo
@@ -61,8 +61,7 @@ class RenderObjectsSystem(
             val animationComponent = entity[animation]
             val position = entity[position]!!.position
             val sprite = renderComponent.sprite ?: continue
-            val currentAnimation = animationComponent?.current
-
+            val currentAnimation = animationComponent?.currentAnimation
             val region = currentAnimation?.currentFrame(deltaTime)
                 ?: sprite.textureRegion()
 

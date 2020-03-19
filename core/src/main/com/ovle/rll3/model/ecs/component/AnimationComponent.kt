@@ -6,18 +6,29 @@ import com.ovle.rll3.view.sprite.animation.FrameAnimation
 class AnimationComponent(
     var animations: Map<String, FrameAnimation> = mapOf()
 ) : Component {
-    var current: FrameAnimation? = null
+    var currentAnimation: FrameAnimation? = null
 
     fun startAnimation(id: String) {
-        current = animations[id]
-        current?.start()
+        currentAnimation?.let {
+            stopAnimation(it.template.id)
+        }
+
+        currentAnimation = animations[id]
+    }
+
+    fun stopAnimations() {
+        currentAnimation = null;
+
+        animations.values.forEach { it.reset() }
     }
 
     fun stopAnimation(id: String) {
-        val animationToStop = animations[id]
-        animationToStop?.stop()
-        if (animationToStop == current) {
-            current = null;
+        val animationToStop = animations[id] ?: return
+        if (animationToStop.template.isTerminal) return
+
+        animationToStop.reset()
+        if (animationToStop == currentAnimation) {
+            currentAnimation = null;
         }
     }
 }

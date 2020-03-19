@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system
+package com.ovle.rll3.model.ecs.system.event
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
@@ -49,7 +49,7 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
 
     private fun onEntityAction(gamePoint: Vector2, level: LevelInfo, entities: Collection<Entity>) {
         entities.forEach {
-            send(EntityEvent(it))
+            send(EntityInteractionEvent(it))
         }
     }
 

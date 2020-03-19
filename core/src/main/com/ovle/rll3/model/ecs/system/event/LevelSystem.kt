@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system
+package com.ovle.rll3.model.ecs.system.event
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
@@ -15,8 +15,8 @@ import com.ovle.rll3.model.ecs.component.Mappers.move
 import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.Mappers.position
 import com.ovle.rll3.model.ecs.entity.*
-import com.ovle.rll3.model.ecs.system.level.ConnectionId
-import com.ovle.rll3.model.ecs.system.level.LevelRegistry
+import com.ovle.rll3.model.ecs.system.event.level.ConnectionId
+import com.ovle.rll3.model.ecs.system.event.level.LevelRegistry
 import com.ovle.rll3.model.procedural.grid.processor.LevelConnectionProcessor
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
@@ -84,7 +84,7 @@ class LevelSystem: EventSystem<Event>() {
         entity[move]?.path?.reset()
 
         val animationComponent = entity[animation]
-        animationComponent?.stopAnimation("walk") //todo stop all
+        animationComponent?.stopAnimations()
     }
 
     //todo case with multiple enter connections - go first, go back, go second - no storedConnection for already visited level

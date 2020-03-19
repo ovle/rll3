@@ -18,10 +18,12 @@ object Mappers {
     val position = componentMapper<PositionComponent>()
     val collision = componentMapper<CollisionComponent>()
     val light = componentMapper<LightComponent>()
-    val door = componentMapper<DoorComponent>()
-    val trigger = componentMapper<TriggerComponent>()
     val sight = componentMapper<SightComponent>()
     val move = componentMapper<MoveComponent>()
     val render = componentMapper<RenderComponent>()
     val animation = componentMapper<AnimationComponent>()
+
+    val door = componentMapper<DoorComponent>()
+    val creature = componentMapper<CreatureComponent>()
+    val trigger = componentMapper<TriggerComponent>()
 }

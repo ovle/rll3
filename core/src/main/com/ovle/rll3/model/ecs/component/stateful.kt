@@ -9,7 +9,7 @@ class DoorComponent(
 ) : Component
 
 class CreatureComponent(
-    var health: Int = 2
+    var health: Int = 3
 ) : Component
 
 class PlayerComponent : Component

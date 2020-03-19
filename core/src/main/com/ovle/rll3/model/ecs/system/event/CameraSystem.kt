@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system
+package com.ovle.rll3.model.ecs.system.event
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Event

@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system
+package com.ovle.rll3.model.ecs.system.event
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.EntitySystem

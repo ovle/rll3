@@ -3,7 +3,6 @@ package com.ovle.rll3.view.sprite.animation
 //todo use script / text config
 val torchAnimation = AnimationTemplate(
     id = "default",
-    frameDuration = 0.125f,
     frames = arrayOf(
         7 to 1,
         8 to 1,
@@ -15,7 +14,6 @@ val torchAnimation = AnimationTemplate(
 )
 val scelAnimationIdle = AnimationTemplate(
     id = "idle",
-    frameDuration = 0.125f,
     frames = arrayOf(
         7 to 10,
         8 to 10,
@@ -25,9 +23,32 @@ val scelAnimationIdle = AnimationTemplate(
     repeat = true,
     alwaysPlaying = true
 )
+val scelAnimationDeath = AnimationTemplate(
+    id = "death",
+    frames = arrayOf(
+        7 to 12,
+        8 to 12,
+        9 to 12
+    ),
+    isTerminal = true
+)
+val scelAnimationDamaged = AnimationTemplate(
+    id = "damaged",
+    frames = arrayOf(
+        10 to 12,
+        11 to 12
+    )
+)
+val scelAnimationResurrect = AnimationTemplate(
+    id = "resurrect",
+    frames = arrayOf(
+        9 to 12,
+        8 to 12,
+        7 to 12
+    )
+)
 val wizAnimationIdle = AnimationTemplate(
     id = "idle",
-    frameDuration = 0.125f,
     frames = arrayOf(
         1 to 3,
         2 to 3,
@@ -39,18 +60,16 @@ val wizAnimationIdle = AnimationTemplate(
 )
 val wizAnimationWalk = AnimationTemplate(
     id = "walk",
-    frameDuration = 0.125f,
     frames = arrayOf(
+        0 to 1,
         1 to 1,
         2 to 1,
-        3 to 1,
-        4 to 1
+        3 to 1
     ),
     repeat = true
 )
 val wizAnimationHit = AnimationTemplate(
     id = "hit",
-    frameDuration = 0.25f,
     frames = arrayOf(
         0 to 2,
         1 to 2

@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system
+package com.ovle.rll3.model.ecs.system.event
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -14,7 +14,7 @@ import com.ovle.rll3.view.spriteWidth
 import ktx.ashley.get
 
 
-class AnimationSystem(
+class AnimationEventSystem(
     spriteTexture: TexturesInfo
 ) : EventSystem<Event>() {
 
@@ -50,8 +50,11 @@ class AnimationSystem(
     private fun onEntityAnimationStop(entity: Entity, animationId: String) {
         val animationComponent = entity[animation]
         animationComponent?.let {
+            val isTerminal = it.currentAnimation?.template?.isTerminal ?: false
             it.stopAnimation(animationId)
-            startDefault(it)
+            if (!isTerminal) {
+                startDefault(it)
+            }
         }
     }
 
