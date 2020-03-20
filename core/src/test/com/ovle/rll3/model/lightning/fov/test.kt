@@ -29,7 +29,13 @@ class Test {
             .map { it.first }
             .map { expectedTiles.point(it) }.toSet()
 
-        val fov = fieldOfView(source, radius, ::lightTilePassMapper, tiles).toSet()
+        val fov = fieldOfView(
+            center = source,
+            radius = radius,
+            passMapper = ::lightTilePassMapper,
+            tiles = tiles,
+            obstacles = listOf()
+        ).toSet()
 
         //todo sets deep equality
         Assertions.assertTrue { expectedPositions.containsAll(fov) }
