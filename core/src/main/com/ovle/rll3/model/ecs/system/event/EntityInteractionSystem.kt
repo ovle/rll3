@@ -1,10 +1,12 @@
 package com.ovle.rll3.model.ecs.system.event
 
+import com.ovle.rll3.Event
 import com.ovle.rll3.Event.EntityInteractionEvent
+import com.ovle.rll3.EventBus
 import com.ovle.rll3.EventBus.receive
+import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.CreatureComponent
 import com.ovle.rll3.model.ecs.component.DoorComponent
-import com.ovle.rll3.model.ecs.component.Mappers.animation
 import com.ovle.rll3.model.ecs.component.Mappers.collision
 import com.ovle.rll3.model.ecs.component.Mappers.creature
 import com.ovle.rll3.model.ecs.component.Mappers.door
@@ -35,13 +37,14 @@ class EntityInteractionSystem : EventSystem<EntityInteractionEvent>() {
         //todo state machine?
         if (entity.has<CreatureComponent>()) {
             if (entity[creature]!!.health == 0) {
-                entity[animation]?.startAnimation("resurrect")
                 entity[creature]!!.health = 3   //todo initial health from template
             } else {
                 entity[creature]!!.health--
 
                 val isDead = entity[creature]!!.health == 0
-                entity[animation]?.startAnimation(if (isDead) "death" else "damaged")
+                val animationId = if (isDead) AnimationType.Death else AnimationType.TakeHit
+
+                EventBus.send(Event.EntityAnimationStartEvent(entity, animationId))
             }
         }
     }

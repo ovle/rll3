@@ -8,7 +8,6 @@ import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.*
-import com.ovle.rll3.model.ecs.component.Mappers.animation
 import com.ovle.rll3.model.ecs.component.Mappers.level
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.Mappers.move
@@ -83,8 +82,7 @@ class LevelSystem: EventSystem<Event>() {
         entity[position]!!.position = floatPoint(startPosition)
         entity[move]?.path?.reset()
 
-        val animationComponent = entity[animation]
-        animationComponent?.stopAnimations()
+        //todo event
     }
 
     //todo case with multiple enter connections - go first, go back, go second - no storedConnection for already visited level

@@ -1,8 +1,10 @@
 package com.ovle.rll3.view.sprite.animation
 
+import com.ovle.rll3.model.ecs.component.AnimationType
+
 //todo use script / text config
 val torchAnimation = AnimationTemplate(
-    id = "default",
+    type = AnimationType.Idle,
     frames = arrayOf(
         7 to 1,
         8 to 1,
@@ -13,7 +15,7 @@ val torchAnimation = AnimationTemplate(
     alwaysPlaying = true
 )
 val scelAnimationIdle = AnimationTemplate(
-    id = "idle",
+    type = AnimationType.Idle,
     frames = arrayOf(
         7 to 10,
         8 to 10,
@@ -24,7 +26,7 @@ val scelAnimationIdle = AnimationTemplate(
     alwaysPlaying = true
 )
 val scelAnimationDeath = AnimationTemplate(
-    id = "death",
+    type = AnimationType.Death,
     frames = arrayOf(
         7 to 12,
         8 to 12,
@@ -33,22 +35,14 @@ val scelAnimationDeath = AnimationTemplate(
     isTerminal = true
 )
 val scelAnimationDamaged = AnimationTemplate(
-    id = "damaged",
+    type = AnimationType.TakeHit,
     frames = arrayOf(
         10 to 12,
         11 to 12
     )
 )
-val scelAnimationResurrect = AnimationTemplate(
-    id = "resurrect",
-    frames = arrayOf(
-        9 to 12,
-        8 to 12,
-        7 to 12
-    )
-)
 val wizAnimationIdle = AnimationTemplate(
-    id = "idle",
+    type = AnimationType.Idle,
     frames = arrayOf(
         1 to 3,
         2 to 3,
@@ -59,7 +53,7 @@ val wizAnimationIdle = AnimationTemplate(
     alwaysPlaying = true
 )
 val wizAnimationWalk = AnimationTemplate(
-    id = "walk",
+    type = AnimationType.Walk,
     frames = arrayOf(
         0 to 1,
         1 to 1,
@@ -67,12 +61,4 @@ val wizAnimationWalk = AnimationTemplate(
         3 to 1
     ),
     repeat = true
-)
-val wizAnimationHit = AnimationTemplate(
-    id = "hit",
-    frames = arrayOf(
-        0 to 2,
-        1 to 2
-    ),
-    repeat = false
 )

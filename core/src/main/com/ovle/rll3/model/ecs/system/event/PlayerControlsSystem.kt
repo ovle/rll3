@@ -6,6 +6,7 @@ import com.ovle.rll3.Event.*
 import com.ovle.rll3.EventBus.receive
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.floatPoint
+import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.Mappers.move
@@ -97,7 +98,7 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
             movePath.start()
 //            println("$path")
 
-            send(EntityAnimationStartEvent(playerEntity, "walk"))
+            send(EntityAnimationStartEvent(playerEntity, AnimationType.Walk))
         }
     }
 

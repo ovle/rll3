@@ -2,10 +2,11 @@ package com.ovle.rll3.view.sprite.animation
 
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.view.layer.TextureRegions
 
 data class AnimationTemplate(
-    val id: String,
+    val type: AnimationType,
     val frames: Array<Pair<Int, Int>>,
     val frameDuration: Float = 0.25f,
     val repeat: Boolean = false,

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.Event
 import com.ovle.rll3.EventBus
 import com.ovle.rll3.model.ecs.component.AnimationComponent
+import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.Mappers.animation
 import com.ovle.rll3.model.ecs.component.has
 import com.ovle.rll3.view.layer.TexturesInfo
@@ -26,8 +27,8 @@ class AnimationEventSystem(
     override fun dispatch(event: Event) {
         when (event) {
             is Event.LevelLoaded -> onLevelLoaded(event.level.objects + event.playerEntity)
-            is Event.EntityAnimationStartEvent -> onEntityAnimationStart(event.entity, event.animationId)
-            is Event.EntityAnimationStopEvent -> onEntityAnimationStop(event.entity, event.animationId)
+            is Event.EntityAnimationStartEvent -> onEntityAnimationStart(event.entity, event.type)
+            is Event.EntityAnimationStopEvent -> onEntityAnimationStop(event.entity, event.type)
         }
     }
 
@@ -38,20 +39,20 @@ class AnimationEventSystem(
             }
     }
 
-    private fun onEntityAnimationStart(entity: Entity, animationId: String) {
+    private fun onEntityAnimationStart(entity: Entity, type: AnimationType) {
         initAnimations(entity)
 
-        val animationComponent = entity[animation]
-        animationComponent?.let {
-            it.startAnimation(animationId)
+        val animation = entity[animation]
+        animation?.let {
+            startAnimation(it, type)
         }
     }
 
-    private fun onEntityAnimationStop(entity: Entity, animationId: String) {
-        val animationComponent = entity[animation]
-        animationComponent?.let {
+    private fun onEntityAnimationStop(entity: Entity, type: AnimationType) {
+        val animation = entity[animation]
+        animation?.let {
             val isTerminal = it.currentAnimation?.template?.isTerminal ?: false
-            it.stopAnimation(animationId)
+            stopAnimation(it, type)
             if (!isTerminal) {
                 startDefault(it)
             }
@@ -59,18 +60,44 @@ class AnimationEventSystem(
     }
 
     private fun initAnimations(entity: Entity) {
-        val animationComponent = entity[animation] ?: return
+        val animation = entity[animation] ?: return
 
-        if (animationComponent.animations.isEmpty()) {
-            animationComponent.animations = animations(entity, regions).associateBy { it.template.id }
-            startDefault(animationComponent)
+        if (animation.animations.isEmpty()) {
+            animation.animations = animations(entity, regions).associateBy { it.template.type }
+            startDefault(animation)
         }
     }
 
-    private fun startDefault(animationComponent: AnimationComponent) {
-        val defaultAnimation = animationComponent.animations.values.find { it.template.alwaysPlaying }
+    private fun startDefault(animation: AnimationComponent) {
+        val defaultAnimation = animation.animations.values.find { it.template.alwaysPlaying }
         defaultAnimation?.let {
-            animationComponent.startAnimation(it.template.id)
+            startAnimation(animation, it.template.type)
+        }
+    }
+
+    private fun startAnimation(animation: AnimationComponent, type: AnimationType) {
+        animation.currentAnimation?.let {
+            val template = it.template
+
+            if (template.isTerminal) it.reset()
+            else stopAnimation(animation, template.type)
+        }
+
+        animation.currentAnimation = animation.animations[type]
+    }
+
+    fun stopAnimations(animation: AnimationComponent) {
+        animation.currentAnimation = null;
+        animation.animations.values.forEach { it.reset() }
+    }
+
+    private fun stopAnimation(animation: AnimationComponent, type: AnimationType) {
+        val animationToStop = animation.animations[type] ?: return
+        if (animationToStop.template.isTerminal) return
+
+        animationToStop.reset()
+        if (animationToStop == animation.currentAnimation) {
+            animation.currentAnimation = null;
         }
     }
 }

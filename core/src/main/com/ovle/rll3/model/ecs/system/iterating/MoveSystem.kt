@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.ovle.rll3.Event
 import com.ovle.rll3.EventBus.send
 import com.ovle.rll3.floatPoint
+import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.Mappers.move
 import com.ovle.rll3.model.ecs.component.Mappers.position
 import com.ovle.rll3.model.ecs.component.MoveComponent
@@ -64,7 +65,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         val pathFinished = movePath.finished
         if (pathFinished) {
             movePath.reset()
-            send(Event.EntityAnimationStopEvent(entity, "walk"))
+            send(Event.EntityAnimationStopEvent(entity, AnimationType.Walk))
         }
 
         return true

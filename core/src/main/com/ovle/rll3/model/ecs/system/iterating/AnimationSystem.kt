@@ -19,7 +19,7 @@ class AnimationSystem : IteratingSystem(Family.all(AnimationComponent::class.jav
 
         val isNeedStopCurrentAnimation = !template.repeat && !template.isTerminal && current.isFinished()
         if (isNeedStopCurrentAnimation){
-            EventBus.send(Event.EntityAnimationStopEvent(entity, template.id))
+            EventBus.send(Event.EntityAnimationStopEvent(entity, template.type))
         }
     }
 }

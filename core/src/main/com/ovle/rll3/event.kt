@@ -2,6 +2,7 @@ package com.ovle.rll3
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.WorldInfo
 import com.ovle.rll3.model.ecs.system.event.level.ConnectionId
@@ -33,14 +34,16 @@ sealed class Event {
 
     open class EntityEvent(val entity: Entity) : GameEvent()
     open class EntityInteractionEvent(entity: Entity) : EntityEvent(entity)
+
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
+
     open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
     class LevelUnloaded(val level: LevelInfo): GameEvent()
     class LevelLoaded(val level: LevelInfo, val levelParams: LevelParams, val playerEntity: Entity): GameEvent()
 
-    open class EntityAnimationEvent(entity: Entity, val animationId: String) : EntityEvent(entity)
-    class EntityAnimationStartEvent(entity: Entity, animationId: String): EntityAnimationEvent(entity, animationId)
-    class EntityAnimationStopEvent(entity: Entity, animationId: String): EntityAnimationEvent(entity, animationId)
+    open class EntityAnimationEvent(entity: Entity, val type: AnimationType) : EntityEvent(entity)
+    class EntityAnimationStartEvent(entity: Entity, type: AnimationType): EntityAnimationEvent(entity, type)
+    class EntityAnimationStopEvent(entity: Entity, type: AnimationType): EntityAnimationEvent(entity, type)
 }
 
 @ExperimentalCoroutinesApi

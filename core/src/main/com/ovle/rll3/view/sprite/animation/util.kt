@@ -14,8 +14,7 @@ fun animations(entity: Entity, regions: TextureRegions): Array<FrameAnimation> {
         entity.has<CreatureComponent>() -> arrayOf(
             FrameAnimation(regions, scelAnimationIdle),
             FrameAnimation(regions, scelAnimationDeath),
-            FrameAnimation(regions, scelAnimationDamaged),
-            FrameAnimation(regions, scelAnimationResurrect)
+            FrameAnimation(regions, scelAnimationDamaged)
         )
         entity.has<PlayerComponent>() -> arrayOf(
             FrameAnimation(regions, wizAnimationIdle),
