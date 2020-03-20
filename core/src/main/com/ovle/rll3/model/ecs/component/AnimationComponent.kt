@@ -10,7 +10,10 @@ class AnimationComponent(
 
     fun startAnimation(id: String) {
         currentAnimation?.let {
-            stopAnimation(it.template.id)
+            val template = it.template
+
+            if (template.isTerminal) it.reset()
+            else stopAnimation(template.id)
         }
 
         currentAnimation = animations[id]
