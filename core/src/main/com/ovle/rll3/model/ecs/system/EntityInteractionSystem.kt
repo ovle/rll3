@@ -1,9 +1,8 @@
-package com.ovle.rll3.model.ecs.system.event
+package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.CreatureComponent
 import com.ovle.rll3.model.ecs.component.DoorComponent
 import com.ovle.rll3.model.ecs.component.Mappers.collision
@@ -34,15 +33,15 @@ class EntityInteractionSystem : EventSystem() {
 
         //todo state machine?
         if (entity.has<CreatureComponent>()) {
-            if (entity[creature]!!.health == 0) {
-                entity[creature]!!.health = 3   //todo initial health from template
-            } else {
+            if (entity[creature]!!.health > 0) {
                 entity[creature]!!.health--
 
-                val isDead = entity[creature]!!.health == 0
-                val animationId = if (isDead) AnimationType.Death else AnimationType.TakeHit
+                EventBus.send(Event.EntityTakeDamage(entity, 1))
 
-                EventBus.send(Event.EntityAnimationStartEvent(entity, animationId))
+                val isDead = entity[creature]!!.health == 0
+                if (isDead) {
+                    EventBus.send(Event.EntityDied(entity))
+                }
             }
         }
     }

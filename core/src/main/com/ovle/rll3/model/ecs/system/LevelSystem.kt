@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system.event
+package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
@@ -13,8 +13,8 @@ import com.ovle.rll3.model.ecs.component.Mappers.move
 import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.Mappers.position
 import com.ovle.rll3.model.ecs.entity.*
-import com.ovle.rll3.model.ecs.system.event.level.ConnectionId
-import com.ovle.rll3.model.ecs.system.event.level.LevelRegistry
+import com.ovle.rll3.model.ecs.system.level.ConnectionId
+import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.procedural.grid.processor.LevelConnectionProcessor
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
@@ -66,9 +66,9 @@ class LevelSystem: EventSystem() {
         //setVisited(connectionId, level)
         setVisited(oldConnection, newLevel)
 
-        //send(LevelUnloaded(it))   todo
         val newLevelDescription = levelDescription(newLevel.descriptionId, worldInfo)
-        send(LevelLoaded(newLevel, newLevelDescription.params, playerEntity))
+        
+        send(LevelLoaded(newLevel, newLevelDescription.params))
         send(EntityInitialized(playerEntity))
         newLevel.objects.forEach {
             send(EntityInitialized(it))

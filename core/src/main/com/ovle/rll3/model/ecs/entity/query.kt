@@ -10,8 +10,8 @@ import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.component.Mappers.level
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.Mappers.world
-import com.ovle.rll3.model.ecs.system.event.level.ConnectionId
-import com.ovle.rll3.model.ecs.system.event.level.LevelDescriptionId
+import com.ovle.rll3.model.ecs.system.level.ConnectionId
+import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.reflect.KClass

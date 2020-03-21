@@ -1,12 +1,15 @@
-package com.ovle.rll3.model.ecs.system.event
+package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.event.Event.*
-import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.ecs.component.AnimationComponent
 import com.ovle.rll3.model.ecs.component.AnimationType
+import com.ovle.rll3.model.ecs.component.Mappers
 import com.ovle.rll3.model.ecs.component.Mappers.animation
+import com.ovle.rll3.model.ecs.entity.allEntities
+import com.ovle.rll3.model.ecs.entity.entitiesWith
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.sprite.animation.animations
 import com.ovle.rll3.view.spriteHeight
@@ -14,17 +17,40 @@ import com.ovle.rll3.view.spriteWidth
 import ktx.ashley.get
 
 
-class AnimationEventSystem(
+class AnimationSystem(
     spriteTexture: TexturesInfo
 ) : EventSystem() {
 
     private val regions = TextureRegion.split(spriteTexture.texture, spriteWidth, spriteHeight)
 
-    override fun subscribe() {
-        EventBus.subscribe<EntityInitialized> { onEntityInitialized(it.entity) }
+    override fun update(deltaTime: Float) {
+        super.update(deltaTime)
 
-        EventBus.subscribe<EntityAnimationStartEvent> { onEntityAnimationStart(it.entity, it.type) }
-        EventBus.subscribe<EntityAnimationStopEvent> { onEntityAnimationStop(it.entity, it.type) }
+        val entities = entitiesWith(allEntities().toList(), AnimationComponent::class)
+        entities.forEach {
+            processEntity(it)
+        }
+    }
+
+    fun processEntity(entity: Entity) {
+        val animationComponent = entity[Mappers.animation]!!
+        val current = animationComponent.currentAnimation ?: return
+        val template = current.template
+
+        val isNeedStopCurrentAnimation = !template.repeat && !template.isTerminal && current.isFinished()
+        if (isNeedStopCurrentAnimation){
+            onEntityAnimationStop(entity, template.type)
+        }
+    }
+
+
+    override fun subscribe() {
+        subscribe<EntityInitialized> { onEntityInitialized(it.entity) }
+
+        subscribe<EntityStartMove> { onEntityAnimationStart(it.entity, AnimationType.Walk) }
+        subscribe<EntityFinishMove> { onEntityAnimationStop(it.entity, AnimationType.Walk) }
+        subscribe<EntityTakeDamage> { onEntityAnimationStart(it.entity, AnimationType.TakeHit) }
+        subscribe<EntityDied> { onEntityAnimationStart(it.entity, AnimationType.Death) }
     }
 
     private fun onEntityInitialized(entity: Entity) {

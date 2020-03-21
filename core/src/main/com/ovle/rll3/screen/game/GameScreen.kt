@@ -13,10 +13,7 @@ import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.ecs.system.event.*
-import com.ovle.rll3.model.ecs.system.iterating.AnimationSystem
-import com.ovle.rll3.model.ecs.system.iterating.MoveSystem
-import com.ovle.rll3.model.ecs.system.iterating.RenderObjectsSystem
+import com.ovle.rll3.model.ecs.system.*
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.spriteTexturePath
@@ -66,8 +63,7 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
             CameraSystem(camera),
             RenderLevelSystem(camera, levelTexturesInfo),
             RenderObjectsSystem(batch, objectsTextureInfo),
-            AnimationEventSystem(objectsTextureInfo),
-            AnimationSystem()
+            AnimationSystem(objectsTextureInfo)
         )
         systems.forEach { ecsEngine.addSystem((it)) }
 

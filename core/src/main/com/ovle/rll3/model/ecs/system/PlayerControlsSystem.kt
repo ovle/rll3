@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system.event
+package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
@@ -6,7 +6,6 @@ import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.Mappers.move
@@ -100,7 +99,7 @@ class PlayerControlsSystem : EventSystem() {
             movePath.start()
 //            println("$path")
 
-            send(EntityAnimationStartEvent(playerEntity, AnimationType.Walk))
+            send(EntityStartMove(playerEntity))
         }
     }
 

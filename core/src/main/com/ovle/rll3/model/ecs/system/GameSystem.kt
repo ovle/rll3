@@ -1,10 +1,11 @@
-package com.ovle.rll3.model.ecs.system.event
+package com.ovle.rll3.model.ecs.system
 
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.ecs.component.WorldInfo
 import com.ovle.rll3.model.ecs.entity.newWorld
+import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.procedural.config.world
 
 

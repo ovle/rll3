@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system.iterating
+package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
