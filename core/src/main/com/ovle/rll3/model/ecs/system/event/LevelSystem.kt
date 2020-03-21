@@ -2,10 +2,9 @@ package com.ovle.rll3.model.ecs.system.event
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.Event
-import com.ovle.rll3.Event.LevelLoaded
-import com.ovle.rll3.EventBus.receive
-import com.ovle.rll3.EventBus.send
+import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.component.Mappers.level
@@ -22,15 +21,11 @@ import com.ovle.rll3.point
 import ktx.ashley.get
 
 
-class LevelSystem: EventSystem<Event>() {
+class LevelSystem: EventSystem() {
 
-    override fun channel() = receive<Event>()
-
-    override fun dispatch(event: Event) {
-        when (event) {
-            is Event.WorldInitEvent -> loadFirstLevel()
-            is Event.EntityLevelTransition -> loadNextLevel(levelInfo(), event.connectionId)
-        }
+    override fun subscribe() {
+        EventBus.subscribe<WorldInitEvent> { loadFirstLevel() }
+        EventBus.subscribe<EntityLevelTransition> { loadNextLevel(levelInfo(), it.connectionId) }
     }
 
     private fun loadFirstLevel(): LevelInfo {
@@ -74,6 +69,10 @@ class LevelSystem: EventSystem<Event>() {
         //send(LevelUnloaded(it))   todo
         val newLevelDescription = levelDescription(newLevel.descriptionId, worldInfo)
         send(LevelLoaded(newLevel, newLevelDescription.params, playerEntity))
+        send(EntityInitialized(playerEntity))
+        newLevel.objects.forEach {
+            send(EntityInitialized(it))
+        }
 
         return newLevel
     }

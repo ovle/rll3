@@ -7,10 +7,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
-import com.ovle.rll3.Event
-import com.ovle.rll3.Event.EntityMoved
-import com.ovle.rll3.Event.LevelLoaded
-import com.ovle.rll3.EventBus
+import com.ovle.rll3.event.Event.EntityMoved
+import com.ovle.rll3.event.Event.LevelLoaded
+import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.Mappers.sight
 import com.ovle.rll3.model.ecs.component.SightComponent
@@ -30,21 +29,16 @@ import ktx.ashley.get
 class RenderLevelSystem(
     private val camera: OrthographicCamera,
     private val texturesInfo: TexturesInfo
-) : EventSystem<Event>() {
+) : EventSystem() {
 
     private var mapRenderer: TiledMapRenderer? = null
     private var tiledMap: TiledMap? = null
 
 
-    override fun channel() = EventBus.receive<Event>()
-
-    override fun dispatch(event: Event) {
-        when (event) {
-            is EntityMoved -> onEntityMoved(event.entity)
-            is LevelLoaded -> onLevelLoaded(event.level, event.levelParams)
-        }
+    override fun subscribe() {
+        EventBus.subscribe<EntityMoved> { onEntityMoved(it.entity) }
+        EventBus.subscribe<LevelLoaded> { onLevelLoaded(it.level, it.levelParams) }
     }
-
 
     private fun onLevelLoaded(level: LevelInfo, levelParams: LevelParams) {
         tiledMap = tiledMap(level, levelParams.tileToTexture)

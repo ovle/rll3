@@ -1,9 +1,8 @@
 package com.ovle.rll3.model.ecs.system.event
 
-import com.ovle.rll3.Event
-import com.ovle.rll3.Event.EntityInteractionEvent
-import com.ovle.rll3.EventBus
-import com.ovle.rll3.EventBus.receive
+import com.badlogic.ashley.core.Entity
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.CreatureComponent
 import com.ovle.rll3.model.ecs.component.DoorComponent
@@ -15,15 +14,14 @@ import com.ovle.rll3.model.ecs.component.has
 import ktx.ashley.get
 
 
-class EntityInteractionSystem : EventSystem<EntityInteractionEvent>() {
+class EntityInteractionSystem : EventSystem() {
 
-    override fun channel() = receive<EntityInteractionEvent>()
+    override fun subscribe() {
+        EventBus.subscribe<Event.EntityInteractionEvent> { onEntityInteractionEvent(it.entity) }
+    }
 
     //todo rewrite to processors
-    override fun dispatch(event: EntityInteractionEvent) {
-
-        val entity = event.entity
-
+    fun onEntityInteractionEvent(entity: Entity) {
         if (entity.has<DoorComponent>()) {
             entity[door]!!.let { it.closed = !it.closed }
             val closed =  entity[door]!!.closed

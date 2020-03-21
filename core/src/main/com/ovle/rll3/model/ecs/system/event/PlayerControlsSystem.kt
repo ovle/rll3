@@ -2,9 +2,9 @@ package com.ovle.rll3.model.ecs.system.event
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.Event.*
-import com.ovle.rll3.EventBus.receive
-import com.ovle.rll3.EventBus.send
+import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.LevelInfo
@@ -25,26 +25,28 @@ import ktx.ashley.get
 import kotlin.math.roundToInt
 
 
-class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
+class PlayerControlsSystem : EventSystem() {
 
-    override fun channel() = receive<PlayerControlEvent>()
+    override fun subscribe() {
+        EventBus.subscribe<MouseLeftClick> {
+            val level = levelInfoNullable() ?: return@subscribe
+            onMouseLeftClick(it, level)
+        }
+        EventBus.subscribe<MouseMoved> {
+            val level = levelInfoNullable() ?: return@subscribe
+            onMousePositionChange(toGamePoint(it.screenPoint, RenderConfig), level)
+        }
+    }
 
-    override fun dispatch(event: PlayerControlEvent) {
-        val level = levelInfoNullable() ?: return
-        when (event) {
-            is MouseLeftClick -> {
-                val gamePoint = centered(toGamePoint(event.screenPoint, RenderConfig))
+    private fun onMouseLeftClick(event: MouseLeftClick, level: LevelInfo) {
+        val gamePoint = centered(toGamePoint(event.screenPoint, RenderConfig))
 
-                val connectionEntity = connectionOnPosition(level, point(gamePoint))
-                val entities = entitiesOnPosition(level, point(gamePoint))
-                when {
-                    connectionEntity != null -> onTransitionAction(gamePoint, level, connectionEntity)
-                    entities.isNotEmpty() -> onEntityAction(gamePoint, level, entities)
-                    else -> onMoveTargetSet(gamePoint, level)
-                }
-
-            }
-            is MouseMoved -> onMousePositionChange(toGamePoint(event.screenPoint, RenderConfig), level)
+        val connectionEntity = connectionOnPosition(level, point(gamePoint))
+        val entities = entitiesOnPosition(level, point(gamePoint))
+        when {
+            connectionEntity != null -> onTransitionAction(gamePoint, level, connectionEntity)
+            entities.isNotEmpty() -> onEntityAction(gamePoint, level, entities)
+            else -> onMoveTargetSet(gamePoint, level)
         }
     }
 
@@ -104,6 +106,8 @@ class PlayerControlsSystem : EventSystem<PlayerControlEvent>() {
 
     //todo center on cursor
     private fun onMousePositionChange(gamePoint: Vector2, level: LevelInfo) {
+        println("onMousePositionChange")
+
         if (!isValid(gamePoint, level)) return
 
         val interactionEntity = entityWith(allEntities().toList(), PlayerInteractionComponent::class) ?: return

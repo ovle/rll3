@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
-import com.ovle.rll3.Event
-import com.ovle.rll3.EventBus
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.system.event.*
 import com.ovle.rll3.model.ecs.system.iterating.AnimationSystem
 import com.ovle.rll3.model.ecs.system.iterating.MoveSystem

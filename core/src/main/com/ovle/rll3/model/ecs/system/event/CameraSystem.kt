@@ -1,9 +1,8 @@
 package com.ovle.rll3.model.ecs.system.event
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.Event
-import com.ovle.rll3.Event.*
-import com.ovle.rll3.EventBus
+import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.Mappers.position
@@ -19,17 +18,13 @@ import ktx.ashley.get
 
 class CameraSystem(
     private val camera: OrthographicCamera
-): EventSystem<Event>() {
+): EventSystem() {
 
-    override fun channel() = EventBus.receive<Event>()
-
-    override fun dispatch(event: Event) {
-        when (event) {
-            is CameraScaleInc -> onScaleChange(0.1f)
-            is CameraScaleDec -> onScaleChange(-0.1f)
-            is CameraScrolled -> onScaleChange(-event.amount.toFloat() * scaleScrollCoeff)
-            is CameraMoved -> onScrollOffsetChange(event.amount)
-        }
+    override fun subscribe() {
+        EventBus.subscribe<CameraScaleInc> { onScaleChange(0.1f) }
+        EventBus.subscribe<CameraScaleDec> { onScaleChange(-0.1f) }
+        EventBus.subscribe<CameraScrolled> { onScaleChange(-it.amount.toFloat() * scaleScrollCoeff) }
+        EventBus.subscribe<CameraMoved> { onScrollOffsetChange(it.amount) }
     }
 
     override fun update(deltaTime: Float) {

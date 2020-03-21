@@ -1,4 +1,4 @@
-package com.ovle.rll3
+package com.ovle.rll3.event
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
@@ -7,11 +7,6 @@ import com.ovle.rll3.model.ecs.component.LevelInfo
 import com.ovle.rll3.model.ecs.component.WorldInfo
 import com.ovle.rll3.model.ecs.system.event.level.ConnectionId
 import com.ovle.rll3.model.procedural.config.LevelParams
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.*
-import kotlinx.coroutines.launch
 
 sealed class Event {
 
@@ -35,7 +30,10 @@ sealed class Event {
     open class EntityEvent(val entity: Entity) : GameEvent()
     open class EntityInteractionEvent(entity: Entity) : EntityEvent(entity)
 
+    open class EntityInitialized(entity: Entity) : EntityEvent(entity)
+    open class EntityStartMove(entity: Entity) : EntityEvent(entity)
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
+    open class EntityFinishMove(entity: Entity) : EntityEvent(entity)
 
     open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
     class LevelUnloaded(val level: LevelInfo): GameEvent()
@@ -43,21 +41,6 @@ sealed class Event {
 
     open class EntityAnimationEvent(entity: Entity, val type: AnimationType) : EntityEvent(entity)
     class EntityAnimationStartEvent(entity: Entity, type: AnimationType): EntityAnimationEvent(entity, type)
-    class EntityAnimationStopEvent(entity: Entity, type: AnimationType): EntityAnimationEvent(entity, type)
+    class EntityAnimationStopEvent(entity: Entity, type: AnimationType): EntityAnimationEvent(entity, type) //todo remove
 }
 
-@ExperimentalCoroutinesApi
-object EventBus : CoroutineScope by GlobalScope {
-    val bus: BroadcastChannel<Any> = ConflatedBroadcastChannel()
-
-    fun send(o: Any) {
-        launch {
-            bus.send(o)
-//            println("send: $o")
-        }
-    }
-
-    inline fun <reified T> receive(): ReceiveChannel<T> {
-        return bus.openSubscription().filter { it is T }.map { it as T }
-    }
-}

@@ -3,8 +3,8 @@ package com.ovle.rll3.screen.game
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.Event
-import com.ovle.rll3.EventBus.send
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
 import kotlinx.coroutines.ExperimentalCoroutinesApi

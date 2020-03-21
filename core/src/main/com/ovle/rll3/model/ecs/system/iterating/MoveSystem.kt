@@ -3,8 +3,8 @@ package com.ovle.rll3.model.ecs.system.iterating
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
-import com.ovle.rll3.Event
-import com.ovle.rll3.EventBus.send
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.Mappers.move
