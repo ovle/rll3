@@ -1,6 +1,8 @@
 package com.ovle.rll3.view.sprite.animation
 
-import com.ovle.rll3.model.ecs.component.AnimationType
+import com.ovle.rll3.model.template.AnimationTemplate
+import com.ovle.rll3.model.template.AnimationType
+
 
 //todo use script / text config
 val torchAnimation = AnimationTemplate(

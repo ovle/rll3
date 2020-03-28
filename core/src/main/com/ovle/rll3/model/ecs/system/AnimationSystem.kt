@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.ecs.component.AnimationComponent
-import com.ovle.rll3.model.ecs.component.AnimationType
 import com.ovle.rll3.model.ecs.component.Mappers
 import com.ovle.rll3.model.ecs.component.Mappers.animation
 import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.entitiesWith
+import com.ovle.rll3.model.template.AnimationType
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.sprite.animation.animations
 import com.ovle.rll3.view.spriteHeight

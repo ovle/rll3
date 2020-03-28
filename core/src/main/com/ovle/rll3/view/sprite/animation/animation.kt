@@ -2,17 +2,8 @@ package com.ovle.rll3.view.sprite.animation
 
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.ovle.rll3.model.ecs.component.AnimationType
+import com.ovle.rll3.model.template.AnimationTemplate
 import com.ovle.rll3.view.layer.TextureRegions
-
-data class AnimationTemplate(
-    val type: AnimationType,
-    val frames: Array<Pair<Int, Int>>,
-    val frameDuration: Float = 0.25f,
-    val repeat: Boolean = false,
-    val alwaysPlaying: Boolean = false,  //should be play by default if no other animation is playing
-    val isTerminal: Boolean = false  //no default after it finished
-)
 
 class FrameAnimation(
     regions: TextureRegions,

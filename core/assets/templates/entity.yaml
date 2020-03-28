@@ -1,0 +1,55 @@
+---
+
+name: torch
+type: Env
+description: ''
+state:
+  active: true
+  light: 5
+sprite: [11, 1]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [7, 1]
+      - [8, 1]
+      - [9, 1]
+      - [10, 1]
+
+---
+
+name: door
+type: Env
+description: ''
+state:
+  closed: true
+sprite: [7, 8]
+
+---
+
+name: sceleton
+type: Creature
+description: ''
+state:
+  health: 3
+sprite: [7, 10]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [7, 10]
+      - [8, 10]
+      - [9, 10]
+      - [10, 10]
+  - type: Death
+    frames:
+      - [7, 12]
+      - [8, 12]
+      - [9, 12]
+  - type: TakeHit
+    frames:
+      - [10, 12]
+      - [11, 12]
+
