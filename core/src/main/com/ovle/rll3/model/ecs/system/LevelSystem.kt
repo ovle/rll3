@@ -67,7 +67,7 @@ class LevelSystem: EventSystem() {
         setVisited(oldConnection, newLevel)
 
         val newLevelDescription = levelDescription(newLevel.descriptionId, worldInfo)
-        
+
         send(LevelLoaded(newLevel, newLevelDescription.params))
         send(EntityInitialized(playerEntity))
         newLevel.objects.forEach {
@@ -84,8 +84,6 @@ class LevelSystem: EventSystem() {
         //todo event
     }
 
-    //todo case with multiple enter connections - go first, go back, go second - no storedConnection for already visited level
-    //todo for the circular path - go down using one path, go up using another enter
     private fun changeLevel(oldLevel: LevelInfo?, oldConnection: LevelConnectionComponent?, worldInfo: WorldInfo): LevelInfo {
         val connectionId = oldConnection?.id
         val newLevelDescriptionId = oldConnection?.levelDescriptionId ?: worldInfo.entryPoint

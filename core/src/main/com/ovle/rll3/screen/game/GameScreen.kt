@@ -1,14 +1,11 @@
 package com.ovle.rll3.screen.game
 
 import com.badlogic.ashley.core.PooledEngine
-import com.badlogic.gdx.assets.AssetManager
-import com.badlogic.gdx.assets.loaders.TextureLoader
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
+import com.ovle.rll3.AssetsManager
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.event.Event
@@ -16,8 +13,6 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.system.*
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.layer.TexturesInfo
-import com.ovle.rll3.view.spriteTexturePath
-import com.ovle.rll3.view.tileTexturePath
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ktx.actors.onClick
 import ktx.scene2d.container
@@ -28,9 +23,10 @@ import kotlin.math.min
 
 
 @ExperimentalCoroutinesApi
-class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManager, camera: OrthographicCamera): BaseScreen(screenManager, batch, assets, camera) {
-    lateinit var levelTexture: Texture
-    lateinit var objectsTexture: Texture
+class GameScreen(
+    val assetsManager: AssetsManager,
+    screenManager: ScreenManager, batch: Batch, camera: OrthographicCamera
+): BaseScreen(screenManager, batch, camera) {
 
     private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls()
@@ -41,15 +37,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
     override fun show() {
         super.show()
 
-        //todo async loading on separate screen
-        assets.setLoader(Texture::class.java, TextureLoader(InternalFileHandleResolver()))
-
-        assets.load(tileTexturePath, Texture::class.java)
-        assets.load(spriteTexturePath, Texture::class.java)
-        levelTexture = assets.finishLoadingAsset<Texture>(tileTexturePath)
-        objectsTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
-        val levelTexturesInfo = TexturesInfo(levelTexture)
-        val objectsTextureInfo = TexturesInfo(objectsTexture)
+        val levelTexturesInfo = TexturesInfo(assetsManager.levelTexture)
+        val objectsTextureInfo = TexturesInfo(assetsManager.objectsTexture)
         val camera = batchViewport.camera as OrthographicCamera
 
         ecsEngine = PooledEngine()
@@ -63,7 +52,8 @@ class GameScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManage
             CameraSystem(camera),
             RenderLevelSystem(camera, levelTexturesInfo),
             RenderObjectsSystem(batch, objectsTextureInfo),
-            AnimationSystem(objectsTextureInfo)
+            AnimationSystem(objectsTextureInfo),
+            SightSystem()
         )
         systems.forEach { ecsEngine.addSystem((it)) }
 

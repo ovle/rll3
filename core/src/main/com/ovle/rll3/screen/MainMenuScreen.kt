@@ -1,7 +1,6 @@
 package com.ovle.rll3.screen
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.utils.Align
@@ -13,7 +12,7 @@ import ktx.scene2d.textButton
 import ktx.scene2d.verticalGroup
 
 
-class MainMenuScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManager, camera: OrthographicCamera): BaseScreen(screenManager, batch, assets, camera) {
+class MainMenuScreen(screenManager: ScreenManager, batch: Batch, camera: OrthographicCamera): BaseScreen(screenManager, batch, camera) {
 
     override fun rootActor() =
         verticalGroup {

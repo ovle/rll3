@@ -28,12 +28,14 @@ class RLL3Game : KtxGame<BaseScreen>() {
 
         context = disposable(Context())
         val screenManager = disposable(ScreenManager(context) { bs: BaseScreen -> setScreen(bs.javaClass) })
+        val assetManager = disposable(AssetManager())
 
         Scene2DSkin.defaultSkin = disposable(Skin(Gdx.files.internal(skinPath)))
 
         context.register {
             bindSingleton<Batch>(disposable(SpriteBatch()))
-            bindSingleton(AssetManager())
+            bindSingleton(assetManager)
+            bindSingleton(AssetsManager(assetManager))
             bindSingleton(camera())
             bindSingleton(screenManager)
         }

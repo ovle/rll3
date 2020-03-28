@@ -1,6 +1,5 @@
 package com.ovle.rll3.screen
 
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.ovle.rll3.ScreenManager
@@ -11,7 +10,7 @@ import ktx.scene2d.verticalGroup
 import ktx.scene2d.window
 
 
-class ManageScreen(screenManager: ScreenManager, batch: Batch, assets: AssetManager, camera: OrthographicCamera): BaseScreen(screenManager, batch, assets, camera) {
+class ManageScreen(screenManager: ScreenManager, batch: Batch, camera: OrthographicCamera): BaseScreen(screenManager, batch, camera) {
 
     override fun rootActor() = window(title = "Manage") {
 

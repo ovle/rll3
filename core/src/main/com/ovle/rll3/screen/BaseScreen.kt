@@ -3,7 +3,6 @@ package com.ovle.rll3.screen
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.InputProcessor
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -20,10 +19,9 @@ import ktx.app.LetterboxingViewport
 
 
 abstract class BaseScreen(
-        protected val screenManager: ScreenManager,
-        protected val batch: Batch,
-        protected val assets: AssetManager,
-        camera: OrthographicCamera): KtxScreen {
+    protected val screenManager: ScreenManager,
+    protected val batch: Batch,
+    camera: OrthographicCamera): KtxScreen {
 
     private val stage = Stage(LetterboxingViewport(aspectRatio = screenWidth / screenHeight))
     protected val batchViewport = FitViewport(screenWidth, screenHeight, camera)
