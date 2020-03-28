@@ -33,7 +33,6 @@ class GameScreen(
 
     lateinit var infoLabel: Label
 
-    //todo refactor
     override fun show() {
         super.show()
 
