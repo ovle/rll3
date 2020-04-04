@@ -118,7 +118,7 @@ enum class RoomStructure {
         }
     };
 
-    protected fun setTile(tiles: TileArray, nearTiles: NearTiles, tileId: Int) {
+    protected fun setTile(tiles: TileArray, nearTiles: NearTiles, tileId: TileType) {
         val x = nearTiles.x
         val y = nearTiles.y
 

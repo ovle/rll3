@@ -20,7 +20,7 @@ fun dungeonGridValueToTileType(gridValue: Float): TileType {
         gridValue >= DungeonGridFactory.wallTreshold -> wallTileId
         gridValue == DungeonGridFactory.floorTreshold -> roomFloorTileId
         gridValue == DungeonGridFactory.corridorTreshold -> corridorFloorTileId
-        else -> -1
+        else -> throw RuntimeException("illegal tile value: $gridValue")
     }
 }
 

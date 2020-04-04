@@ -1,12 +1,17 @@
 ---
 
 name: torch
-type: Env
 description: ''
 state:
-  active: true
-  light: 5
+  light:
+    radius: 5
 sprite: [11, 1]
+spawns:
+  - mask: |
+      _ _ _
+      _ 1 _
+      _ 0 _
+    rotate: false
 animations:
   - type: Idle
     repeat: true
@@ -20,36 +25,77 @@ animations:
 ---
 
 name: door
-type: Env
 description: ''
 state:
-  closed: true
+  collision:
+  door:
 sprite: [7, 8]
+spawns:
+  - mask: |
+      _ 1 _
+      0 2 _
+      _ 1 _
+    rotate: true
 
+#---
+#
+#name: sceleton
+#description: ''
+#state:
+#  creature:
+#    health: 3
+#  collision:
+#sprite: [7, 10]
+#spawns:
+#  - chance: 0.05
+#    mask: |
+#      _ 0 _
+#      0 0 0
+#      _ 0 _
+#animations:
+#  - type: Idle
+#    repeat: true
+#    alwaysPlaying: true
+#    frames:
+#      - [7, 10]
+#      - [8, 10]
+#      - [9, 10]
+#      - [10, 10]
+#  - type: Death
+#    terminal: true
+#    frames:
+#      - [7, 12]
+#      - [8, 12]
+#      - [9, 12]
+#  - type: TakeHit
+#    frames:
+#      - [10, 12]
+#      - [11, 12]
+#
 ---
 
-name: sceleton
-type: Creature
+name: wizard
 description: ''
 state:
-  health: 3
-sprite: [7, 10]
+  creature:
+    health: 3
+  move:
+  collision:
+sprite: [1, 1]
 animations:
   - type: Idle
     repeat: true
     alwaysPlaying: true
     frames:
-      - [7, 10]
-      - [8, 10]
-      - [9, 10]
-      - [10, 10]
-  - type: Death
+      - [1, 3]
+      - [2, 3]
+      - [3, 3]
+      - [4, 3]
+  - type: Walk
+    repeat: true
+    alwaysPlaying: true
     frames:
-      - [7, 12]
-      - [8, 12]
-      - [9, 12]
-  - type: TakeHit
-    frames:
-      - [10, 12]
-      - [11, 12]
-
+      - [0, 1]
+      - [1, 1]
+      - [2, 1]
+      - [3, 1]

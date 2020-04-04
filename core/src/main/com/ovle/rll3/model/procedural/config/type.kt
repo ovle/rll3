@@ -27,11 +27,7 @@ sealed class LevelFactoryParams(
         val minRoomSize: Int,
         val tolerance: Int, // Max difference between width and height.
         val windingChance: Float,
-        val randomConnectorChance: Float,
-        val lightSourceChance: Float,
-        val doorChance: Float,
-        val creatureChance: Float,
-        val trapChance: Float
+        val randomConnectorChance: Float
     ): LevelFactoryParams(size)
 
     class CelullarAutomataLevelFactoryParams(

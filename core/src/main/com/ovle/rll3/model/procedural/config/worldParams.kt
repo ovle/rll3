@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.procedural.config
 
-import com.ovle.rll3.model.ecs.component.LevelDescription
-import com.ovle.rll3.model.ecs.component.WorldInfo
+import com.ovle.rll3.model.ecs.component.special.LevelDescription
+import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 
 const val firstLevelDescId: LevelDescriptionId = "1"

@@ -14,5 +14,5 @@ data class AnimationTemplate(
     var frameDuration: Float = 0.25f,
     var repeat: Boolean = false,
     var alwaysPlaying: Boolean = false,  //should be play by default if no other animation is playing
-    var isTerminal: Boolean = false  //no default after it finished
+    var terminal: Boolean = false  //no default after it finished
 )

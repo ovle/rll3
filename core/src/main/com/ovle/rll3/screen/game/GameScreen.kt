@@ -11,6 +11,7 @@ import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.system.*
+import com.ovle.rll3.model.template.EntityTemplatesRegistry
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.layer.TexturesInfo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,9 +39,9 @@ class GameScreen(
 
         val levelTexturesInfo = TexturesInfo(assetsManager.levelTexture)
         val objectsTextureInfo = TexturesInfo(assetsManager.objectsTexture)
-        val camera = batchViewport.camera as OrthographicCamera
+        EntityTemplatesRegistry.templates = assetsManager.templates
 
-        ecsEngine = PooledEngine()
+        val camera = batchViewport.camera as OrthographicCamera
 
         val systems = listOf(
             GameSystem(),
@@ -54,6 +55,8 @@ class GameScreen(
             AnimationSystem(objectsTextureInfo),
             SightSystem()
         )
+
+        ecsEngine = PooledEngine()
         systems.forEach { ecsEngine.addSystem((it)) }
 
         EventBus.send(Event.GameStartedEvent())

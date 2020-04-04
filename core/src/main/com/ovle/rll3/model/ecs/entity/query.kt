@@ -10,6 +10,7 @@ import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.component.Mappers.level
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.Mappers.world
+import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import ktx.ashley.get

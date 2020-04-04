@@ -3,6 +3,11 @@ package com.ovle.rll3.model.ecs.component
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
+import com.ovle.rll3.model.ecs.component.basic.*
+import com.ovle.rll3.model.ecs.component.special.LevelComponent
+import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
+import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
+import com.ovle.rll3.model.ecs.component.special.WorldComponent
 import ktx.ashley.has
 
 
@@ -16,14 +21,15 @@ object Mappers {
     val playerInteraction = componentMapper<PlayerInteractionComponent>()
     val levelConnection = componentMapper<LevelConnectionComponent>()
     val position = componentMapper<PositionComponent>()
+    val template = componentMapper<TemplateComponent>()
     val collision = componentMapper<CollisionComponent>()
-    val light = componentMapper<LightComponent>()
+    val light = componentMapper<LightSourceComponent>()
     val sight = componentMapper<SightComponent>()
     val move = componentMapper<MoveComponent>()
     val render = componentMapper<RenderComponent>()
     val animation = componentMapper<AnimationComponent>()
 
     val door = componentMapper<DoorComponent>()
-    val creature = componentMapper<CreatureComponent>()
+    val creature = componentMapper<LivingComponent>()
     val trigger = componentMapper<TriggerComponent>()
 }

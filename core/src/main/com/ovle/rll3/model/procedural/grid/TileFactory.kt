@@ -2,6 +2,7 @@ package com.ovle.rll3.model.procedural.grid
 
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray
+import com.ovle.rll3.model.tile.TileType
 
 //todo
 interface TileFactory {
@@ -15,7 +16,7 @@ class MockTileFactory: TileFactory {
     }
 }
 
-class TemplateTileFactory(private val template: Array<Array<Int>>): TileFactory {
+class TemplateTileFactory(private val template: Array<Array<TileType>>): TileFactory {
 
     override fun get(size: Int): TileArray {
         return TileArray(Array(size * size) { tileIndexToTile(it, size) }, size)

@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.ecs.system.level
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.special.LevelInfo
 
 
 object LevelRegistry {

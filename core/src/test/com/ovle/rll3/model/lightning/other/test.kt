@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.lightning.other
 
-import com.ovle.rll3.model.ecs.component.LightComponent
+import com.ovle.rll3.model.ecs.component.AOEData
 import com.ovle.rll3.model.ecs.component.Mappers.light
 import com.ovle.rll3.model.ecs.component.Mappers.position
 import com.ovle.rll3.model.ecs.entity.entityWith
@@ -27,7 +27,7 @@ class Test {
     @MethodSource("args")
     fun `test lightning`(tileTemplate: TileTemplate, entitiesData: EntitiesData, expectedResults: ExpectedResult) {
         val entities = entitiesData.entities.toList()
-        val lightSourceEntity = entityWith(entities, LightComponent::class)
+        val lightSourceEntity = entityWith(entities, AOEData::class)
         val light = lightSourceEntity?.get(light)!!
         val lightPosition = lightSourceEntity?.get(position)!!
 

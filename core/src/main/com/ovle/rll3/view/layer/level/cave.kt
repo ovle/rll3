@@ -1,17 +1,14 @@
 package com.ovle.rll3.view.layer.level
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.ovle.rll3.model.ecs.component.LevelConnectionComponent
-import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.has
+import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
+import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.entity.entitiesOnPosition
 import com.ovle.rll3.model.ecs.entity.hasEntityOnPosition
 import com.ovle.rll3.model.procedural.grid.floorTypes
-import com.ovle.rll3.model.tile.LightValueType
-import com.ovle.rll3.model.tile.pitFloorTileId
-import com.ovle.rll3.model.tile.roomFloorTileId
-import com.ovle.rll3.model.tile.wallTileId
+import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.point
 import com.ovle.rll3.view.defaultAnimationInterval
 import com.ovle.rll3.view.layer.indoorFloorBorderTileSet
@@ -33,8 +30,8 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
 
     val entities = entitiesOnPosition(levelInfo, position)
     fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
-    fun hasWall(tileId: Int?) = if (tileId == null || (tileId == wallTileId)) 1 else 0
-    fun hasPit(tileId: Int?) = if (tileId == pitFloorTileId) 1 else 0
+    fun hasWall(tileId: TileType?) = if (tileId == null || (tileId == wallTileId)) 1 else 0
+    fun hasPit(tileId: TileType?) = if (tileId == pitFloorTileId) 1 else 0
 
     val upTileId = nearTiles.upValue?.typeId
     val downTileId = nearTiles.downValue?.typeId

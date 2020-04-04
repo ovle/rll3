@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.component
+package com.ovle.rll3.model.ecs.component.basic
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.math.GridPoint2

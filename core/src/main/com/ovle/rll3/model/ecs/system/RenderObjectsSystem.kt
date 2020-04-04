@@ -8,11 +8,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.ovle.rll3.model.ecs.component.Mappers.animation
 import com.ovle.rll3.model.ecs.component.Mappers.position
 import com.ovle.rll3.model.ecs.component.Mappers.render
-import com.ovle.rll3.model.ecs.component.RenderComponent
+import com.ovle.rll3.model.ecs.component.Mappers.template
+import com.ovle.rll3.model.ecs.component.basic.RenderComponent
+import com.ovle.rll3.model.ecs.component.has
+import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
+import com.ovle.rll3.model.template.EntityTemplate
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.roundToClosestByAbsInt
+import com.ovle.rll3.view.layer.TextureRegions
 import com.ovle.rll3.view.layer.TexturesInfo
-import com.ovle.rll3.view.sprite.sprite
+import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 import com.ovle.rll3.view.tileWidth
@@ -48,9 +53,28 @@ class RenderObjectsSystem(
 
     private fun initSprite(renderComponent: RenderComponent, entity: Entity) {
         if (renderComponent.sprite == null) {
-            renderComponent.sprite = sprite(entity, regions)
+            val entityTemplate = entity[template]?.template
+            renderComponent.sprite = if (entityTemplate == null) sprite(entity, regions) else sprite(entityTemplate, regions)
         }
     }
+
+    fun sprite(regions: TextureRegions, x: Int, y: Int): Sprite {
+        return Sprite(
+            region = regions[y][x] //switched
+        )
+    }
+
+    fun sprite(entity: Entity, regions: TextureRegions): Sprite =
+        when {
+            entity.has<PlayerInteractionComponent>() -> sprite(regions, 0, 0)
+            else -> defaultSprite(regions)
+        }
+
+    fun sprite(entityTemplate: EntityTemplate?, regions: TextureRegions): Sprite =
+        entityTemplate?.sprite?.run { sprite(regions, this.x, this.y) }
+            ?: defaultSprite(regions)
+
+    private fun defaultSprite(regions: TextureRegions) = sprite(regions, 1, 0)
 
 
     private fun draw(entities: List<Entity>, deltaTime: Float, renderConfig: RenderConfig) {

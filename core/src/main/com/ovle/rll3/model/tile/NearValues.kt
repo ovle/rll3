@@ -14,6 +14,12 @@ class NearValues<T>(
     val nearHV = setOf(rightValue, leftValue, upValue, downValue)
     val nearH = setOf(rightValue, leftValue)
     val nearV = setOf(upValue, downValue)
+
+    val asList = listOf(
+        listOf(leftUpValue, upValue, rightUpValue),
+        listOf(leftValue, value, rightValue),
+        listOf(leftDownValue, downValue, rightDownValue)
+    )
 }
 
 fun nearValues(tiles: TileArray, x: Int, y: Int): NearTiles {

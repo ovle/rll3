@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.tile
 
-typealias TileType = Int
+typealias TileType = Char
 
 typealias TilePassTypeFn = ((Tile) -> TilePassType)
 typealias LightPassTypeFn = ((Tile) -> LightPassType)

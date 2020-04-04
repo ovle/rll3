@@ -10,7 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.ovle.rll3.event.Event.EntityMoved
 import com.ovle.rll3.event.Event.LevelLoaded
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.Mappers.sight
 import com.ovle.rll3.model.ecs.component.SightComponent
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo

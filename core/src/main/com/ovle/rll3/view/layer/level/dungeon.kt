@@ -2,10 +2,10 @@ package com.ovle.rll3.view.layer.level
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.model.ecs.component.DoorComponent
-import com.ovle.rll3.model.ecs.component.LevelConnectionComponent
-import com.ovle.rll3.model.ecs.component.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.has
+import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
+import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.entity.entitiesOnPosition
 import com.ovle.rll3.model.ecs.entity.hasEntityOnPosition
 import com.ovle.rll3.model.procedural.grid.floorTypes
@@ -27,9 +27,9 @@ fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val entities = entitiesOnPosition(levelInfo, position)
     fun hasDoor(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), DoorComponent::class)
     fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
-    fun hasWall(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
-    fun hasWallOrPit(tileId: Int?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId /*|| hasDoor(x, y)*/)) 1 else 0
-    fun hasPit(tileId: Int?) = if (tileId == pitFloorTileId) 1 else 0
+    fun hasWall(tileId: TileType?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
+    fun hasWallOrPit(tileId: TileType?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId /*|| hasDoor(x, y)*/)) 1 else 0
+    fun hasPit(tileId: TileType?) = if (tileId == pitFloorTileId) 1 else 0
 
     val upTileId = nearTiles.upValue?.typeId
     val downTileId = nearTiles.downValue?.typeId

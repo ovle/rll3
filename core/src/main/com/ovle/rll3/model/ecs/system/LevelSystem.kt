@@ -6,16 +6,17 @@ import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.*
 import com.ovle.rll3.model.ecs.component.Mappers.level
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.Mappers.move
 import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.Mappers.position
+import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.procedural.grid.processor.LevelConnectionProcessor
+import com.ovle.rll3.model.template.EntityTemplatesRegistry
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
 import ktx.ashley.get
@@ -55,7 +56,10 @@ class LevelSystem: EventSystem() {
         var interactionEntity = entityWith(entities, PlayerInteractionComponent::class)
 
         if (interactionEntity != null) playerEntity = interactionEntity[playerInteraction]?.controlledEntity
-        if (playerEntity == null) playerEntity = newPlayer(engine)!!
+
+        val playerTemplate = EntityTemplatesRegistry.templates.templates.single { it.name == "wizard" } //todo setup in world
+        if (playerEntity == null) playerEntity = newEntity(playerTemplate, engine)
+
         val startPosition = playerStartPosition(newLevel, oldConnection)
         resetEntity(playerEntity, startPosition)
 

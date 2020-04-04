@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.procedural.grid.processor
 
 import com.badlogic.ashley.core.Engine
-import com.ovle.rll3.model.ecs.component.LevelDescription
-import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.special.LevelDescription
+import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.procedural.grid.RoomStructure
 import com.ovle.rll3.model.tile.NearValues
 import com.ovle.rll3.model.tile.Tile
@@ -11,7 +11,7 @@ import com.ovle.rll3.model.tile.nearValues
 
 class RoomStructureProcessor : TilesProcessor {
 
-    override fun process(levelInfo: LevelInfo, gameEngine: Engine,levelDescription: LevelDescription) {
+    override fun process(levelInfo: LevelInfo, gameEngine: Engine, levelDescription: LevelDescription) {
         levelInfo.rooms.forEach {
             processRoom(levelInfo.tiles, it)
         }

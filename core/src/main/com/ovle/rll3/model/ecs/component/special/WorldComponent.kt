@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.component
+package com.ovle.rll3.model.ecs.component.special
 
 import com.badlogic.ashley.core.Component
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId

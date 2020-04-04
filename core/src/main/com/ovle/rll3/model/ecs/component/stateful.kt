@@ -8,8 +8,6 @@ class DoorComponent(
     var closed: Boolean = true
 ) : Component
 
-class CreatureComponent(
+class LivingComponent(
     var health: Int = 3
 ) : Component
-
-class PlayerComponent : Component

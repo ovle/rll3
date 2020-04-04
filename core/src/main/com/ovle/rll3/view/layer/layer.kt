@@ -5,10 +5,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile
 import com.badlogic.gdx.utils.Array
-import com.ovle.rll3.model.ecs.component.LevelInfo
-import com.ovle.rll3.model.ecs.component.lightByPosition
-import com.ovle.rll3.model.ecs.component.lightTiles
+import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.tile.nearValues
+import com.ovle.rll3.model.util.lightByPosition
+import com.ovle.rll3.model.util.lightTiles
 import com.ovle.rll3.view.layer.level.LayerType
 import com.ovle.rll3.view.layer.level.TileTextureInfo
 import com.ovle.rll3.view.layer.level.TileToTextureParams

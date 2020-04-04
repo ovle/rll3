@@ -3,7 +3,7 @@ package com.ovle.rll3.model.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.ecs.component.CreatureComponent
+import com.ovle.rll3.model.ecs.component.LivingComponent
 import com.ovle.rll3.model.ecs.component.DoorComponent
 import com.ovle.rll3.model.ecs.component.Mappers.collision
 import com.ovle.rll3.model.ecs.component.Mappers.creature
@@ -32,7 +32,7 @@ class EntityInteractionSystem : EventSystem() {
         }
 
         //todo state machine?
-        if (entity.has<CreatureComponent>()) {
+        if (entity.has<LivingComponent>()) {
             if (entity[creature]!!.health > 0) {
                 entity[creature]!!.health--
 

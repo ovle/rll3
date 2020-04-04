@@ -2,8 +2,8 @@ package com.ovle.rll3.event
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.model.ecs.component.LevelInfo
-import com.ovle.rll3.model.ecs.component.WorldInfo
+import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.procedural.config.LevelParams
 

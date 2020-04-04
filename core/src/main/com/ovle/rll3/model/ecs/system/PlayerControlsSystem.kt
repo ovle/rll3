@@ -6,12 +6,12 @@ import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.LevelInfo
+import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.Mappers.move
 import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.Mappers.position
-import com.ovle.rll3.model.ecs.component.PlayerInteractionComponent
+import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.model.util.entityTilePassMapper
@@ -105,8 +105,6 @@ class PlayerControlsSystem : EventSystem() {
 
     //todo center on cursor
     private fun onMousePositionChange(gamePoint: Vector2, level: LevelInfo) {
-        println("onMousePositionChange")
-
         if (!isValid(gamePoint, level)) return
 
         val interactionEntity = entityWith(allEntities().toList(), PlayerInteractionComponent::class) ?: return
