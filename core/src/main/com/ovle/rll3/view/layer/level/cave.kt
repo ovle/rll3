@@ -1,8 +1,8 @@
 package com.ovle.rll3.view.layer.level
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
-import com.ovle.rll3.model.ecs.component.has
+import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
+import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.entity.entitiesOnPosition

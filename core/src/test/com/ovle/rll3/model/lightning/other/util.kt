@@ -2,7 +2,7 @@ package com.ovle.rll3.model.lightning.other
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.AOEData
+import com.ovle.rll3.model.ecs.component.dto.aoe.kt.AOEData
 import com.ovle.rll3.model.ecs.component.basic.PositionComponent
 
 class EntitiesData(val entities: Array<Entity>, val note: String = "")

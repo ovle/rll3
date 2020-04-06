@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.Mappers.playerInteraction
-import com.ovle.rll3.model.ecs.component.Mappers.position
+import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
+import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.entityWith

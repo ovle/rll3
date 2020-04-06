@@ -3,13 +3,13 @@ package com.ovle.rll3.model.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.ecs.component.LivingComponent
-import com.ovle.rll3.model.ecs.component.DoorComponent
-import com.ovle.rll3.model.ecs.component.Mappers.collision
-import com.ovle.rll3.model.ecs.component.Mappers.creature
-import com.ovle.rll3.model.ecs.component.Mappers.door
-import com.ovle.rll3.model.ecs.component.Mappers.render
-import com.ovle.rll3.model.ecs.component.has
+import com.ovle.rll3.model.ecs.component.advanced.DoorComponent
+import com.ovle.rll3.model.ecs.component.advanced.LivingComponent
+import com.ovle.rll3.model.ecs.component.util.Mappers.collision
+import com.ovle.rll3.model.ecs.component.util.Mappers.creature
+import com.ovle.rll3.model.ecs.component.util.Mappers.door
+import com.ovle.rll3.model.ecs.component.util.Mappers.render
+import com.ovle.rll3.model.ecs.component.util.has
 import ktx.ashley.get
 
 

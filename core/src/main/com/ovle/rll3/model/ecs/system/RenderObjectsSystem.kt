@@ -5,12 +5,12 @@ import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
-import com.ovle.rll3.model.ecs.component.Mappers.animation
-import com.ovle.rll3.model.ecs.component.Mappers.position
-import com.ovle.rll3.model.ecs.component.Mappers.render
-import com.ovle.rll3.model.ecs.component.Mappers.template
+import com.ovle.rll3.model.ecs.component.util.Mappers.animation
+import com.ovle.rll3.model.ecs.component.util.Mappers.position
+import com.ovle.rll3.model.ecs.component.util.Mappers.render
+import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
-import com.ovle.rll3.model.ecs.component.has
+import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
 import com.ovle.rll3.model.template.EntityTemplate
 import com.ovle.rll3.model.util.config.RenderConfig

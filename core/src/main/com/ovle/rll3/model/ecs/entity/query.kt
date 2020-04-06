@@ -6,11 +6,12 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.*
-import com.ovle.rll3.model.ecs.component.Mappers.level
-import com.ovle.rll3.model.ecs.component.Mappers.levelConnection
-import com.ovle.rll3.model.ecs.component.Mappers.world
+import com.ovle.rll3.model.ecs.component.util.Mappers.level
+import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
+import com.ovle.rll3.model.ecs.component.util.Mappers.world
 import com.ovle.rll3.model.ecs.component.special.*
+import com.ovle.rll3.model.ecs.component.util.Mappers
+import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import ktx.ashley.get

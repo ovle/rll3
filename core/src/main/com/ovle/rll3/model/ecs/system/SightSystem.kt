@@ -4,10 +4,10 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.Mappers.position
-import com.ovle.rll3.model.ecs.component.Mappers.sight
+import com.ovle.rll3.model.ecs.component.advanced.PerceptionComponent
 import com.ovle.rll3.model.ecs.component.basic.PositionComponent
-import com.ovle.rll3.model.ecs.component.SightComponent
+import com.ovle.rll3.model.ecs.component.util.Mappers.position
+import com.ovle.rll3.model.ecs.component.util.Mappers.sight
 import com.ovle.rll3.model.ecs.entity.levelInfo
 import com.ovle.rll3.model.ecs.entity.obstacles
 import com.ovle.rll3.model.util.lightTilePassMapper
@@ -15,22 +15,24 @@ import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
 import ktx.ashley.get
 
 
-class SightSystem : IteratingSystem(Family.all(SightComponent::class.java).get()) {
+class SightSystem : IteratingSystem(Family.all(PerceptionComponent::class.java).get()) {
 
     //todo dirty / event
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val sightComponent = entity[sight]!!
         val positionComponent = entity[position] ?: return
-        if (sightComponent.positions.isEmpty()) {
+        if (sightComponent.sightPositions.isEmpty()) {
             val obstacles = obstacles(levelInfo())
-            sightComponent.positions = fov(positionComponent, sightComponent, obstacles)
+            sightComponent.sightPositions = fov(positionComponent, sightComponent, obstacles)
         }
     }
 
-    private fun fov(positionComponent: PositionComponent, sightComponent: SightComponent, obstacles: List<GridPoint2>): Set<GridPoint2> {
+    private fun fov(positionComponent: PositionComponent, perceptionComponent: PerceptionComponent, obstacles: List<GridPoint2>): Set<GridPoint2> {
+        val sightRadius = perceptionComponent.sightRadius ?: return setOf()
+
         return fieldOfView(
             positionComponent.gridPosition,
-            sightComponent.radius,
+            sightRadius,
             ::lightTilePassMapper,
             levelInfo().tiles,
             obstacles

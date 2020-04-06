@@ -11,8 +11,8 @@ import com.ovle.rll3.event.Event.EntityMoved
 import com.ovle.rll3.event.Event.LevelLoaded
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
-import com.ovle.rll3.model.ecs.component.Mappers.sight
-import com.ovle.rll3.model.ecs.component.SightComponent
+import com.ovle.rll3.model.ecs.component.util.Mappers.sight
+import com.ovle.rll3.model.ecs.component.advanced.PerceptionComponent
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.view.bgColor
@@ -79,11 +79,11 @@ class RenderLevelSystem(
         markSightArea(sightComponent)
     }
 
-    private fun markSightArea(sightComponent: SightComponent) {
+    private fun markSightArea(perceptionComponent: PerceptionComponent) {
         val mapLayers = tiledMap!!.layers
         for (i in 0 until mapLayers.size()) {
             val layer = mapLayers.get(i)
-            (layer as CustomTiledMapTileLayer).markVisiblePositions(sightComponent.positions)
+            (layer as CustomTiledMapTileLayer).markVisiblePositions(perceptionComponent.sightPositions)
         }
     }
 }

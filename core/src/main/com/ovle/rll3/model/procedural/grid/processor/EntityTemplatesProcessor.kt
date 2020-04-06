@@ -3,10 +3,10 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.Mappers.position
+import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.special.LevelDescription
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
-import com.ovle.rll3.model.ecs.entity.newEntity
+import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
 import com.ovle.rll3.model.template.EntityTemplates
 import com.ovle.rll3.model.template.SpawnTemplate
 import com.ovle.rll3.model.tile.*
@@ -41,7 +41,7 @@ class EntityTemplatesProcessor(val templates: EntityTemplates) : TilesProcessor 
 
                 if (needSpawn) {
                     val spawnPosition = point(x, y)
-                    val entity = newEntity(spawnTemplate, gameEngine)
+                    val entity = newTemplatedEntity(spawnTemplate, gameEngine)
                     entity[position]?.position = floatPoint(spawnPosition)
                     entities.add(entity)
                 }

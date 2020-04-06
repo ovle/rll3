@@ -42,7 +42,7 @@ spawns:
 #name: sceleton
 #description: ''
 #state:
-#  creature:
+#  living:
 #    health: 3
 #  collision:
 #sprite: [7, 10]
@@ -77,7 +77,7 @@ spawns:
 name: wizard
 description: ''
 state:
-  creature:
+  living:
     health: 3
   move:
   collision:

@@ -4,8 +4,8 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus.subscribe
-import com.ovle.rll3.model.ecs.component.Mappers
-import com.ovle.rll3.model.ecs.component.Mappers.animation
+import com.ovle.rll3.model.ecs.component.util.Mappers
+import com.ovle.rll3.model.ecs.component.util.Mappers.animation
 import com.ovle.rll3.model.ecs.component.basic.AnimationComponent
 import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.entitiesWith

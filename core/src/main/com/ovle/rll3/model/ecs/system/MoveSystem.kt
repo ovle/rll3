@@ -6,8 +6,8 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.Mappers.move
-import com.ovle.rll3.model.ecs.component.Mappers.position
+import com.ovle.rll3.model.ecs.component.util.Mappers.move
+import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.basic.MoveComponent
 import com.ovle.rll3.model.ecs.component.basic.PositionComponent
 import com.ovle.rll3.model.ecs.entity.levelInfo
