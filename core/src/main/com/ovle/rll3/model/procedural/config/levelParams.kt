@@ -9,7 +9,9 @@ import com.ovle.rll3.model.procedural.grid.processor.EntityTemplatesProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomStructureProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomsInfoProcessor
 import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
-import com.ovle.rll3.model.template.EntityTemplatesRegistry
+import com.ovle.rll3.model.template.EntityTemplatesType.Caves
+import com.ovle.rll3.model.template.EntityTemplatesType.Dungeon
+import com.ovle.rll3.model.template.entityTemplates
 import com.ovle.rll3.model.util.caveGridValueToTileType
 import com.ovle.rll3.model.util.dungeonGridValueToTileType
 import com.ovle.rll3.view.layer.level.caveTileToTexture
@@ -31,7 +33,7 @@ val dungeonLevelParams = LevelParams(
     postProcessors = arrayOf(
         RoomsInfoProcessor(),
         RoomStructureProcessor(),
-        EntityTemplatesProcessor(EntityTemplatesRegistry.templates)
+        EntityTemplatesProcessor(entityTemplates(Dungeon))
     )
 )
 
@@ -44,6 +46,7 @@ val caveLevelParams = LevelParams(
     gridValueToTileType = ::caveGridValueToTileType,
     tileToTexture = ::caveTileToTexture,
     postProcessors = arrayOf(
-        EntityTemplatesProcessor(EntityTemplatesRegistry.templates)
+        EntityTemplatesProcessor(entityTemplates(Caves))
     )
 )
+

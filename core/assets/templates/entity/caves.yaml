@@ -1,0 +1,24 @@
+---
+
+name: rockman
+description: ''
+state:
+  living:
+    health: 10
+  collision:
+sprite: [11, 10]
+spawns:
+  - chance: 0.025
+    mask: |
+      _ 0 _
+      0 0 0
+      _ 0 _
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [11, 10]
+      - [12, 10]
+      - [13, 10]
+      - [14, 10]

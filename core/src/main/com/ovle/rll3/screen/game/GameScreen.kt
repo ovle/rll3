@@ -39,7 +39,7 @@ class GameScreen(
 
         val levelTexturesInfo = TexturesInfo(assetsManager.levelTexture)
         val objectsTextureInfo = TexturesInfo(assetsManager.objectsTexture)
-        EntityTemplatesRegistry.templates = assetsManager.templates
+        EntityTemplatesRegistry.entityTemplates = assetsManager.templates
 
         val camera = batchViewport.camera as OrthographicCamera
 

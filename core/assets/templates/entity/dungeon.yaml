@@ -1,0 +1,76 @@
+---
+
+name: torch
+description: ''
+state:
+  light:
+    radius: 5
+sprite: [11, 1]
+spawns:
+  - mask: |
+      _ _ _
+      _ 1 _
+      _ 0 _
+    rotate: false
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [7, 1]
+      - [8, 1]
+      - [9, 1]
+      - [10, 1]
+
+---
+
+name: door
+description: ''
+state:
+  collision:
+  door:
+sprite: [7, 8]
+spawns:
+  - chance: 0.7
+    rotate: true
+    mask: |
+      _ 1 _
+      0 2 _
+      _ 1 _
+
+---
+
+name: sceleton
+description: ''
+state:
+  living:
+    health: 3
+  collision:
+sprite: [7, 10]
+spawns:
+  - chance: 0.5
+    rotate: true
+    mask: |
+      1 1 _
+      1 0 0
+      _ 0 _
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [6, 10]
+      - [7, 10]
+      - [8, 10]
+      - [9, 10]
+  - type: Death
+    terminal: true
+    frames:
+      - [6, 12]
+      - [7, 12]
+      - [8, 12]
+  - type: TakeHit
+    frames:
+      - [9, 12]
+      - [10, 12]
+

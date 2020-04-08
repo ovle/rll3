@@ -18,7 +18,7 @@ const val gameFullscreen = false
 const val skinPath = "skins/c64/uiskin.json"
 const val tileTexturePath = "images/tiles.png"
 const val spriteTexturePath = "images/sprites.png"
-const val entityTemplatePath = "templates/entity.yaml"
+const val entityTemplatePath = "templates/entity/"
 
 val bgColor = blackColor.cpy()
 

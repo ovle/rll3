@@ -1,0 +1,27 @@
+---
+
+name: wizard
+description: ''
+state:
+  living:
+    health: 3
+  move:
+  collision:
+sprite: [1, 1]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [1, 3]
+      - [2, 3]
+      - [3, 3]
+      - [4, 3]
+  - type: Walk
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [0, 1]
+      - [1, 1]
+      - [2, 1]
+      - [3, 1]

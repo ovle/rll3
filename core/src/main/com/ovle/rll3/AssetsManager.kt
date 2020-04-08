@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.utils.Disposable
 import com.ovle.rll3.model.template.EntityTemplates
 import com.ovle.rll3.model.template.EntityTemplatesLoader
+import com.ovle.rll3.model.template.EntityTemplatesType
 import com.ovle.rll3.view.entityTemplatePath
 import com.ovle.rll3.view.spriteTexturePath
 import com.ovle.rll3.view.tileTexturePath
@@ -16,7 +17,7 @@ class AssetsManager(val assets: AssetManager): Disposable {
     lateinit var levelTexture: Texture
     lateinit var objectsTexture: Texture
 
-    lateinit var templates: EntityTemplates
+    val templates = mutableMapOf<EntityTemplatesType, EntityTemplates>()
 
     init {
         val fileHandleResolver = InternalFileHandleResolver()
@@ -27,11 +28,15 @@ class AssetsManager(val assets: AssetManager): Disposable {
     fun load() {
         assets.load(tileTexturePath, Texture::class.java)
         assets.load(spriteTexturePath, Texture::class.java)
-        assets.load(entityTemplatePath, EntityTemplates::class.java)
+
+        EntityTemplatesType.values().forEach {
+            val path = "$entityTemplatePath${it.value}.yaml"
+            assets.load(path, EntityTemplates::class.java)
+            templates[it] = assets.finishLoadingAsset<EntityTemplates>(path)
+        }
 
         levelTexture = assets.finishLoadingAsset<Texture>(tileTexturePath)
         objectsTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
-        templates = assets.finishLoadingAsset<EntityTemplates>(entityTemplatePath)
     }
 
     override fun dispose() {
