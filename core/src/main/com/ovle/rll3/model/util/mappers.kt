@@ -3,6 +3,7 @@ package com.ovle.rll3.model.util
 import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.DungeonGridFactory
+import com.ovle.rll3.model.procedural.grid.factory.NoiseGridFactory
 import com.ovle.rll3.model.tile.*
 
 
@@ -32,6 +33,14 @@ fun caveGridValueToTileType(gridValue: Float): TileType {
     }
 }
 
+fun villageGridValueToTileType(gridValue: Float): TileType {
+    return when {
+        gridValue >= NoiseGridFactory.wallTreshold -> wallTileId
+        gridValue >= NoiseGridFactory.floorTreshold -> roomFloorTileId
+        else -> pitFloorTileId //todo
+    }
+}
+
 fun entityTilePassMapper(tile: Tile) = when(tile.typeId) {
     wallTileId -> TilePassType.Solid
     pitFloorTileId -> TilePassType.Restricted
@@ -43,4 +52,20 @@ fun lightTilePassMapperTrue(tile: Tile) = LightPassType.Passable
 fun lightTilePassMapper(tile: Tile) = when(tile.typeId) {
     wallTileId -> LightPassType.Solid
     else -> LightPassType.Passable
+}
+
+typealias CellCandidateFn = (NearTiles) -> Boolean
+
+fun isCandidate(nearTiles: NearTiles): Boolean {
+    val isRoomFloor = nearTiles.value?.typeId == roomFloorTileId
+    val isRoomFloorNear = nearTiles.upValue?.typeId == roomFloorTileId
+    return isRoomFloor && isRoomFloorNear
+}
+
+fun isWallCandidate(nearTiles: NearTiles): Boolean {
+    val isWall = (nearTiles.nearH + nearTiles.value)
+        .filterNotNull().all { it.typeId == wallTileId }
+    val isRoomFloorNear = nearTiles.upValue?.typeId == roomFloorTileId
+    val isWallBehind = nearTiles.downValue?.typeId == wallTileId
+    return isWall && isRoomFloorNear && isWallBehind
 }

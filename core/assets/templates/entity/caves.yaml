@@ -6,7 +6,8 @@ state:
   living:
     health: 10
   collision:
-sprite: [11, 10]
+sprite:
+  - [11, 10]
 spawns:
   - chance: 0.025
     mask: |

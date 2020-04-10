@@ -1,0 +1,36 @@
+---
+
+name: tree 1
+description: ''
+state:
+  collision:
+sprite:
+  - [6, 9]
+  - [7, 9]
+spawns:
+  - chance: 0.1
+    rotate: true
+    groupBonusChance: 0.2
+    mask: |
+      _ _ _
+      _ 0 _
+      _ _ _
+
+---
+
+name: reed 1
+description: ''
+state:
+  collision:
+sprite:
+  - [8, 9]
+  - [9, 9]
+spawns:
+  - chance: 0.3
+    rotate: true
+    groupBonusChance: 0.2
+    mask: |
+      _ _ _
+      3 0 _
+      _ _ _
+

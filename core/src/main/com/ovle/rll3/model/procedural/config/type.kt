@@ -5,16 +5,21 @@ import com.ovle.rll3.model.procedural.grid.factory.GridFactory
 import com.ovle.rll3.model.procedural.grid.processor.TilesProcessor
 import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
 import com.ovle.rll3.model.tile.TileType
+import com.ovle.rll3.model.util.CellCandidateFn
 import com.ovle.rll3.view.layer.level.TileTextureInfo
 import com.ovle.rll3.view.layer.level.TileToTextureParams
 
 
 data class LevelParams (
+    //main
     val factoryParams: LevelFactoryParams,
     val gridFactory: GridFactory,
+    val postProcessors: Array<TilesProcessor>,
+
+    //mappers
     val gridValueToTileType: (Float) -> TileType,
-    val tileToTexture: (TileToTextureParams) -> TileTextureInfo,
-    val postProcessors: Array<TilesProcessor>
+    val isCellCandidateForConnection: CellCandidateFn,
+    val tileToTexture: (TileToTextureParams) -> TileTextureInfo
 )
 
 sealed class LevelFactoryParams(
@@ -33,6 +38,12 @@ sealed class LevelFactoryParams(
     class CelullarAutomataLevelFactoryParams(
         size: Int,
         val connectionStrategy: ConnectionStrategy
+    ): LevelFactoryParams(size)
+
+    class NoiseLevelFactoryParams(
+        size: Int,
+        val radius: Int,
+        val modifier: Float
     ): LevelFactoryParams(size)
 
     class TemplateLevelFactoryParams(

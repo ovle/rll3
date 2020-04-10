@@ -8,10 +8,7 @@ import com.ovle.rll3.model.ecs.component.advanced.LightSourceComponent
 import com.ovle.rll3.model.ecs.component.advanced.LivingComponent
 import com.ovle.rll3.model.ecs.component.advanced.PerceptionComponent
 import com.ovle.rll3.model.ecs.component.basic.*
-import com.ovle.rll3.model.ecs.component.special.LevelComponent
-import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
-import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
-import com.ovle.rll3.model.ecs.component.special.WorldComponent
+import com.ovle.rll3.model.ecs.component.special.*
 import ktx.ashley.has
 
 
@@ -21,6 +18,7 @@ inline fun <reified T : Component> Entity.has() = this.has(ComponentMapper.getFo
 
 object Mappers {
     val world = componentMapper<WorldComponent>()
+    val player = componentMapper<PlayerComponent>()
     val level = componentMapper<LevelComponent>()
     val playerInteraction = componentMapper<PlayerInteractionComponent>()
     val levelConnection = componentMapper<LevelConnectionComponent>()

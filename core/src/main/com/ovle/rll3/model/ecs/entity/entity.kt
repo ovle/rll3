@@ -22,6 +22,8 @@ fun Engine.entity(vararg components: Component) = createEntity().apply {
 
 fun newWorld(world: WorldInfo, engine: Engine) = engine.entity(WorldComponent(world))
 
+fun newPlayer(player: PlayerInfo, engine: Engine) = engine.entity(PlayerComponent(player))
+
 fun newLevel(level: LevelInfo, engine: Engine) = engine.entity(LevelComponent(level))
 
 fun newPlayerInteraction(playerEntity: Entity?, engine: Engine): Entity? = engine.entity(
@@ -42,34 +44,3 @@ fun newTemplatedEntity(template: EntityTemplate, gameEngine: Engine): Entity {
     val components = basicComponents(template) + stateComponents(template)
     return gameEngine.entity(*components.toTypedArray())
 }
-
-
-//fun newCreature(position: GridPoint2, gameEngine: Engine): Entity {
-//    return gameEngine.entity(
-//        PositionComponent(floatPoint(position)),
-//        RenderComponent(),
-//        CollisionComponent(),
-//        AnimationComponent(),
-//        CreatureComponent()
-//    )
-//}
-//
-//fun newDoor(position: GridPoint2, gameEngine: Engine): Entity {
-//    val closed = true //todo
-//    return gameEngine.entity(
-//        PositionComponent(floatPoint(position)),
-//        RenderComponent(),
-//        CollisionComponent(active = closed),
-//        DoorComponent(closed = closed)
-//    )
-//}
-//
-//fun newLightSource(position: GridPoint2, engine: Engine, lightPositions: List<LightTilePosition>) =
-//    engine.entity(
-//        PositionComponent(floatPoint(position)),
-//        LightComponent(LightConfig.radius, lightPositions),
-//        RenderComponent(),
-//        AnimationComponent()
-//    )
-//
-//)

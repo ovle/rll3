@@ -6,11 +6,12 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.util.Mappers.level
-import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
-import com.ovle.rll3.model.ecs.component.util.Mappers.world
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.util.Mappers
+import com.ovle.rll3.model.ecs.component.util.Mappers.level
+import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
+import com.ovle.rll3.model.ecs.component.util.Mappers.player
+import com.ovle.rll3.model.ecs.component.util.Mappers.world
 import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
@@ -63,6 +64,9 @@ fun EntitySystem.levelInfo() = levelInfoNullable()!!
 
 fun EntitySystem.worldInfoNullable() = entityWith(allEntities().toList(), WorldComponent::class)?.get(world)?.world
 fun EntitySystem.worldInfo() = worldInfoNullable()!!
+
+fun EntitySystem.playerInfoNullable() = entityWith(allEntities().toList(), PlayerComponent::class)?.get(player)?.player
+fun EntitySystem.playerInfo() = playerInfoNullable()!!
 
 fun EntitySystem.playerInteractionInfo() = entityWith(allEntities().toList(), PlayerInteractionComponent::class)
     ?.get(Mappers.playerInteraction)

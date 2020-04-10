@@ -11,8 +11,8 @@ const val firstLevelDescId: LevelDescriptionId = "1"
 val world = WorldInfo(
     entryPoint = firstLevelDescId,
     levels = listOf(
-        LevelDescription(id = firstLevelDescId, params = dungeonLevelParams, connections = listOf("2")),
-        LevelDescription(id = "2", params = caveLevelParams, connections = listOf("3.1", "3.2")),
+        LevelDescription(id = firstLevelDescId, params = villageLevelParams, connections = listOf("2")),
+        LevelDescription(id = "2", params = dungeonLevelParams, connections = listOf("3.1", "3.2")),
         LevelDescription(id = "3.1", params = caveLevelParams, connections = listOf("4")),
         LevelDescription(id = "3.2", params = dungeonLevelParams, connections = listOf("4")),
         LevelDescription(id = "4", params = caveLevelParams, connections = listOf())

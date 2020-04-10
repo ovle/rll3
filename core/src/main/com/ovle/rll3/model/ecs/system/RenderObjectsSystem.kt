@@ -5,13 +5,13 @@ import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
+import com.ovle.rll3.model.ecs.component.basic.RenderComponent
+import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.animation
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
-import com.ovle.rll3.model.ecs.component.basic.RenderComponent
 import com.ovle.rll3.model.ecs.component.util.has
-import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
 import com.ovle.rll3.model.template.EntityTemplate
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.roundToClosestByAbsInt
@@ -71,7 +71,10 @@ class RenderObjectsSystem(
         }
 
     fun sprite(entityTemplate: EntityTemplate?, regions: TextureRegions): Sprite =
-        entityTemplate?.sprite?.run { sprite(regions, this.x, this.y) }
+        entityTemplate?.sprite?.run {
+            val result= this.random()
+            sprite(regions, result.x, result.y)
+        }
             ?: defaultSprite(regions)
 
     private fun defaultSprite(regions: TextureRegions) = sprite(regions, 1, 0)

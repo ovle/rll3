@@ -2,7 +2,7 @@ package com.ovle.rll3.view.layer.level
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
-import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
+import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType.Down
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.entity.entitiesOnPosition
@@ -17,7 +17,7 @@ import com.ovle.rll3.view.layer.outdoorDarkFloorBorderTileSet
 import com.ovle.rll3.view.noLightning
 import ktx.ashley.get
 
-fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
+fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val (layerType, nearTiles, textureRegions, levelInfo, lightInfo) = params
 
     val position = point(nearTiles.x, nearTiles.y)
@@ -40,18 +40,17 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val floorBorderTileIndex = tilesInSet - nearTiles.run {
         hasPit(rightTileId) + 2 * hasPit(downTileId) + 4 * hasPit(leftTileId) + 8 * hasPit(upTileId)
     }
-    val pitFloorBorderTileIndex = 0 + 1 * (hasPit(nearTiles.leftDownValue?.typeId)) + 2 * hasPit(nearTiles.rightDownValue?.typeId)
 
     val tileId = nearTiles.value?.typeId
     val isWall = tileId == wallTileId
     val isNextToFloor = upTileId in floorTypes
-    val isRoomFloor = tileId == roomFloorTileId
+    val isFloor = tileId == roomFloorTileId
     val isPitFloor = tileId == pitFloorTileId
-    val isRoomFloorUp = downTileId == roomFloorTileId
+    val isFloorUp = downTileId == roomFloorTileId
     val isPitFloorUp = downTileId == pitFloorTileId
 
     val isLevelConnection = hasLevelConnection(nearTiles.x, nearTiles.y)
-    val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, false)
+    val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isFloorUp, isWall, false)
 
     val wallBorderTileSet = lightWallBorderTileSet
     val floorBorderTileSet = outdoorDarkFloorBorderTileSet
@@ -66,18 +65,21 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
                 else -> textureRegions.darkRegions
             }
 
-    var animationInterval = defaultAnimationInterval
+    var animationInterval = defaultAnimationInterval * 2
     val tileRegions =  when (layerType) {
         LayerType.Walls -> when {
             isWall -> arrayOf(indexedTextureTile(wallBorderTileSet, wallBorderTileIndex, regions))
-            isRoomFloor -> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
-            isPitFloor -> if (isPitFloorUp) emptyTile else arrayOf(regions[12][pitFloorBorderTileIndex])
+            isFloor -> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
             else -> emptyTile
         }
         LayerType.Floor -> when {
-            isWall && isNextToFloor -> arrayOf(regions[4][(4..4).random()])
-            isRoomFloor -> arrayOf(regions[(4..5).random()][(0..3).random()])
-            isPitFloor -> if (isPitFloorUp) emptyTile else arrayOf(regions[6][(0..2).random()])
+            isWall && isNextToFloor -> arrayOf(regions[9][(4..5).random()])
+            isFloor -> arrayOf(regions[(9..10).random()][(0..3).random()])
+            isPitFloor -> arrayOf(
+                regions[11][0],
+                regions[11][1],
+                regions[11][2]
+            )
             else -> emptyTile
         }
         LayerType.Decoration -> when {
@@ -85,13 +87,10 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
                 val connectionComponent = entities.find { it.has<LevelConnectionComponent>() }!![levelConnection]!!
                 val type = connectionComponent.type
                 when {
-                    type == LevelConnectionType.Up -> arrayOf(regions[5][9])
-                    type == LevelConnectionType.Down -> arrayOf(regions[5][10])
+                    type == Down -> arrayOf(regions[7][9])
                     else -> throw IllegalStateException("bad connection : type = $type")
                 }
             }
-            isRoomFloor -> arrayOf(regions[6][(4..9).random()])
-                .withChance(0.3f, defaultValue = emptyTile)
             else -> emptyTile
         }
         else -> emptyTile

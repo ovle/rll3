@@ -5,17 +5,17 @@ import com.ovle.rll3.model.procedural.config.LevelFactoryParams.CelullarAutomata
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.DungeonGridFactory
+import com.ovle.rll3.model.procedural.grid.factory.NoiseGridFactory
 import com.ovle.rll3.model.procedural.grid.processor.EntityTemplatesProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomStructureProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomsInfoProcessor
 import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
-import com.ovle.rll3.model.template.EntityTemplatesType.Caves
-import com.ovle.rll3.model.template.EntityTemplatesType.Dungeon
+import com.ovle.rll3.model.template.EntityTemplatesType.*
 import com.ovle.rll3.model.template.entityTemplates
-import com.ovle.rll3.model.util.caveGridValueToTileType
-import com.ovle.rll3.model.util.dungeonGridValueToTileType
+import com.ovle.rll3.model.util.*
 import com.ovle.rll3.view.layer.level.caveTileToTexture
 import com.ovle.rll3.view.layer.level.dungeonTileToTexture
+import com.ovle.rll3.view.layer.level.villageTileToTexture
 
 val dungeonLevelParams = LevelParams(
     factoryParams = DungeonLevelFactoryParams(
@@ -28,13 +28,15 @@ val dungeonLevelParams = LevelParams(
         randomConnectorChance = 0.05f
     ),
     gridFactory = DungeonGridFactory(),
-    gridValueToTileType = ::dungeonGridValueToTileType,
-    tileToTexture = ::dungeonTileToTexture,
     postProcessors = arrayOf(
         RoomsInfoProcessor(),
         RoomStructureProcessor(),
         EntityTemplatesProcessor(entityTemplates(Dungeon))
-    )
+    ),
+
+    gridValueToTileType = ::dungeonGridValueToTileType,
+    tileToTexture = ::dungeonTileToTexture,
+    isCellCandidateForConnection = :: isWallCandidate
 )
 
 val caveLevelParams = LevelParams(
@@ -43,10 +45,28 @@ val caveLevelParams = LevelParams(
         connectionStrategy = ConnectionStrategy.ConnectUnconnectedWithPath
     ),
     gridFactory = CelullarAutomataGridFactory(),
-    gridValueToTileType = ::caveGridValueToTileType,
-    tileToTexture = ::caveTileToTexture,
     postProcessors = arrayOf(
         EntityTemplatesProcessor(entityTemplates(Caves))
-    )
+    ),
+
+    gridValueToTileType = ::caveGridValueToTileType,
+    tileToTexture = ::caveTileToTexture,
+    isCellCandidateForConnection = :: isWallCandidate
+)
+
+val villageLevelParams = LevelParams(
+    factoryParams = LevelFactoryParams.NoiseLevelFactoryParams(
+        size = 25,
+        radius = 2,
+        modifier = 1.3f
+    ),
+    gridFactory = NoiseGridFactory(),
+    postProcessors = arrayOf(
+        EntityTemplatesProcessor(entityTemplates(Village))
+    ),
+
+    gridValueToTileType = ::villageGridValueToTileType,
+    tileToTexture = ::villageTileToTexture,
+    isCellCandidateForConnection = :: isCandidate
 )
 

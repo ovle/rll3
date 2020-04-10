@@ -4,15 +4,16 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
+import com.ovle.rll3.model.ecs.component.special.LevelDescription
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.entity.levelDescription
 import com.ovle.rll3.model.ecs.entity.newConnection
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.tile.nearValues
-import com.ovle.rll3.model.tile.roomFloorTileId
-import com.ovle.rll3.model.tile.wallTileId
 import com.ovle.rll3.point
+
+
 
 class LevelConnectionProcessor {
 
@@ -25,7 +26,7 @@ class LevelConnectionProcessor {
             .filter { levelDescriptionId in it.connections }
             .map { it.id }
 
-        val candidatePositions = candidatePositions(levelInfo)
+        val candidatePositions = candidatePositions(levelInfo, levelDescription)
 
         val result= mutableListOf<Entity>()
 
@@ -36,18 +37,15 @@ class LevelConnectionProcessor {
         levelInfo.objects.addAll(result)
     }
 
-    private fun candidatePositions(levelInfo: LevelInfo): MutableList<GridPoint2> {
+    private fun candidatePositions(levelInfo: LevelInfo, levelDescription: LevelDescription): MutableList<GridPoint2> {
         val tiles = levelInfo.tiles
         val candidatePositions = mutableListOf<GridPoint2>()
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
                 val nearTiles = nearValues(tiles, x, y)
-                val isWall = (nearTiles.nearH + nearTiles.value)
-                    .filterNotNull().all { it.typeId == wallTileId }
-                val isRoomFloorNear = nearTiles.upValue?.typeId == roomFloorTileId
-                val isWallBehind = nearTiles.downValue?.typeId == wallTileId
+                val isCandidate = levelDescription.params.isCellCandidateForConnection(nearTiles)
 
-                if (isWall && isRoomFloorNear && isWallBehind) candidatePositions.add(point(x, y))
+                if (isCandidate) candidatePositions.add(point(x, y))
             }
         }
         return candidatePositions

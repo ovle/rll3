@@ -9,10 +9,17 @@ object EntityTemplatesRegistry {
 }
 
 enum class EntityTemplatesType(val value: String) {
+    Village("village"),
     Caves("caves"),
     Dungeon("dungeon"),
     Common("common")
 }
 
-fun entityTemplates(type: EntityTemplatesType) =
-    EntityTemplates(entityTemplates.getValue(type).templates + entityTemplates.getValue(Common).templates)
+fun entityTemplates(type: EntityTemplatesType = Common): EntityTemplates {
+    val result = entityTemplates.getValue(Common).templates.toMutableList()
+    if (type != Common) result += entityTemplates.getValue(type).templates
+    return EntityTemplates(result)
+}
+
+fun entityTemplate(type: EntityTemplatesType = Common, name: String) =
+    entityTemplates(type).templates.single { it.name == name }

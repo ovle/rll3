@@ -16,8 +16,7 @@ import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.procedural.grid.processor.LevelConnectionProcessor
-import com.ovle.rll3.model.template.EntityTemplatesRegistry
-import com.ovle.rll3.model.template.EntityTemplatesType
+import com.ovle.rll3.model.template.entityTemplate
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
 import ktx.ashley.get
@@ -32,8 +31,9 @@ class LevelSystem: EventSystem() {
 
     private fun loadFirstLevel(): LevelInfo {
         val worldInfo = worldInfo()
+        val playerInfo = playerInfo()
         val nextLevel = changeLevel(null, null, worldInfo)
-        return initLevelEntities(nextLevel, null, worldInfo)
+        return initLevelEntities(nextLevel, null, worldInfo, playerInfo)
     }
 
     private fun loadNextLevel(oldLevel: LevelInfo, connectionId: ConnectionId): LevelInfo {
@@ -42,12 +42,13 @@ class LevelSystem: EventSystem() {
         storeEntities(oldLevel)
 
         val worldInfo = worldInfo()
+        val playerInfo = playerInfo()
         val nextLevel= changeLevel(oldLevel, oldConnection, worldInfo)
-        return initLevelEntities(nextLevel, oldConnection, worldInfo)
+        return initLevelEntities(nextLevel, oldConnection, worldInfo, playerInfo)
     }
 
 
-    private fun initLevelEntities(newLevel: LevelInfo, oldConnection: LevelConnectionComponent?, worldInfo: WorldInfo): LevelInfo {
+    private fun initLevelEntities(newLevel: LevelInfo, oldConnection: LevelConnectionComponent?, worldInfo: WorldInfo, playerInfo: PlayerInfo): LevelInfo {
         val entities = allEntities().toList()
         var levelEntity = entityWith(entities, LevelComponent::class)
 
@@ -58,7 +59,7 @@ class LevelSystem: EventSystem() {
 
         if (interactionEntity != null) playerEntity = interactionEntity[playerInteraction]?.controlledEntity
 
-        val playerTemplate = EntityTemplatesRegistry.entityTemplates[EntityTemplatesType.Common]!!.templates.single { it.name == "wizard" } //todo setup in world
+        val playerTemplate = entityTemplate(name = playerInfo.templateName)
 
         if (playerEntity == null) playerEntity = newTemplatedEntity(playerTemplate, engine)
 

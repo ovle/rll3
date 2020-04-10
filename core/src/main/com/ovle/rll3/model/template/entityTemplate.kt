@@ -9,7 +9,7 @@ data class EntityTemplate(
     var version: String = "0.1",
     var description: String = "",
     var state: Map<String, Any?> = mapOf(),
-    var sprite: GridPoint2? = null,
+    var sprite: Collection<GridPoint2>? = null,
     var animations: Collection<AnimationTemplate> = listOf(),
     var spawns: Collection<SpawnTemplate> = listOf()
 )

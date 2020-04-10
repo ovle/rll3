@@ -5,13 +5,23 @@ description: ''
 state:
   light:
     radius: 5
-sprite: [11, 1]
+sprite:
+  - [11, 1]
 spawns:
   - mask: |
       _ _ _
       _ 1 _
       _ 0 _
     rotate: false
+    groupBonusChance: -1.0
+    groupRadius: 2
+  - mask: |
+      _ _ _
+      _ 1 _
+      _ 2 _
+    rotate: false
+    groupBonusChance: -1.0
+    groupRadius: 2
 animations:
   - type: Idle
     repeat: true
@@ -29,7 +39,8 @@ description: ''
 state:
   collision:
   door:
-sprite: [7, 8]
+sprite:
+  - [7, 8]
 spawns:
   - chance: 0.7
     rotate: true
@@ -46,7 +57,8 @@ state:
   living:
     health: 3
   collision:
-sprite: [7, 10]
+sprite:
+  - [6, 10]
 spawns:
   - chance: 0.5
     rotate: true

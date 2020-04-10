@@ -3,9 +3,10 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.special.LevelDescription
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.component.util.Mappers.position
+import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
 import com.ovle.rll3.model.template.EntityTemplates
 import com.ovle.rll3.model.template.SpawnTemplate
@@ -25,6 +26,8 @@ class EntityTemplatesProcessor(val templates: EntityTemplates) : TilesProcessor 
         val entities = mutableListOf<Entity>()
         val spawnTemplates = templates.templates.filter { it.spawns.isNotEmpty() }
 
+        //todo not spawn on level connection!
+
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
                 val nearTiles = nearValues(tiles, x, y)
@@ -37,7 +40,11 @@ class EntityTemplatesProcessor(val templates: EntityTemplates) : TilesProcessor 
                 val spawnTemplate = spawnData.first
                 val spawnCondition = spawnData.second.random()!!
                 val check = Math.random()
-                val needSpawn = check <= spawnCondition.chance
+
+                val haveSameEntityNear = haveSameEntityNear(spawnTemplate.name, x, y, spawnCondition.groupRadius, entities)
+                var chance = spawnCondition.chance
+                if (haveSameEntityNear) chance += spawnCondition.groupBonusChance
+                val needSpawn = check <= chance
 
                 if (needSpawn) {
                     val spawnPosition = point(x, y)
@@ -49,6 +56,13 @@ class EntityTemplatesProcessor(val templates: EntityTemplates) : TilesProcessor 
         }
 
         levelInfo.objects.plusAssign(entities)
+    }
+
+    private fun haveSameEntityNear(templateName: String, x: Int, y: Int, radius: Int, entities: MutableList<Entity>): Boolean {
+        val sameEntities = entities.filter { it[template]?.template?.name == templateName }
+        val nearRangeX = (x - radius)..(x + radius)
+        val nearRangeY = (y - radius)..(y + radius)
+        return sameEntities.map { it[position]!!.gridPosition }.any { it.x in nearRangeX && it.y in nearRangeY }
     }
 
     private fun matchesTemplate(spawnTemplate: SpawnTemplate, nearTiles: NearValues<Tile?>): Boolean {
