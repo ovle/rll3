@@ -6,7 +6,7 @@ import com.ovle.rll3.model.ecs.component.advanced.LightSourceComponent
 import com.ovle.rll3.model.ecs.component.advanced.LivingComponent
 import com.ovle.rll3.model.ecs.component.basic.*
 import com.ovle.rll3.model.ecs.component.dto.AOEData
-import com.ovle.rll3.model.template.EntityTemplate
+import com.ovle.rll3.model.template.entity.EntityTemplate
 
 typealias ComponentData = Map<String, Any?>
 typealias ComponentFactory = (ComponentData?) -> Component

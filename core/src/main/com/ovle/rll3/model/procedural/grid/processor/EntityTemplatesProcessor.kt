@@ -8,8 +8,8 @@ import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
-import com.ovle.rll3.model.template.EntityTemplates
 import com.ovle.rll3.model.template.SpawnTemplate
+import com.ovle.rll3.model.template.entity.EntityTemplates
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.model.util.rotate180
 import com.ovle.rll3.model.util.rotate270

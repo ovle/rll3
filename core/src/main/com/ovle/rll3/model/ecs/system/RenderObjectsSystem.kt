@@ -12,7 +12,7 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.has
-import com.ovle.rll3.model.template.EntityTemplate
+import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.roundToClosestByAbsInt
 import com.ovle.rll3.view.layer.TextureRegions

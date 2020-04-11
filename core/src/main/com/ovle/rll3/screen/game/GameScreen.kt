@@ -11,7 +11,7 @@ import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.system.*
-import com.ovle.rll3.model.template.EntityTemplatesRegistry
+import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.layer.TexturesInfo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,7 +39,7 @@ class GameScreen(
 
         val levelTexturesInfo = TexturesInfo(assetsManager.levelTexture)
         val objectsTextureInfo = TexturesInfo(assetsManager.objectsTexture)
-        EntityTemplatesRegistry.entityTemplates = assetsManager.templates
+        TemplatesRegistry.entityTemplates = assetsManager.entityTemplates
 
         val camera = batchViewport.camera as OrthographicCamera
 

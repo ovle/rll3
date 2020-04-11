@@ -16,7 +16,7 @@ import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.procedural.grid.processor.LevelConnectionProcessor
-import com.ovle.rll3.model.template.entityTemplate
+import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
 import ktx.ashley.get
@@ -56,11 +56,9 @@ class LevelSystem: EventSystem() {
 
         var playerEntity: Entity? = null
         var interactionEntity = entityWith(entities, PlayerInteractionComponent::class)
-
         if (interactionEntity != null) playerEntity = interactionEntity[playerInteraction]?.controlledEntity
 
         val playerTemplate = entityTemplate(name = playerInfo.templateName)
-
         if (playerEntity == null) playerEntity = newTemplatedEntity(playerTemplate, engine)
 
         val startPosition = playerStartPosition(newLevel, oldConnection)

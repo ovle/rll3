@@ -10,10 +10,6 @@ data class SpawnTemplate(
     var groupRadius: Int = 1
 ) {
     val parsedMask: List<List<TileType>>? by lazy {
-        mask?.trim()
-            ?.split("\n")
-            ?.map {
-                it.split(" ").map { chars -> chars[0] }
-            }
+        parsedMask(mask)
     }
 }

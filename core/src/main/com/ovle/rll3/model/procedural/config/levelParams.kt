@@ -10,8 +10,8 @@ import com.ovle.rll3.model.procedural.grid.processor.EntityTemplatesProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomStructureProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomsInfoProcessor
 import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
-import com.ovle.rll3.model.template.EntityTemplatesType.*
-import com.ovle.rll3.model.template.entityTemplates
+import com.ovle.rll3.model.template.TemplatesType.*
+import com.ovle.rll3.model.template.entity.entityTemplates
 import com.ovle.rll3.model.util.*
 import com.ovle.rll3.view.layer.level.caveTileToTexture
 import com.ovle.rll3.view.layer.level.dungeonTileToTexture

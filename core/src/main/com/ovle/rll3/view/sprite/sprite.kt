@@ -1,8 +1,6 @@
 package com.ovle.rll3.view.sprite
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.ovle.rll3.model.template.EntityTemplate
-import com.ovle.rll3.view.layer.TextureRegions
 
 class Sprite(
     private val region: TextureRegion? = null

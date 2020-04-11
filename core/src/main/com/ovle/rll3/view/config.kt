@@ -19,6 +19,7 @@ const val skinPath = "skins/c64/uiskin.json"
 const val tileTexturePath = "images/tiles.png"
 const val spriteTexturePath = "images/sprites.png"
 const val entityTemplatePath = "templates/entity/"
+const val structureTemplatePath = "templates/structure/"
 
 val bgColor = blackColor.cpy()
 

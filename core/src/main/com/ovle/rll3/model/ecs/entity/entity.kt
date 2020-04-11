@@ -12,7 +12,7 @@ import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelC
 import com.ovle.rll3.model.ecs.component.util.basicComponents
 import com.ovle.rll3.model.ecs.component.util.stateComponents
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
-import com.ovle.rll3.model.template.EntityTemplate
+import com.ovle.rll3.model.template.entity.EntityTemplate
 
 
 fun Engine.entity(vararg components: Component) = createEntity().apply {
