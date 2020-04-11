@@ -1,6 +1,8 @@
 package com.ovle.rll3.model.template
 
-fun parsedMask(mask: String?): List<List<Char>>? {
+import com.ovle.rll3.model.tile.TileType
+
+fun parsedMask(mask: String?): List<List<TileType>>? {
     return mask?.trim()
         ?.split("\n")
         ?.map {

@@ -11,9 +11,15 @@ data class StructureTemplate(
     var version: String = "0.1",
     var description: String = "",
     var spawns: Collection<SpawnTemplate> = listOf(),
-    var mask: String = ""
+    var mask: String = "",
+    var entities: Collection<StructureEntity> = listOf()
 ) {
-    val parsedMask: List<List<TileType>>? by lazy {
-        parsedMask(mask)
+    val parsedMask: List<List<TileType>> by lazy {
+        parsedMask(mask)!!
     }
 }
+
+data class StructureEntity(
+    var name: String = "",
+    var points: Array<Pair<Int, Int>> = arrayOf()
+)

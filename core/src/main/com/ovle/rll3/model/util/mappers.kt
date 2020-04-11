@@ -42,7 +42,7 @@ fun villageGridValueToTileType(gridValue: Float): TileType {
 }
 
 fun entityTilePassMapper(tile: Tile) = when(tile.typeId) {
-    wallTileId -> TilePassType.Solid
+    wallTileId, structureWallTileId -> TilePassType.Solid
     pitFloorTileId -> TilePassType.Restricted
     else -> TilePassType.Passable
 }
@@ -50,7 +50,7 @@ fun entityTilePassMapper(tile: Tile) = when(tile.typeId) {
 fun lightTilePassMapperTrue(tile: Tile) = LightPassType.Passable
 
 fun lightTilePassMapper(tile: Tile) = when(tile.typeId) {
-    wallTileId -> LightPassType.Solid
+    wallTileId, structureWallTileId -> LightPassType.Solid
     else -> LightPassType.Passable
 }
 

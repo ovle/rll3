@@ -6,8 +6,8 @@ import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
 import com.ovle.rll3.model.tile.*
 import java.lang.Math.random
 
-val roomFloorTypes = setOf(roomFloorTileId, pitFloorTileId)
-val floorTypes = setOf(roomFloorTileId, pitFloorTileId, corridorFloorTileId)
+val roomFloorTypes = setOf(roomFloorTileId, pitFloorTileId, structureFloorTileId)
+val floorTypes = setOf(roomFloorTileId, pitFloorTileId, corridorFloorTileId, structureFloorTileId)
 
 enum class RoomStructure {
     Nop {

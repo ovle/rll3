@@ -18,18 +18,19 @@ import com.ovle.rll3.point
 import com.ovle.rll3.random
 import ktx.ashley.get
 
-//todo templates may be different?
-class EntityTemplatesProcessor(val templates: EntityTemplates) : TilesProcessor {
+class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
 
     override fun process(levelInfo: LevelInfo, gameEngine: Engine, levelDescription: LevelDescription) {
         val tiles = levelInfo.tiles
+        //some cells can be claimed by other processors
+        val claimed = levelInfo.objects.mapNotNull { it[position]?.gridPosition }.toSet()
         val entities = mutableListOf<Entity>()
         val spawnTemplates = templates.templates.filter { it.spawns.isNotEmpty() }
 
-        //todo not spawn on level connection!
-
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
+                if (point(x, y) in claimed) continue
+
                 val nearTiles = nearValues(tiles, x, y)
                 val spawnDatas = spawnTemplates
                     .map { it to it.spawns.filter { spawn -> matchesTemplate(spawn, nearTiles) } }

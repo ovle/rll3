@@ -6,12 +6,14 @@ import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFact
 import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.DungeonGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.NoiseGridFactory
-import com.ovle.rll3.model.procedural.grid.processor.EntityTemplatesProcessor
+import com.ovle.rll3.model.procedural.grid.processor.EntityProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomStructureProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomsInfoProcessor
+import com.ovle.rll3.model.procedural.grid.processor.StructureProcessor
 import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
 import com.ovle.rll3.model.template.TemplatesType.*
 import com.ovle.rll3.model.template.entity.entityTemplates
+import com.ovle.rll3.model.template.structure.structureTemplates
 import com.ovle.rll3.model.util.*
 import com.ovle.rll3.view.layer.level.caveTileToTexture
 import com.ovle.rll3.view.layer.level.dungeonTileToTexture
@@ -31,7 +33,7 @@ val dungeonLevelParams = LevelParams(
     postProcessors = arrayOf(
         RoomsInfoProcessor(),
         RoomStructureProcessor(),
-        EntityTemplatesProcessor(entityTemplates(Dungeon))
+        EntityProcessor(entityTemplates(Dungeon))
     ),
 
     gridValueToTileType = ::dungeonGridValueToTileType,
@@ -46,7 +48,7 @@ val caveLevelParams = LevelParams(
     ),
     gridFactory = CelullarAutomataGridFactory(),
     postProcessors = arrayOf(
-        EntityTemplatesProcessor(entityTemplates(Caves))
+        EntityProcessor(entityTemplates(Caves))
     ),
 
     gridValueToTileType = ::caveGridValueToTileType,
@@ -62,7 +64,8 @@ val villageLevelParams = LevelParams(
     ),
     gridFactory = NoiseGridFactory(),
     postProcessors = arrayOf(
-        EntityTemplatesProcessor(entityTemplates(Village))
+        StructureProcessor(structureTemplates(Village)),
+        EntityProcessor(entityTemplates(Village))
     ),
 
     gridValueToTileType = ::villageGridValueToTileType,
