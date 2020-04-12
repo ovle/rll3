@@ -20,4 +20,6 @@ object EventBus {
             ?: mutableListOf<(Event) -> Unit>().apply { subscribers[clazz] = this }
         eventSubscribers.add(callback as (Event) -> Unit)
     }
+
+    fun clearSubscriptions() = subscribers.clear()
 }

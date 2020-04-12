@@ -11,6 +11,7 @@ import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.system.*
+import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.layer.TexturesInfo
@@ -72,6 +73,8 @@ class GameScreen(
             ecsEngine.removeSystem(it)
         }
 
+        EventBus.clearSubscriptions()
+        LevelRegistry.clear()
         //todo free other resources?
     }
 

@@ -7,12 +7,13 @@ import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelC
 import com.ovle.rll3.model.ecs.component.special.LevelDescription
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
+import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.entity.levelDescription
 import com.ovle.rll3.model.ecs.entity.newConnection
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.point
-
+import ktx.ashley.get
 
 
 class LevelConnectionProcessor {
@@ -39,9 +40,11 @@ class LevelConnectionProcessor {
 
     private fun candidatePositions(levelInfo: LevelInfo, levelDescription: LevelDescription): MutableList<GridPoint2> {
         val tiles = levelInfo.tiles
+        val claimed = levelInfo.objects.mapNotNull { it[Mappers.position]?.gridPosition }.toSet()
         val candidatePositions = mutableListOf<GridPoint2>()
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
+                if (point(x, y) in claimed) continue
                 val nearTiles = nearValues(tiles, x, y)
                 val isCandidate = levelDescription.params.isCellCandidateForConnection(nearTiles)
 
