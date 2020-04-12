@@ -34,3 +34,19 @@ spawns:
       3 0 _
       _ _ _
 
+---
+
+name: villager 1
+description: |
+  dirty and grumpy farmer.
+  still, may be useful, if you need to butcher someone`s pig
+  or burn someone`s house, as he have both
+state:
+  living:
+    race: human
+    health: 3
+  collision:
+sprite:
+  - [6, 13]
+portrait:
+  - [5, 13]

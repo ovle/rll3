@@ -15,3 +15,6 @@ entities:
   - name: door
     points:
       - [2, 4]
+  - name: villager 1
+    points:
+      - [2, 2]

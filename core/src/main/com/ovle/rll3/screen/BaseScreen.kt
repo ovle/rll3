@@ -23,9 +23,9 @@ abstract class BaseScreen(
     protected val batch: Batch,
     camera: OrthographicCamera): KtxScreen {
 
-    private val stage = Stage(LetterboxingViewport(aspectRatio = screenWidth / screenHeight))
+    protected val stage = Stage(LetterboxingViewport(aspectRatio = screenWidth / screenHeight))
     protected val batchViewport = FitViewport(screenWidth, screenHeight, camera)
-    private var rootActor: Actor? = null
+    protected var rootActor: Actor? = null
 
     override fun show() {
         super.show()

@@ -46,14 +46,17 @@ class GameScreen(
         val camera = batchViewport.camera as OrthographicCamera
 
         val systems = listOf(
-            GameSystem(),
-            LevelSystem(),
+            GUISystem(stage),
             PlayerControlsSystem(),
-            EntityInteractionSystem(),
-            MoveSystem(),
             CameraSystem(camera),
+
             RenderLevelSystem(camera, levelTexturesInfo),
             RenderObjectsSystem(batch, objectsTextureInfo),
+
+            GameSystem(),
+            LevelSystem(),
+            EntityInteractionSystem(),
+            MoveSystem(),
             AnimationSystem(objectsTextureInfo),
             SightSystem()
         )

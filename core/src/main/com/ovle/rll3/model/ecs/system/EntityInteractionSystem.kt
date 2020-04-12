@@ -20,7 +20,7 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     //todo rewrite to processors
-    fun onEntityInteractionEvent(entity: Entity) {
+    private fun onEntityInteractionEvent(entity: Entity) {
         if (entity.has<DoorComponent>()) {
             entity[door]!!.let { it.closed = !it.closed }
             val closed =  entity[door]!!.closed

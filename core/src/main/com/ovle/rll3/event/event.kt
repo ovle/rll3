@@ -29,7 +29,8 @@ sealed class Event {
 
     //entity
     open class EntityEvent(val entity: Entity) : GameEvent()
-    open class EntityInteractionEvent(entity: Entity) : EntityEvent(entity)
+    open class EntitySelectEvent(entity: Entity) : EntityEvent(entity)
+    open class EntityInteractionEvent(entity: Entity) : EntityEvent(entity) //todo interaction type ?
     open class EntityInitialized(entity: Entity) : EntityEvent(entity)
     open class EntityStartMove(entity: Entity) : EntityEvent(entity)
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
