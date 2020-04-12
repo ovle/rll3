@@ -63,7 +63,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 	default: {
 		background: window,
 		titleFont: commodore-64,
-		titleFontColor: { a: 1, b: 0.611, g: 0.427, r: 0.545 }
+		titleFontColor: { a: 1, b: 0.937, g: 0.96, r: 0.984 },
 	},
 	dialog: {
 		background: dialog,

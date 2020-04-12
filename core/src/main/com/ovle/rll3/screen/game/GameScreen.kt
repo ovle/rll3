@@ -3,7 +3,6 @@ package com.ovle.rll3.screen.game
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
 import com.ovle.rll3.AssetsManager
 import com.ovle.rll3.ScreenManager
@@ -19,21 +18,18 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ktx.actors.onClick
 import ktx.scene2d.container
 import ktx.scene2d.horizontalGroup
-import ktx.scene2d.label
 import ktx.scene2d.textButton
 import kotlin.math.min
 
 
 @ExperimentalCoroutinesApi
 class GameScreen(
-    val assetsManager: AssetsManager,
+    private val assetsManager: AssetsManager,
     screenManager: ScreenManager, batch: Batch, camera: OrthographicCamera
 ): BaseScreen(screenManager, batch, camera) {
 
     private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls()
-
-    lateinit var infoLabel: Label
 
     override fun show() {
         super.show()
@@ -85,7 +81,6 @@ class GameScreen(
         ecsEngine.update(min(delta, 1 / 60f))
     }
 
-
     override fun rootActor() =
         container {
             horizontalGroup {
@@ -93,15 +88,17 @@ class GameScreen(
                     align(Align.bottom)
                     onClick { screenManager.goToScreen(MainMenuScreenType) }
                 }
-
-                label(text = "text:") {
-                    //todo bind to game events
-                    infoLabel = this
-                }
             }
             pack()
         }
 
-
     override fun screenInputProcessor() = controls
+
+// todo fix camera issue (corrupt of gamePoint evaluation).
+// todo this is weird
+    override fun resize(width: Int, height: Int) {
+        batchViewport.update(width, height)
+
+//        stage.viewport.update(width, height)
+    }
 }

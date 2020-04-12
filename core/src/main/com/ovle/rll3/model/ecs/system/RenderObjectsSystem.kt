@@ -52,9 +52,17 @@ class RenderObjectsSystem(
     }
 
     private fun initSprite(renderComponent: RenderComponent, entity: Entity) {
+        val entityTemplate = entity[template]?.template
+
         if (renderComponent.sprite == null) {
-            val entityTemplate = entity[template]?.template
             renderComponent.sprite = if (entityTemplate == null) sprite(entity, regions) else sprite(entityTemplate, regions)
+        }
+
+        if (renderComponent.portrait == null) {
+            val portrait = entityTemplate?.portrait?.random() //todo random ?
+            if (portrait != null) {
+                renderComponent.portrait = sprite(regions, portrait.x, portrait.y)
+            }
         }
     }
 
@@ -72,7 +80,7 @@ class RenderObjectsSystem(
 
     fun sprite(entityTemplate: EntityTemplate?, regions: TextureRegions): Sprite =
         entityTemplate?.sprite?.run {
-            val result= this.random()
+            val result= this.random()   //todo random ?
             sprite(regions, result.x, result.y)
         }
             ?: defaultSprite(regions)

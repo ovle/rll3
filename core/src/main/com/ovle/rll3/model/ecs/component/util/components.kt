@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component
 import com.ovle.rll3.model.ecs.component.advanced.DoorComponent
 import com.ovle.rll3.model.ecs.component.advanced.LightSourceComponent
 import com.ovle.rll3.model.ecs.component.advanced.LivingComponent
+import com.ovle.rll3.model.ecs.component.advanced.Race
 import com.ovle.rll3.model.ecs.component.basic.*
 import com.ovle.rll3.model.ecs.component.dto.AOEData
 import com.ovle.rll3.model.template.entity.EntityTemplate
@@ -15,7 +16,10 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "light" to { value -> LightSourceComponent(AOEData(value!!["radius"] as Int)) },
     "collision" to { _ ->  CollisionComponent() },
     "move" to { _ ->  MoveComponent() },
-    "living" to { value -> LivingComponent(value!!["health"] as Int) },
+    "living" to { value -> LivingComponent(
+        health = value!!["health"] as Int,
+        race = value["race"]?.run { Race.values().find { it.value == this } }
+    )},
     "door" to { _ -> DoorComponent() }
 )
 

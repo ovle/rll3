@@ -42,6 +42,8 @@ class PlayerControlsSystem : EventSystem() {
 
         val connectionEntity = connectionOnPosition(level, point(gamePoint))
         val entities = entitiesOnPosition(level, point(gamePoint))
+
+        if (entities.isEmpty()) send(EntityUnselectEvent())
         when {
             connectionEntity != null -> onTransitionAction(gamePoint, level, connectionEntity)
             entities.isNotEmpty() -> onEntityAction(gamePoint, level, entities)

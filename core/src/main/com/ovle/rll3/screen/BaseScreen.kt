@@ -72,7 +72,6 @@ abstract class BaseScreen(
 
     open fun renderIntr(delta: Float) {}
 
-    //    todo fix camera issue (corrupt of gamePoint evaluation)
     override fun resize(width: Int, height: Int) {
         super.resize(width, height)
 

@@ -39,8 +39,7 @@ spawns:
 name: villager 1
 description: |
   dirty and grumpy farmer.
-  still, may be useful, if you need to butcher someone`s pig
-  or burn someone`s house, as he have both
+  still, may be useful.
 state:
   living:
     race: human
