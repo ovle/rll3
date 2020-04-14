@@ -2,6 +2,7 @@ package com.ovle.rll3.event
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.model.ecs.component.EntityInteraction
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
@@ -31,7 +32,7 @@ sealed class Event {
     open class EntityEvent(val entity: Entity) : GameEvent()
     open class EntityUnselectEvent : GameEvent()
     open class EntitySelectEvent(entity: Entity) : EntityEvent(entity)
-    open class EntityInteractionEvent(entity: Entity) : EntityEvent(entity) //todo interaction type ?
+    open class EntityInteractionEvent(entity: Entity, val interaction: EntityInteraction) : EntityEvent(entity)
     open class EntityInitialized(entity: Entity) : EntityEvent(entity)
     open class EntityStartMove(entity: Entity) : EntityEvent(entity)
     open class EntityMoved(entity: Entity) : EntityEvent(entity)

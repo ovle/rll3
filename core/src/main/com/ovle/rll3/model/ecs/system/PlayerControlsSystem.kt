@@ -8,7 +8,6 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
-import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.Mappers.move
 import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
@@ -39,13 +38,10 @@ class PlayerControlsSystem : EventSystem() {
 
     private fun onMouseLeftClick(event: MouseLeftClick, level: LevelInfo) {
         val gamePoint = centered(toGamePoint(event.screenPoint, RenderConfig))
-
-        val connectionEntity = connectionOnPosition(level, point(gamePoint))
         val entities = entitiesOnPosition(level, point(gamePoint))
 
         if (entities.isEmpty()) send(EntityUnselectEvent())
         when {
-            connectionEntity != null -> onTransitionAction(gamePoint, level, connectionEntity)
             entities.isNotEmpty() -> onEntityAction(gamePoint, level, entities)
             else -> onMoveTargetSet(gamePoint, level)
         }
@@ -54,19 +50,6 @@ class PlayerControlsSystem : EventSystem() {
     private fun onEntityAction(gamePoint: Vector2, level: LevelInfo, entities: Collection<Entity>) {
         entities.forEach {
             send(EntitySelectEvent(it))
-        }
-    }
-
-    private fun onTransitionAction(gamePoint: Vector2, level: LevelInfo, connectionEntity: Entity) {
-        val connectionPositionComponent = connectionEntity[position]
-        val playerEntity = playerInteractionInfo()?.controlledEntity ?: return
-        val playerPositionComponent = playerEntity[position]!!
-
-        val playerIsNearTransition = true// isNearHV(playerPositionComponent.gridPosition, connectionPositionComponent?.gridPosition)
-        if (playerIsNearTransition) {
-            val connectionComponent = connectionEntity[levelConnection]!!
-
-            send(EntityLevelTransition(playerEntity, connectionComponent.id))
         }
     }
 

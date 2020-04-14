@@ -6,15 +6,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.model.ecs.component.actions
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.roundToClosestByAbsInt
-import com.ovle.rll3.view.layer.imageFromTexture
 import com.ovle.rll3.view.tileWidth
+import ktx.actors.onClick
 import ktx.ashley.get
-import ktx.scene2d.label
 import ktx.scene2d.textButton
 import ktx.scene2d.verticalGroup
 import ktx.scene2d.window
@@ -30,14 +30,12 @@ class GUISystem(private val stage: Stage) : EventSystem() {
     }
 
     private fun onEntityUnselectEvent() {
-        val root = stage.root
-        root.removeActor(last)
+        hideActionsPopup()
     }
 
     //todo
     private fun onEntitySelectEvent(entity: Entity) {
-        val root = stage.root
-        root.removeActor(last)
+        hideActionsPopup()
 
         //todo position
         val scale = RenderConfig.scale
@@ -49,30 +47,39 @@ class GUISystem(private val stage: Stage) : EventSystem() {
         val actorPosition = Vector2(screenX.toFloat(), screenY.toFloat())   //RenderConfig.unproject!!.invoke(Vector3(entityPosition, 0.0f))
         val templateName = entity[template]?.template?.name ?: "no name"
         val portrait = entity[render]?.portrait
-        val desc = entity[template]?.template?.description ?: "no description"
+        val desc = entity[template]?.template?.description
 
-        //todo available actions by components
-        val actions = arrayOf("action1", "action2")
+        val interaction = actions(entity)
 
+        val root = stage.root
         root.addActor(
-            window(templateName) {
+            window(
+                title = templateName,
+                style = "default"
+            ) {
                 x = actorPosition.x
                 y = actorPosition.y
 
                 verticalGroup {
-                    if (portrait != null) imageFromTexture(portrait.textureRegion())
-
-                    label(desc)
-                    actions.map {
-                        textButton(text = it) {
-//                            onClick { screenManager.goToScreen(ScreenManager.ScreenType.MainMenuScreenType) }
+                    interaction.map {
+                        interaction ->
+                        textButton(text = interaction.name) {
+                            onClick {
+                                EventBus.send(Event.EntityInteractionEvent(entity, interaction))
+                                hideActionsPopup()
+                            }
                         }
                     }
-                }
+                }.cell(pad = 10.0f)
 
                 last = this
                 pack()
             }
         )
+    }
+
+    private fun hideActionsPopup() {
+        val root = stage.root
+        root.removeActor(last)
     }
 }

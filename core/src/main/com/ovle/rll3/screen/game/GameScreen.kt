@@ -3,7 +3,6 @@ package com.ovle.rll3.screen.game
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.utils.Align
 import com.ovle.rll3.AssetsManager
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
@@ -16,8 +15,7 @@ import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.layer.TexturesInfo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ktx.actors.onClick
-import ktx.scene2d.container
-import ktx.scene2d.horizontalGroup
+import ktx.scene2d.table
 import ktx.scene2d.textButton
 import kotlin.math.min
 
@@ -82,12 +80,13 @@ class GameScreen(
     }
 
     override fun rootActor() =
-        container {
-            horizontalGroup {
-                textButton(text = "Menu") {
-                    align(Align.bottom)
-                    onClick { screenManager.goToScreen(MainMenuScreenType) }
-                }
+        table {
+//            debug()
+            setFillParent(true)
+
+            bottom()
+            textButton(text = "Menu") {
+                onClick { screenManager.goToScreen(MainMenuScreenType) }
             }
             pack()
         }
@@ -98,7 +97,6 @@ class GameScreen(
 // todo this is weird
     override fun resize(width: Int, height: Int) {
         batchViewport.update(width, height)
-
-//        stage.viewport.update(width, height)
+        stage.viewport.update(width, height)
     }
 }

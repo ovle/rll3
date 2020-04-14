@@ -18,7 +18,6 @@ inline fun <reified T : Component> Entity.has() = this.has(ComponentMapper.getFo
 
 object Mappers {
     val world = componentMapper<WorldComponent>()
-    val player = componentMapper<PlayerComponent>()
     val level = componentMapper<LevelComponent>()
     val playerInteraction = componentMapper<PlayerInteractionComponent>()
     val levelConnection = componentMapper<LevelConnectionComponent>()
@@ -30,7 +29,9 @@ object Mappers {
     val move = componentMapper<MoveComponent>()
     val render = componentMapper<RenderComponent>()
     val animation = componentMapper<AnimationComponent>()
+    val living = componentMapper<LivingComponent>()
 
+    //todo remove these
     val door = componentMapper<DoorComponent>()
-    val creature = componentMapper<LivingComponent>()
+    val player = componentMapper<PlayerComponent>()
 }

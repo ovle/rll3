@@ -11,3 +11,6 @@ sourceSets.test.java.srcDirs = [ "src/test/" ]
 test {
     useJUnitPlatform()
 }
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.50"
+}
