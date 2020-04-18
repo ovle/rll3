@@ -30,15 +30,16 @@ sealed class Event {
 
     //entity
     open class EntityEvent(val entity: Entity) : GameEvent()
+    //entity - technical
+    open class EntityInitialized(entity: Entity) : EntityEvent(entity)
     open class EntityUnselectEvent : GameEvent()
     open class EntitySelectEvent(entity: Entity) : EntityEvent(entity)
-    open class EntityInteractionEvent(entity: Entity, val interaction: EntityInteraction) : EntityEvent(entity)
-    open class EntityInitialized(entity: Entity) : EntityEvent(entity)
     open class EntityStartMove(entity: Entity) : EntityEvent(entity)
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
     open class EntityFinishMove(entity: Entity) : EntityEvent(entity)
-    open class EntityTakeDamage(entity: Entity, val amount: Int) : EntityEvent(entity)
+    //entity - model
+    open class EntityInteractionEvent(entity: Entity, val interaction: EntityInteraction) : EntityEvent(entity)
+    open class EntityTakeDamage(entity: Entity, val source: Entity?, val amount: Int) : EntityEvent(entity)
     open class EntityDied(entity: Entity) : EntityEvent(entity)
     open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
 }
-

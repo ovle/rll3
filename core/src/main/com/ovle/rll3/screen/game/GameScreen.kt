@@ -8,6 +8,7 @@ import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.MainMenuScreenType
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.eventLogHook
 import com.ovle.rll3.model.ecs.system.*
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.template.TemplatesRegistry
@@ -58,6 +59,8 @@ class GameScreen(
         ecsEngine = PooledEngine()
         systems.forEach { ecsEngine.addSystem((it)) }
 
+        EventBus.addHook(::eventLogHook)
+
         EventBus.send(Event.GameStartedEvent())
     }
 
@@ -71,6 +74,8 @@ class GameScreen(
         }
 
         EventBus.clearSubscriptions()
+        EventBus.clearHooks()
+
         LevelRegistry.clear()
         //todo free other resources?
     }

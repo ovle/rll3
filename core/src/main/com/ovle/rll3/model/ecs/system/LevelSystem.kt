@@ -96,11 +96,11 @@ class LevelSystem: EventSystem() {
         val newLevelDescription = levelDescription(newLevelDescriptionId, worldInfo)
 
         val storedLevel = LevelRegistry.levelInfoByDesciption(newLevelDescriptionId)?.also {
-            println("load cached level: ${it.id}, description: ${newLevelDescription.id}, transition: $connectionId")
+//            println("load cached level: ${it.id}, description: ${newLevelDescription.id}, transition: $connectionId")
             restoreEntities(it)
         }
         val newLevel = storedLevel ?: newLevelInfo(newLevelDescription).also {
-            println("create new level ${it.id}, description: ${newLevelDescription.id}, transition: $connectionId")
+//            println("create new level ${it.id}, description: ${newLevelDescription.id}, transition: $connectionId")
             newLevelDescription.params.postProcessors.forEach {
                 processor ->
                 processor.process(it, engine, newLevelDescription)
@@ -116,7 +116,7 @@ class LevelSystem: EventSystem() {
                 it.backConnectionId = newConnection.id
                 newConnection.backConnectionId = oldConnection.id
             }
-            println("back transition: ${it.backConnectionId}")
+//            println("back transition: ${it.backConnectionId}")
         }
 
         return newLevel
@@ -168,7 +168,6 @@ class LevelSystem: EventSystem() {
 
     private fun storeEntities(level: LevelInfo) {
         val storedEntities = LevelRegistry.store(level.id)
-        println("                        storedEntities: ${storedEntities.size}")
         storedEntities.forEach { entity ->
             engine.removeEntity(entity)
         }
@@ -176,7 +175,6 @@ class LevelSystem: EventSystem() {
 
     private fun restoreEntities(level: LevelInfo) {
         val restoredEntities = LevelRegistry.restore(level.id)
-        println("                        restoredEntities: ${restoredEntities?.size}")
         restoredEntities?.forEach {
             val entity = engine.entity(*it.components.toTypedArray())
             level.objects.add(entity)

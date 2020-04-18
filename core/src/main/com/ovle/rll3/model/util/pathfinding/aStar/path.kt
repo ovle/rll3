@@ -65,7 +65,7 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, obstacles: Collecti
 
     }
 
-    println("no path found from $from to $to")
+//    println("no path found from $from to $to")
     return emptyList()
 }
 

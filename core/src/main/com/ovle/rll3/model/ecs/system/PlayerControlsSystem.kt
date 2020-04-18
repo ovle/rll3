@@ -82,13 +82,10 @@ class PlayerControlsSystem : EventSystem() {
 
         if (!movePath.started) {
             movePath.start()
-//            println("$path")
-
             send(EntityStartMove(playerEntity))
         }
     }
 
-    //todo center on cursor
     private fun onMousePositionChange(gamePoint: Vector2, level: LevelInfo) {
         if (!isValid(gamePoint, level)) return
 
@@ -100,13 +97,6 @@ class PlayerControlsSystem : EventSystem() {
         val entitiesOnPosition = entitiesOnPosition(level, positionComponent.gridPosition) //todo filter interaction itself
         val interactionComponent = interactionEntity[playerInteraction] ?: return
         interactionComponent.hoveredEntities = entitiesOnPosition
-
-//        if (point(gamePoint) == positionComponent.gridPosition) return
-//        println(
-//            """---------------------
-//                entities: ${entitiesOnPosition.print()}
-//            """.trimIndent()
-//        )
     }
 
     private fun centered(gamePoint: Vector2) = floatPoint(gamePoint.x - 0.5f, gamePoint.y - 0.5f)

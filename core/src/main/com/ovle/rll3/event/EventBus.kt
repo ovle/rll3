@@ -7,8 +7,16 @@ import kotlin.reflect.KClass
 object EventBus {
 
     val subscribers = mutableMapOf<KClass<Event>, MutableCollection<(Event) -> Unit>>()
+    private val hooks: MutableCollection<(Event) -> Unit> = mutableListOf()
+
+    fun addHook(hook: (Event) -> Unit) {
+        hooks.add(hook)
+    }
+
+    fun clearHooks() = hooks.clear()
 
     fun send(event: Event) {
+        hooks.forEach { it.invoke(event) }
         subscribers[event.javaClass.kotlin]?.forEach {
             it.invoke(event)
         }

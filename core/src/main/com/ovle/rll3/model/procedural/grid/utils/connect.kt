@@ -17,8 +17,6 @@ enum class ConnectionStrategy {
 
         private fun removeUnconnected(grid: Grid, wallTileMarker: Float, areas: MutableList<Area>): Area {
             val mainArea = areas.maxBy { it.size }!!
-            println("mainArea size: ${mainArea.size}")
-
             val areasToRemove = areas.toMutableList().apply { remove(mainArea) }
             areasToRemove.forEach {
                 it.apply(grid, wallTileMarker)
@@ -69,7 +67,7 @@ enum class ConnectionStrategy {
 
 fun connect(grid: Grid, emptyTileMarker: Float, wallTileMarker: Float, connectionStrategy: ConnectionStrategy) {
     val areas = floodFill(grid, emptyTileMarker)
-    println("areas: ${areas.size}")
+//    println("areas: ${areas.size}")
 
     connectionStrategy.apply(grid, emptyTileMarker, wallTileMarker, areas)
 }
