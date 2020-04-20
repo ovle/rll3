@@ -16,8 +16,11 @@ const val spriteWidth = 24
 const val spriteHeight = 24
 const val gameFullscreen = false
 const val skinPath = "skins/c64/uiskin.json"
+
 const val tileTexturePath = "images/tiles.png"
 const val spriteTexturePath = "images/sprites.png"
+const val guiTexturePath = "images/gui.png"
+
 const val entityTemplatePath = "templates/entity/"
 const val structureTemplatePath = "templates/structure/"
 

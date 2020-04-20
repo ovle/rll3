@@ -2,9 +2,9 @@ package com.ovle.rll3.event
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.model.ecs.component.EntityInteraction
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
+import com.ovle.rll3.model.ecs.system.interaction.CombatAction
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.procedural.config.LevelParams
 
@@ -32,14 +32,17 @@ sealed class Event {
     open class EntityEvent(val entity: Entity) : GameEvent()
     //entity - technical
     open class EntityInitialized(entity: Entity) : EntityEvent(entity)
-    open class EntityUnselectEvent : GameEvent()
     open class EntitySelectEvent(entity: Entity) : EntityEvent(entity)
+    open class EntityUnselectEvent : GameEvent()
+    open class ShowEntityActionsEvent(entity: Entity, val actions: Collection<String>) : EntityEvent(entity)
     open class EntityStartMove(entity: Entity) : EntityEvent(entity)
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
     open class EntityFinishMove(entity: Entity) : EntityEvent(entity)
+
     //entity - model
-    open class EntityInteractionEvent(entity: Entity, val interaction: EntityInteraction) : EntityEvent(entity)
-    open class EntityTakeDamage(entity: Entity, val source: Entity?, val amount: Int) : EntityEvent(entity)
+    open class EntityActionEvent(entity: Entity, val action: String) : EntityEvent(entity)
+    open class EntityCombatAction(entity: Entity, val action: CombatAction) : EntityEvent(entity)
+    open class EntityTakeDamage(entity: Entity, val source: Entity?, val amount: Int, val blockedAmount: Int) : EntityEvent(entity)
     open class EntityDied(entity: Entity) : EntityEvent(entity)
     open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
 }

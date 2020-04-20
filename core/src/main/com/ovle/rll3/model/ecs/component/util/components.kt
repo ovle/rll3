@@ -17,9 +17,13 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "collision" to { _ ->  CollisionComponent() },
     "move" to { _ ->  MoveComponent() },
     "living" to { value -> LivingComponent(
-        health = value!!["health"] as Int,
+        maxHealth = value!!["health"] as Int,
+        maxStamina = value!!["stamina"] as Int,
         race = value["race"]?.run { Race.values().find { it.value == this } }
-    )},
+    ).apply {
+        health = maxHealth
+        stamina = maxStamina
+    }},
     "door" to { _ -> DoorComponent() }
 )
 

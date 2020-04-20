@@ -16,6 +16,7 @@ fun eventLogHook(event: Event) {
 private fun isLoggableEvent(event: Event) =
     when (event) {
 //        is EntityInteractionEvent,
+        is EntityCombatAction,
         is EntityTakeDamage,
         is EntityDied,
         is EntityLevelTransition -> true
@@ -25,10 +26,15 @@ private fun isLoggableEvent(event: Event) =
 private fun message(event: Event)=
     when (event) {
 //        is EntityInteractionEvent,
+        is EntityCombatAction -> {
+            val entityInfo = event.entity.info()
+            val actionInfo = event.action.name
+            "$entityInfo $actionInfo"
+        }
         is EntityTakeDamage -> {
             val entityInfo = event.entity.info()
             val sourceInfo = event.source?.info() ?: " unknown source"
-            "$entityInfo takes ${event.amount} of <type> damage from $sourceInfo"
+            "$entityInfo takes ${event.amount} of <type> damage from $sourceInfo, blocked: ${event.blockedAmount}"
         }
         is EntityDied -> { "${event.entity.info()} died" }
         is EntityLevelTransition -> {
