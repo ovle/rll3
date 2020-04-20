@@ -10,15 +10,13 @@ import com.ovle.rll3.model.template.entity.EntityTemplates
 import com.ovle.rll3.model.template.entity.EntityTemplatesLoader
 import com.ovle.rll3.model.template.structure.StructureTemplates
 import com.ovle.rll3.model.template.structure.StructureTemplatesLoader
-import com.ovle.rll3.view.entityTemplatePath
-import com.ovle.rll3.view.spriteTexturePath
-import com.ovle.rll3.view.structureTemplatePath
-import com.ovle.rll3.view.tileTexturePath
+import com.ovle.rll3.view.*
 
 class AssetsManager(val assets: AssetManager): Disposable {
 
     lateinit var levelTexture: Texture
     lateinit var objectsTexture: Texture
+    lateinit var guiTexture: Texture
 
     val entityTemplates = mutableMapOf<TemplatesType, EntityTemplates>()
     val structureTemplates = mutableMapOf<TemplatesType, StructureTemplates>()
@@ -33,6 +31,7 @@ class AssetsManager(val assets: AssetManager): Disposable {
     fun load() {
         assets.load(tileTexturePath, Texture::class.java)
         assets.load(spriteTexturePath, Texture::class.java)
+        assets.load(guiTexturePath, Texture::class.java)
 
         TemplatesType.values().forEach {
             var path = "$entityTemplatePath${it.value}.yaml"
@@ -46,6 +45,7 @@ class AssetsManager(val assets: AssetManager): Disposable {
 
         levelTexture = assets.finishLoadingAsset<Texture>(tileTexturePath)
         objectsTexture = assets.finishLoadingAsset<Texture>(spriteTexturePath)
+        guiTexture = assets.finishLoadingAsset<Texture>(guiTexturePath)
     }
 
     override fun dispose() {

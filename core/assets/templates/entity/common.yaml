@@ -5,9 +5,12 @@ description: ''
 state:
   living:
     health: 3
+    stamina: 2
   move:
   collision:
 sprite:
+  - [0, 1]
+portrait:
   - [1, 1]
 animations:
   - type: Idle
@@ -26,3 +29,35 @@ animations:
       - [1, 1]
       - [2, 1]
       - [3, 1]
+
+---
+
+name: barbarian
+description: ''
+state:
+  living:
+    health: 2
+    stamina: 4
+  move:
+  collision:
+sprite:
+  - [1, 4]
+portrait:
+  - [1, 0]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [1, 6]
+      - [2, 6]
+      - [3, 6]
+      - [4, 6]
+  - type: Walk
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [0, 4]
+      - [1, 4]
+      - [2, 4]
+      - [3, 4]

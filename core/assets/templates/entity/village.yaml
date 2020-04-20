@@ -44,8 +44,34 @@ state:
   living:
     race: human
     health: 3
+    stamina: 3
   collision:
 sprite:
   - [6, 13]
 portrait:
-  - [5, 13]
+  - [2, 0]
+
+---
+
+name: pig
+description: |
+  rests in dirt and eats everything.
+  almost as smart as you are.
+state:
+  living:
+    health: 2
+    stamina: 4
+  collision:
+spawns:
+  - chance: 0.025
+sprite:
+  - [11, 13]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [11, 13]
+      - [12, 13]
+      - [13, 13]
+      - [14, 13]

@@ -56,6 +56,7 @@ description: ''
 state:
   living:
     health: 3
+    stamina: 3
   collision:
 sprite:
   - [6, 10]

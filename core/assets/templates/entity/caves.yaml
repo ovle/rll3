@@ -5,6 +5,7 @@ description: ''
 state:
   living:
     health: 10
+    stamina: 10
   collision:
 sprite:
   - [11, 10]
