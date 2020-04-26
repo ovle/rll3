@@ -6,6 +6,6 @@ fun parsedMask(mask: String?): List<List<TileType>>? {
     return mask?.trim()
         ?.split("\n")
         ?.map {
-            it.split(" ").map { chars -> chars[0] }
+            it.trim().split(" ").map { chars -> chars[0] }
         }
 }

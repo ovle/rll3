@@ -4,7 +4,11 @@ import com.ovle.rll3.model.tile.TileType
 
 data class SpawnTemplate(
     var chance: Float = 1.0f,
-    var mask: String? = null,
+    var mask: String = """
+        _ _ _
+        _ 0 _
+        _ _ _
+    """,
     var rotate: Boolean = false,
     var groupBonusChance: Float = 0.0f,
     var groupRadius: Int = 1
