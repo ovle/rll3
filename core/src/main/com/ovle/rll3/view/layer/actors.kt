@@ -1,11 +1,36 @@
 package com.ovle.rll3.view.layer
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.scenes.scene2d.ui.Image
-import ktx.scene2d.KWidget
-import ktx.scene2d.Scene2dDsl
+import com.badlogic.gdx.scenes.scene2d.ui.*
+import ktx.scene2d.Scene2DSkin
 import ktx.scene2d.actor
+import ktx.scene2d.defaultStyle
 
-inline fun <S> KWidget<S>.imageFromTexture(
+inline fun image(
     tr: TextureRegion,
-    init: (@Scene2dDsl Image).(S) -> Unit = {}) = actor(Image(tr), init)
+    init: Image.() -> Unit = {}
+) = actor(Image(tr), init)
+
+inline fun textButton(
+    text: String,
+    style: String = defaultStyle,
+    init: TextButton.() -> Unit = {}
+) = actor(TextButton(text, Scene2DSkin.defaultSkin, style), init)
+
+inline fun label(
+    text: String,
+    style: String = defaultStyle,
+    init: Label.() -> Unit = {}
+) = actor(Label(text, Scene2DSkin.defaultSkin, style), init)
+
+inline fun textField(
+    text: String,
+    style: String = defaultStyle,
+    init: TextField.() -> Unit = {}
+) = actor(TextField(text, Scene2DSkin.defaultSkin, style), init)
+
+inline fun textArea(
+    text: String,
+    style: String = defaultStyle,
+    init: TextArea.() -> Unit = {}
+) = actor(TextArea(text, Scene2DSkin.defaultSkin, style), init)

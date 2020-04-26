@@ -7,9 +7,7 @@ import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 class PlayerControls : InputAdapter() {
 
     private var lastDragPoint: Vector2? = null

@@ -100,15 +100,15 @@ class RenderObjectsSystem(
             val region = currentAnimation?.currentFrame(deltaTime)
                 ?: sprite.textureRegion()
 
-            val scale = renderConfig.scale
-            val screenX = (position.x * scale).roundToClosestByAbsInt() * tileWidth
-            val screenY = (position.y * scale).roundToClosestByAbsInt() * tileWidth
+
+            val screenX = (position.x).roundToClosestByAbsInt() * tileWidth
+            val screenY = (position.y).roundToClosestByAbsInt() * tileWidth
             batch.draw(
                 region,
                 screenX.toFloat(),
                 screenY.toFloat(),
-                spriteWidth.toFloat() * scale,
-                spriteHeight.toFloat() * scale
+                spriteWidth.toFloat(),
+                spriteHeight.toFloat()
             )
         }
 

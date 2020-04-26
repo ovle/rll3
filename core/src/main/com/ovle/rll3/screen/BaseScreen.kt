@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.utils.Layout
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.model.util.config.RenderConfig
@@ -76,7 +77,11 @@ abstract class BaseScreen(
         super.resize(width, height)
 
         batchViewport.update(width, height)
-        stage.viewport.update(width, height)
+        stage.viewport.update(width, height, true)
+
+        if (rootActor is Layout) {
+            (rootActor as Layout).invalidate()
+        }
     }
 
     override fun dispose() {

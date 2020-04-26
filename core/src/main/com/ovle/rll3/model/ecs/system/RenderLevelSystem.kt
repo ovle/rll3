@@ -10,13 +10,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.ovle.rll3.event.Event.EntityMoved
 import com.ovle.rll3.event.Event.LevelLoaded
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.model.ecs.component.advanced.PerceptionComponent
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.sight
-import com.ovle.rll3.model.ecs.component.advanced.PerceptionComponent
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.view.bgColor
-import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.layer.CustomTiledMapTileLayer
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.layer.level.LayerType
@@ -42,7 +41,7 @@ class RenderLevelSystem(
 
     private fun onLevelLoaded(level: LevelInfo, levelParams: LevelParams) {
         tiledMap = tiledMap(level, levelParams.tileToTexture)
-        mapRenderer = OrthogonalTiledMapRenderer(tiledMap, initialScale)
+        mapRenderer = OrthogonalTiledMapRenderer(tiledMap)
     }
 
     private fun tiledMap(tiles: LevelInfo, tileToTexture: (TileToTextureParams) -> TileTextureInfo) =

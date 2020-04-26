@@ -31,7 +31,7 @@ class MainMenuScreen(screenManager: ScreenManager, batch: Batch, camera: Orthogr
                 onClick { Gdx.app.exit() }
             }
 
-            setPosition(batchViewport.screenWidth / 2.0f, batchViewport.screenHeight / 2.0f)
+            setFillParent(true)
             align(Align.center)
             pack()
         }
