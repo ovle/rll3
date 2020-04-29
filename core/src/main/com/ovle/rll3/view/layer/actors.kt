@@ -21,7 +21,7 @@ inline fun textButton(
 ) = actor(TextButton(text, Scene2DSkin.defaultSkin, style), init)
 
 inline fun label(
-    text: String,
+    text: String = "",
     style: String = defaultStyle,
     init: Label.() -> Unit = {}
 ) = actor(Label(text, Scene2DSkin.defaultSkin, style), init)

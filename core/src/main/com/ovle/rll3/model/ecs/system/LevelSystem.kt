@@ -2,6 +2,7 @@ package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
@@ -76,6 +77,8 @@ class LevelSystem: EventSystem() {
 
         send(LevelLoaded(newLevel, newLevelDescription.params))
         send(EntityInitialized(playerEntity))
+        send(EntityChanged(playerEntity))
+
         newLevel.objects.forEach {
             send(EntityInitialized(it))
         }

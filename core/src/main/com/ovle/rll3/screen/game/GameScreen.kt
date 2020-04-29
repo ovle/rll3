@@ -1,16 +1,9 @@
 package com.ovle.rll3.screen.game
 
 import com.badlogic.ashley.core.PooledEngine
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.ui.Value
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
-import com.badlogic.gdx.utils.Align
-import com.badlogic.gdx.utils.Align.center
-import com.badlogic.gdx.utils.Align.right
 import com.ovle.rll3.AssetsManager
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.event.Event
@@ -25,10 +18,8 @@ import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.layer.TexturesInfo
-import com.ovle.rll3.view.layer.image
-import com.ovle.rll3.view.layer.label as cLabel
 import com.ovle.rll3.view.scaleScrollCoeff
-import ktx.scene2d.*
+import ktx.scene2d.table
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -52,7 +43,7 @@ class GameScreen(
         val camera = batchViewport.camera as OrthographicCamera
 
         val systems = listOf(
-            GUISystem(stage, assetsManager.guiTexture, camera),
+            GUISystem(stage, assetsManager.guiTexture),
             PlayerControlsSystem(),
             CameraSystem(camera),
 
@@ -102,46 +93,9 @@ class GameScreen(
     }
 
     override fun rootActor(): Actor {
-        return playerInfoActor()
-    }
-
-    fun playerInfoActor(): Actor {
-        val scale = 4.0f
-        val guiTexture = assetsManager.guiTexture
-        val portrait = TextureRegion(guiTexture, 0, 24, 24, 24)
-        val bg = TextureRegion(guiTexture, 120, 0, 72, 40)
-        val pi = image(portrait)
-
-        val leftPart = table {
-            add(pi).size(24 * scale, 24 * scale)
-                    .padRight(2.0f * scale).padBottom(1.0f * scale)
-            row()
-            add(cLabel("Name")).padTop(2 * scale)
+        return table {
+            setFillParent(true)
         }
-
-        val rightPart = table {
-            defaults().padBottom(5 * scale).padLeft(10 * scale)
-
-            add(cLabel("05/05")).padTop(6 * scale)
-            row()
-            label("05/05")
-            row()
-            label("05/05")
-            row()
-            label("05/05")
-        }
-
-        val percentWidth50 = Value.percentWidth(50.0f)
-        val result = table {
-            height = bg.regionHeight * scale
-            width = bg.regionWidth * scale
-            background = TextureRegionDrawable(bg)
-
-            add(leftPart).width(percentWidth50).expand()
-            add(rightPart).width(percentWidth50).expand()
-        }
-
-        return result
     }
 
     override fun screenInputProcessor() = controls

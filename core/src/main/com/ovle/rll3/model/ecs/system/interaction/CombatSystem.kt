@@ -33,6 +33,9 @@ class CombatSystem : EventSystem() {
                 processCombat(source, target, chosenAction, targetChosenAction)
                 processCombat(target, source, targetChosenAction, chosenAction)
 
+                send(Event.EntityChanged(source))
+                send(Event.EntityChanged(target))
+
                 if (source[living]!!.isDead) send(Event.EntityDied(source))
                 if (target[living]!!.isDead) send(Event.EntityDied(target))
 
