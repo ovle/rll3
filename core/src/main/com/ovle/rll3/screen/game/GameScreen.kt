@@ -11,9 +11,13 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.eventLogHook
 import com.ovle.rll3.model.ecs.system.*
+import com.ovle.rll3.model.ecs.system.gui.GUISystem
 import com.ovle.rll3.model.ecs.system.interaction.CombatSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionSystem
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
+import com.ovle.rll3.model.ecs.system.render.RenderInteractionInfoSystem
+import com.ovle.rll3.model.ecs.system.render.RenderLevelSystem
+import com.ovle.rll3.model.ecs.system.render.RenderObjectsSystem
 import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.initialScale
@@ -46,10 +50,9 @@ class GameScreen(
             GUISystem(stage, assetsManager.guiTexture),
             PlayerControlsSystem(),
             CameraSystem(camera),
-
             RenderLevelSystem(camera, levelTexturesInfo),
             RenderObjectsSystem(batch, objectsTextureInfo),
-
+            RenderInteractionInfoSystem(batch, assetsManager.guiTexture),
             GameSystem(),
             LevelSystem(),
             EntityInteractionSystem(),

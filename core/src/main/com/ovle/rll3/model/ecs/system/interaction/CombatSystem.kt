@@ -4,10 +4,12 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.model.ecs.component.advanced.LivingComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.system.EventSystem
 import ktx.ashley.get
+import java.lang.Integer.min
 
 
 class CombatSystem : EventSystem() {
@@ -59,7 +61,16 @@ class CombatSystem : EventSystem() {
 
         sourceComponent.stamina -= staminaLost
         targetComponent.health -= damage
+
+        validate(sourceComponent)
+        validate(targetComponent)
+
         send(Event.EntityTakeDamage(target, source, damage, blockedAmount))
+    }
+
+    private fun validate(component: LivingComponent) {
+        component.stamina = min(component.stamina, component.maxStamina)
+        component.health = min(component.health, component.maxHealth)
     }
 
     private fun getBaseDamage(sourceAction: CombatAction, targetAction: CombatAction) =

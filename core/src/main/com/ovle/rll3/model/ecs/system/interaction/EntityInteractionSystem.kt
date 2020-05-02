@@ -2,6 +2,7 @@ package com.ovle.rll3.model.ecs.system.interaction
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
@@ -15,13 +16,22 @@ import ktx.ashley.get
 class EntityInteractionSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<Event.EntitySelectEvent> { onEntitySelectEvent(it.entity) }
-        EventBus.subscribe<Event.EntityActionEvent> { onEntityInteractionEvent(it.entity, it.action) }
+        EventBus.subscribe<EntitySelectEvent> { onEntitySelectEvent(it.entity) }
+        EventBus.subscribe<EntityDeselectEvent> { onEntityDeselectEvent() }
+        EventBus.subscribe<EntityActionEvent> { onEntityInteractionEvent(it.entity, it.action) }
     }
 
     private fun onEntitySelectEvent(entity: Entity) {
-        val playerEntity = playerInteractionInfo()!!.controlledEntity!!
-        send(Event.ShowEntityActionsEvent(entity, actions(entity).filter { isAvailable(it, playerEntity, entity) }))
+        val interactionInfo = playerInteractionInfo()!!
+        interactionInfo.selectedEntity = entity
+
+        val playerEntity = interactionInfo.controlledEntity!!
+        send(ShowEntityActionsEvent(entity, actions(entity).filter { isAvailable(it, playerEntity, entity) }))
+    }
+
+    private fun onEntityDeselectEvent() {
+        val interactionInfo = playerInteractionInfo()!!
+        interactionInfo.selectedEntity = null
     }
 
     //todo rewrite to processors
@@ -31,7 +41,7 @@ class EntityInteractionSystem : EventSystem() {
         when (action) {
             Travel.actionName -> {
                 val connectionComponent = entity[levelConnection]!!
-                send(Event.EntityLevelTransition(playerEntity, connectionComponent.id))
+                send(EntityLevelTransition(playerEntity, connectionComponent.id))
             }
             Combat.actionName -> {
                 showCombatActions(playerEntity, entity)
@@ -52,6 +62,6 @@ class EntityInteractionSystem : EventSystem() {
 
     private fun showCombatActions(playerEntity: Entity, entity: Entity) {
         val combatActions = combatActions.filter { isAvailable(it, playerEntity, entity) }.map { it.name }
-        send(Event.ShowEntityActionsEvent(entity, combatActions))
+        send(ShowEntityActionsEvent(entity, combatActions))
     }
 }

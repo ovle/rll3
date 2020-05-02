@@ -68,7 +68,8 @@ fun EntitySystem.worldInfo() = worldInfoNullable()!!
 fun EntitySystem.playerInfoNullable() = entityWith(allEntities().toList(), PlayerComponent::class)?.get(player)?.player
 fun EntitySystem.playerInfo() = playerInfoNullable()!!
 
-fun EntitySystem.playerInteractionInfo() = entityWith(allEntities().toList(), PlayerInteractionComponent::class)
+fun EntitySystem.playerInteraction() = entityWith(allEntities().toList(), PlayerInteractionComponent::class)
+fun EntitySystem.playerInteractionInfo() = playerInteraction()
     ?.get(Mappers.playerInteraction)
 
 fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =

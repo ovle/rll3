@@ -40,7 +40,7 @@ class PlayerControlsSystem : EventSystem() {
         val gamePoint = centered(toGamePoint(event.screenPoint, RenderConfig))
         val entities = entitiesOnPosition(level, point(gamePoint))
 
-        if (entities.isEmpty()) send(EntityUnselectEvent())
+        if (entities.isEmpty()) send(EntityDeselectEvent())
         when {
             entities.isNotEmpty() -> onEntityAction(gamePoint, level, entities)
             else -> onMoveTargetSet(gamePoint, level)

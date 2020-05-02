@@ -1,19 +1,21 @@
-package com.ovle.rll3.model.ecs.system
+package com.ovle.rll3.model.ecs.system.render
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
+import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
-import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
+import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.animation
+import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
-import com.ovle.rll3.model.ecs.component.util.has
+import com.ovle.rll3.model.ecs.entity.playerInteraction
 import com.ovle.rll3.model.template.entity.EntityTemplate
-import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.roundToClosestByAbsInt
 import com.ovle.rll3.view.layer.TextureRegions
 import com.ovle.rll3.view.layer.TexturesInfo
@@ -30,13 +32,15 @@ class RenderObjectsSystem(
 ) : IteratingSystem(all(RenderComponent::class.java).get()) {
 
     private val toRender = mutableListOf<Entity>()
+
     //todo use all texture versions
-    private val regions = split(spriteTexture.texture, spriteWidth, spriteHeight)
+    private val spriteRegions = split(spriteTexture.texture, spriteWidth, spriteHeight)
+    private val defaultSprite = sprite(spriteRegions, 0, 0)
 
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val renderComponent = entity[render]!!
-        initSprite(renderComponent, entity)
+        initSprite(renderComponent, entity) //todo move somewhere, not to do this for every update for every entity
 
         if (renderComponent.visible) {
             toRender.add(entity)
@@ -47,62 +51,40 @@ class RenderObjectsSystem(
         super.update(deltaTime)
 
         toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.position.y }))
-        draw(toRender, deltaTime, RenderConfig)
+        draw(toRender, deltaTime)
         toRender.clear()
     }
+
 
     private fun initSprite(renderComponent: RenderComponent, entity: Entity) {
         val entityTemplate = entity[template]?.template
 
         if (renderComponent.sprite == null) {
-            renderComponent.sprite = if (entityTemplate == null) sprite(entity, regions) else sprite(entityTemplate, regions)
+            renderComponent.sprite = if (entityTemplate == null) defaultSprite
+                else sprite(entityTemplate, spriteRegions)
         }
     }
 
-    fun sprite(regions: TextureRegions, x: Int, y: Int): Sprite {
-        return Sprite(
-            region = regions[y][x] //switched
-        )
-    }
-
-    fun sprite(entity: Entity, regions: TextureRegions): Sprite =
-        when {
-            entity.has<PlayerInteractionComponent>() -> sprite(regions, 0, 0)
-            else -> defaultSprite(regions)
-        }
-
-    fun sprite(entityTemplate: EntityTemplate?, regions: TextureRegions): Sprite =
+    private fun sprite(entityTemplate: EntityTemplate?, regions: TextureRegions): Sprite =
         entityTemplate?.sprite?.run {
             val result= this.random()   //todo random ?
             sprite(regions, result.x, result.y)
-        }
-            ?: defaultSprite(regions)
-
-    private fun defaultSprite(regions: TextureRegions) = sprite(regions, 1, 0)
+        } ?: defaultSprite
 
 
-    private fun draw(entities: List<Entity>, deltaTime: Float, renderConfig: RenderConfig) {
+    private fun draw(entities: List<Entity>, deltaTime: Float) {
         batch.begin()
 
         for (entity in entities) {
             val renderComponent = entity[render]!!
+            val sprite = renderComponent.sprite ?: continue
             val animationComponent = entity[animation]
             val position = entity[position]!!.position
-            val sprite = renderComponent.sprite ?: continue
             val currentAnimation = animationComponent?.currentAnimation
             val region = currentAnimation?.currentFrame(deltaTime)
                 ?: sprite.textureRegion()
 
-
-            val screenX = (position.x).roundToClosestByAbsInt() * tileWidth
-            val screenY = (position.y).roundToClosestByAbsInt() * tileWidth
-            batch.draw(
-                region,
-                screenX.toFloat(),
-                screenY.toFloat(),
-                spriteWidth.toFloat(),
-                spriteHeight.toFloat()
-            )
+            batch.draw(position, region)
         }
 
         batch.end()

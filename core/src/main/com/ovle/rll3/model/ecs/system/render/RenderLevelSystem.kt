@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system
+package com.ovle.rll3.model.ecs.system.render
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
@@ -14,6 +14,7 @@ import com.ovle.rll3.model.ecs.component.advanced.PerceptionComponent
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.sight
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
+import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.view.bgColor
 import com.ovle.rll3.view.layer.CustomTiledMapTileLayer

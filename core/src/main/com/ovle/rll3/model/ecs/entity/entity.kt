@@ -31,7 +31,6 @@ fun newPlayerInteraction(playerEntity: Entity?, engine: Engine): Entity? = engin
         controlledEntity = playerEntity
         //focusedEntity = player
     ),
-    RenderComponent(),
     PositionComponent()
 )
 
