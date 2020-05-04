@@ -60,6 +60,8 @@ state:
   collision:
 sprite:
   - [6, 10]
+portrait:
+  - [3, 0]
 spawns:
   - chance: 0.5
     rotate: true

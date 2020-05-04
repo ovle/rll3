@@ -1,6 +1,7 @@
 package com.ovle.rll3.view.layer.level
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.ovle.rll3.model.ecs.component.advanced.DoorComponent
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType.Down
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
@@ -24,8 +25,9 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val positionDown = point(nearTiles.x, nearTiles.y - 1)
 
     val entities = entitiesOnPosition(levelInfo, position)
+    fun hasDoor(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), DoorComponent::class)
     fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
-    fun hasWall(tileId: TileType?) = if (tileId == null || (tileId == wallTileId) || (tileId == structureWallTileId)) 1 else 0
+    fun hasWall(tileId: TileType?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId) || (tileId == structureWallTileId) || hasDoor(x, y)) 1 else 0
     fun hasPit(tileId: TileType?) = if (tileId == pitFloorTileId) 1 else 0
 
     val upTileId = nearTiles.upValue?.typeId
@@ -34,7 +36,7 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val leftTileId = nearTiles.leftValue?.typeId
 
     val wallBorderTileIndex = nearTiles.run {
-        hasWall(rightTileId) + 2 * hasWall(downTileId) + 4 * hasWall(leftTileId) + 8 * hasWall(upTileId)
+        hasWall(rightTileId, x + 1, y) + 2 * hasWall(downTileId, x, y + 1) + 4 * hasWall(leftTileId, x - 1, y) + 8 * hasWall(upTileId, x, y - 1)
     }
     val tilesInSet = indoorFloorBorderTileSet.size * indoorFloorBorderTileSet.size - 1
     val floorBorderTileIndex = tilesInSet - nearTiles.run {
@@ -43,11 +45,12 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
 
     val tileId = nearTiles.value?.typeId
     val isWall = tileId == wallTileId
-    val isNextToFloor = upTileId in floorTypes
+    val isNextToDoor = hasDoor(nearTiles.x, nearTiles.y - 1)
+    val isNextToFloor = upTileId in floorTypes && !isNextToDoor
     val isRightToFloor = rightTileId in floorTypes
     val isLeftToFloor = leftTileId in floorTypes
 
-    val isNextToStructureFloor = upTileId == structureFloorTileId
+    val isNextToStructureFloor = upTileId == structureFloorTileId && !isNextToDoor
     val isFloor = tileId == roomFloorTileId
     val isPitFloor = tileId == pitFloorTileId
     val isFloorUp = downTileId == roomFloorTileId
@@ -56,6 +59,7 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val isStructureFloor = tileId == structureFloorTileId
     val isStructureWall = tileId == structureWallTileId
 
+    val isDoor = hasDoor(nearTiles.x, nearTiles.y)
     val isLevelConnection = hasLevelConnection(nearTiles.x, nearTiles.y)
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isFloorUp, isWall, false)
 
@@ -75,16 +79,17 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
     var animationInterval = defaultAnimationInterval * 2
     val tileRegions =  when (layerType) {
         LayerType.Walls -> when {
-            isWall || isStructureWall -> arrayOf(indexedTextureTile(wallBorderTileSet, wallBorderTileIndex, regions))
+            isWall || isStructureWall || isDoor -> arrayOf(indexedTextureTile(wallBorderTileSet, wallBorderTileIndex, regions))
             isFloor || isStructureFloor-> arrayOf(indexedTextureTile(floorBorderTileSet, floorBorderTileIndex, regions))
             else -> emptyTile
         }
         LayerType.Floor -> when {
+            isDoor -> emptyTile
             isStructureWall && isNextToStructureFloor -> arrayOf(regions[8][5])
             isStructureWall && isNextToFloor -> arrayOf(regions[8][4])
             isStructureFloor -> arrayOf(regions[8][(2..3).random()])
 
-            isWall && isNextToFloor -> arrayOf(regions[9][(4..5).random()])
+            isWall && isNextToFloor -> arrayOf(regions[9][(5..5).random()])
             isFloor -> arrayOf(regions[(9..10).random()][(0..3).random()])
             isPitFloor -> arrayOf(
                 regions[11][0],
