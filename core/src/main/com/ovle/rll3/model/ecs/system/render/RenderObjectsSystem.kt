@@ -4,25 +4,18 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
-import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
-import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.animation
-import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
-import com.ovle.rll3.model.ecs.entity.playerInteraction
 import com.ovle.rll3.model.template.entity.EntityTemplate
-import com.ovle.rll3.roundToClosestByAbsInt
 import com.ovle.rll3.view.layer.TextureRegions
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
-import com.ovle.rll3.view.tileWidth
 import ktx.ashley.get
 
 

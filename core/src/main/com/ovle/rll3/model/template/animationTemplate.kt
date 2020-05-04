@@ -4,6 +4,7 @@ package com.ovle.rll3.model.template
 enum class AnimationType {
     Idle,
     Walk,
+    Attack,
     TakeHit,
     Death
 }

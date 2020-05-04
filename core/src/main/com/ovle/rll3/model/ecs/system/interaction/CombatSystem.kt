@@ -15,17 +15,13 @@ import java.lang.Integer.min
 class CombatSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<Event.EntityActionEvent> { onEntityInteractionEvent(it.entity, it.action) }
+        EventBus.subscribe<Event.EntityActionEvent> { onEntityInteractionEvent(it.source, it.entity, it.action) }
     }
 
     //todo rewrite to processors
-    private fun onEntityInteractionEvent(entity: Entity, action: String) {
-        val playerEntity = playerInteractionInfo()!!.controlledEntity!!
-
+    private fun onEntityInteractionEvent(source: Entity, target: Entity, action: String) {
         when (action) {
             in combatActionNames -> {
-                val source = playerEntity   //todo not always
-                val target = entity
                 val chosenAction = combatActions.single { it.name == action }
                 val targetChosenAction = combatActions.filter { isAvailable(it, target, source) }.random() //todo use ai
 
@@ -40,12 +36,6 @@ class CombatSystem : EventSystem() {
 
                 if (source[living]!!.isDead) send(Event.EntityDied(source))
                 if (target[living]!!.isDead) send(Event.EntityDied(target))
-
-                if (target[living]!!.isDead) {
-                    //todo finish?
-                } else {
-                    send(Event.EntityActionEvent(target, EntityInteraction.Combat.actionName))
-                }
             }
         }
     }
@@ -65,7 +55,9 @@ class CombatSystem : EventSystem() {
         validate(sourceComponent)
         validate(targetComponent)
 
-        send(Event.EntityTakeDamage(target, source, damage, blockedAmount))
+        if (damage > 0) {
+            send(Event.EntityTakeDamage(target, source, damage, blockedAmount))
+        }
     }
 
     private fun validate(component: LivingComponent) {

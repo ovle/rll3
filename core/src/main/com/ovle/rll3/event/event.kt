@@ -40,7 +40,7 @@ sealed class Event {
     open class EntityFinishMove(entity: Entity) : EntityEvent(entity)
 
     //entity - model
-    open class EntityActionEvent(entity: Entity, val action: String) : EntityEvent(entity)
+    open class EntityActionEvent(val source: Entity, target: Entity, val action: String) : EntityEvent(target)
     open class EntityChanged(entity: Entity) : EntityEvent(entity)
     open class EntityCombatAction(entity: Entity, val action: CombatAction) : EntityEvent(entity)
     open class EntityTakeDamage(entity: Entity, val source: Entity?, val amount: Int, val blockedAmount: Int) : EntityEvent(entity)

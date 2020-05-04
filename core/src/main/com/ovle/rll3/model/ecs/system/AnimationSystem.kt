@@ -52,6 +52,7 @@ class AnimationSystem(
         subscribe<EntityStartMove> { onEntityAnimationStart(it.entity, AnimationType.Walk) }
         subscribe<EntityFinishMove> { onEntityAnimationStop(it.entity, AnimationType.Walk) }
         subscribe<EntityTakeDamage> { onEntityAnimationStart(it.entity, AnimationType.TakeHit) }
+        subscribe<EntityCombatAction> { onEntityAnimationStart(it.entity, AnimationType.Attack) }
         subscribe<EntityDied> { onEntityAnimationStart(it.entity, AnimationType.Death) }
     }
 

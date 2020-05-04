@@ -71,10 +71,12 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
     //todo
     private fun onShowEntityActionsEvent(entity: Entity, actions: Collection<String>) {
         hideActionsPopup()
+
+        val playerEntity = playerInteractionInfo()!!.controlledEntity!!
         val onActionClick:(String) -> Unit = {
             action ->
             hideActionsPopup()
-            EventBus.send(EntityActionEvent(entity, action))
+            EventBus.send(EntityActionEvent(playerEntity, entity, action))
         }
 
         val actor = entityActionsActor(actions, entity, onActionClick)
