@@ -8,12 +8,13 @@ import com.ovle.rll3.view.layer.TextureRegions
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
+import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 
 
 fun Batch.draw(position: Vector2, region: TextureRegion) {
     val screenX = (position.x).roundToClosestByAbsInt() * tileWidth
-    val screenY = (position.y).roundToClosestByAbsInt() * tileWidth
+    val screenY = (position.y).roundToClosestByAbsInt() * tileHeight
     draw(
             region,
             screenX.toFloat(),

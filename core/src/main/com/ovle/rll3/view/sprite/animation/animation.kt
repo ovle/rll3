@@ -29,8 +29,4 @@ class FrameAnimation(
     }
 
     fun isFinished() = animation.isAnimationFinished(stateTime)
-
-    fun flip() {
-        frames.forEach { it?.flip(true, false) }
-    }
 }
