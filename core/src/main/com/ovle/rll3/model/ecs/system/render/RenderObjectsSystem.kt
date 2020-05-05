@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
-import com.ovle.rll3.model.ecs.component.util.Mappers.animation
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
@@ -71,12 +70,8 @@ class RenderObjectsSystem(
 
         for (entity in entities) {
             val renderComponent = entity[render]!!
-            val sprite = renderComponent.sprite ?: continue
-            val animationComponent = entity[animation]
             val position = entity[position]!!.gridPosition
-            val currentAnimation = animationComponent?.currentAnimation
-            val region = currentAnimation?.currentFrame(deltaTime)
-                ?: sprite.textureRegion()
+            val region = renderComponent.currentRegion(deltaTime) ?: continue
 
             batch.draw(floatPoint(position), region)
         }

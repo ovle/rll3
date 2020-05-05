@@ -30,7 +30,6 @@ fun basicComponents(template: EntityTemplate): List<Component> {
         PositionComponent(),
         TemplateComponent(template),
         template.sprite?.run { RenderComponent() },
-        if (template.animations.isNotEmpty()) AnimationComponent() else null,
         ActionComponent()
     )
 }

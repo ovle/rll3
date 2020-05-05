@@ -4,9 +4,9 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus.subscribe
-import com.ovle.rll3.model.ecs.component.basic.AnimationComponent
+import com.ovle.rll3.model.ecs.component.basic.RenderComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers
-import com.ovle.rll3.model.ecs.component.util.Mappers.animation
+import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.entitiesWith
 import com.ovle.rll3.model.template.AnimationType
@@ -28,14 +28,14 @@ class AnimationSystem(
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
 
-        val entities = entitiesWith(allEntities().toList(), AnimationComponent::class)
+        val entities = entitiesWith(allEntities().toList(), RenderComponent::class)
         entities.forEach {
             processEntity(it)
         }
     }
 
     fun processEntity(entity: Entity) {
-        val animationComponent = entity[Mappers.animation]!!
+        val animationComponent = entity[render]!!
         val current = animationComponent.currentAnimation ?: return
         val template = current.template
 
@@ -51,7 +51,7 @@ class AnimationSystem(
 
         subscribe<EntityStartMove> { onEntityAnimationStart(it.entity, AnimationType.Walk) }
         subscribe<EntityFinishMove> { onEntityAnimationStop(it.entity, AnimationType.Walk) }
-        subscribe<EntityTakeDamage> { onEntityAnimationStart(it.entity, AnimationType.TakeHit) }
+//        subscribe<EntityTakeDamage> { onEntityAnimationStart(it.entity, AnimationType.TakeHit) }
         subscribe<EntityCombatAction> { onEntityAnimationStart(it.entity, AnimationType.Attack) }
         subscribe<EntityDied> { onEntityAnimationStart(it.entity, AnimationType.Death) }
     }
@@ -61,16 +61,17 @@ class AnimationSystem(
     }
 
     private fun onEntityAnimationStart(entity: Entity, type: AnimationType) {
+        println("onEntityAnimationStart: $type")
         initAnimations(entity)
 
-        val animation = entity[animation]
+        val animation = entity[render]
         animation?.let {
             startAnimation(it, type)
         }
     }
 
     private fun onEntityAnimationStop(entity: Entity, type: AnimationType) {
-        val animation = entity[animation]
+        val animation = entity[render]
         animation?.let {
             val isTerminal = it.currentAnimation?.template?.terminal ?: false
             stopAnimation(it, type)
@@ -81,7 +82,7 @@ class AnimationSystem(
     }
 
     private fun initAnimations(entity: Entity) {
-        val animation = entity[animation] ?: return
+        val animation = entity[render] ?: return
 
         if (animation.animations.isEmpty()) {
             val entityTemplate = entity[Mappers.template]?.template
@@ -90,14 +91,14 @@ class AnimationSystem(
         }
     }
 
-    private fun startDefault(animation: AnimationComponent) {
+    private fun startDefault(animation: RenderComponent) {
         val defaultAnimation = animation.animations.values.find { it.template.alwaysPlaying }
         defaultAnimation?.let {
             startAnimation(animation, it.template.type)
         }
     }
 
-    private fun startAnimation(animation: AnimationComponent, type: AnimationType) {
+    private fun startAnimation(animation: RenderComponent, type: AnimationType) {
         animation.currentAnimation?.let {
             val template = it.template
 
@@ -108,12 +109,12 @@ class AnimationSystem(
         animation.currentAnimation = animation.animations[type]
     }
 
-    private fun stopAnimations(animation: AnimationComponent) {
+    private fun stopAnimations(animation: RenderComponent) {
         animation.currentAnimation = null;
         animation.animations.values.forEach { it.reset() }
     }
 
-    private fun stopAnimation(animation: AnimationComponent, type: AnimationType) {
+    private fun stopAnimation(animation: RenderComponent, type: AnimationType) {
         val animationToStop = animation.animations[type] ?: return
         if (animationToStop.template.terminal) return
 

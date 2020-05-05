@@ -25,7 +25,6 @@ object Mappers {
     val sight = componentMapper<PerceptionComponent>()
     val move = componentMapper<MoveComponent>()
     val render = componentMapper<RenderComponent>()
-    val animation = componentMapper<AnimationComponent>()
     val living = componentMapper<LivingComponent>()
     val action = componentMapper<ActionComponent>()
 
