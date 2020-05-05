@@ -87,7 +87,7 @@ class LevelSystem: EventSystem() {
     }
 
     private fun resetEntity(entity: Entity, startPosition: GridPoint2) {
-        entity[position]!!.position = floatPoint(startPosition)
+        entity[position]!!.gridPosition = startPosition
         entity[move]?.path?.reset()
 
         //todo event
@@ -160,11 +160,11 @@ class LevelSystem: EventSystem() {
         if (oldConnection == null) {
             //todo should be far away from any connection?
             val anyConnection = connections.random()
-            return point(anyConnection[position]?.position!!).apply { y -= 1 }
+            return point(anyConnection[position]?.gridPosition!!).apply { y -= 1 }
         }
 
         val newConnection = connections.find { it[levelConnection]!!.id == oldConnection.backConnectionId }!!
-        val newConnectionPosition = newConnection[position]?.position!!
+        val newConnectionPosition = newConnection[position]?.gridPosition!!
 
         return point(newConnectionPosition).apply { y -= 1 }
     }

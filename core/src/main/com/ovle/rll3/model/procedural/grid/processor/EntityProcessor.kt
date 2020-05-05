@@ -50,7 +50,7 @@ class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
                 if (needSpawn) {
                     val spawnPosition = point(x, y)
                     val entity = newTemplatedEntity(spawnTemplate, gameEngine)
-                    entity[position]?.position = floatPoint(spawnPosition)
+                    entity[position]?.gridPosition = spawnPosition
                     entities.add(entity)
                 }
             }

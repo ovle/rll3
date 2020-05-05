@@ -92,7 +92,7 @@ class PlayerControlsSystem : EventSystem() {
         val interactionEntity = entityWith(allEntities().toList(), PlayerInteractionComponent::class) ?: return
         val positionComponent = interactionEntity[position] ?: return
 
-        positionComponent.position = centered(gamePoint.cpy())
+        positionComponent.gridPosition = point(centered(gamePoint.cpy()))
 
         val entitiesOnPosition = entitiesOnPosition(level, positionComponent.gridPosition) //todo filter interaction itself
         val interactionComponent = interactionEntity[playerInteraction] ?: return

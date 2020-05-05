@@ -35,7 +35,7 @@ fun newPlayerInteraction(playerEntity: Entity?, engine: Engine): Entity? = engin
 )
 
 fun newConnection(position: GridPoint2, gameEngine: Engine, connectionType: LevelConnectionType, levelDescriptionId: LevelDescriptionId): Entity = gameEngine.entity(
-    PositionComponent(floatPoint(position)),
+    PositionComponent(position),
     LevelConnectionComponent(type = connectionType, levelDescriptionId = levelDescriptionId)
 )
 

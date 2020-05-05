@@ -38,10 +38,11 @@ class CameraSystem(
             ?: return
         val interactionComponent = interactionEntity[playerInteraction] ?: return
         val focusedEntity = interactionComponent.focusedEntity ?: return
-        val focusedPosition = focusedEntity[position]?.position ?: return
+        val focusedPosition = focusedEntity[position]?.gridPosition ?: return
+        //todo float?
         val focusedScreenPosition = floatPoint(
-            focusedPosition.x * tileWidth,
-            focusedPosition.y * tileHeight
+            focusedPosition.x * tileWidth.toFloat(),
+            focusedPosition.y * tileHeight.toFloat()
         )
 
         if (focusedScreenPosition.epsilonEquals(RenderConfig.scrollOffset)) return

@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
+import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
@@ -36,14 +37,14 @@ class RenderInteractionInfoSystem(
     private fun drawInteractionInfo(interactionEntity: Entity?) {
         if (interactionEntity == null) return
 
-        val position = interactionEntity[position]!!.position
-        batch.draw(position, cursorSprite.textureRegion())
+        val gridPosition = interactionEntity[position]!!.gridPosition
+        batch.draw(floatPoint(gridPosition), cursorSprite.textureRegion())
 
         val pi = interactionEntity[playerInteraction]!!
         val selectedEntity = pi.selectedEntity
         if (selectedEntity != null) {
-            val selectedPosition = selectedEntity[Mappers.position]!!.position
-            batch.draw(selectedPosition, selectionSprite.textureRegion())
+            val selectedPosition = selectedEntity[position]!!.gridPosition
+            batch.draw(floatPoint(selectedPosition), selectionSprite.textureRegion())
         }
     }
 }

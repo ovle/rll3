@@ -22,6 +22,7 @@ operator fun GridPoint2.component2() = y
 fun point(x: Int = 0, y: Int = 0) = GridPoint2(x, y)
 fun point(x: Float = 0.0f, y: Float = 0.0f) = GridPoint2(x.roundToClosestByAbsInt(), y.roundToClosestByAbsInt())
 fun point(floatPoint: Vector2) = point(floatPoint.x, floatPoint.y)
+fun point(point: GridPoint2) = point(point.x, point.y)
 
 fun floatPoint(x: Float, y: Float) = Vector2(x, y)
 fun floatPoint(point: GridPoint2) = Vector2(point.x.toFloat(), point.y.toFloat())

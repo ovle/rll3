@@ -58,7 +58,7 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
         val entityTemplate = entityTemplate(name = templateName)
         points.forEach {(x, y) ->
             val entity = newTemplatedEntity(entityTemplate, gameEngine)
-            entity[Mappers.position]?.position = floatPoint(spawnPoint.x + x.toFloat(), spawnPoint.y - y.toFloat())
+            entity[Mappers.position]?.gridPosition = point(spawnPoint.x + x, spawnPoint.y - y)
             entities.add(entity)
         }
     }

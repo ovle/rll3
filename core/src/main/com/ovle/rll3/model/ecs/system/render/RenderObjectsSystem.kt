@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
+import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.animation
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
@@ -43,7 +44,7 @@ class RenderObjectsSystem(
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
 
-        toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.position.y }))
+        toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.gridPosition.y }))
         draw(toRender, deltaTime)
         toRender.clear()
     }
@@ -72,12 +73,12 @@ class RenderObjectsSystem(
             val renderComponent = entity[render]!!
             val sprite = renderComponent.sprite ?: continue
             val animationComponent = entity[animation]
-            val position = entity[position]!!.position
+            val position = entity[position]!!.gridPosition
             val currentAnimation = animationComponent?.currentAnimation
             val region = currentAnimation?.currentFrame(deltaTime)
                 ?: sprite.textureRegion()
 
-            batch.draw(position, region)
+            batch.draw(floatPoint(position), region)
         }
 
         batch.end()
