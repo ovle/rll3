@@ -3,7 +3,7 @@ package com.ovle.rll3.model.ecs.component.basic
 import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.math.GridPoint2
 
-class MoveComponent(val tilesPerSecond: Float = 2f, val path: MovePath = MovePath()) : Component
+class MoveComponent(val ticksPerTile: Int = 100, val path: MovePath = MovePath()) : Component
 class MovePath {
     private val path: MutableList<GridPoint2> = mutableListOf()
     private var currentIndex = -1

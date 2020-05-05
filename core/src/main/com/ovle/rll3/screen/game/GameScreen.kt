@@ -31,7 +31,7 @@ import kotlin.math.roundToInt
 class GameScreen(
     private val assetsManager: AssetsManager,
     screenManager: ScreenManager, batch: Batch, camera: OrthographicCamera
-): BaseScreen(screenManager, batch, camera) {
+) : BaseScreen(screenManager, batch, camera) {
 
     private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls()
@@ -55,6 +55,7 @@ class GameScreen(
             RenderInteractionInfoSystem(batch, assetsManager.guiTexture),
             GameSystem(),
             LevelSystem(),
+            TimeSystem(),
             EntityInteractionSystem(),
             CombatSystem(),
             MoveSystem(),

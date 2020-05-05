@@ -1,10 +1,7 @@
 package com.ovle.rll3.model.ecs.component.util
 
 import com.badlogic.ashley.core.Component
-import com.ovle.rll3.model.ecs.component.advanced.DoorComponent
-import com.ovle.rll3.model.ecs.component.advanced.LightSourceComponent
-import com.ovle.rll3.model.ecs.component.advanced.LivingComponent
-import com.ovle.rll3.model.ecs.component.advanced.Race
+import com.ovle.rll3.model.ecs.component.advanced.*
 import com.ovle.rll3.model.ecs.component.basic.*
 import com.ovle.rll3.model.ecs.component.dto.AOEData
 import com.ovle.rll3.model.template.entity.EntityTemplate
@@ -33,7 +30,8 @@ fun basicComponents(template: EntityTemplate): List<Component> {
         PositionComponent(),
         TemplateComponent(template),
         template.sprite?.run { RenderComponent() },
-        if (template.animations.isNotEmpty()) AnimationComponent() else null
+        if (template.animations.isNotEmpty()) AnimationComponent() else null,
+        ActionComponent()
     )
 }
 
