@@ -15,8 +15,7 @@ class RenderComponent(
 
     var currentAnimation: FrameAnimation? = null
 
-    //todo use saved flipped regions
-    private var flipped = false
+    var flipped = false
 
     fun currentRegion(deltaTime: Float) = currentAnimation?.currentFrame(deltaTime) ?: sprite?.textureRegion()
 

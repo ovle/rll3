@@ -20,7 +20,7 @@ class RenderInteractionInfoSystem(
     guiTexture: Texture
 ) : EntitySystem() {
 
-    private val guiRegions = split(guiTexture, spriteWidth, spriteHeight)
+    private val guiRegions = split(guiTexture, spriteWidth.toInt(), spriteHeight.toInt())
 
     private val cursorSprite = sprite(guiRegions, 0, 0)
     private val selectionSprite = sprite(guiRegions, 1, 0)

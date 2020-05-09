@@ -27,7 +27,7 @@ class RenderObjectsSystem(
     private val toRender = mutableListOf<Entity>()
 
     //todo use all texture versions
-    private val spriteRegions = split(spriteTexture.texture, spriteWidth, spriteHeight)
+    private val spriteRegions = split(spriteTexture.texture, spriteWidth.toInt(), spriteHeight.toInt())
     private val defaultSprite = sprite(spriteRegions, 0, 0)
 
 
@@ -73,7 +73,7 @@ class RenderObjectsSystem(
             val position = entity[position]!!.gridPosition
             val region = renderComponent.currentRegion(deltaTime) ?: continue
 
-            batch.draw(floatPoint(position), region)
+            batch.draw(floatPoint(position), region, renderComponent.flipped)
         }
 
         batch.end()

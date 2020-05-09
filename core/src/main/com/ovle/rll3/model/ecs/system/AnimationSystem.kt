@@ -23,7 +23,7 @@ class AnimationSystem(
     spriteTexture: TexturesInfo
 ) : EventSystem() {
 
-    private val regions = TextureRegion.split(spriteTexture.texture, spriteWidth, spriteHeight)
+    private val regions = TextureRegion.split(spriteTexture.texture, spriteWidth.toInt(), spriteHeight.toInt())
 
     override fun update(deltaTime: Float) {
         super.update(deltaTime)

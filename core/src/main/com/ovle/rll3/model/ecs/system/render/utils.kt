@@ -12,15 +12,20 @@ import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 
 
-fun Batch.draw(position: Vector2, region: TextureRegion) {
+fun Batch.draw(position: Vector2, region: TextureRegion, flipped: Boolean = false) {
+    //store in render comp?
     val screenX = (position.x).roundToClosestByAbsInt() * tileWidth
     val screenY = (position.y).roundToClosestByAbsInt() * tileHeight
+
+    val width = spriteWidth
+    val x = screenX.toFloat()
+    //use region.flip() ?
     draw(
             region,
-            screenX.toFloat(),
+            if (flipped) x + width else x,
             screenY.toFloat(),
-            spriteWidth.toFloat(),
-            spriteHeight.toFloat()
+            if (flipped) -width else width,
+            spriteHeight
     )
 }
 
