@@ -19,6 +19,7 @@ entities:
     points:
       - [5, 3]
       - [3, 6]
-  - name: villager 1
+  - name: barbarian
     points:
+      - [2, 4]
       - [3, 4]

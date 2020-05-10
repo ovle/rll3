@@ -36,7 +36,7 @@ spawns:
 
 ---
 
-name: villager 1
+name: villager
 description: |
   dirty and grumpy farmer.
   still, may be useful.
@@ -50,6 +50,24 @@ sprite:
   - [6, 13]
 portrait:
   - [0, 2]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [6, 13]
+  - type: Death
+    terminal: true
+    frames:
+      - [6, 15]
+  - type: Attack
+    frames:
+      - [6, 14]
+      - [7, 14]
+  - type: TakeHit
+    frames:
+      - [8, 14]
+      - [9, 14]
 
 ---
 
