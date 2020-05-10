@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
-import com.ovle.rll3.event.Event.EntityMoved
+import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.LevelLoaded
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.advanced.PerceptionComponent
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
-import com.ovle.rll3.model.ecs.component.util.Mappers.sight
+import com.ovle.rll3.model.ecs.component.util.Mappers.perception
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LevelParams
@@ -36,7 +36,7 @@ class RenderLevelSystem(
 
 
     override fun subscribe() {
-        EventBus.subscribe<EntityMoved> { onEntityMoved(it.entity) }
+        EventBus.subscribe<Event.EntityFovUpdated> { onEntityFovUpdated(it.entity) }
         EventBus.subscribe<LevelLoaded> { onLevelLoaded(it.level, it.levelParams) }
     }
 
@@ -69,13 +69,13 @@ class RenderLevelSystem(
         mapRenderer!!.render()
     }
 
-    private fun onEntityMoved(entity: Entity?) {
+    private fun onEntityFovUpdated(entity: Entity?) {
         if (entity == null) return
 
         val interactionInfo = playerInteractionInfo() ?: return
         if (interactionInfo.controlledEntity != entity) return
 
-        val sightComponent = entity[sight] ?: return
+        val sightComponent = entity[perception] ?: return
         markSightArea(sightComponent)
     }
 
@@ -83,7 +83,7 @@ class RenderLevelSystem(
         val mapLayers = tiledMap!!.layers
         for (i in 0 until mapLayers.size()) {
             val layer = mapLayers.get(i)
-            (layer as CustomTiledMapTileLayer).markVisiblePositions(perceptionComponent.sightPositions)
+            (layer as CustomTiledMapTileLayer).markVisiblePositions(perceptionComponent.fov)
         }
     }
 }

@@ -37,6 +37,7 @@ sealed class Event {
     open class EntitySelectEvent(entity: Entity) : EntityEvent(entity)
     open class EntityDeselectEvent : GameEvent()
     open class ShowEntityActionsEvent(entity: Entity, val actions: Collection<String>) : EntityEvent(entity)
+    open class EntityFovUpdated(entity: Entity) : EntityEvent(entity)
     //entity - view
     open class EntityAnimationStart(entity: Entity, val animation: AnimationType, val duration: Int) : EntityEvent(entity)
     open class EntityAnimationFinish(entity: Entity, val animation: AnimationType) : EntityEvent(entity)

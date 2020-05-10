@@ -13,9 +13,9 @@ import com.ovle.rll3.model.util.discretization.bresenham.line
 
 fun trace(fromPosition: GridPoint2, toPosition: GridPoint2, obstacles: Collection<GridPoint2>): List<GridPoint2> {
     val positions = line(fromPosition, toPosition)
-    val result = positions.takeWhile { it !in obstacles }
+    val result = positions.takeWhile { it !in obstacles }.toMutableList()
     //add last to see the walls
-    //if (result.size < positions.size) result += positions[result.size]
+    if (result.size < positions.size) result += positions[result.size]
 //    return positions.toList()
     return result
 }

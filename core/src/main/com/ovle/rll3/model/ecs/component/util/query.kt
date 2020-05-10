@@ -22,7 +22,7 @@ object Mappers {
     val template = componentMapper<TemplateComponent>()
     val collision = componentMapper<CollisionComponent>()
     val light = componentMapper<LightSourceComponent>()
-    val sight = componentMapper<PerceptionComponent>()
+    val perception = componentMapper<PerceptionComponent>()
     val move = componentMapper<MoveComponent>()
     val render = componentMapper<RenderComponent>()
     val living = componentMapper<LivingComponent>()
