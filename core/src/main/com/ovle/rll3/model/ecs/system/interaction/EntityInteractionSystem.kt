@@ -5,6 +5,8 @@ import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
+import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.system.EventSystem
@@ -23,10 +25,26 @@ class EntityInteractionSystem : EventSystem() {
 
     private fun onEntitySelectEvent(entity: Entity) {
         val interactionInfo = playerInteractionInfo()!!
+        if (!checkInteraction(entity, interactionInfo)) return
+
         interactionInfo.selectedEntity = entity
 
         val playerEntity = interactionInfo.controlledEntity!!
-        send(ShowEntityActionsEvent(entity, actions(entity).filter { isAvailable(it, playerEntity, entity) }))
+
+        val actions = actions(entity).filter { isAvailable(it, playerEntity, entity) }
+        if (actions.isNotEmpty()) {
+            send(ShowEntityActionsEvent(entity, actions))
+        }
+        send(ShowEntityInfoEvent(entity))
+    }
+
+    //todo duplicated in RenderObjectsSystem
+    private fun checkInteraction(entity: Entity, interactionInfo: PlayerInteractionComponent): Boolean {
+        val controlledEntity = interactionInfo.controlledEntity
+        val fov = controlledEntity?.get(Mappers.perception)?.fov ?: return true
+
+        val positionComponent = entity[Mappers.position]!!
+        return positionComponent.gridPosition in fov
     }
 
     private fun onEntityDeselectEvent() {

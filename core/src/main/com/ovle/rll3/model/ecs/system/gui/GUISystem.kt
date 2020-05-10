@@ -45,7 +45,7 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
         EventBus.subscribe<LevelLoaded> { onLevelLoaded(it.level, it.levelParams) }
         EventBus.subscribe<TimeChanged> { onTimeChanged(it.turn) }
 
-        EventBus.subscribe<EntitySelectEvent> { onEntitySelectEvent(it.entity) }
+        EventBus.subscribe<ShowEntityInfoEvent> { onShowEntityInfoEvent(it.entity) }
         EventBus.subscribe<EntityDeselectEvent> { onEntityDeselectEvent() }
         EventBus.subscribe<EntityChanged> { onEntityChangedEvent(it.entity) }
         EventBus.subscribe<ShowEntityActionsEvent> { onShowEntityActionsEvent(it.entity, it.actions) }
@@ -59,7 +59,7 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
         updateTimeInfo(turn, worldPanelInfo)
     }
 
-    private fun onEntitySelectEvent(entity: Entity) {
+    private fun onShowEntityInfoEvent(entity: Entity) {
         onEntityDeselectEvent() //todo
 
         val actor = entityInfoActor(focusedEntityPanelInfo, guiTexture).apply {
