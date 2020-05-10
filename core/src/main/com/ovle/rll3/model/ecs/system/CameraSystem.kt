@@ -9,6 +9,8 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.entityWith
+import com.ovle.rll3.model.ecs.entity.playerInteraction
+import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.rll3.view.tileHeight
@@ -34,9 +36,7 @@ class CameraSystem(
     }
 
     private fun focusCamera() {
-        val interactionEntity = entityWith(allEntities().toList(), PlayerInteractionComponent::class)
-            ?: return
-        val interactionComponent = interactionEntity[playerInteraction] ?: return
+        val interactionComponent = playerInteractionInfo() ?: return
         val focusedEntity = interactionComponent.focusedEntity ?: return
         val focusedPosition = focusedEntity[position]?.gridPosition ?: return
         //todo float?
@@ -58,6 +58,10 @@ class CameraSystem(
     }
 
     private fun onScrollOffsetChange(diff: Vector2) {
+        val interactionComponent = playerInteractionInfo()
+        val focusedEntity = interactionComponent?.focusedEntity
+        if (focusedEntity != null) return
+
         val scrollOffset = RenderConfig.scrollOffset
         scrollOffset.add(-diff.x, diff.y)
         camera.position.set(scrollOffset.x, scrollOffset.y, 0.0f)
