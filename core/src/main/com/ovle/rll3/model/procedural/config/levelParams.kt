@@ -20,6 +20,7 @@ import com.ovle.rll3.view.layer.level.dungeonTileToTexture
 import com.ovle.rll3.view.layer.level.villageTileToTexture
 
 val dungeonLevelParams = LevelParams(
+    templateName = "Dungeon",
     factoryParams = DungeonLevelFactoryParams(
         size = 25,
         roomTypes = arrayOf(SQUARE, ROUNDED, CASTLE, DIAMOND),
@@ -42,6 +43,7 @@ val dungeonLevelParams = LevelParams(
 )
 
 val caveLevelParams = LevelParams(
+    templateName = "Cave",
     factoryParams = CelullarAutomataLevelFactoryParams(
         size = 25,
         connectionStrategy = ConnectionStrategy.ConnectUnconnectedWithPath
@@ -57,6 +59,7 @@ val caveLevelParams = LevelParams(
 )
 
 val villageLevelParams = LevelParams(
+    templateName = "Village",
     factoryParams = LevelFactoryParams.NoiseLevelFactoryParams(
         size = 25,
         radius = 2,

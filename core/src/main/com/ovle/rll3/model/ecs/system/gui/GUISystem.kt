@@ -9,11 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.system.EventSystem
+import com.ovle.rll3.model.procedural.config.LevelParams
 import ktx.ashley.get
 
 
@@ -21,6 +23,7 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
 
     private val playerPanelInfo = EntityPanelInfo()
     private val focusedEntityPanelInfo = EntityPanelInfo()
+    private val worldPanelInfo = WorldPanelInfo()
 
     private var lastActionsPopup: Actor? = null
     private var lastEntityInfo: Actor? = null
@@ -30,13 +33,30 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
         super.addedToEngine(engine)
 
         rootActor().addActor(entityInfoActor(playerPanelInfo, guiTexture))
+        rootActor().addActor(worldInfoActor(worldPanelInfo, guiTexture).apply {
+            x = screenWidth() - width
+            y = screenHeight().toFloat() - height
+        })
+
+        updateTimeInfo(0, worldPanelInfo)
     }
 
     override fun subscribe() {
+        EventBus.subscribe<LevelLoaded> { onLevelLoaded(it.level, it.levelParams) }
+        EventBus.subscribe<TimeChanged> { onTimeChanged(it.turn) }
+
         EventBus.subscribe<EntitySelectEvent> { onEntitySelectEvent(it.entity) }
         EventBus.subscribe<EntityDeselectEvent> { onEntityDeselectEvent() }
         EventBus.subscribe<EntityChanged> { onEntityChangedEvent(it.entity) }
         EventBus.subscribe<ShowEntityActionsEvent> { onShowEntityActionsEvent(it.entity, it.actions) }
+    }
+
+    private fun onLevelLoaded(level: LevelInfo, levelParams: LevelParams) {
+        updateWorldInfo(levelParams, worldPanelInfo)
+    }
+
+    private fun onTimeChanged(turn: Long) {
+        updateTimeInfo(turn, worldPanelInfo)
     }
 
     private fun onEntitySelectEvent(entity: Entity) {
@@ -88,6 +108,18 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
         rootActor().addActor(actor)
     }
 
+    private fun updateWorldInfo(levelParams: LevelParams, panelInfo: WorldPanelInfo) {
+        with(panelInfo) {
+            levelNameWidget.setText(levelParams.templateName)
+        }
+    }
+
+    private fun updateTimeInfo(turn: Long, panelInfo: WorldPanelInfo) {
+        with(panelInfo) {
+            timeWidget.setText("Turn: $turn")
+        }
+    }
+
     private fun updateEntityInfo(entity: Entity, panelInfo: EntityPanelInfo) {
         val livingComponent = entity[living]
         val renderComponent = entity[render]
@@ -118,6 +150,7 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
 
     private fun rootActor() = stage.root
     private fun screenWidth() = 1017 //todo
+    private fun screenHeight() = 1017 //todo
 
     private fun hideActionsPopup() {
         rootActor().removeActor(lastActionsPopup)

@@ -20,7 +20,7 @@ fun Engine.entity(vararg components: Component) = createEntity().apply {
     addEntity(this)
 }
 
-fun newWorld(world: WorldInfo, engine: Engine) = engine.entity(WorldComponent(world))
+fun newWorld(world: WorldInfo, engine: Engine) = engine.entity(WorldComponent(world, TimeInfo()))
 
 fun newPlayer(player: PlayerInfo, engine: Engine) = engine.entity(PlayerComponent(player))
 

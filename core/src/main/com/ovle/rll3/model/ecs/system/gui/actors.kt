@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Value
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.ovle.rll3.model.ecs.component.util.Mappers
-import com.ovle.rll3.view.Palette
 import com.ovle.rll3.view.layer.image
 import com.ovle.rll3.view.layer.label as cLabel
 import ktx.actors.onClick
@@ -74,6 +73,31 @@ fun entityInfoActor(panelInfo: EntityPanelInfo, guiTexture: Texture): Actor {
 
         add(leftPart).width(percentWidth50).expand()
         add(rightPart).width(percentWidth50).expand()
+    }
+
+    return result
+}
+
+fun worldInfoActor(worldPanelInfo: WorldPanelInfo, guiTexture: Texture): Actor {
+    val scale = 4.0f
+    val bg = TextureRegion(guiTexture, 192, 0, 34, 40)
+    val fullWidth = Value.percentWidth(100.0f)
+
+    val worldInfo = table {
+        add(cLabel().also { worldPanelInfo.levelNameWidget = it })
+    }
+    val timeInfo = table {
+        add(cLabel().also { worldPanelInfo.timeWidget = it })
+    }
+
+    val result = table {
+        height = bg.regionHeight * scale
+        width = bg.regionWidth * scale
+        background = TextureRegionDrawable(bg)
+
+        add(worldInfo).width(fullWidth).expand()
+        row()
+        add(timeInfo).width(fullWidth).expand()
     }
 
     return result

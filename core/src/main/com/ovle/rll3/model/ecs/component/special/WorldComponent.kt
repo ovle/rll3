@@ -12,6 +12,11 @@ data class WorldInfo(
     val entryPoint: LevelDescriptionId
 )
 
+class TimeInfo {
+    var turn: Long = 0
+    var fractionTicks: Int = 0
+}
+
 data class LevelDescription(
     val id: LevelDescriptionId,
     val params: LevelParams,
@@ -19,5 +24,6 @@ data class LevelDescription(
 )
 
 class WorldComponent(
-    var world: WorldInfo
+    var world: WorldInfo,
+    var time: TimeInfo
 ): Component

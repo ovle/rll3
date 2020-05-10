@@ -13,3 +13,9 @@ class EntityPanelInfo {
     lateinit var healthInfoWidget: Label
     lateinit var staminaInfoWidget: Label
 }
+
+class WorldPanelInfo {
+    lateinit var portraitWidget: Image
+    lateinit var levelNameWidget: Label
+    lateinit var timeWidget: Label
+}

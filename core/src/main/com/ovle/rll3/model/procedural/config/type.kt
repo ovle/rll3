@@ -10,7 +10,8 @@ import com.ovle.rll3.view.layer.level.TileTextureInfo
 import com.ovle.rll3.view.layer.level.TileToTextureParams
 
 
-data class LevelParams (
+data class LevelParams(
+    val templateName: String,
     //main
     val factoryParams: LevelFactoryParams,
     val gridFactory: GridFactory,
