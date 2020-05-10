@@ -41,18 +41,21 @@ class AnimationSystem(
 
         val isNeedStopCurrentAnimation = !template.repeat && !template.terminal && current.isFinished()
         if (isNeedStopCurrentAnimation){
-            onEntityAnimationStop(entity, template.type)
+            onEntityAnimationFinish(entity, template.type)
         }
     }
 
 
     override fun subscribe() {
         subscribe<EntityInitialized> { onEntityInitialized(it.entity) }
+        subscribe<EntityAnimationStart> { onEntityAnimationStart(it.entity, it.animation, it.duration) }
+        subscribe<EntityAnimationFinish> { onEntityAnimationFinish(it.entity, it.animation)}
 
         subscribe<EntityStartMove> { onEntityAnimationStart(it.entity, AnimationType.Walk) }
-        subscribe<EntityFinishMove> { onEntityAnimationStop(it.entity, AnimationType.Walk) }
+        subscribe<EntityFinishMove> { onEntityAnimationFinish(it.entity, AnimationType.Walk) }
+
 //        subscribe<EntityTakeDamage> { onEntityAnimationStart(it.entity, AnimationType.TakeHit) }
-        subscribe<EntityCombatAction> { onEntityAnimationStart(it.entity, AnimationType.Attack) }
+//        subscribe<EntityCombatAction> { onEntityAnimationStart(it.entity, AnimationType.Attack) }
         subscribe<EntityDied> { onEntityAnimationStart(it.entity, AnimationType.Death) }
     }
 
@@ -60,7 +63,8 @@ class AnimationSystem(
         initAnimations(entity)
     }
 
-    private fun onEntityAnimationStart(entity: Entity, type: AnimationType) {
+    private fun onEntityAnimationStart(entity: Entity, type: AnimationType, duration: Int = 0) {
+        //todo sync animation length with duration
         println("onEntityAnimationStart: $type")
         initAnimations(entity)
 
@@ -70,7 +74,7 @@ class AnimationSystem(
         }
     }
 
-    private fun onEntityAnimationStop(entity: Entity, type: AnimationType) {
+    private fun onEntityAnimationFinish(entity: Entity, type: AnimationType) {
         val animation = entity[render]
         animation?.let {
             val isTerminal = it.currentAnimation?.template?.terminal ?: false
