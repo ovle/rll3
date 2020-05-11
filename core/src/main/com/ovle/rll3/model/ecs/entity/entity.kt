@@ -28,8 +28,8 @@ fun newLevel(level: LevelInfo, engine: Engine) = engine.entity(LevelComponent(le
 
 fun newPlayerInteraction(playerEntity: Entity?, engine: Engine): Entity? = engine.entity(
     PlayerInteractionComponent(
-        controlledEntity = playerEntity
-        //focusedEntity = player
+        controlledEntity = playerEntity,
+        focusedEntity = playerEntity
     ),
     PositionComponent()
 )

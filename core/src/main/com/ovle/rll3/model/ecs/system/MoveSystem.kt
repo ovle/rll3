@@ -1,23 +1,42 @@
 package com.ovle.rll3.model.ecs.system
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
+import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.basic.MoveComponent
 import com.ovle.rll3.model.ecs.component.basic.PositionComponent
+import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.action
 import com.ovle.rll3.model.ecs.component.util.Mappers.move
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.levelInfo
 import com.ovle.rll3.model.ecs.entity.obstacles
+import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
+import com.ovle.rll3.model.ecs.see
+import com.ovle.rll3.model.util.entityTilePassMapper
+import com.ovle.rll3.model.util.pathfinding.aStar.path
+import com.ovle.rll3.model.util.pathfinding.cost
+import com.ovle.rll3.model.util.pathfinding.heuristics
 import com.ovle.rll3.point
 import ktx.ashley.get
 import kotlin.math.abs
 
 
 class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionComponent::class.java).get()) {
+
+    override fun addedToEngine(engine: Engine) {
+        super.addedToEngine(engine)
+        subscribe()
+    }
+
+    fun subscribe() {
+        EventBus.subscribe<Event.EntityMoveTargetSet> { onMoveTargetSet(levelInfo(), it.moveTarget, it.entity) }
+    }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val moveComponent = entity[move]!!
@@ -82,5 +101,37 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         positionComponent.gridPosition = newPosition
 
         send(Event.EntityMoved(entity))
+    }
+
+    private fun onMoveTargetSet(level: LevelInfo, to: GridPoint2, entity: Entity) {
+        val tiles = level.tiles
+        if (!tiles.isPointValid(to.x, to.y)) return
+
+        val controlledEntity = playerInteractionInfo()?.controlledEntity ?: return
+        if (!controlledEntity.see(to)) return
+
+        val moveComponent = entity[move] ?: return
+        val positionComponent = entity[position]!!
+
+        val from = positionComponent.gridPosition
+        val path = path(
+            from,
+            to,
+            tiles,
+            obstacles(level),
+            heuristicsFn = ::heuristics,
+            costFn = ::cost,
+            tilePassTypeFn = ::entityTilePassMapper
+        )
+
+        if (path.isEmpty()) return
+
+        val movePath = moveComponent.path
+        movePath.set(path)
+
+        if (!movePath.started) {
+            movePath.start()
+            send(Event.EntityStartMove(entity))
+        }
     }
 }

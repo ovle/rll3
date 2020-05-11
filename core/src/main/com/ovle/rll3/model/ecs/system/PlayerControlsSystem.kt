@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
@@ -26,9 +27,12 @@ import kotlin.math.roundToInt
 class PlayerControlsSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<MouseLeftClick> {
+        EventBus.subscribe<MouseClick> {
             val level = levelInfoNullable() ?: return@subscribe
-            onMouseLeftClick(it, level)
+            when(it.button) {
+                Input.Buttons.LEFT -> onMouseLeftClick(it, level)
+                Input.Buttons.RIGHT -> onMouseRightClick(it, level)
+            }
         }
         EventBus.subscribe<MouseMoved> {
             val level = levelInfoNullable() ?: return@subscribe
@@ -36,15 +40,22 @@ class PlayerControlsSystem : EventSystem() {
         }
     }
 
-    private fun onMouseLeftClick(event: MouseLeftClick, level: LevelInfo) {
+    private fun onMouseLeftClick(event: MouseClick, level: LevelInfo) {
         val gamePoint = centered(toGamePoint(event.screenPoint, RenderConfig))
         val entities = entitiesOnPosition(level, point(gamePoint))
 
         if (entities.isEmpty()) send(EntityDeselectEvent())
         when {
-            entities.isNotEmpty() -> onEntityAction(gamePoint, level, entities)
-            else -> onMoveTargetSet(gamePoint, level)
+            entities.isNotEmpty() -> onEntityAction(gamePoint, level, entities) //todo default action
+            else -> {
+                val playerEntity = playerInteractionInfo()?.controlledEntity ?: return
+                send(EntityMoveTargetSet(point(gamePoint), playerEntity))
+            }
         }
+    }
+
+    private fun onMouseRightClick(event: MouseClick, level: LevelInfo) {
+        //todo
     }
 
     private fun onEntityAction(gamePoint: Vector2, level: LevelInfo, entities: Collection<Entity>) {
@@ -53,46 +64,15 @@ class PlayerControlsSystem : EventSystem() {
         }
     }
 
-    //todo at visible point only
-    private fun onMoveTargetSet(gamePoint: Vector2, level: LevelInfo) {
-        if (!isValid(gamePoint, level)) return
-
-        val playerEntity = playerInteractionInfo()?.controlledEntity ?: return
-        val moveComponent = playerEntity[move] ?: return
-        val positionComponent = playerEntity[position]!!
-
-        val tiles = level.tiles
-        val from = positionComponent.gridPosition
-        val to = point(gamePoint)
-
-        val path = path(
-            from,
-            to,
-            tiles,
-            obstacles(level),
-            heuristicsFn = ::heuristics,
-            costFn = ::cost,
-            tilePassTypeFn = ::entityTilePassMapper
-        )
-
-        if (path.isEmpty()) return
-
-        val movePath = moveComponent.path
-        movePath.set(path)
-
-        if (!movePath.started) {
-            movePath.start()
-            send(EntityStartMove(playerEntity))
-        }
-    }
-
     private fun onMousePositionChange(gamePoint: Vector2, level: LevelInfo) {
-        if (!isValid(gamePoint, level)) return
+        val point = point(centered(gamePoint.cpy()))
+        val tiles = level.tiles
+        if (!tiles.isPointValid(point.x, point.y)) return
 
         val interactionEntity = entityWith(allEntities().toList(), PlayerInteractionComponent::class) ?: return
         val positionComponent = interactionEntity[position] ?: return
 
-        positionComponent.gridPosition = point(centered(gamePoint.cpy()))
+        positionComponent.gridPosition = point
 
         val entitiesOnPosition = entitiesOnPosition(level, positionComponent.gridPosition) //todo filter interaction itself
         val interactionComponent = interactionEntity[playerInteraction] ?: return
@@ -100,11 +80,4 @@ class PlayerControlsSystem : EventSystem() {
     }
 
     private fun centered(gamePoint: Vector2) = floatPoint(gamePoint.x - 0.5f, gamePoint.y - 0.5f)
-
-    private fun isValid(gamePoint: Vector2, level: LevelInfo): Boolean {
-        return level.tiles.isPointValid(
-            gamePoint.x.roundToInt(),
-            gamePoint.y.roundToInt()
-        )
-    }
 }

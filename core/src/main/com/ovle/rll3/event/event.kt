@@ -1,6 +1,7 @@
 package com.ovle.rll3.event
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
@@ -13,7 +14,7 @@ sealed class Event {
 
     open class PlayerControlEvent : Event()
     class MouseMoved(val screenPoint: Vector2) : PlayerControlEvent()
-    class MouseLeftClick(val screenPoint: Vector2) : PlayerControlEvent()
+    class MouseClick(val screenPoint: Vector2, val button: Int) : PlayerControlEvent()
     class CameraScaleInc: PlayerControlEvent()
     class CameraScaleDec: PlayerControlEvent()
     class CameraScrolled(val amount: Int): PlayerControlEvent()
@@ -39,6 +40,7 @@ sealed class Event {
     open class ShowEntityInfoEvent(entity: Entity) : EntityEvent(entity)
     open class ShowEntityActionsEvent(entity: Entity, val actions: Collection<String>) : EntityEvent(entity)
     open class EntityFovUpdated(entity: Entity) : EntityEvent(entity)
+    open class EntityMoveTargetSet(val moveTarget: GridPoint2, entity: Entity) : EntityEvent(entity)
     //entity - view
     open class EntityAnimationStart(entity: Entity, val animation: AnimationType, val duration: Int) : EntityEvent(entity)
     open class EntityAnimationFinish(entity: Entity, val animation: AnimationType) : EntityEvent(entity)

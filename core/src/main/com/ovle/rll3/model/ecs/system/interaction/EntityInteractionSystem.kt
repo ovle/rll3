@@ -1,14 +1,13 @@
 package com.ovle.rll3.model.ecs.system.interaction
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
+import com.ovle.rll3.model.ecs.see
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction.Combat
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction.Travel
@@ -25,26 +24,16 @@ class EntityInteractionSystem : EventSystem() {
 
     private fun onEntitySelectEvent(entity: Entity) {
         val interactionInfo = playerInteractionInfo()!!
-        if (!checkInteraction(entity, interactionInfo)) return
+        val controlledEntity = interactionInfo.controlledEntity
+        if (controlledEntity?.see(entity) == false) return
 
         interactionInfo.selectedEntity = entity
 
-        val playerEntity = interactionInfo.controlledEntity!!
-
-        val actions = actions(entity).filter { isAvailable(it, playerEntity, entity) }
+        val actions = actions(entity).filter { isAvailable(it, controlledEntity!!, entity) }
         if (actions.isNotEmpty()) {
             send(ShowEntityActionsEvent(entity, actions))
         }
         send(ShowEntityInfoEvent(entity))
-    }
-
-    //todo duplicated in RenderObjectsSystem
-    private fun checkInteraction(entity: Entity, interactionInfo: PlayerInteractionComponent): Boolean {
-        val controlledEntity = interactionInfo.controlledEntity
-        val fov = controlledEntity?.get(Mappers.perception)?.fov ?: return true
-
-        val positionComponent = entity[Mappers.position]!!
-        return positionComponent.gridPosition in fov
     }
 
     private fun onEntityDeselectEvent() {

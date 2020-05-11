@@ -29,7 +29,7 @@ class PlayerControls : InputAdapter() {
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         lastDragPoint = null
         lastDragId = null
-        send(Event.MouseLeftClick(screenPoint(screenX, screenY)))    //todo left?
+        send(Event.MouseClick(screenPoint(screenX, screenY), button))    //todo left?
         return true
     }
 
