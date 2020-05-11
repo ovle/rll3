@@ -7,6 +7,7 @@ import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
+import com.ovle.rll3.view.noVisibilityFilter
 
 class PlayerControls : InputAdapter() {
 
@@ -16,6 +17,12 @@ class PlayerControls : InputAdapter() {
     override fun keyUp(keycode: Int) = when (keycode) {
         Input.Keys.MINUS -> { send(Event.CameraScaleDec()); true }
         Input.Keys.PLUS -> { send(Event.CameraScaleInc()); true }
+
+        //debug
+        Input.Keys.A -> { send(Event.DebugCombatEvent()); true }
+        Input.Keys.F -> { send(Event.DebugToggleFocusEvent()); true }
+        Input.Keys.V -> { noVisibilityFilter = !noVisibilityFilter; true }
+
         else -> false
     }
 

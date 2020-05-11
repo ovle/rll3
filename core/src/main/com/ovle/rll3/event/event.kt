@@ -28,12 +28,19 @@ sealed class Event {
     open class WorldInitEvent(val world: WorldInfo) : GlobalGameEvent()
     open class TimeChanged(val turn: Long) : GameEvent()
 
+    //debug
+    open class DebugCombatEvent: Event()
+    open class DebugToggleFocusEvent: Event()
+
     //level
     class LevelLoaded(val level: LevelInfo, val levelParams: LevelParams): GameEvent()
 
     //entity
     open class EntityEvent(val entity: Entity) : GameEvent()
     //entity - technical
+    open class EntityLeftClick(entity: Entity) : EntityEvent(entity)
+    open class EntityRightClick(entity: Entity) : EntityEvent(entity)
+
     open class EntityInitialized(entity: Entity) : EntityEvent(entity)
     open class EntitySelectEvent(entity: Entity) : EntityEvent(entity)
     open class EntityDeselectEvent : GameEvent()
