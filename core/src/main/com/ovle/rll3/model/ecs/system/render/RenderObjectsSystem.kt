@@ -16,6 +16,7 @@ import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.view.layer.TextureRegions
 import com.ovle.rll3.view.layer.TexturesInfo
+import com.ovle.rll3.view.noVisibilityFilter
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
@@ -51,7 +52,7 @@ class RenderObjectsSystem(
         val fov = controlledEntity?.get(perception)?.fov
 
         toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.gridPosition.y }))
-        if (fov != null) {
+        if (fov != null && !noVisibilityFilter) {
             //todo too much for each render
             toRender = toRender.filter { isInFov(it, fov) }.toMutableList()
         }

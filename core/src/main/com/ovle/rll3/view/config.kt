@@ -29,5 +29,5 @@ val bgColor = blackColor.cpy()
 const val defaultAnimationInterval = 0.125f
 
 //debug
-const val noLightning = true
-const val noVisibilityFilter = false
+var noLightning = true
+var noVisibilityFilter = false

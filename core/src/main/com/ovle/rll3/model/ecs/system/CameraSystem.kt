@@ -5,10 +5,9 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
-import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
-import com.ovle.rll3.model.ecs.entity.*
+import com.ovle.rll3.model.ecs.entity.focusedEntity
+import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.rll3.view.tileHeight
@@ -28,6 +27,16 @@ class CameraSystem(
 
         EventBus.subscribe<EntityInitialized> { onEntityMoved(it.entity) }
         EventBus.subscribe<EntityMoved> { onEntityMoved(it.entity) }
+
+        EventBus.subscribe<DebugToggleFocusEvent> { onDebugToggleFocusEvent() }
+    }
+
+    private fun onDebugToggleFocusEvent() {
+        val interactionInfo = playerInteractionInfo() ?: return
+        with (interactionInfo) {
+            focusedEntity = if (focusedEntity != null) null else controlledEntity
+            focusedEntity?.let { focusCamera(it) }
+        }
     }
 
     private fun onEntityMoved(entity: Entity) {
