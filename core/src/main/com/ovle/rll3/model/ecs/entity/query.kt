@@ -79,3 +79,6 @@ fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity
 
 fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
     worldInfo.levels.single { it.id == levelDescriptionId }
+
+fun EntitySystem.entitiesWithTemplateName(name: String) = entitiesWith(allEntities().toList(), TemplateComponent::class)
+        .filter { it[template]!!.template.name == name }

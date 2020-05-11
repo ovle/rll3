@@ -64,7 +64,8 @@ class GameScreen(
             CombatSystem(),
             MoveSystem(),
             AnimationSystem(objectsTextureInfo),
-            SightSystem()
+            SightSystem(),
+            DebugCombatAiSystem()
         )
 
         ecsEngine = PooledEngine()
