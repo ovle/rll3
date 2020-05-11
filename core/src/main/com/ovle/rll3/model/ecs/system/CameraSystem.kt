@@ -1,4 +1,5 @@
 package com.ovle.rll3.model.ecs.system
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.event.Event.*
@@ -7,10 +8,7 @@ import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
-import com.ovle.rll3.model.ecs.entity.allEntities
-import com.ovle.rll3.model.ecs.entity.entityWith
-import com.ovle.rll3.model.ecs.entity.playerInteraction
-import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
+import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.rll3.view.tileHeight
@@ -27,18 +25,19 @@ class CameraSystem(
         EventBus.subscribe<CameraScaleDec> { onScaleChange(-0.1f) }
         EventBus.subscribe<CameraScrolled> { onScaleChange(-it.amount.toFloat() * scaleScrollCoeff) }
         EventBus.subscribe<CameraMoved> { onScrollOffsetChange(it.amount) }
+
+        EventBus.subscribe<EntityInitialized> { onEntityMoved(it.entity) }
+        EventBus.subscribe<EntityMoved> { onEntityMoved(it.entity) }
     }
 
-    override fun update(deltaTime: Float) {
-        super.update(deltaTime)
+    private fun onEntityMoved(entity: Entity) {
+        if (entity != focusedEntity()) return
 
-        focusCamera()
+        focusCamera(entity)
     }
 
-    private fun focusCamera() {
-        val interactionComponent = playerInteractionInfo() ?: return
-        val focusedEntity = interactionComponent.focusedEntity ?: return
-        val focusedPosition = focusedEntity[position]?.gridPosition ?: return
+    private fun focusCamera(entity: Entity) {
+        val focusedPosition = entity[position]?.gridPosition ?: return
         //todo float?
         val focusedScreenPosition = floatPoint(
             focusedPosition.x * tileWidth.toFloat(),

@@ -6,11 +6,13 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.model.ecs.component.basic.TemplateComponent
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.level
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.Mappers.player
+import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.Mappers.world
 import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
@@ -71,6 +73,9 @@ fun EntitySystem.playerInfo() = playerInfoNullable()!!
 fun EntitySystem.playerInteraction() = entityWith(allEntities().toList(), PlayerInteractionComponent::class)
 fun EntitySystem.playerInteractionInfo() = playerInteraction()
     ?.get(Mappers.playerInteraction)
+
+fun EntitySystem.controlledEntity() = playerInteractionInfo()?.controlledEntity
+fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity
 
 fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
     worldInfo.levels.single { it.id == levelDescriptionId }
