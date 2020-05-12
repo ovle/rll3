@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
@@ -14,6 +15,7 @@ import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.action
 import com.ovle.rll3.model.ecs.component.util.Mappers.move
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
+import com.ovle.rll3.model.ecs.entity.controlledEntity
 import com.ovle.rll3.model.ecs.entity.levelInfo
 import com.ovle.rll3.model.ecs.entity.obstacles
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
@@ -35,7 +37,16 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
     }
 
     fun subscribe() {
-        EventBus.subscribe<Event.EntityMoveTargetSet> { onMoveTargetSet(levelInfo(), it.moveTarget, it.entity) }
+        EventBus.subscribe<Event.VoidClick> { onVoidClickEvent(it.button, it.point) }
+    }
+
+    private fun onVoidClickEvent(button: Int, point: GridPoint2) {
+        when (button) {
+            Input.Buttons.LEFT -> {
+                val controlledEntity = controlledEntity() ?: return
+                setMoveTarget(levelInfo(), point, controlledEntity)
+            }
+        }
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
@@ -103,7 +114,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         send(Event.EntityMoved(entity))
     }
 
-    private fun onMoveTargetSet(level: LevelInfo, to: GridPoint2, entity: Entity) {
+    private fun setMoveTarget(level: LevelInfo, to: GridPoint2, entity: Entity) {
         val tiles = level.tiles
         if (!tiles.isPointValid(to.x, to.y)) return
 

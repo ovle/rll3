@@ -44,11 +44,13 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
     override fun subscribe() {
         EventBus.subscribe<LevelLoaded> { onLevelLoaded(it.level, it.levelParams) }
         EventBus.subscribe<TimeChanged> { onTimeChanged(it.turn) }
+        EventBus.subscribe<EntityChanged> { onEntityChangedEvent(it.entity) }
 
         EventBus.subscribe<ShowEntityInfoEvent> { onShowEntityInfoEvent(it.entity) }
-        EventBus.subscribe<EntityDeselectEvent> { onEntityDeselectEvent() }
-        EventBus.subscribe<EntityChanged> { onEntityChangedEvent(it.entity) }
+        EventBus.subscribe<HideEntityInfoEvent> { onHideEntityInfoEvent() }
+
         EventBus.subscribe<ShowEntityActionsEvent> { onShowEntityActionsEvent(it.entity, it.actions) }
+        EventBus.subscribe<HideEntityActionsEvent> { onHideEntityActionsEvent() }
     }
 
     private fun onLevelLoaded(level: LevelInfo, levelParams: LevelParams) {
@@ -60,7 +62,7 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
     }
 
     private fun onShowEntityInfoEvent(entity: Entity) {
-        onEntityDeselectEvent() //todo
+        hideEntityInfo()
 
         val actor = entityInfoActor(focusedEntityPanelInfo, guiTexture).apply {
             x = screenWidth() - width
@@ -72,9 +74,8 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
         updateEntityInfo(entity, focusedEntityPanelInfo)
     }
 
-    private fun onEntityDeselectEvent() {
-        hideActionsPopup()
-        hideFocusedEntityInfo()
+    private fun onHideEntityInfoEvent() {
+        hideEntityInfo()
     }
 
     private fun onEntityChangedEvent(entity: Entity) {
@@ -106,6 +107,10 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
                 }
 
         rootActor().addActor(actor)
+    }
+
+    private fun onHideEntityActionsEvent() {
+        hideActionsPopup()
     }
 
     private fun updateWorldInfo(levelParams: LevelParams, panelInfo: WorldPanelInfo) {
@@ -157,7 +162,7 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
         lastActionsPopup = null
     }
 
-    private fun hideFocusedEntityInfo() {
+    private fun hideEntityInfo() {
         rootActor().removeActor(lastEntityInfo)
         lastEntityInfo = null
     }

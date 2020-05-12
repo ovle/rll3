@@ -35,19 +35,24 @@ sealed class Event {
     //level
     class LevelLoaded(val level: LevelInfo, val levelParams: LevelParams): GameEvent()
 
+    //technical
+    open class VoidClick(val button: Int, val point: GridPoint2) : GameEvent()
+
     //entity
     open class EntityEvent(val entity: Entity) : GameEvent()
     //entity - technical
-    open class EntityLeftClick(entity: Entity) : EntityEvent(entity)
-    open class EntityRightClick(entity: Entity) : EntityEvent(entity)
+    open class EntityClick(val button: Int, entity: Entity) : EntityEvent(entity)
+    open class EntityHoverEvent(entity: Entity) : EntityEvent(entity)
+    open class EntityUnhoverEvent : GameEvent()
 
     open class EntityInitialized(entity: Entity) : EntityEvent(entity)
     open class EntitySelectEvent(entity: Entity) : EntityEvent(entity)
-    open class EntityDeselectEvent : GameEvent()
+    open class EntityDeselectEvent(entity: Entity) : EntityEvent(entity)
     open class ShowEntityInfoEvent(entity: Entity) : EntityEvent(entity)
+    open class HideEntityInfoEvent() : GameEvent()
     open class ShowEntityActionsEvent(entity: Entity, val actions: Collection<String>) : EntityEvent(entity)
+    open class HideEntityActionsEvent() : GameEvent()
     open class EntityFovUpdated(entity: Entity) : EntityEvent(entity)
-    open class EntityMoveTargetSet(val moveTarget: GridPoint2, entity: Entity) : EntityEvent(entity)
     //entity - view
     open class EntityAnimationStart(entity: Entity, val animation: AnimationType, val duration: Int) : EntityEvent(entity)
     open class EntityAnimationFinish(entity: Entity, val animation: AnimationType) : EntityEvent(entity)
