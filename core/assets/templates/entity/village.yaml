@@ -5,12 +5,27 @@ description: ''
 state:
   collision:
 sprite:
-  - [6, 9]
-  - [7, 9]
+  default: [6, 9]
 spawns:
   - chance: 0.1
     rotate: true
     groupBonusChance: 0.2
+    mask: |
+      _ _ _
+      _ 0 _
+      _ _ _
+---
+
+name: tree 2
+description: ''
+state:
+  collision:
+sprite:
+  default: [7, 9]
+spawns:
+  - chance: 0.15
+    rotate: true
+    groupBonusChance: -0.2
     mask: |
       _ _ _
       _ 0 _
@@ -23,8 +38,8 @@ description: ''
 state:
   collision:
 sprite:
-  - [8, 9]
-  - [9, 9]
+  default: [8, 9]
+#   [9, 9]
 spawns:
   - chance: 0.3
     rotate: true
@@ -47,7 +62,7 @@ state:
     stamina: 3
   collision:
 sprite:
-  - [6, 13]
+  default: [6, 13]
 portrait:
   - [0, 2]
 animations:
@@ -83,7 +98,7 @@ state:
 spawns:
   - chance: 0.025
 sprite:
-  - [11, 13]
+  default: [11, 13]
 portrait:
   - [1, 3]
 animations:

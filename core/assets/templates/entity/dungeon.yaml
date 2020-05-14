@@ -1,56 +1,5 @@
 ---
 
-name: torch
-description: ''
-state:
-  light:
-    radius: 5
-sprite:
-  - [11, 1]
-spawns:
-  - mask: |
-      _ _ _
-      _ 1 _
-      _ 0 _
-    rotate: false
-    groupBonusChance: -1.0
-    groupRadius: 2
-  - mask: |
-      _ _ _
-      _ 1 _
-      _ 2 _
-    rotate: false
-    groupBonusChance: -1.0
-    groupRadius: 2
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [7, 1]
-      - [8, 1]
-      - [9, 1]
-      - [10, 1]
-
----
-
-name: door
-description: ''
-state:
-  collision:
-  door:
-sprite:
-  - [7, 8]
-spawns:
-  - chance: 0.7
-    rotate: true
-    mask: |
-      _ 1 _
-      0 2 _
-      _ 1 _
-
----
-
 name: sceleton
 description: ''
 state:
@@ -59,7 +8,7 @@ state:
     stamina: 3
   collision:
 sprite:
-  - [6, 10]
+  default: [6, 10]
 portrait:
   - [3, 0]
 spawns:

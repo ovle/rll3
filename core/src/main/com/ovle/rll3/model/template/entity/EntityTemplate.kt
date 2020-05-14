@@ -11,7 +11,7 @@ data class EntityTemplate(
     var version: String = "0.1",
     var description: String? = null,
     var state: Map<String, Any?> = mapOf(),
-    var sprite: Collection<GridPoint2>? = null,
+    var sprite: Map<String, GridPoint2>? = null,
     var portrait: Collection<GridPoint2>? = null,
     var animations: Collection<AnimationTemplate> = listOf(),
     var spawns: Collection<SpawnTemplate> = listOf()

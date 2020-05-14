@@ -11,7 +11,7 @@ fun processDoor(source: Entity, door: Entity) {
     }
     val closed = doorComponent.closed
     door[Mappers.collision]?.active = closed
-    door[Mappers.render]?.visible = closed    //todo change sprite
+    door[Mappers.render]?.switchSprite(if (closed) "default" else "opened")
 
     //todo update fov for all entities with this door in fov
 }

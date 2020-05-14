@@ -11,7 +11,7 @@ state:
   move:
   collision:
 sprite:
-  - [0, 1]
+  default: [0, 1]
 portrait:
   - [1, 1]
 animations:
@@ -43,7 +43,7 @@ state:
   move:
   collision:
 sprite:
-  - [0, 5]
+  default: [0, 5]
 portrait:
   - [1, 0]
 animations:
@@ -76,3 +76,55 @@ animations:
       - [1, 8]
       - [2, 8]
       - [3, 8]
+
+---
+
+name: torch
+description: ''
+state:
+  light:
+    radius: 5
+sprite:
+  default: [11, 1]
+spawns:
+  - mask: |
+      _ _ _
+      _ 1 _
+      _ 0 _
+    rotate: false
+    groupBonusChance: -1.0
+    groupRadius: 2
+  - mask: |
+      _ _ _
+      _ 1 _
+      _ 2 _
+    rotate: false
+    groupBonusChance: -1.0
+    groupRadius: 2
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [7, 1]
+      - [8, 1]
+      - [9, 1]
+      - [10, 1]
+
+---
+
+name: door
+description: ''
+state:
+  collision:
+  door:
+sprite:
+  default: [7, 8]
+  opened: [8, 8]
+spawns:
+  - chance: 0.7
+    rotate: true
+    mask: |
+      _ 1 _
+      0 2 _
+      _ 1 _

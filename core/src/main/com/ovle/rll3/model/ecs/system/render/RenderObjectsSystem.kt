@@ -13,11 +13,8 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
-import com.ovle.rll3.model.template.entity.EntityTemplate
-import com.ovle.rll3.view.layer.TextureRegions
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.noVisibilityFilter
-import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 import ktx.ashley.get
@@ -37,7 +34,7 @@ class RenderObjectsSystem(
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val renderComponent = entity[render]!!
-        initSprite(renderComponent, entity) //todo move somewhere, not to do this for every update for every entity
+        initSprites(renderComponent, entity) //todo move somewhere, not to do this for every update for every entity
 
         if (renderComponent.visible) {
             toRender.add(entity)
@@ -66,21 +63,24 @@ class RenderObjectsSystem(
         return positionComponent.gridPosition in fov
     }
 
-    private fun initSprite(renderComponent: RenderComponent, entity: Entity) {
+    private fun initSprites(renderComponent: RenderComponent, entity: Entity) {
         val entityTemplate = entity[template]?.template
 
         if (renderComponent.sprite == null) {
-            renderComponent.sprite = if (entityTemplate == null) defaultSprite
-                else sprite(entityTemplate, spriteRegions)
+            if (entityTemplate?.sprite == null) {
+                renderComponent.sprite = defaultSprite
+                return
+            }
+
+            val sprites = entityTemplate!!.sprite!!.mapValues {
+                (_, texturePoint) ->
+                sprite(spriteRegions, texturePoint.x, texturePoint.y)
+            }
+
+            renderComponent.sprites = sprites
+            renderComponent.sprite = sprites["default"]
         }
     }
-
-    private fun sprite(entityTemplate: EntityTemplate?, regions: TextureRegions): Sprite =
-        entityTemplate?.sprite?.run {
-            val result= this.random()   //todo random ?
-            sprite(regions, result.x, result.y)
-        } ?: defaultSprite
-
 
     private fun draw(entities: List<Entity>, deltaTime: Float) {
         batch.begin()
