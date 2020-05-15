@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.perception
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
+import com.ovle.rll3.view.noVisibilityFilter
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.reflect.KClass
@@ -23,12 +24,5 @@ fun Entity.see(position: GridPoint2): Boolean {
     check(this.has(perception))
 
     val fov = this[perception]!!.fov
-    return position in fov
-}
-
-fun Entity.see(entity: Entity): Boolean {
-    check(entity.has(position))
-
-    val positionComponent = entity[position]!!
-    return see(positionComponent.gridPosition)
+    return noVisibilityFilter || position in fov
 }
