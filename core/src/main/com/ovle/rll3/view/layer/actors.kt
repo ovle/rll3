@@ -34,6 +34,6 @@ inline fun textField(
 
 inline fun textArea(
     text: String,
-    style: String = defaultStyle,
+    style: String = "nobg",
     init: TextArea.() -> Unit = {}
 ) = actor(TextArea(text, Scene2DSkin.defaultSkin, style), init)

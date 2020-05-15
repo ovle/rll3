@@ -30,7 +30,10 @@ class RLL3Game : KtxGame<BaseScreen>() {
         val screenManager = disposable(ScreenManager(context) { bs: BaseScreen -> setScreen(bs.javaClass) })
         val assetManager = disposable(AssetManager())
 
-        Scene2DSkin.defaultSkin = disposable(Skin(Gdx.files.internal(skinPath)))
+        val skin = Skin(Gdx.files.internal(skinPath))
+        val font = skin.getFont("commodore-64")
+        font.data.scale(-0.1f)
+        Scene2DSkin.defaultSkin = disposable(skin)
 
         context.register {
             bindSingleton<Batch>(disposable(SpriteBatch()))

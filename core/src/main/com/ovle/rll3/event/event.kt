@@ -37,6 +37,7 @@ sealed class Event {
 
     //technical
     open class VoidClick(val button: Int, val point: GridPoint2) : GameEvent()
+    open class LogEvent(val message: String) : GameEvent()
 
     //entity
     open class EntityEvent(val entity: Entity) : GameEvent()

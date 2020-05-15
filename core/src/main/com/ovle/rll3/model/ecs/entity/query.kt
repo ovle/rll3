@@ -76,6 +76,7 @@ fun EntitySystem.playerInteractionInfo() = playerInteraction()
 
 fun EntitySystem.controlledEntity() = playerInteractionInfo()?.controlledEntity
 fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity
+fun EntitySystem.selectedEntity() = playerInteractionInfo()?.selectedEntity
 
 fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
     worldInfo.levels.single { it.id == levelDescriptionId }

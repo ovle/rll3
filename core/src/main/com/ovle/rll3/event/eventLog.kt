@@ -2,6 +2,7 @@ package com.ovle.rll3.event
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.basic.TemplateComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.has
@@ -10,12 +11,14 @@ import ktx.ashley.get
 fun eventLogHook(event: Event) {
     if (!isLoggableEvent(event)) return
 
-    println(message(event))
+    val message = message(event)
+    println(message)
+    send(LogEvent(message))
 }
 
 private fun isLoggableEvent(event: Event) =
     when (event) {
-//        is EntityInteractionEvent,
+        is EntityActionEvent,
         is EntityCombatAction,
         is EntityTakeDamage,
         is EntityDied,
@@ -25,7 +28,12 @@ private fun isLoggableEvent(event: Event) =
 
 private fun message(event: Event)=
     when (event) {
-//        is EntityInteractionEvent,
+        is EntityActionEvent -> {
+            val sourceInfo = event.source.info()
+            val entityInfo = event.entity.info()
+            val actionInfo = event.action
+            "$sourceInfo $actionInfo $entityInfo"
+        }
         is EntityCombatAction -> {
             val entityInfo = event.entity.info()
             val actionInfo = event.action.name
@@ -34,12 +42,12 @@ private fun message(event: Event)=
         is EntityTakeDamage -> {
             val entityInfo = event.entity.info()
             val sourceInfo = event.source?.info() ?: " unknown source"
-            "$entityInfo takes ${event.amount} of <type> damage from $sourceInfo, blocked: ${event.blockedAmount}"
+            "$entityInfo takes ${event.amount}(b${event.blockedAmount}) damage from $sourceInfo"
         }
         is EntityDied -> { "${event.entity.info()} died" }
         is EntityLevelTransition -> {
             val entityInfo = event.entity.info()
-            "$entityInfo moved to another place"
+            "$entityInfo has leaved this level"
         }
         else -> throw IllegalArgumentException("not supported journal for event $event")
     }

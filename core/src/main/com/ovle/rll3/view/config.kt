@@ -2,7 +2,7 @@ package com.ovle.rll3.view
 
 import com.ovle.rll3.view.Palette.blackColor
 
-const val initialScale = 1.4f
+const val initialScale = 1.3f
 const val scaleScrollCoeff = 0.1f
 
 const val screenWidth = 480.0f

@@ -9,6 +9,7 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.entity.controlledEntity
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
+import com.ovle.rll3.model.ecs.entity.selectedEntity
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction.*
 import com.ovle.rll3.model.ecs.system.interaction.use.use
@@ -50,10 +51,14 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     private fun onEntityHoverEvent(entity: Entity) {
+        if (selectedEntity() != null) return
+
         send(ShowEntityInfoEvent(entity))
     }
 
     private fun onEntityUnhoverEvent() {
+        if (selectedEntity() != null) return
+
         send(HideEntityInfoEvent())
     }
 

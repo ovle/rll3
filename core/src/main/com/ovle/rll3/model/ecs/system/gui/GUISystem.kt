@@ -24,6 +24,7 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
     private val playerPanelInfo = EntityPanelInfo()
     private val focusedEntityPanelInfo = EntityPanelInfo()
     private val worldPanelInfo = WorldPanelInfo()
+    private val logPanelInfo = LogPanelInfo()
 
     private var lastActionsPopup: Actor? = null
     private var lastEntityInfo: Actor? = null
@@ -37,6 +38,9 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
             x = screenWidth() - width
             y = screenHeight().toFloat() - height
         })
+        rootActor().addActor(logActor(logPanelInfo, guiTexture).apply {
+            x = screenWidth()/2 - width/2
+        })
 
         updateTimeInfo(0, worldPanelInfo)
     }
@@ -45,12 +49,17 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
         EventBus.subscribe<LevelLoaded> { onLevelLoaded(it.level, it.levelParams) }
         EventBus.subscribe<TimeChanged> { onTimeChanged(it.turn) }
         EventBus.subscribe<EntityChanged> { onEntityChangedEvent(it.entity) }
+        EventBus.subscribe<LogEvent> { onLogEvent(it.message) }
 
         EventBus.subscribe<ShowEntityInfoEvent> { onShowEntityInfoEvent(it.entity) }
         EventBus.subscribe<HideEntityInfoEvent> { onHideEntityInfoEvent() }
 
         EventBus.subscribe<ShowEntityActionsEvent> { onShowEntityActionsEvent(it.entity, it.actions) }
         EventBus.subscribe<HideEntityActionsEvent> { onHideEntityActionsEvent() }
+    }
+
+    private fun onLogEvent(message: String) {
+        logPanelInfo.textWidget.appendText("\n$message")
     }
 
     private fun onLevelLoaded(level: LevelInfo, levelParams: LevelParams) {
@@ -100,10 +109,12 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
             EventBus.send(EntityActionEvent(playerEntity, entity, action))
         }
 
-        val actor = entityActionsActor(actions, entity, onActionClick)
+        val actor = entityActionsActor(actions, onActionClick)
                 .apply {
                     lastActionsPopup = this
-                    x = screenWidth()/2 - width/2
+                    x = screenWidth() - width
+                    y = 40 * guiScale
+//                    x = screenWidth()/2 - width/2
                 }
 
         rootActor().addActor(actor)
