@@ -30,5 +30,6 @@ object Mappers {
 
     //todo remove these
     val door = componentMapper<DoorComponent>()
+    val container = componentMapper<ContainerComponent>()
     val player = componentMapper<PlayerComponent>()
 }

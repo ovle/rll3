@@ -23,3 +23,6 @@ entities:
     points:
       - [2, 4]
       - [3, 4]
+  - name: stash
+    points:
+      - [3, 2]

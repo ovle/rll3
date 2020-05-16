@@ -128,3 +128,20 @@ spawns:
       _ 1 _
       0 2 _
       _ 1 _
+
+---
+
+name: stash
+description: ''
+state:
+  container:
+sprite:
+  default: [7, 0]
+  opened: [8, 0]
+spawns:
+  - mask: |
+      1 1 1
+      _ 0 _
+      _ 0 _
+    chance: 0.01
+    rotate: true

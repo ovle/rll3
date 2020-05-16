@@ -22,7 +22,8 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
         stamina = maxStamina
     }},
     "perception" to { value -> PerceptionComponent(value!!["sight"] as Int? ?: 5) },
-    "door" to { _ -> DoorComponent() }
+    "door" to { _ -> DoorComponent() },
+    "container" to { _ -> ContainerComponent() }
 )
 
 

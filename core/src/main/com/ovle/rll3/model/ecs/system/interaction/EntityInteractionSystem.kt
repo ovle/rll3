@@ -98,6 +98,8 @@ class EntityInteractionSystem : EventSystem() {
             }
             Use.actionName -> {
                 use(playerEntity, entity)
+                //todo event log waits for send(EntityActionEvent(playerEntity, entity, action))
+                //but it causes endless recursion here
             }
         }
     }
