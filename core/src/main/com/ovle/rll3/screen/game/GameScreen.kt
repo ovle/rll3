@@ -65,6 +65,8 @@ class GameScreen(
             MoveSystem(),
             AnimationSystem(objectsTextureInfo),
             SightSystem(),
+            ContainerSystem(),
+
             DebugCombatAiSystem()
         )
 

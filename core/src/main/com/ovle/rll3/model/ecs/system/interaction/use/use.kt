@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.ecs.system.interaction.use
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.ecs.component.advanced.ContainerComponent
 import com.ovle.rll3.model.ecs.component.advanced.DoorComponent
+import com.ovle.rll3.model.ecs.component.advanced.StashComponent
 import com.ovle.rll3.model.ecs.component.util.has
 
 class EntityInteractionCase(
@@ -16,8 +16,8 @@ val entityInteractionCases = arrayOf(
         action = { s, e: Entity -> processDoor(s, e) }
     ),
     EntityInteractionCase(
-        condition = { _, e: Entity -> e.has<ContainerComponent>() },
-        action = { s, e: Entity -> processContainer(s, e) }
+        condition = { _, e: Entity -> e.has<StashComponent>() },
+        action = { s, e: Entity -> processStash(s, e) }
     )
 )
 

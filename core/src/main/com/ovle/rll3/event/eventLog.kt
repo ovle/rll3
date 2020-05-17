@@ -22,6 +22,7 @@ private fun isLoggableEvent(event: Event) =
         is EntityCombatAction,
         is EntityTakeDamage,
         is EntityDied,
+        is EntityTakeItems,
         is EntityLevelTransition -> true
         else -> false
     }
@@ -45,6 +46,10 @@ private fun message(event: Event)=
             "$entityInfo takes ${event.amount}(b${event.blockedAmount}) damage from $sourceInfo"
         }
         is EntityDied -> { "${event.entity.info()} died" }
+        is EntityTakeItems -> {
+            val itemsInfo = event.items.map { it[template]?.template?.name ?: "unknown" }
+            "${event.entity.info()} taken: $itemsInfo"
+        }
         is EntityLevelTransition -> {
             val entityInfo = event.entity.info()
             "$entityInfo has leaved this level"

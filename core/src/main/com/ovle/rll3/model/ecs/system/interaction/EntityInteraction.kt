@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.ecs.system.interaction
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.ecs.component.advanced.ContainerComponent
+import com.ovle.rll3.model.ecs.component.basic.ContainerComponent
 import com.ovle.rll3.model.ecs.component.advanced.DoorComponent
 import com.ovle.rll3.model.ecs.component.advanced.LivingComponent
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
