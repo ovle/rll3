@@ -6,7 +6,7 @@ import java.util.*
 
 
 data class PlayerInfo(
-    val playerId: PlayerId = UUID.randomUUID(),
+    val playerId: String,
     val templateName: String
 )
 

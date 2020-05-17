@@ -14,6 +14,7 @@ private inline fun <reified T : Component> componentMapper(): ComponentMapper<T>
 inline fun <reified T : Component> Entity.has() = this.has(ComponentMapper.getFor(T::class.java))
 
 object Mappers {
+    val id = componentMapper<IdComponent>()
     val world = componentMapper<WorldComponent>()
     val level = componentMapper<LevelComponent>()
     val playerInteraction = componentMapper<PlayerInteractionComponent>()

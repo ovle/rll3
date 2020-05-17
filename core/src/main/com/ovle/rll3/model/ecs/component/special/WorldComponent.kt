@@ -1,13 +1,14 @@
 package com.ovle.rll3.model.ecs.component.special
 
 import com.badlogic.ashley.core.Component
+import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.ecs.system.level.WorldId
 import com.ovle.rll3.model.procedural.config.LevelParams
 import java.util.*
 
 data class WorldInfo(
-    val id: WorldId = UUID.randomUUID(),
+    val id: WorldId,
     val levels: List<LevelDescription>,
     val entryPoint: LevelDescriptionId
 )

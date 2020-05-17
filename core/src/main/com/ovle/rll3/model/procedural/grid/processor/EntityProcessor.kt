@@ -8,6 +8,7 @@ import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
+import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.template.SpawnTemplate
 import com.ovle.rll3.model.template.entity.EntityTemplates
 import com.ovle.rll3.model.tile.*
@@ -49,7 +50,8 @@ class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
 
                 if (needSpawn) {
                     val spawnPosition = point(x, y)
-                    val entity = newTemplatedEntity(spawnTemplate, gameEngine)
+                    val id = randomId()
+                    val entity = newTemplatedEntity(id, spawnTemplate, gameEngine)
                     entity[position]?.gridPosition = spawnPosition
                     entities.add(entity)
                 }

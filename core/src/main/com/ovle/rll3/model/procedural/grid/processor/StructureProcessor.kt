@@ -5,12 +5,14 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
-import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.special.LevelDescription
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers
+import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
+import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.template.entity.entityTemplate
+import com.ovle.rll3.model.template.structure.StructureEntity
 import com.ovle.rll3.model.template.structure.StructureTemplate
 import com.ovle.rll3.model.template.structure.StructureTemplates
 import com.ovle.rll3.model.tile.Tile
@@ -29,48 +31,56 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
         val entities = mutableListOf<Entity>()
 
         //todo
-        val template = templates.templates.singleOrNull { it.name == "house 1" } ?: return
+        val template = templates.templates.singleOrNull { it.name == "village 1" } ?: return
         val mask = template.parsedMask
         val maskWidth = mask.size
         val maskHeight = mask.maxBy { it.size }!!.size
+        val size = tiles.size
+        val widthDiff = size - maskWidth
+        val heightDiff = size - maskHeight
 
         val check = Math.random()
         val chance = 1.0
         val needSpawn = check <= chance
 
         //spawn point is the left top corner of mask
-        val spawnPoint = spawnPoint()
+        val spawnPoint = spawnPoint(widthDiff, heightDiff, size)
         val (x, y) = spawnPoint
         if (needSpawn) {
-            val positions = spawnStructure(mask, tiles, y, x)
+            val positions = spawnStructure(mask, tiles, x, y)
             levelInfo.structures.add(StructureInfo(template, positions))
 
             val entitiesInfo = template.entities
             entitiesInfo.forEach{
-                (templateName, points) -> spawnEntities(templateName, points, gameEngine, spawnPoint, entities)
+                spawnEntities(it, gameEngine, spawnPoint, entities)
             }
         }
 
         levelInfo.objects.plusAssign(entities)
     }
 
-    private fun spawnEntities(templateName: String, points: Array<Pair<Int, Int>>, gameEngine: Engine, spawnPoint: GridPoint2, entities: MutableList<Entity>) {
+    private fun spawnEntities(e: StructureEntity, gameEngine: Engine, spawnPoint: GridPoint2, entities: MutableList<Entity>) {
+        val (templateName, points, ids) = e
         val entityTemplate = entityTemplate(name = templateName)
-        points.forEach {(x, y) ->
-            val entity = newTemplatedEntity(entityTemplate, gameEngine)
-            entity[Mappers.position]?.gridPosition = point(spawnPoint.x + x, spawnPoint.y - y)
+        points.forEachIndexed {
+            i, point ->
+            val (x, y) = point
+            val id = if (i < ids.size) ids[i] else randomId()
+            val entity = newTemplatedEntity(id, entityTemplate, gameEngine)
+            entity[position]?.gridPosition = point(spawnPoint.x + x, spawnPoint.y - y)
+
             entities.add(entity)
         }
     }
 
-    private fun spawnStructure(mask: List<List<TileType>>, tiles: TileArray, y: Int, x: Int): Set<GridPoint2> {
+    private fun spawnStructure(mask: List<List<TileType>>, tiles: TileArray, x: Int, y: Int): Set<GridPoint2> {
         val result = mutableSetOf<GridPoint2>()
         mask.forEachIndexed { i, _ ->
             mask[i].forEachIndexed { j, _ ->
                 val tileType = mask[i][j]
                 if (tileType != whateverTileId) {
-                    val resultX = y + j
-                    val resultY = x - i
+                    val resultX = x + j
+                    val resultY = y - i
 
                     tiles.setTile(resultX, resultY, Tile(tileType))
                     result.add(point(resultX, resultY))
@@ -80,6 +90,5 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
         return result
     }
 
-    //todo
-    private fun spawnPoint() = point(10, 10)
+    private fun spawnPoint(widthDiff: Int, heightDiff: Int, size: Int) = point((0..widthDiff).random(), (size - 1) - (0..heightDiff).random())
 }

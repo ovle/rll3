@@ -10,10 +10,12 @@ import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.entity.levelDescription
 import com.ovle.rll3.model.ecs.entity.newConnection
+import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.point
 import ktx.ashley.get
+import java.util.*
 
 
 class LevelConnectionProcessor {
@@ -71,7 +73,8 @@ class LevelConnectionProcessor {
             val descriptionId = tempConnections.random()
             tempConnections.remove(descriptionId)
 
-            result.add(newConnection(position, gameEngine, connectionType, descriptionId))
+            val id = randomId()
+            result.add(newConnection(id, position, gameEngine, connectionType, descriptionId))
 
             attempts++
         }

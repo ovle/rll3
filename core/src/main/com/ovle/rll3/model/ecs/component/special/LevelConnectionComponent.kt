@@ -6,7 +6,7 @@ import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import java.util.*
 
 class LevelConnectionComponent(
-    val id: ConnectionId = UUID.randomUUID(),
+    val id: ConnectionId,
     val type: LevelConnectionType,
     val levelDescriptionId: LevelDescriptionId,
 

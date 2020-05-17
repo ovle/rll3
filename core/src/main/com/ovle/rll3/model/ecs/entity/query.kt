@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.model.ecs.component.basic.IdComponent
 import com.ovle.rll3.model.ecs.component.basic.TemplateComponent
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.util.Mappers
@@ -16,6 +17,7 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.Mappers.world
 import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
+import com.ovle.rll3.model.ecs.system.level.EntityId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import ktx.ashley.get
 import ktx.ashley.has
@@ -52,7 +54,7 @@ fun connectionOnPosition(levelInfo: LevelInfo, position: GridPoint2) = entitiesO
         it.has<LevelConnectionComponent>()
     }
 
-fun connection(levelInfo: LevelInfo?, id: ConnectionId?) =
+fun connection(levelInfo: LevelInfo?, id: String?) =
     entitiesWith(levelInfo?.objects
         ?: emptyList(), LevelConnectionComponent::class)
         .find { it[levelConnection]!!.id == id }
@@ -83,3 +85,6 @@ fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInf
 
 fun EntitySystem.entitiesWithTemplateName(name: String) = entitiesWith(allEntities().toList(), TemplateComponent::class)
         .filter { it[template]!!.template.name == name }
+
+fun EntitySystem.entity(id: EntityId) = entitiesWith(allEntities().toList(), IdComponent::class)
+        .single { it[Mappers.id]!!.id == id }

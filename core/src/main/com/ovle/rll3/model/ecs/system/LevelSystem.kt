@@ -2,11 +2,9 @@ package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.util.Mappers.level
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
@@ -28,7 +26,7 @@ class LevelSystem: EventSystem() {
 
     override fun subscribe() {
         EventBus.subscribe<WorldInitEvent> { loadFirstLevel() }
-        EventBus.subscribe<EntityLevelTransition> { loadNextLevel(levelInfo(), it.connectionId) }
+        EventBus.subscribe<EntityLevelTransition> { loadNextLevel(levelInfo(), it.connectionId as String) }
     }
 
     private fun loadFirstLevel(): LevelInfo {
@@ -61,7 +59,7 @@ class LevelSystem: EventSystem() {
         if (interactionEntity != null) playerEntity = interactionEntity[playerInteraction]?.controlledEntity
 
         val playerTemplate = entityTemplate(TemplatesType.Common, playerInfo.templateName)
-        if (playerEntity == null) playerEntity = newTemplatedEntity(playerTemplate, engine)
+        if (playerEntity == null) playerEntity = newTemplatedEntity(randomId(), playerTemplate, engine)
 
         val startPosition = playerStartPosition(newLevel, oldConnection)
         resetEntity(playerEntity, startPosition)
@@ -139,8 +137,10 @@ class LevelSystem: EventSystem() {
         val factoryParams = levelParams.factoryParams
         val grid = levelParams.gridFactory.get(factoryParams)
         val tiles = gridToTileArray(grid, levelParams.gridValueToTileType)
+        val id = randomId()
 
         return LevelInfo(
+            id = id,
             tiles = tiles,
             descriptionId = levelDescription.id
         )
@@ -179,7 +179,7 @@ class LevelSystem: EventSystem() {
     private fun restoreEntities(level: LevelInfo) {
         val restoredEntities = LevelRegistry.restore(level.id)
         restoredEntities?.forEach {
-            val entity = engine.entity(*it.components.toTypedArray())
+            val entity = engine.entity(it.id, *it.components.toTypedArray())
             level.objects.add(entity)
         }
     }

@@ -20,6 +20,7 @@ data class StructureTemplate(
 }
 
 data class StructureEntity(
-    var name: String = "",
-    var points: Array<Pair<Int, Int>> = arrayOf()
+    var templateName: String = "",
+    var points: Array<Pair<Int, Int>> = arrayOf(),
+    var ids: Array<String> = arrayOf()
 )

@@ -2,6 +2,7 @@ package com.ovle.rll3.model.ecs.system.level
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.id
 
 
 object LevelRegistry {
@@ -22,7 +23,7 @@ object LevelRegistry {
     fun store(levelId: LevelId): Collection<Entity> {
         val level = levelsById[levelId]
         val entitiesToStore = level!!.objects.toList()
-        val componentsToStore = entitiesToStore.map { StoredEntity(it.components.toList()) }
+        val componentsToStore = entitiesToStore.map { StoredEntity(it.id(), it.components.toList()) }
 
         entitiesByLevel[levelId] = componentsToStore
         level.objects.clear()

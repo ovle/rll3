@@ -10,7 +10,7 @@ import com.ovle.rll3.model.tile.TileArray
 import java.util.*
 
 data class LevelInfo(
-    val id: LevelId = UUID.randomUUID(),
+    val id: LevelId,
     val descriptionId: LevelDescriptionId,
     val tiles: TileArray
 ) {
