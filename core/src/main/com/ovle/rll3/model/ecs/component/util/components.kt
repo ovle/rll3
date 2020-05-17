@@ -29,6 +29,7 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
 
 
 fun basicComponents(template: EntityTemplate): List<Component> {
+    //todo items doesn't have anything but template
     return listOfNotNull(
         PositionComponent(),
         TemplateComponent(template),

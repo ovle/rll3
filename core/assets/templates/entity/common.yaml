@@ -148,3 +148,8 @@ spawns:
       _ 0 _
     chance: 0.01
     rotate: true
+
+---
+
+name: test item
+description: ''

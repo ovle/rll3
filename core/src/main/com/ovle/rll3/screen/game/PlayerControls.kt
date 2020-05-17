@@ -21,6 +21,7 @@ class PlayerControls : InputAdapter() {
         //debug
         Input.Keys.A -> { send(Event.DebugCombatEvent()); true }
         Input.Keys.F -> { send(Event.DebugToggleFocusEvent()); true }
+        Input.Keys.I -> { send(Event.DebugShowPlayerInventoryEvent()); true }
         Input.Keys.V -> { noVisibilityFilter = !noVisibilityFilter; true }
 
         else -> false

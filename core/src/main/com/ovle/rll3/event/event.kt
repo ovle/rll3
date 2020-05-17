@@ -31,6 +31,8 @@ sealed class Event {
     //debug
     open class DebugCombatEvent: Event()
     open class DebugToggleFocusEvent: Event()
+    open class DebugShowPlayerInventoryEvent: Event()
+    open class DebugShowInventoryEvent(val items: Collection<Entity>, entity: Entity): EntityEvent(entity)
 
     //level
     class LevelLoaded(val level: LevelInfo, val levelParams: LevelParams): GameEvent()

@@ -18,6 +18,8 @@ fun eventLogHook(event: Event) {
 
 private fun isLoggableEvent(event: Event) =
     when (event) {
+        is DebugShowInventoryEvent,
+
         is EntityActionEvent,
         is EntityCombatAction,
         is EntityTakeDamage,
@@ -29,6 +31,11 @@ private fun isLoggableEvent(event: Event) =
 
 private fun message(event: Event)=
     when (event) {
+        is DebugShowInventoryEvent -> {
+            val entityInfo = event.entity.info()
+            val itemsInfo = event.items.info()
+            "$entityInfo has items: $itemsInfo"
+        }
         is EntityActionEvent -> {
             val sourceInfo = event.source.info()
             val entityInfo = event.entity.info()
@@ -47,7 +54,7 @@ private fun message(event: Event)=
         }
         is EntityDied -> { "${event.entity.info()} died" }
         is EntityTakeItems -> {
-            val itemsInfo = event.items.map { it[template]?.template?.name ?: "unknown" }
+            val itemsInfo = event.items.info()
             "${event.entity.info()} taken: $itemsInfo"
         }
         is EntityLevelTransition -> {
@@ -57,6 +64,10 @@ private fun message(event: Event)=
         else -> throw IllegalArgumentException("not supported journal for event $event")
     }
 
+private fun Collection<Entity>.info(): String {
+    val entityInfos = this.map { it.info() }
+    return entityInfos.groupBy { it }.entries.joinToString(", ") { (k, v) -> "${v.count()}x $k" }
+}
 private fun Entity.info() = when {
     has<TemplateComponent>() -> this[template]!!.template.name
     else -> "(unknown)"
