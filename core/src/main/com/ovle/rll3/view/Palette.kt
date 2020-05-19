@@ -22,7 +22,7 @@ object Palette {
     private val yellow = Color.valueOf("DAD45Eff")
     private val white = Color.valueOf("DEEED6ff")
 
-
+//------------------------------------------------
     private val mappedPalette = arrayOf(
         black,
         darkGray,
@@ -31,7 +31,7 @@ object Palette {
         white
     )
 
-    private val palette0 = arrayOf(
+    private val paletteNight = arrayOf(
         black,
         darkBlue,
         blue,
@@ -39,22 +39,7 @@ object Palette {
         white
     )
 
-    private val palette1 = arrayOf(
-        black,
-        darkGray,
-        red,
-        orange,
-        yellow
-    )
-    private val palette2 = arrayOf(
-        black,
-        darkPurple,
-        darkGreen,
-        lightGreen,
-        white
-    )
-
-    private val palette3 = arrayOf(
+    private val paletteSunset = arrayOf(
         black,
         darkPurple,
         brown,
@@ -62,23 +47,84 @@ object Palette {
         white
     )
 
-    private val palette4 = arrayOf(
+//------------------------------------------------
+    private val paletteRed4Color = arrayOf(
+        darkGray,
+        red,
+        red,
+        orange,
+        white
+    )
+
+    private val paletteGreen4Color = arrayOf(
+        darkPurple,
+        darkGreen,
+        darkGreen,
+        lightGreen,
+        yellow
+    )
+
+//------------------------------------------------
+
+    private val palette3Color = arrayOf(
+        black,
+        grayBrown,
+        white,
+        grayBrown,
+        white
+    )
+
+    private val paletteFire3Color = arrayOf(
+        darkPurple,
+        red,
+        red,
+        yellow,
+        yellow
+    )
+
+    private val paletteWater3Color = arrayOf(
+        darkBlue,
+        blue,
+        blue,
+        aquamarine,
+        aquamarine
+    )
+
+    private val paletteLight3Color = arrayOf(
+        darkGray,
+        gray,
+        white,
+        gray,
+        white
+    )
+
+    private val paletteDark3Color = arrayOf(
+        black,
+        darkPurple,
+        red,
+        darkPurple,
+        red
+    )
+
+    private val paletteNature3Color = arrayOf(
+        darkPurple,
+        darkGreen,
+        lightBrown,
+        darkGreen,
+        lightBrown
+    )
+
+//------------------------------------------------
+
+    private val paletteReverse = arrayOf(
         white,
         orange,
         brown,
-        darkPurple,
+        brown,
         black
     )
 
-    private val palette5 = arrayOf(
-        black,
-        grayBrown,
-        white,
-        grayBrown,
-        white
-    )
-
-    private val palette6 = arrayOf(
+    private val palette2color = arrayOf(
         black,
         white,
         white,
@@ -86,8 +132,7 @@ object Palette {
         white
     )
 
-
-    private val palette = palette5
+    private val palette = palette3Color
 
     val darkestColor: Color = palette.first()
     val lightestColor: Color = palette.last()

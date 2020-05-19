@@ -56,11 +56,7 @@ fun lightTilePassMapper(tile: Tile) = when(tile.typeId) {
 
 typealias CellCandidateFn = (NearTiles) -> Boolean
 
-fun isCandidate(nearTiles: NearTiles): Boolean {
-    val isRoomFloor = nearTiles.value?.typeId == roomFloorTileId
-    val isRoomFloorNear = nearTiles.upValue?.typeId == roomFloorTileId
-    return isRoomFloor && isRoomFloorNear
-}
+fun isFloorCandidate(nearTiles: NearTiles) = nearTiles.value?.typeId in floorTypes
 
 fun isWallCandidate(nearTiles: NearTiles): Boolean {
     val isWall = (nearTiles.nearH + nearTiles.value)
