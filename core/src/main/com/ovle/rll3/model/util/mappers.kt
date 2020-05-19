@@ -37,20 +37,20 @@ fun villageGridValueToTileType(gridValue: Float): TileType {
     return when {
         gridValue >= NoiseGridFactory.wallTreshold -> wallTileId
         gridValue >= NoiseGridFactory.floorTreshold -> roomFloorTileId
-        else -> pitFloorTileId //todo
+        else -> waterTileId //todo
     }
 }
 
 fun entityTilePassMapper(tile: Tile) = when(tile.typeId) {
-    wallTileId, structureWallTileId -> TilePassType.Solid
-    pitFloorTileId -> TilePassType.Restricted
+    in wallTypes -> TilePassType.Solid
+    in pitTypes -> TilePassType.Restricted
     else -> TilePassType.Passable
 }
 
 fun lightTilePassMapperTrue(tile: Tile) = LightPassType.Passable
 
 fun lightTilePassMapper(tile: Tile) = when(tile.typeId) {
-    wallTileId, structureWallTileId -> LightPassType.Solid
+    in solidWallTypes -> LightPassType.Solid
     else -> LightPassType.Passable
 }
 

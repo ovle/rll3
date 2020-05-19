@@ -7,7 +7,6 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.entity.entitiesOnPosition
 import com.ovle.rll3.model.ecs.entity.hasEntityOnPosition
-import com.ovle.rll3.model.procedural.grid.floorTypes
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.point
 import com.ovle.rll3.view.defaultAnimationInterval

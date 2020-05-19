@@ -151,5 +151,30 @@ spawns:
 
 ---
 
+name: table
+description: ''
+state:
+  collision:
+sprite:
+  default: [9, 0]
+
+---
+
+name: oven
+description: ''
+state:
+  light:
+    radius: 3
+sprite:
+  default: [7, 2]
+---
+
+name: window
+description: ''
+sprite:
+  default: [6, 2]
+
+---
+
 name: test item
 description: ''
