@@ -2,7 +2,6 @@ package com.ovle.rll3.model.ecs.system.gui
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
@@ -16,10 +15,11 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LevelParams
+import com.ovle.rll3.view.layer.TexturesInfo
 import ktx.ashley.get
 
 
-class GUISystem(private val stage: Stage, private val guiTexture: Texture) : EventSystem() {
+class GUISystem(private val stage: Stage, guiTexture: TexturesInfo) : EventSystem() {
 
     private val playerPanelInfo = EntityPanelInfo()
     private val focusedEntityPanelInfo = EntityPanelInfo()
@@ -28,17 +28,18 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
 
     private var lastActionsPopup: Actor? = null
     private var lastEntityInfo: Actor? = null
-
+    private val texture = guiTexture.texture
 
     override fun addedToEngine(engine: Engine) {
         super.addedToEngine(engine)
 
-        rootActor().addActor(entityInfoActor(playerPanelInfo, guiTexture))
-        rootActor().addActor(worldInfoActor(worldPanelInfo, guiTexture).apply {
+
+        rootActor().addActor(entityInfoActor(playerPanelInfo, texture))
+        rootActor().addActor(worldInfoActor(worldPanelInfo, texture).apply {
             x = screenWidth() - width
             y = screenHeight().toFloat() - height
         })
-        rootActor().addActor(logActor(logPanelInfo, guiTexture).apply {
+        rootActor().addActor(logActor(logPanelInfo, texture).apply {
             x = screenWidth()/2 - width/2
         })
 
@@ -73,7 +74,7 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
     private fun onShowEntityInfoEvent(entity: Entity) {
         hideEntityInfo()
 
-        val actor = entityInfoActor(focusedEntityPanelInfo, guiTexture).apply {
+        val actor = entityInfoActor(focusedEntityPanelInfo, texture).apply {
             x = screenWidth() - width
         }
 
@@ -147,7 +148,7 @@ class GUISystem(private val stage: Stage, private val guiTexture: Texture) : Eve
             val portraitOrigin = entityTemplate?.portrait?.random() //todo random ?
             val portrait = portraitOrigin?.run {
                 val portraitSize = 24
-                TextureRegion(guiTexture, x * portraitSize, y * portraitSize, portraitSize, portraitSize)
+                TextureRegion(texture, x * portraitSize, y * portraitSize, portraitSize, portraitSize)
             } ?: renderComponent?.sprite?.textureRegion()
 
             portrait?.let {

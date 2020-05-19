@@ -36,7 +36,7 @@ fun entityActionsActor(actions: Collection<String>, onActionClick: (String) -> U
 //todo refactor
 fun entityInfoActor(panelInfo: EntityPanelInfo, guiTexture: Texture): Actor {
     val portrait = TextureRegion(guiTexture, 2 * 24, 0, 24, 24)
-    val bg = TextureRegion(guiTexture, 120, 0, 72, 40)
+    val bg = TextureRegion(guiTexture, 120, 0, 72, 41)
     val pi = image(portrait).also { panelInfo.portraitWidget = it }
 
     val leftPart = table {
@@ -54,11 +54,11 @@ fun entityInfoActor(panelInfo: EntityPanelInfo, guiTexture: Texture): Actor {
 //            it.style.fontColor = Palette.whiteColor
         }).padTop(6 * guiScale)
         row()
-        label("00/00")
+        label("-/-")
         row()
         add(cLabel().also { panelInfo.staminaInfoWidget = it })
         row()
-        label("00/00")
+        label("-/-")
     }
 
     val percentWidth50 = Value.percentWidth(50.0f)
@@ -75,7 +75,7 @@ fun entityInfoActor(panelInfo: EntityPanelInfo, guiTexture: Texture): Actor {
 }
 
 fun worldInfoActor(worldPanelInfo: WorldPanelInfo, guiTexture: Texture): Actor {
-    val bg = TextureRegion(guiTexture, 192, 0, 40, 40)
+    val bg = TextureRegion(guiTexture, 192, 0, 40, 41)
     val fullWidth = Value.percentWidth(100.0f)
 
     val worldInfo = table {
@@ -99,7 +99,7 @@ fun worldInfoActor(worldPanelInfo: WorldPanelInfo, guiTexture: Texture): Actor {
 }
 
 fun logActor(logPanelInfo: LogPanelInfo, guiTexture: Texture): Actor {
-    val bg = TextureRegion(guiTexture, 120, 40, 112, 40)
+    val bg = TextureRegion(guiTexture, 120, 41, 112, 41)
 
     val textInfo = textArea("") {
         width = guiScale * 40
@@ -120,7 +120,7 @@ fun logActor(logPanelInfo: LogPanelInfo, guiTexture: Texture): Actor {
         background = TextureRegionDrawable(bg)
 
         add(textInfo)
-            .height(this.height * 0.95f).width(this.width * 0.95f)
+            .height(this.height * 0.9f).width(this.width * 0.95f)
             .expand()
         row()
 //        add(toggleButton)

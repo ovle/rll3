@@ -2,14 +2,13 @@ package com.ovle.rll3.model.ecs.system.render
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.playerInteraction
+import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 import ktx.ashley.get
@@ -17,10 +16,10 @@ import ktx.ashley.get
 
 class RenderInteractionInfoSystem(
     private val batch: Batch,
-    guiTexture: Texture
+    guiTexture: TexturesInfo
 ) : EntitySystem() {
 
-    private val guiRegions = split(guiTexture, spriteWidth.toInt(), spriteHeight.toInt())
+    private val guiRegions = split(guiTexture.texture, spriteWidth.toInt(), spriteHeight.toInt())
 
     private val cursorSprite = sprite(guiRegions, 0, 0)
     private val selectionSprite = sprite(guiRegions, 1, 0)

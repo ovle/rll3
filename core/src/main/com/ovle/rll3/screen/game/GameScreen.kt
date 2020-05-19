@@ -44,18 +44,19 @@ class GameScreen(
 
         val levelTexturesInfo = TexturesInfo(assetsManager.levelTexture)
         val objectsTextureInfo = TexturesInfo(assetsManager.objectsTexture)
+        val guiTextureInfo = TexturesInfo(assetsManager.guiTexture)
         TemplatesRegistry.entityTemplates = assetsManager.entityTemplates
         TemplatesRegistry.structureTemplates = assetsManager.structureTemplates
 
         val camera = batchViewport.camera as OrthographicCamera
 
         val systems = listOf(
-            GUISystem(stage, assetsManager.guiTexture),
+            GUISystem(stage, guiTextureInfo),
             PlayerControlsSystem(),
             CameraSystem(camera),
             RenderLevelSystem(camera, levelTexturesInfo),
             RenderObjectsSystem(batch, objectsTextureInfo),
-            RenderInteractionInfoSystem(batch, assetsManager.guiTexture),
+            RenderInteractionInfoSystem(batch, guiTextureInfo),
             GameSystem(),
             LevelSystem(),
             TimeSystem(),

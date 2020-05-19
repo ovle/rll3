@@ -2,59 +2,99 @@ package com.ovle.rll3.view
 
 import com.badlogic.gdx.graphics.Color
 
+
 object Palette {
+    
+    private val black = Color.valueOf("140C1Cff")
+    private val darkPurple = Color.valueOf("442434ff")
+    private val darkBlue = Color.valueOf("30346Dff")
+    private val darkGray = Color.valueOf("4E4A4Eff")
+    private val brown = Color.valueOf("854C30ff")
+    private val darkGreen = Color.valueOf("346524ff")
+    private val red = Color.valueOf("D04648ff")
+    private val grayBrown = Color.valueOf("757161ff")
+    private val blue = Color.valueOf("597DCEff")
+    private val orange = Color.valueOf("D27D2Cff")
+    private val gray = Color.valueOf("8595A1ff")
+    private val lightGreen = Color.valueOf("6DAA2Cff")
+    private val lightBrown = Color.valueOf("D2AA99ff")
+    private val aquamarine = Color.valueOf("6DC2CAff")
+    private val yellow = Color.valueOf("DAD45Eff")
+    private val white = Color.valueOf("DEEED6ff")
+
+
     private val mappedPalette = arrayOf(
-        Color.valueOf("272744ff"),  //r 0.286 g 0.302 b 0.494
-        Color.valueOf("494D7Eff"),
-        Color.valueOf("8B6D9Cff"),  //r 0.545 g 0.427 b 0.611
-        Color.valueOf("C69FA5ff"),
-//        Color.valueOf("F2D3ABff"),
-        Color.valueOf("FBF5EFff")   //r 0.984 g 0.96 b 0.937
+        black,
+        darkGray,
+        grayBrown,
+        lightBrown,
+        white
     )
 
-    private val paltte0 = arrayOf(
-        Color.valueOf("140C1Cff"),
-        Color.valueOf("30346Dff"),
-        Color.valueOf("597DCEff"),
-        Color.valueOf("DEEED6ff")
+    private val palette0 = arrayOf(
+        black,
+        darkBlue,
+        blue,
+        aquamarine,
+        white
     )
 
     private val palette1 = arrayOf(
-        Color.valueOf("140C1Cff"),
-        Color.valueOf("4E4A4Eff"),
-        Color.valueOf("D04648ff"),
-        Color.valueOf("DAD45Eff")
+        black,
+        darkGray,
+        red,
+        orange,
+        yellow
     )
-
     private val palette2 = arrayOf(
-        Color.valueOf("140C1Cff"),
-        Color.valueOf("442434ff"),
-        Color.valueOf("346524ff"),
-        Color.valueOf("6DAA2Cff")
+        black,
+        darkPurple,
+        darkGreen,
+        lightGreen,
+        white
     )
 
     private val palette3 = arrayOf(
-        Color.valueOf("140C1Cff"),
-        Color.valueOf("854C30ff"),
-        Color.valueOf("D27D2Cff"),
-        Color.valueOf("DEEED6ff")
+        black,
+        darkPurple,
+        brown,
+        orange,
+        white
     )
 
     private val palette4 = arrayOf(
-        Color.valueOf("140C1Cff"),
-        Color.valueOf("4E4A4Eff"),
-        Color.valueOf("757161ff"),
-        Color.valueOf("DEEED6ff")
+        white,
+        orange,
+        brown,
+        darkPurple,
+        black
     )
 
-    private val palette = mappedPalette
+    private val palette5 = arrayOf(
+        black,
+        grayBrown,
+        white,
+        grayBrown,
+        white
+    )
 
-    val blackColor: Color = palette.first()
-    val whiteColor: Color = palette.last()
+    private val palette6 = arrayOf(
+        black,
+        white,
+        white,
+        white,
+        white
+    )
+
+
+    private val palette = palette5
+
+    val darkestColor: Color = palette.first()
+    val lightestColor: Color = palette.last()
 
     fun next(color: Color): Color {
         //todo test
-        if (color == blackColor) return color
+        if (color == darkestColor) return color
 
         return when (val index = palette.indexOf(color)) {
             -1 -> color                         //out of palette
