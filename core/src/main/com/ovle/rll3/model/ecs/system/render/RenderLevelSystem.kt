@@ -16,7 +16,7 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.perception
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LevelParams
-import com.ovle.rll3.view.bgColor
+import com.ovle.rll3.view.palette.Palette.bgColor
 import com.ovle.rll3.view.layer.CustomTiledMapTileLayer
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.layer.level.LayerType

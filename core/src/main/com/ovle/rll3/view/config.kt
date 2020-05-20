@@ -1,7 +1,5 @@
 package com.ovle.rll3.view
 
-import com.ovle.rll3.view.Palette.darkestColor
-
 const val initialScale = 1.3f
 const val scaleScrollCoeff = 0.1f
 
@@ -23,8 +21,6 @@ const val guiTexturePath = "images/gui.png"
 
 const val entityTemplatePath = "templates/entity/"
 const val structureTemplatePath = "templates/structure/"
-
-val bgColor = darkestColor.cpy()
 
 const val defaultAnimationInterval = 0.125f
 

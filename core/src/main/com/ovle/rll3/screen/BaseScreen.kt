@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Layout
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.model.util.config.RenderConfig
-import com.ovle.rll3.view.bgColor
+import com.ovle.rll3.view.palette.Palette.bgColor
 import com.ovle.rll3.view.screenHeight
 import com.ovle.rll3.view.screenWidth
 import ktx.app.KtxScreen

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
-import com.ovle.rll3.view.Palette
+import com.ovle.rll3.view.palette.Palette
 import com.ovle.rll3.view.textureTileHeight
 import com.ovle.rll3.view.textureTileWidth
 
