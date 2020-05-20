@@ -20,7 +20,7 @@ import com.ovle.rll3.model.ecs.entity.levelInfo
 import com.ovle.rll3.model.ecs.entity.obstacles
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.see
-import com.ovle.rll3.model.util.entityTilePassMapper
+import com.ovle.rll3.model.tile.tilePassType
 import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.model.util.pathfinding.cost
 import com.ovle.rll3.model.util.pathfinding.heuristics
@@ -132,7 +132,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
             obstacles(level),
             heuristicsFn = ::heuristics,
             costFn = ::cost,
-            tilePassTypeFn = ::entityTilePassMapper
+            tilePassTypeFn = ::tilePassType
         )
 
         if (path.isEmpty()) return

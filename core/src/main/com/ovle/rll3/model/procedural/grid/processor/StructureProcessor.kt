@@ -30,8 +30,14 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
         val tiles = levelInfo.tiles
         val entities = mutableListOf<Entity>()
 
-        //todo
-        val template = templates.templates.singleOrNull { it.name == "village 1" } ?: return
+        templates.templates.forEach {
+            processTemplate(it, tiles, levelInfo, gameEngine, entities)
+        }
+
+        levelInfo.objects.plusAssign(entities)
+    }
+
+    private fun processTemplate(template: StructureTemplate, tiles: TileArray, levelInfo: LevelInfo, gameEngine: Engine, entities: MutableList<Entity>) {
         val mask = template.parsedMask
         val maskWidth = mask.size
         val maskHeight = mask.maxBy { it.size }!!.size
@@ -51,12 +57,10 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
             levelInfo.structures.add(StructureInfo(template, positions))
 
             val entitiesInfo = template.entities
-            entitiesInfo.forEach{
+            entitiesInfo.forEach {
                 spawnEntities(it, gameEngine, spawnPoint, entities)
             }
         }
-
-        levelInfo.objects.plusAssign(entities)
     }
 
     private fun spawnEntities(e: StructureEntity, gameEngine: Engine, spawnPoint: GridPoint2, entities: MutableList<Entity>) {

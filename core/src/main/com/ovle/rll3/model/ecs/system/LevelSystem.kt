@@ -17,6 +17,7 @@ import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.procedural.grid.processor.LevelConnectionProcessor
 import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.model.template.entity.entityTemplate
+import com.ovle.rll3.model.tile.isPassable
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.point
 import ktx.ashley.get
@@ -158,9 +159,17 @@ class LevelSystem: EventSystem() {
         check(connections.isNotEmpty())
 
         if (oldConnection == null) {
-            //todo should be far away from any connection?
-            val anyConnection = connections.random()
-            return point(anyConnection[position]?.gridPosition!!).apply { y -= 1 }
+            var firstStartPosition: GridPoint2? = null
+            val playerSpawnPoints = newLevel.structures.flatMap { it.template.playerSpawns }
+            if (playerSpawnPoints.isNotEmpty()) {
+                firstStartPosition = playerSpawnPoints.random()
+            }
+            if (firstStartPosition == null) {
+                val tiles = newLevel.tiles
+                firstStartPosition = tiles.positions().filter { tiles.isPassable(it) }.random()
+            }
+
+            return firstStartPosition
         }
 
         val newConnection = connections.find { it[levelConnection]!!.id == oldConnection.backConnectionId }!!
