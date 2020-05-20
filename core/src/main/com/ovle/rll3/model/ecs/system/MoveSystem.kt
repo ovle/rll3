@@ -15,10 +15,7 @@ import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.action
 import com.ovle.rll3.model.ecs.component.util.Mappers.move
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
-import com.ovle.rll3.model.ecs.entity.controlledEntity
-import com.ovle.rll3.model.ecs.entity.levelInfo
-import com.ovle.rll3.model.ecs.entity.obstacles
-import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
+import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.ecs.see
 import com.ovle.rll3.model.tile.tilePassType
 import com.ovle.rll3.model.util.pathfinding.aStar.path
@@ -105,7 +102,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
 
         val newPosition = point(currentPosition.x + dxStep, currentPosition.y + dyStep)
         //it can be expensive to do that on every move processing. cache?
-        val obstacles = obstacles(levelInfo())
+        val obstacles = bodyObstacles(levelInfo())
         //should we finish move at that point, or consider obstacle to be temporary? or try to make another path?
         if (newPosition in obstacles) return
 
@@ -129,7 +126,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
             from,
             to,
             tiles,
-            obstacles(level),
+            bodyObstacles(level),
             heuristicsFn = ::heuristics,
             costFn = ::cost,
             tilePassTypeFn = ::tilePassType

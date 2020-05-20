@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.model.ecs.component.basic.CollisionComponent
 import com.ovle.rll3.model.ecs.component.basic.IdComponent
 import com.ovle.rll3.model.ecs.component.basic.TemplateComponent
 import com.ovle.rll3.model.ecs.component.special.*
@@ -59,8 +60,10 @@ fun connection(levelInfo: LevelInfo?, id: String?) =
         ?: emptyList(), LevelConnectionComponent::class)
         .find { it[levelConnection]!!.id == id }
 
-fun obstacles(levelInfo: LevelInfo) = levelInfo.objects
-    .filter { it[Mappers.collision]?.active ?: false }
+fun lightObstacles(levelInfo: LevelInfo) = obstacles(levelInfo) { it.passable4Light }
+fun bodyObstacles(levelInfo: LevelInfo) = obstacles(levelInfo) { it.passable4Body }
+fun obstacles(levelInfo: LevelInfo, fn: (CollisionComponent)-> Boolean) = levelInfo.objects
+    .filter { it[Mappers.collision]?.let { c -> !fn.invoke(c) && c.active } ?: false }
     .mapNotNull { it[Mappers.position]?.gridPosition }
 
 fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), LevelComponent::class)?.get(level)?.level
