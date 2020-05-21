@@ -11,7 +11,10 @@ typealias ComponentFactory = (ComponentData?) -> Component
 
 private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "light" to { value -> LightSourceComponent(AOEData(value!!["radius"] as Int)) },
-    "collision" to { _ ->  CollisionComponent() },
+    "collision" to { value ->  CollisionComponent(
+        passable4Body = value?.get("passable4Body") as Boolean? ?: false,
+        passable4Light = value?.get("passable4Light") as Boolean? ?: true
+    ) },
     "move" to { _ ->  MoveComponent() },
     "living" to { value -> LivingComponent(
         maxHealth = value!!["health"] as Int,

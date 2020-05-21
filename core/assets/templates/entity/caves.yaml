@@ -7,6 +7,7 @@ state:
     health: 10
     stamina: 10
   collision:
+    passable4Light: false
 sprite:
   default: [11, 10]
 spawns:

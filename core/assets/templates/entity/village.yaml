@@ -4,6 +4,7 @@ name: tree 1
 description: ''
 state:
   collision:
+    passable4Light: false
 sprite:
   default: [6, 9]
 spawns:
@@ -20,6 +21,7 @@ name: tree 2
 description: ''
 state:
   collision:
+    passable4Light: false
 sprite:
   default: [7, 9]
 spawns:
