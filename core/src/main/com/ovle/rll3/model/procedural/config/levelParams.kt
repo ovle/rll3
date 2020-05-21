@@ -38,8 +38,7 @@ val dungeonLevelParams = LevelParams(
     ),
 
     gridValueToTileType = ::dungeonGridValueToTileType,
-    tileToTexture = ::dungeonTileToTexture,
-    isCellCandidateForConnection = ::isWallCandidate
+    tileToTexture = ::dungeonTileToTexture
 )
 
 val caveLevelParams = LevelParams(
@@ -54,8 +53,7 @@ val caveLevelParams = LevelParams(
     ),
 
     gridValueToTileType = ::caveGridValueToTileType,
-    tileToTexture = ::caveTileToTexture,
-    isCellCandidateForConnection = ::isWallCandidate
+    tileToTexture = ::caveTileToTexture
 )
 
 val villageLevelParams = LevelParams(
@@ -72,7 +70,6 @@ val villageLevelParams = LevelParams(
     ),
 
     gridValueToTileType = ::villageGridValueToTileType,
-    tileToTexture = ::villageTileToTexture,
-    isCellCandidateForConnection = ::isFloorCandidate
+    tileToTexture = ::villageTileToTexture
 )
 

@@ -22,8 +22,6 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val position = point(nearTiles.x, nearTiles.y)
     val positionDown = point(nearTiles.x, nearTiles.y - 1)
 
-    val entities = entitiesOnPosition(levelInfo, position)
-    fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
     fun hasWall(tileId: TileType?) = if (tileId == null || (tileId == wallTileId)) 1 else 0
     fun hasPit(tileId: TileType?) = if (tileId == pitFloorTileId) 1 else 0
 
@@ -49,7 +47,6 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val isRoomFloorUp = downTileId == roomFloorTileId
     val isPitFloorUp = downTileId == pitFloorTileId
 
-    val isLevelConnection = hasLevelConnection(nearTiles.x, nearTiles.y)
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, false)
 
     val wallBorderTileSet = lightWallBorderTileSet
@@ -80,15 +77,6 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
             else -> emptyTile
         }
         LayerType.Decoration -> when {
-            isLevelConnection -> {
-                val connectionComponent = entities.find { it.has<LevelConnectionComponent>() }!![levelConnection]!!
-                val type = connectionComponent.type
-                when {
-                    type == LevelConnectionType.Up -> arrayOf(regions[5][9])
-                    type == LevelConnectionType.Down -> arrayOf(regions[5][10])
-                    else -> throw IllegalStateException("bad connection : type = $type")
-                }
-            }
             isRoomFloor -> arrayOf(regions[6][(4..9).random()])
                 .withChance(0.3f, defaultValue = emptyTile)
             else -> emptyTile

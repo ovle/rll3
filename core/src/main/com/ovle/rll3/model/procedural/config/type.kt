@@ -19,7 +19,6 @@ data class LevelParams(
 
     //mappers
     val gridValueToTileType: (Float) -> TileType,
-    val isCellCandidateForConnection: CellCandidateFn,
     val tileToTexture: (TileToTextureParams) -> TileTextureInfo
 )
 

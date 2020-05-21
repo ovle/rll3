@@ -23,9 +23,7 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val position = point(nearTiles.x, nearTiles.y)
     val positionDown = point(nearTiles.x, nearTiles.y - 1)
 
-    val entities = entitiesOnPosition(levelInfo, position)
     fun hasDoor(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), DoorComponent::class)
-    fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
     fun hasWall(tileId: TileType?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId) || (tileId == structureWallTileId) || hasDoor(x, y)) 1 else 0
     fun hasPit(tileId: TileType?) = if (tileId in pitTypes) 1 else 0
     fun hasNotInnerFloor(tileId: TileType?) = if (tileId != structureInnerFloorTileId) 1 else 0
@@ -68,7 +66,6 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val isCrossFence = isHFence && isVFence
 
     val isDoor = hasDoor(nearTiles.x, nearTiles.y)
-    val isLevelConnection = hasLevelConnection(nearTiles.x, nearTiles.y)
     val lightValueType = lightValueType(lightInfo, position, positionDown, isWaterFloor, isFloorUp, isWall, false)
 
     val wallBorderTileSet = lightWallBorderTileSet
@@ -113,14 +110,6 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
             else -> emptyTile
         }
         LayerType.Decoration -> when {
-            isLevelConnection -> {
-                val connectionComponent = entities.find { it.has<LevelConnectionComponent>() }!![levelConnection]!!
-                val type = connectionComponent.type
-                when {
-                    type == Down -> arrayOf(regions[7][9])
-                    else -> throw IllegalStateException("bad connection : type = $type")
-                }
-            }
             isStructureWall && isNextToFloor && !isNextToStructureFloor -> when {
                 isRightToFloor -> arrayOf(regions[8][6])
                 isLeftToFloor -> arrayOf(regions[8][7])

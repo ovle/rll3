@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
-import com.ovle.rll3.model.ecs.component.special.LevelDescription
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers
@@ -13,9 +12,9 @@ import com.ovle.rll3.model.ecs.entity.newConnection
 import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.tile.nearValues
+import com.ovle.rll3.model.util.isFloorCandidate
 import com.ovle.rll3.point
 import ktx.ashley.get
-import java.util.*
 
 
 class LevelConnectionProcessor {
@@ -29,8 +28,7 @@ class LevelConnectionProcessor {
             .filter { levelDescriptionId in it.connections }
             .map { it.id }
 
-        val candidatePositions = candidatePositions(levelInfo, levelDescription)
-
+        val candidatePositions = candidatePositions(levelInfo)
         val result= mutableListOf<Entity>()
 
         val enterConnectionType = LevelConnectionType.Up //doesn't depend on how do we enter this level, only on world config
@@ -40,7 +38,7 @@ class LevelConnectionProcessor {
         levelInfo.objects.addAll(result)
     }
 
-    private fun candidatePositions(levelInfo: LevelInfo, levelDescription: LevelDescription): MutableList<GridPoint2> {
+    private fun candidatePositions(levelInfo: LevelInfo): MutableList<GridPoint2> {
         val tiles = levelInfo.tiles
         val claimed = levelInfo.objects.mapNotNull { it[Mappers.position]?.gridPosition }.toSet()
         val candidatePositions = mutableListOf<GridPoint2>()
@@ -48,7 +46,7 @@ class LevelConnectionProcessor {
             for (y in 0 until tiles.size) {
                 if (point(x, y) in claimed) continue
                 val nearTiles = nearValues(tiles, x, y)
-                val isCandidate = levelDescription.params.isCellCandidateForConnection(nearTiles)
+                val isCandidate = isFloorCandidate(nearTiles)
 
                 if (isCandidate) candidatePositions.add(point(x, y))
             }

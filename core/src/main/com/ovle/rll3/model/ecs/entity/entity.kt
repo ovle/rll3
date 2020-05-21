@@ -44,6 +44,7 @@ fun newConnection(id: EntityId, position: GridPoint2, gameEngine: Engine, connec
     return gameEngine.entity(
         id,
         PositionComponent(position),
+        RenderComponent(),
         LevelConnectionComponent(id, type = connectionType, levelDescriptionId = levelDescriptionId)
     )
 }

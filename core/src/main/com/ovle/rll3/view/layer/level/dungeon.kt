@@ -23,9 +23,7 @@ fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val position = point(nearTiles.x, nearTiles.y)
     val positionDown = point(nearTiles.x, nearTiles.y - 1)
 
-    val entities = entitiesOnPosition(levelInfo, position)
     fun hasDoor(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), DoorComponent::class)
-    fun hasLevelConnection(x: Int, y: Int): Boolean = hasEntityOnPosition(levelInfo, point(x, y), LevelConnectionComponent::class)
     fun hasWall(tileId: TileType?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || hasDoor(x, y))) 1 else 0
     fun hasWallOrPit(tileId: TileType?, x: Int, y: Int) = if (tileId == null || (tileId == wallTileId || tileId == pitFloorTileId /*|| hasDoor(x, y)*/)) 1 else 0
     fun hasPit(tileId: TileType?) = if (tileId == pitFloorTileId) 1 else 0
@@ -56,7 +54,6 @@ fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val isNextToFloor = upTileId in floorTypes && !isNextToDoor
     val isWallOrDoor = isWall || isDoor
 
-    val isLevelConnection = hasLevelConnection(nearTiles.x, nearTiles.y)
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, isNextToDoor)
 
     val wallBorderTileSet = lightWallBorderTileSet
@@ -89,16 +86,6 @@ fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
             else -> emptyTile
         }
         LayerType.Decoration -> when {
-            isLevelConnection -> {
-                val connectionComponent = entities.single { it.has<LevelConnectionComponent>() }[levelConnection]!!
-                val type = connectionComponent.type
-                when {
-                    !connectionComponent.visited -> arrayOf(regions[3][11])
-                    type == LevelConnectionType.Up -> arrayOf(regions[3][9])
-                    type == LevelConnectionType.Down -> arrayOf(regions[3][10])
-                    else -> throw IllegalStateException("bad connection : type = $type")
-                }
-            }
             else -> emptyTile
         }
         else -> emptyTile
