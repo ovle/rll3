@@ -7,10 +7,14 @@ import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 
 const val firstLevelDescId: LevelDescriptionId = "1"
 
+//todo not global
+val testSeed = 123L
+
 //todo will be procedurally generated, so WorldParams will be added
 
 val world = WorldInfo(
     id = randomId(),
+    seed = testSeed,
     entryPoint = firstLevelDescId,
     levels = listOf(
         LevelDescription(id = firstLevelDescId, params = villageLevelParams, connections = listOf("2")),

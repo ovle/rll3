@@ -8,16 +8,16 @@ import java.lang.Math.random
 
 enum class RoomStructure {
     Nop {
-        override fun initParams(room: RoomInfo): Map<ParamKey, Any> = mapOf()
-        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {}
+        override fun initParams(room: RoomInfo, r: kotlin.random.Random): Map<ParamKey, Any> = mapOf()
+        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {}
     },
 
     Pit {
-        override fun initParams(room: RoomInfo): Map<ParamKey, Any> = mapOf(
-            PitBridgeDirection to DirectionValue.values().random()
+        override fun initParams(room: RoomInfo, r: kotlin.random.Random): Map<ParamKey, Any> = mapOf(
+            PitBridgeDirection to DirectionValue.values().random(r)
         )
 
-        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
+        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
             val isFreeSpaceTile = nearTiles.all.all { it?.typeId in roomFloorTypes }
             if (!isFreeSpaceTile) return
 
@@ -38,16 +38,16 @@ enum class RoomStructure {
 
 //    todo issue with castle and rombic rooms
     FilledCenter {
-        override fun initParams(room: RoomInfo): Map<ParamKey, Any> {
-            val isHollow = arrayOf(true, false).random()
+        override fun initParams(room: RoomInfo, r: kotlin.random.Random): Map<ParamKey, Any> {
+            val isHollow = arrayOf(true, false).random(r)
             return mapOf(
-                FilledCenterSize to arrayOf(3, 4, 5).random(),
+                FilledCenterSize to arrayOf(3, 4, 5).random(r),
                 FilledCenterHollowness to isHollow,
-                FilledCenterPathDirection to DirectionValue.values().filter { !isHollow || it != NoDirection }.random()
+                FilledCenterPathDirection to DirectionValue.values().filter { !isHollow || it != NoDirection }.random(r)
             )
         }
 
-        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
+        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
             val sizeCoef = params[FilledCenterSize] as Int
             val isHollow = params[FilledCenterHollowness] as Boolean
             val dirValue =  params[FilledCenterPathDirection]
@@ -82,9 +82,9 @@ enum class RoomStructure {
     },
 
     Colonnade {
-        override fun initParams(room: RoomInfo): Map<ParamKey, Any> = mapOf(ColonnadeDirection to DirectionValue.values().random())
+        override fun initParams(room: RoomInfo, r: kotlin.random.Random): Map<ParamKey, Any> = mapOf(ColonnadeDirection to DirectionValue.values().random(r))
 
-        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
+        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
             val dirValue = params[ColonnadeDirection]
             val isFreeSpaceTile = nearTiles.nearHV.all { it?.typeId in roomFloorTypes }
             if (!isFreeSpaceTile) return
@@ -101,15 +101,15 @@ enum class RoomStructure {
     },
 
     Random {
-        override fun initParams(room: RoomInfo): Map<ParamKey, Any> = mapOf(
-            RandomNoiseAmount to random().toFloat()
+        override fun initParams(room: RoomInfo, r: kotlin.random.Random): Map<ParamKey, Any> = mapOf(
+            RandomNoiseAmount to r.nextFloat()
         )
 
-        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>) {
+        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
             val amount = params[RandomNoiseAmount] as Float
-            if (random() >= amount) return
+            if (r.nextDouble() >= amount) return
 
-            val tileId = arrayOf(wallTileId, pitFloorTileId).random()
+            val tileId = arrayOf(wallTileId, pitFloorTileId).random(r)
 
             setTile(tiles, nearTiles, tileId)
         }
@@ -122,9 +122,9 @@ enum class RoomStructure {
         tiles.setTile(x, y, Tile(tileId))
     }
 
-    abstract fun initParams(room: RoomInfo): Map<ParamKey, Any>
+    abstract fun initParams(room: RoomInfo, r: kotlin.random.Random): Map<ParamKey, Any>
 
-    abstract fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>)
+    abstract fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random)
 
 
     enum class DirectionValue {

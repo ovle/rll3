@@ -1,17 +1,20 @@
 package com.ovle.rll3.model.ecs.component.special
 
 import com.badlogic.ashley.core.Component
-import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.ecs.system.level.WorldId
 import com.ovle.rll3.model.procedural.config.LevelParams
-import java.util.*
+import kotlin.random.Random
 
 data class WorldInfo(
     val id: WorldId,
+    val seed: Long,
     val levels: List<LevelDescription>,
     val entryPoint: LevelDescriptionId
-)
+) {
+    //todo not in dto
+    val r = Random(seed)
+}
 
 class TimeInfo {
     var turn: Long = 0

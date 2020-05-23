@@ -5,8 +5,8 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
-import com.ovle.rll3.model.ecs.component.special.LevelDescription
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
 import com.ovle.rll3.model.ecs.entity.randomId
@@ -20,23 +20,24 @@ import com.ovle.rll3.model.tile.TileType
 import com.ovle.rll3.model.tile.whateverTileId
 import com.ovle.rll3.point
 import ktx.ashley.get
+import kotlin.random.Random
 
 data class StructureInfo(val template: StructureTemplate, val positions: Set<GridPoint2>)
 
 class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
 
-    override fun process(levelInfo: LevelInfo, gameEngine: Engine, levelDescription: LevelDescription) {
+    override fun process(levelInfo: LevelInfo, worldInfo: WorldInfo, gameEngine: Engine) {
         val tiles = levelInfo.tiles
         val entities = mutableListOf<Entity>()
 
         templates.templates.forEach {
-            processTemplate(it, tiles, levelInfo, gameEngine, entities)
+            processTemplate(it, tiles, levelInfo, gameEngine, entities, worldInfo.r)
         }
 
         levelInfo.entities.plusAssign(entities)
     }
 
-    private fun processTemplate(template: StructureTemplate, tiles: TileArray, levelInfo: LevelInfo, gameEngine: Engine, entities: MutableList<Entity>) {
+    private fun processTemplate(template: StructureTemplate, tiles: TileArray, levelInfo: LevelInfo, gameEngine: Engine, entities: MutableList<Entity>, r: Random) {
         val mask = template.parsedMask
         val maskWidth = mask.size
         val maskHeight = mask.maxBy { it.size }!!.size
@@ -44,12 +45,12 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
         val widthDiff = size - maskWidth
         val heightDiff = size - maskHeight
 
-        val check = Math.random()
+        val check = r.nextDouble()
         val chance = 1.0
         val needSpawn = check <= chance
 
         //spawn point is the left top corner of mask
-        val spawnPoint = spawnPoint(widthDiff, heightDiff, size)
+        val spawnPoint = spawnPoint(widthDiff, heightDiff, size, r)
         val (x, y) = spawnPoint
         if (needSpawn) {
             val positions = spawnStructure(mask, tiles, x, y)
@@ -93,5 +94,7 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
         return result
     }
 
-    private fun spawnPoint(widthDiff: Int, heightDiff: Int, size: Int) = point((0..widthDiff).random(), (size - 1) - (0..heightDiff).random())
+    private fun spawnPoint(widthDiff: Int, heightDiff: Int, size: Int, r: Random) = point(
+        (0..widthDiff).random(r), (size - 1) - (0..heightDiff).random(r)
+    )
 }

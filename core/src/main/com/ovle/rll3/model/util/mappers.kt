@@ -41,23 +41,9 @@ fun villageGridValueToTileType(gridValue: Float): TileType {
     }
 }
 
-
-
 fun lightTilePassMapperTrue(tile: Tile) = LightPassType.Passable
 
 fun lightTilePassMapper(tile: Tile) = when(tile.typeId) {
     in solidWallTypes -> LightPassType.Solid
     else -> LightPassType.Passable
-}
-
-typealias CellCandidateFn = (NearTiles) -> Boolean
-
-fun isFloorCandidate(nearTiles: NearTiles) = nearTiles.value?.typeId in floorTypes
-
-fun isWallCandidate(nearTiles: NearTiles): Boolean {
-    val isWall = (nearTiles.nearH + nearTiles.value)
-        .filterNotNull().all { it.typeId == wallTileId }
-    val isRoomFloorNear = nearTiles.upValue?.typeId == roomFloorTileId
-    val isWallBehind = nearTiles.downValue?.typeId == wallTileId
-    return isWall && isRoomFloorNear && isWallBehind
 }

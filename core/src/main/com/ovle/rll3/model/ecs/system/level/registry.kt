@@ -17,7 +17,7 @@ object LevelRegistry {
 
     fun addLevel(levelInfo: LevelInfo) {
         levelsById[levelInfo.id] = levelInfo
-        levelsByDescriptionId[levelInfo.descriptionId] = levelInfo
+        levelsByDescriptionId[levelInfo.description.id] = levelInfo
     }
 
     fun store(levelId: LevelId): Collection<Entity> {

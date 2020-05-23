@@ -2,8 +2,8 @@ package com.ovle.rll3.model.procedural.grid.processor
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.ecs.component.special.LevelDescription
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.positions
@@ -16,15 +16,16 @@ import com.ovle.rll3.model.util.rotate180
 import com.ovle.rll3.model.util.rotate270
 import com.ovle.rll3.model.util.rotate90
 import com.ovle.rll3.point
-import com.ovle.rll3.random
 import ktx.ashley.get
 
 class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
 
-    override fun process(levelInfo: LevelInfo, gameEngine: Engine, levelDescription: LevelDescription) {
+    @OptIn(ExperimentalStdlibApi::class)
+    override fun process(levelInfo: LevelInfo, worldInfo: WorldInfo, gameEngine: Engine) {
         val tiles = levelInfo.tiles
         //some cells can be claimed by other processors
         val claimed = levelInfo.entities.positions()
+        val r = worldInfo.r
         val entities = mutableListOf<Entity>()
         val spawnTemplates = templates.templates.filter { it.spawns.isNotEmpty() }
 
@@ -38,10 +39,10 @@ class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
                     .filter { (_, spawns) -> spawns.isNotEmpty() }
 
                 //todo spawn table
-                val spawnData = spawnDatas.random() ?: continue
+                val spawnData = spawnDatas.randomOrNull(r) ?: continue
                 val spawnTemplate = spawnData.first
-                val spawnCondition = spawnData.second.random()!!
-                val check = Math.random()
+                val spawnCondition = spawnData.second.random(r)
+                val check = r.nextDouble()
 
                 val haveSameEntityNear = haveSameEntityNear(spawnTemplate.name, x, y, spawnCondition.groupRadius, entities)
                 var chance = spawnCondition.chance

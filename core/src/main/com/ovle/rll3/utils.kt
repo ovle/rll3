@@ -7,11 +7,11 @@ import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 
-fun IntRange.random() = (Math.random() * (this.last - this.first)).roundToInt() + this.first
-fun <T> List<T>.random(): T? = if (this.isEmpty()) null else this[(0 until size).random()]
-fun Int.withChance(chance: Float): Int = if (Math.random() <= chance) this else 0
+fun IntRange.random(r: Random) = (r.nextDouble() * (this.last - this.first)).roundToInt() + this.first
+fun Int.withChance(chance: Float, r: Random): Int = if (r.nextDouble() <= chance) this else 0
 
 operator fun Vector2.component1() = x
 operator fun Vector2.component2() = y
