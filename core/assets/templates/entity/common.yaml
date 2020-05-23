@@ -119,6 +119,7 @@ name: door
 description: ''
 state:
   collision:
+    passable4Light: false
   door:
 sprite:
   default: [7, 8]
