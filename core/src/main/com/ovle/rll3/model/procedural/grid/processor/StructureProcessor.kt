@@ -7,7 +7,6 @@ import com.ovle.rll3.component1
 import com.ovle.rll3.component2
 import com.ovle.rll3.model.ecs.component.special.LevelDescription
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
-import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
 import com.ovle.rll3.model.ecs.entity.randomId
@@ -34,7 +33,7 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
             processTemplate(it, tiles, levelInfo, gameEngine, entities)
         }
 
-        levelInfo.objects.plusAssign(entities)
+        levelInfo.entities.plusAssign(entities)
     }
 
     private fun processTemplate(template: StructureTemplate, tiles: TileArray, levelInfo: LevelInfo, gameEngine: Engine, entities: MutableList<Entity>) {

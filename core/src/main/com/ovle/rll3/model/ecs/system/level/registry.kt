@@ -22,11 +22,11 @@ object LevelRegistry {
 
     fun store(levelId: LevelId): Collection<Entity> {
         val level = levelsById[levelId]
-        val entitiesToStore = level!!.objects.toList()
+        val entitiesToStore = level!!.entities.toList()
         val componentsToStore = entitiesToStore.map { StoredEntity(it.id(), it.components.toList()) }
 
         entitiesByLevel[levelId] = componentsToStore
-        level.objects.clear()
+        level.entities.clear()
 
         return entitiesToStore
     }

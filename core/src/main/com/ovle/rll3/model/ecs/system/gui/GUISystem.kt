@@ -12,6 +12,7 @@ import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
+import com.ovle.rll3.model.ecs.entity.controlledEntity
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LevelParams
@@ -89,7 +90,7 @@ class GUISystem(private val stage: Stage, guiTexture: TexturesInfo) : EventSyste
     }
 
     private fun onEntityChangedEvent(entity: Entity) {
-        val playerEntity = playerInteractionInfo()!!.controlledEntity!!
+        val playerEntity = controlledEntity()
         if (entity == playerEntity) {
             updateEntityInfo(entity, playerPanelInfo)
         } else {
@@ -103,7 +104,7 @@ class GUISystem(private val stage: Stage, guiTexture: TexturesInfo) : EventSyste
     private fun onShowEntityActionsEvent(entity: Entity, actions: Collection<String>) {
         hideActionsPopup()
 
-        val playerEntity = playerInteractionInfo()!!.controlledEntity!!
+        val playerEntity = controlledEntity()!!
         val onActionClick:(String) -> Unit = {
             action ->
             hideActionsPopup()

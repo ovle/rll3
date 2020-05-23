@@ -66,8 +66,7 @@ class CameraSystem(
     }
 
     private fun onScrollOffsetChange(diff: Vector2) {
-        val interactionComponent = playerInteractionInfo()
-        val focusedEntity = interactionComponent?.focusedEntity
+        val focusedEntity = focusedEntity()
         if (focusedEntity != null) return
 
         val scrollOffset = RenderConfig.scrollOffset

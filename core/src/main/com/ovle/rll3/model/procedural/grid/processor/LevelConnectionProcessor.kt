@@ -35,12 +35,12 @@ class LevelConnectionProcessor {
         result += fillConnections(enterConnectionType, candidatePositions, enterConnections, gameEngine)
         result += fillConnections(enterConnectionType.opposite(), candidatePositions, connections, gameEngine)
 
-        levelInfo.objects.addAll(result)
+        levelInfo.entities.addAll(result)
     }
 
     private fun candidatePositions(levelInfo: LevelInfo): MutableList<GridPoint2> {
         val tiles = levelInfo.tiles
-        val claimed = levelInfo.objects.mapNotNull { it[Mappers.position]?.gridPosition }.toSet()
+        val claimed = levelInfo.entities.mapNotNull { it[Mappers.position]?.gridPosition }.toSet()
         val candidatePositions = mutableListOf<GridPoint2>()
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {

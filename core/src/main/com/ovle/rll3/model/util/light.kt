@@ -13,7 +13,7 @@ import ktx.ashley.get
 
 //todo cache / memoize
 fun lightTiles(levelInfo: LevelInfo): List<AOETilePosition> {
-    val lightSources = entitiesWith(levelInfo.objects, LightSourceComponent::class)
+    val lightSources = entitiesWith(levelInfo.entities, LightSourceComponent::class)
     return lightSources.map { it[Mappers.light]!!.area.aoePositions }.flatten()
 }
 

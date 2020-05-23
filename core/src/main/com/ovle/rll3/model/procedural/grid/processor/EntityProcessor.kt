@@ -2,11 +2,11 @@ package com.ovle.rll3.model.procedural.grid.processor
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.special.LevelDescription
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
+import com.ovle.rll3.model.ecs.entity.positions
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
 import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.template.SpawnTemplate
@@ -24,7 +24,7 @@ class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
     override fun process(levelInfo: LevelInfo, gameEngine: Engine, levelDescription: LevelDescription) {
         val tiles = levelInfo.tiles
         //some cells can be claimed by other processors
-        val claimed = levelInfo.objects.mapNotNull { it[position]?.gridPosition }.toSet()
+        val claimed = levelInfo.entities.positions()
         val entities = mutableListOf<Entity>()
         val spawnTemplates = templates.templates.filter { it.spawns.isNotEmpty() }
 
@@ -58,7 +58,7 @@ class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
             }
         }
 
-        levelInfo.objects.plusAssign(entities)
+        levelInfo.entities.plusAssign(entities)
     }
 
     private fun haveSameEntityNear(templateName: String, x: Int, y: Int, radius: Int, entities: MutableList<Entity>): Boolean {

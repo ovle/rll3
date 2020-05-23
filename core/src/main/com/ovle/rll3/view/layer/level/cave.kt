@@ -1,12 +1,6 @@
 package com.ovle.rll3.view.layer.level
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
-import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
-import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
-import com.ovle.rll3.model.ecs.component.util.has
-import com.ovle.rll3.model.ecs.entity.entitiesOnPosition
-import com.ovle.rll3.model.ecs.entity.hasEntityOnPosition
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.point
 import com.ovle.rll3.view.defaultAnimationInterval
@@ -14,7 +8,6 @@ import com.ovle.rll3.view.layer.indoorFloorBorderTileSet
 import com.ovle.rll3.view.layer.lightWallBorderTileSet
 import com.ovle.rll3.view.layer.outdoorDarkFloorBorderTileSet
 import com.ovle.rll3.view.noLightning
-import ktx.ashley.get
 
 fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val (layerType, nearTiles, textureRegions, levelInfo, lightInfo) = params

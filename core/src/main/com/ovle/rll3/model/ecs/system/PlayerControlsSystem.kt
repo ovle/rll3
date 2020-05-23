@@ -8,7 +8,7 @@ import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.controlledEntity
-import com.ovle.rll3.model.ecs.entity.entitiesOnPosition
+import com.ovle.rll3.model.ecs.entity.on
 import com.ovle.rll3.model.ecs.entity.levelInfoNullable
 import com.ovle.rll3.model.ecs.entity.playerInteraction
 import com.ovle.rll3.model.ecs.see
@@ -38,7 +38,7 @@ class PlayerControlsSystem : EventSystem() {
         val controlledEntity = controlledEntity()
         if (controlledEntity?.see(position) == false) return
 
-        val entities = entitiesOnPosition(level, position)
+        val entities = level.entities.on(position)
         when {
             entities.isNotEmpty() -> {
                 val target = entities.single()
@@ -67,7 +67,7 @@ class PlayerControlsSystem : EventSystem() {
         val controlledEntity = controlledEntity()
         if (controlledEntity?.see(positionComponent.gridPosition) == false) return
 
-        val entitiesOnPosition = entitiesOnPosition(level, positionComponent.gridPosition) //todo filter interaction itself
+        val entitiesOnPosition = level.entities.on(positionComponent.gridPosition) //todo filter interaction itself
         val interactionComponent = interactionEntity[playerInteraction] ?: return
         interactionComponent.hoveredEntities = entitiesOnPosition
 

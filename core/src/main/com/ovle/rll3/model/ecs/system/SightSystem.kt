@@ -11,7 +11,6 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.perception
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.levelInfo
 import com.ovle.rll3.model.ecs.entity.lightObstacles
-import com.ovle.rll3.model.ecs.entity.obstacles
 import com.ovle.rll3.model.util.lightTilePassMapper
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
 import ktx.ashley.get
@@ -36,7 +35,7 @@ class SightSystem : EventSystem() {
         val perceptionComponent = entity[perception] ?: return
         val positionComponent = entity[position] ?: return
 
-        val obstacles = lightObstacles(levelInfo())
+        val obstacles = levelInfo().entities.lightObstacles()
         perceptionComponent.fov = fov(positionComponent, perceptionComponent, obstacles)
 
         send(Event.EntityFovUpdated(entity))

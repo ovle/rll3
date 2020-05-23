@@ -2,6 +2,7 @@ package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.*
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
@@ -19,8 +20,8 @@ import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.tile.isPassable
 import com.ovle.rll3.model.util.gridToTileArray
-import com.ovle.rll3.point
 import ktx.ashley.get
+import kotlin.collections.random
 
 
 class LevelSystem: EventSystem() {
@@ -38,7 +39,7 @@ class LevelSystem: EventSystem() {
     }
 
     private fun loadNextLevel(oldLevel: LevelInfo, connectionId: ConnectionId): LevelInfo {
-        val oldConnection = connection(oldLevel, connectionId)!![levelConnection]!!
+        val oldConnection = oldLevel.entities.connection(connectionId)!![levelConnection]!!
 
         storeEntities(oldLevel)
 
@@ -57,7 +58,7 @@ class LevelSystem: EventSystem() {
 
         var playerEntity: Entity? = null
         var interactionEntity = entityWith(entities, PlayerInteractionComponent::class)
-        if (interactionEntity != null) playerEntity = interactionEntity[playerInteraction]?.controlledEntity
+        if (interactionEntity != null) playerEntity = controlledEntity()
 
         val playerTemplate = entityTemplate(TemplatesType.Common, playerInfo.templateName)
         if (playerEntity == null) playerEntity = newTemplatedEntity(randomId(), playerTemplate, engine)
@@ -78,7 +79,7 @@ class LevelSystem: EventSystem() {
         send(EntityInitialized(playerEntity))
         send(EntityChanged(playerEntity))
 
-        newLevel.objects.forEach {
+        newLevel.entities.forEach {
             send(EntityInitialized(it))
         }
 
@@ -128,7 +129,7 @@ class LevelSystem: EventSystem() {
         if (connection == null) return
         if (level == null) return
 
-        val connections = entitiesWith(level.objects, LevelConnectionComponent::class)
+        val connections = entitiesWith(level.entities, LevelConnectionComponent::class)
         val backConnection = connections.find { it[levelConnection]!!.id == connection.backConnectionId }!!
         backConnection[levelConnection]!!.visited = true
     }
@@ -148,16 +149,17 @@ class LevelSystem: EventSystem() {
     }
 
     private fun backConnection(newLevel: LevelInfo, oldLevel: LevelInfo): LevelConnectionComponent {
-        val connections = entitiesWith(newLevel.objects, LevelConnectionComponent::class)
+        val connections = entitiesWith(newLevel.entities, LevelConnectionComponent::class)
             .map { it[levelConnection]!! }
 
         return connections.find { it.levelDescriptionId == oldLevel.descriptionId }!!
     }
 
     private fun playerStartPosition(newLevel: LevelInfo, oldConnection: LevelConnectionComponent?): GridPoint2 {
-        val connections = entitiesWith(newLevel.objects, LevelConnectionComponent::class)
+        val connections = entitiesWith(newLevel.entities, LevelConnectionComponent::class)
         check(connections.isNotEmpty())
 
+        val tiles = newLevel.tiles
         if (oldConnection == null) {
             var firstStartPosition: GridPoint2? = null
             val playerSpawnPoints = newLevel.structures.flatMap { it.template.playerSpawns }
@@ -165,7 +167,6 @@ class LevelSystem: EventSystem() {
                 firstStartPosition = playerSpawnPoints.random()
             }
             if (firstStartPosition == null) {
-                val tiles = newLevel.tiles
                 firstStartPosition = tiles.positions().filter { tiles.isPassable(it) }.random()
             }
 
@@ -174,8 +175,12 @@ class LevelSystem: EventSystem() {
 
         val newConnection = connections.find { it[levelConnection]!!.id == oldConnection.backConnectionId }!!
         val newConnectionPosition = newConnection[position]?.gridPosition!!
+        val entityPositions = newLevel.entities.positions()
+        val nearPoints = newConnectionPosition.nearExclusive()
+            .filter { tiles.isPointValid(it.x, it.y) && tiles.isPassable(it) && it !in entityPositions }
+        check(nearPoints.isNotEmpty())
 
-        return point(newConnectionPosition).apply { y -= 1 }
+        return nearPoints.random()
     }
 
     private fun storeEntities(level: LevelInfo) {
@@ -189,7 +194,7 @@ class LevelSystem: EventSystem() {
         val restoredEntities = LevelRegistry.restore(level.id)
         restoredEntities?.forEach {
             val entity = engine.entity(it.id, *it.components.toTypedArray())
-            level.objects.add(entity)
+            level.entities.add(entity)
         }
     }
 }

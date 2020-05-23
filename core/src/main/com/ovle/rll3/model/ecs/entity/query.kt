@@ -12,12 +12,9 @@ import com.ovle.rll3.model.ecs.component.basic.TemplateComponent
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.level
-import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.Mappers.player
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.Mappers.world
-import com.ovle.rll3.model.ecs.component.util.has
-import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.EntityId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import ktx.ashley.get
@@ -34,37 +31,10 @@ fun entitiesWith(entities: Collection<Entity>, componentClass: KClass<out Compon
 
 fun entityWith(entities: Collection<Entity>, componentClass: KClass<out Component>) = entitiesWith(entities, componentClass).singleOrNull()
 
-fun hasEntityOnPosition(levelInfo: LevelInfo, position: GridPoint2, componentClass: KClass<out Component>): Boolean =
-    entitiesWith(levelInfo.objects, componentClass)
-    .any {
-        it[Mappers.position]?.gridPosition?.equals(position) ?: false
-    }
-
-fun entitiesOnPosition(levelInfo: LevelInfo, position: GridPoint2): Collection<Entity> =
-    levelInfo.objects.filter {
-        it[Mappers.position]?.gridPosition?.equals(position) ?: false
-    }
-
 fun IteratingSystem.hostEntities() = this.entities
 fun EntitySystem.allEntities() = this.engine.entities
 
 //----------------------------------------------------------------------------------------------------------------------------------
-
-fun connectionOnPosition(levelInfo: LevelInfo, position: GridPoint2) = entitiesOnPosition(levelInfo, position)
-    .singleOrNull {
-        it.has<LevelConnectionComponent>()
-    }
-
-fun connection(levelInfo: LevelInfo?, id: String?) =
-    entitiesWith(levelInfo?.objects
-        ?: emptyList(), LevelConnectionComponent::class)
-        .find { it[levelConnection]!!.id == id }
-
-fun lightObstacles(levelInfo: LevelInfo) = obstacles(levelInfo) { it.passable4Light }
-fun bodyObstacles(levelInfo: LevelInfo) = obstacles(levelInfo) { it.passable4Body }
-fun obstacles(levelInfo: LevelInfo, fn: (CollisionComponent)-> Boolean) = levelInfo.objects
-    .filter { it[Mappers.collision]?.let { c -> !fn.invoke(c) && c.active } ?: false }
-    .mapNotNull { it[Mappers.position]?.gridPosition }
 
 fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), LevelComponent::class)?.get(level)?.level
 fun EntitySystem.levelInfo() = levelInfoNullable()!!
@@ -86,8 +56,30 @@ fun EntitySystem.selectedEntity() = playerInteractionInfo()?.selectedEntity
 fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
     worldInfo.levels.single { it.id == levelDescriptionId }
 
-fun EntitySystem.entitiesWithTemplateName(name: String) = entitiesWith(allEntities().toList(), TemplateComponent::class)
-        .filter { it[template]!!.template.name == name }
-
 fun EntitySystem.entity(id: EntityId) = entitiesWith(allEntities().toList(), IdComponent::class)
         .single { it[Mappers.id]!!.id == id }
+
+//----------------------------------------------------------------------------------------------------------------------------------
+
+fun Collection<Entity>.on(position: GridPoint2): Collection<Entity> =
+    filter {
+        it[Mappers.position]?.gridPosition?.equals(position) ?: false
+    }
+
+fun Collection<Entity>.anyOn(position: GridPoint2, componentClass: KClass<out Component>): Boolean =
+    entitiesWith(this, componentClass)
+        .any {
+            it[Mappers.position]?.gridPosition?.equals(position) ?: false
+        }
+
+fun Collection<Entity>.positions() = mapNotNull { it[Mappers.position]?.gridPosition }.toSet()
+
+fun Collection<Entity>.connection(id: String?) =
+    entitiesWith(this, LevelConnectionComponent::class)
+        .find { it[Mappers.levelConnection]!!.id == id }
+
+fun Collection<Entity>.lightObstacles() = obstacles { it.passable4Light }
+fun Collection<Entity>.bodyObstacles() = obstacles { it.passable4Body }
+fun Collection<Entity>.obstacles(fn: (CollisionComponent)-> Boolean) =
+    filter { it[Mappers.collision]?.let { c -> !fn.invoke(c) && c.active } ?: false }
+        .mapNotNull { it[Mappers.position]?.gridPosition }

@@ -102,7 +102,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
 
         val newPosition = point(currentPosition.x + dxStep, currentPosition.y + dyStep)
         //it can be expensive to do that on every move processing. cache?
-        val obstacles = bodyObstacles(levelInfo())
+        val obstacles = levelInfo().entities.bodyObstacles()
         //should we finish move at that point, or consider obstacle to be temporary? or try to make another path?
         if (newPosition in obstacles) return
 
@@ -115,7 +115,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         val tiles = level.tiles
         if (!tiles.isPointValid(to.x, to.y)) return
 
-        val controlledEntity = playerInteractionInfo()?.controlledEntity ?: return
+        val controlledEntity = controlledEntity() ?: return
         if (!controlledEntity.see(to)) return
 
         val moveComponent = entity[move] ?: return
@@ -126,7 +126,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
             from,
             to,
             tiles,
-            bodyObstacles(level),
+            level.entities.bodyObstacles(),
             heuristicsFn = ::heuristics,
             costFn = ::cost,
             tilePassTypeFn = ::tilePassType

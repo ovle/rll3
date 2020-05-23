@@ -86,7 +86,7 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     private fun performEntityInteraction(entity: Entity, action: String) {
-        val playerEntity = playerInteractionInfo()!!.controlledEntity!!
+        val playerEntity = controlledEntity()!!
 
         when (action) {
             Travel.actionName -> {

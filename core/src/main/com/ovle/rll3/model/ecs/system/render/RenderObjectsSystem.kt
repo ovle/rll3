@@ -18,6 +18,7 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.entity.connection
+import com.ovle.rll3.model.ecs.entity.controlledEntity
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.point
 import com.ovle.rll3.view.layer.TexturesInfo
@@ -53,8 +54,7 @@ class RenderObjectsSystem(
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
 
-        val interactionInfo = playerInteractionInfo()
-        val controlledEntity = interactionInfo?.controlledEntity
+        val controlledEntity = controlledEntity()
         val fov = controlledEntity?.get(perception)?.fov
 
         toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.gridPosition.y }))
