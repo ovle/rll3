@@ -35,9 +35,9 @@ fun caveTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val tileId = nearTiles.value?.typeId
     val isWall = tileId == wallTileId
     val isNextToFloor = upTileId in floorTypes
-    val isRoomFloor = tileId == roomFloorTileId
+    val isRoomFloor = tileId == groundTileId
     val isPitFloor = tileId == pitFloorTileId
-    val isRoomFloorUp = downTileId == roomFloorTileId
+    val isRoomFloorUp = downTileId == groundTileId
     val isPitFloorUp = downTileId == pitFloorTileId
 
     val lightValueType = lightValueType(lightInfo, position, positionDown, isPitFloor, isRoomFloorUp, isWall, false)

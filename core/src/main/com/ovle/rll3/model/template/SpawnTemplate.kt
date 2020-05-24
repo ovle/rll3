@@ -5,9 +5,9 @@ import com.ovle.rll3.model.tile.TileType
 data class SpawnTemplate(
     var chance: Float = 1.0f,
     var mask: String = """
-        _ _ _
-        _ 0 _
-        _ _ _
+        ` ` `
+        ` _ `
+        ` ` `
     """,
     var rotate: Boolean = false,
     var groupBonusChance: Float = 0.0f,

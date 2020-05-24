@@ -38,11 +38,11 @@ fun dungeonTileToTexture(params: TileToTextureParams): TileTextureInfo {
 
     val tileId = nearTiles.value?.typeId
     val isWall = tileId == wallTileId
-    val isRoomFloor = tileId == roomFloorTileId
+    val isRoomFloor = tileId == groundTileId
     val isPitFloor = tileId == pitFloorTileId
-    val isCorridorFloor = tileId == corridorFloorTileId
+    val isCorridorFloor = tileId == corridorTileId
     val isDoor = hasDoor(nearTiles.x, nearTiles.y)
-    val isRoomFloorUp = downTileId == roomFloorTileId
+    val isRoomFloorUp = downTileId == groundTileId
     val isPitFloorUp = downTileId == pitFloorTileId
     val isNextToDoor = hasDoor(nearTiles.x, nearTiles.y - 1)
     val isNextToFloor = upTileId in floorTypes && !isNextToDoor

@@ -1,5 +1,39 @@
 ---
 
+name: torch
+description: ''
+state:
+  light:
+    radius: 5
+sprite:
+  default: [11, 1]
+spawns:
+  - mask: |
+      ` ` `
+      ` 1 `
+      ` _ `
+    rotate: false
+    groupBonusChance: -1.0
+    groupRadius: 2
+  - mask: |
+      ` ` `
+      ` 1 `
+      ` 2 `
+    rotate: false
+    groupBonusChance: -1.0
+    groupRadius: 2
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [7, 1]
+      - [8, 1]
+      - [9, 1]
+      - [10, 1]
+
+---
+
 name: sceleton
 description: ''
 state:
@@ -15,9 +49,9 @@ spawns:
   - chance: 0.5
     rotate: true
     mask: |
-      1 1 _
-      1 0 0
-      _ 0 _
+      1 1 `
+      1 _ _
+      ` _ `
 animations:
   - type: Idle
     repeat: true

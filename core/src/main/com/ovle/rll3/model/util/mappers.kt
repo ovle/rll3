@@ -19,8 +19,8 @@ fun gridToTileArray(grid: Grid, mapFunction: (Float) -> TileType): TileArray {
 fun dungeonGridValueToTileType(gridValue: Float): TileType {
     return when {
         gridValue >= DungeonGridFactory.wallTreshold -> wallTileId
-        gridValue == DungeonGridFactory.floorTreshold -> roomFloorTileId
-        gridValue == DungeonGridFactory.corridorTreshold -> corridorFloorTileId
+        gridValue == DungeonGridFactory.floorTreshold -> groundTileId
+        gridValue == DungeonGridFactory.corridorTreshold -> corridorTileId
         else -> throw RuntimeException("illegal tile value: $gridValue")
     }
 }
@@ -29,14 +29,14 @@ fun caveGridValueToTileType(gridValue: Float): TileType {
     return when {
         gridValue >= CelullarAutomataGridFactory.wallMarker -> wallTileId
         gridValue >= CelullarAutomataGridFactory.pitMarker -> pitFloorTileId
-        else -> roomFloorTileId //todo
+        else -> groundTileId //todo
     }
 }
 
 fun villageGridValueToTileType(gridValue: Float): TileType {
     return when {
         gridValue >= NoiseGridFactory.wallTreshold -> wallTileId
-        gridValue >= NoiseGridFactory.floorTreshold -> roomFloorTileId
+        gridValue >= NoiseGridFactory.floorTreshold -> groundTileId
         else -> waterTileId //todo
     }
 }

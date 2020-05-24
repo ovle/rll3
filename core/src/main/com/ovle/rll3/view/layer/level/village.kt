@@ -41,14 +41,14 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
     val tileId = nearTiles.value?.typeId
     val isWall = tileId == wallTileId
     val isNextToDoor = hasDoor(nearTiles.x, nearTiles.y - 1)
-    val isNextToFloor = upTileId in floorTypes && !isNextToDoor
+    val isNotNextToSolidWall = (upTileId !in solidWallTypes) && !isNextToDoor
     val isRightToFloor = rightTileId in floorTypes
     val isLeftToFloor = leftTileId in floorTypes
 
     val isNextToStructureFloor = upTileId in setOf(structureFloorTileId, structureInnerFloorTileId) && !isNextToDoor
-    val isFloor = tileId == roomFloorTileId
+    val isFloor = tileId == groundTileId
     val isWaterFloor = tileId == waterTileId
-    val isFloorUp = downTileId == roomFloorTileId
+    val isFloorUp = downTileId == groundTileId
 
     val isInnerStructureFloor = tileId == structureInnerFloorTileId
     val isStructureFloor = isInnerStructureFloor || tileId == structureFloorTileId
@@ -91,10 +91,10 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
             isHFence -> arrayOf(regions[9][8])
             isVFence -> arrayOf(regions[9][9])
             isStructureWall && isNextToStructureFloor -> arrayOf(regions[8][5])
-            isStructureWall && isNextToFloor -> arrayOf(regions[8][4])
+            isStructureWall && isNotNextToSolidWall -> arrayOf(regions[8][4])
             isInnerStructureFloor -> arrayOf(regions[2][8])
             isStructureFloor -> arrayOf(regions[8][(2..3).random()])
-            isWall && isNextToFloor -> arrayOf(regions[9][(5..5).random()])
+            isWall && isNotNextToSolidWall -> arrayOf(regions[9][(5..5).random()])
             isFloor -> arrayOf(regions[(9..10).random()][(0..3).random()])
             isWaterFloor -> arrayOf(
                 regions[11][0],
@@ -104,7 +104,7 @@ fun villageTileToTexture(params: TileToTextureParams): TileTextureInfo {
             else -> emptyTile
         }
         LayerType.Decoration -> when {
-            isStructureWall && isNextToFloor && !isNextToStructureFloor -> when {
+            isStructureWall && isNotNextToSolidWall && !isNextToStructureFloor -> when {
                 isRightToFloor -> arrayOf(regions[8][6])
                 isLeftToFloor -> arrayOf(regions[8][7])
                 else -> emptyTile

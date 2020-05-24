@@ -81,37 +81,22 @@ animations:
 
 ---
 
-name: torch
+name: lamp
 description: ''
 state:
   light:
     radius: 5
 sprite:
-  default: [11, 1]
-spawns:
-  - mask: |
-      _ _ _
-      _ 1 _
-      _ 0 _
-    rotate: false
-    groupBonusChance: -1.0
-    groupRadius: 2
-  - mask: |
-      _ _ _
-      _ 1 _
-      _ 2 _
-    rotate: false
-    groupBonusChance: -1.0
-    groupRadius: 2
+  default: [7, 2]
 animations:
   - type: Idle
     repeat: true
     alwaysPlaying: true
     frames:
-      - [7, 1]
-      - [8, 1]
-      - [9, 1]
-      - [10, 1]
+      - [7, 2]
+      - [8, 2]
+      - [9, 2]
+      - [10, 2]
 
 ---
 
@@ -167,13 +152,31 @@ state:
   light:
     radius: 3
 sprite:
-  default: [7, 2]
+  default: [6, 1]
 ---
 
 name: window
 description: ''
 sprite:
   default: [6, 2]
+
+---
+
+name: statue
+description: ''
+state:
+  collision:
+sprite:
+  default: [6, 3]
+
+---
+
+name: well
+description: ''
+state:
+  collision:
+sprite:
+  default: [6, 4]
 
 ---
 

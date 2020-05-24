@@ -12,10 +12,6 @@ sprite:
   default: [11, 10]
 spawns:
   - chance: 0.025
-    mask: |
-      _ 0 _
-      0 0 0
-      _ 0 _
 animations:
   - type: Idle
     repeat: true

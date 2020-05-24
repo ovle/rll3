@@ -4,7 +4,6 @@ import com.ovle.rll3.model.procedural.grid.RoomStructure.DirectionValue.*
 import com.ovle.rll3.model.procedural.grid.RoomStructure.ParamKey.*
 import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
 import com.ovle.rll3.model.tile.*
-import java.lang.Math.random
 
 enum class RoomStructure {
     Nop {
@@ -29,7 +28,7 @@ enum class RoomStructure {
                 val isHBridgeTile = nearTiles.y == room.y + room.height / 2
                 val isVBridgeTile = nearTiles.x == room.x + room.width / 2
                 val isBridgeTile = haveHBridge && isHBridgeTile || haveVBridge && isVBridgeTile
-                if (isBridgeTile) resultTileId = roomFloorTileId
+                if (isBridgeTile) resultTileId = groundTileId
             }
 
             setTile(tiles, nearTiles, resultTileId)

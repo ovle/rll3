@@ -8,13 +8,10 @@ state:
 sprite:
   default: [6, 9]
 spawns:
-  - chance: 0.1
+  - chance: 0.125
     rotate: true
     groupBonusChance: 0.2
-    mask: |
-      _ _ _
-      _ 0 _
-      _ _ _
+
 ---
 
 name: tree 2
@@ -25,13 +22,9 @@ state:
 sprite:
   default: [7, 9]
 spawns:
-  - chance: 0.15
+  - chance: 0.125
     rotate: true
     groupBonusChance: -0.2
-    mask: |
-      _ _ _
-      _ 0 _
-      _ _ _
 
 ---
 
@@ -41,16 +34,14 @@ state:
   collision:
 sprite:
   default: [8, 9]
-#   [9, 9]
 spawns:
-  - chance: 0.3
+  - chance: 0.8
     rotate: true
     groupBonusChance: 0.2
     mask: |
-      _ _ _
-      3 0 _
-      _ _ _
-
+      ` ` `
+      ~ _ `
+      ` ` `
 ---
 
 name: villager
@@ -97,8 +88,6 @@ state:
     health: 2
     stamina: 4
   collision:
-spawns:
-  - chance: 0.025
 sprite:
   default: [11, 13]
 portrait:
