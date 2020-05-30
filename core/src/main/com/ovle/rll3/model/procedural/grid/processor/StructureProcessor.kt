@@ -5,9 +5,12 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
+import com.ovle.rll3.model.ecs.component.advanced.QuestOwnerComponent
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
+import com.ovle.rll3.model.ecs.component.util.Mappers.questOwner
+import com.ovle.rll3.model.ecs.entity.entity
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
 import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.template.entity.entityTemplate
@@ -59,6 +62,18 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
             val entitiesInfo = template.entities
             entitiesInfo.forEach {
                 spawnEntities(it, gameEngine, spawnPoint, entities)
+            }
+
+            val quests = template.quests
+            quests.forEach {
+                (questId, entityId) ->
+                val owner = entity(entityId, entities)
+                var qc = owner[questOwner]
+                if (qc == null) {
+                    qc = QuestOwnerComponent()
+                    owner.add(qc)
+                }
+                qc.questIds.add(questId)
             }
         }
     }

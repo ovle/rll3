@@ -25,6 +25,7 @@ private fun isLoggableEvent(event: Event) =
         is EntityTakeDamage,
         is EntityDied,
         is EntityTakeItems,
+        is QuestStatusUpdated,
         is EntityLevelTransition -> true
         else -> false
     }
@@ -57,6 +58,10 @@ private fun message(event: Event)=
             val itemsInfo = event.items.info()
             "${event.entity.info()} taken: $itemsInfo"
         }
+        is QuestStatusUpdated -> {
+            val quest = event.quest
+            "${quest.performer.info()} updated quest: ${quest.description.title}; status: ${quest.status}"
+        }
         is EntityLevelTransition -> {
             val entityInfo = event.entity.info()
             "$entityInfo has leaved this level"
@@ -64,11 +69,12 @@ private fun message(event: Event)=
         else -> throw IllegalArgumentException("not supported journal for event $event")
     }
 
-private fun Collection<Entity>.info(): String {
+fun Collection<Entity>.info(): String {
     val entityInfos = this.map { it.info() }
     return entityInfos.groupBy { it }.entries.joinToString(", ") { (k, v) -> "${v.count()}x $k" }
 }
-private fun Entity.info() = when {
+
+fun Entity.info() = when {
     has<TemplateComponent>() -> this[template]!!.template.name
     else -> "(unknown)"
 }

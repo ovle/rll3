@@ -7,6 +7,8 @@ import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.system.interaction.CombatAction
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
+import com.ovle.rll3.model.ecs.system.quest.QuestDescription
+import com.ovle.rll3.model.ecs.system.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.template.AnimationType
 
@@ -42,6 +44,8 @@ sealed class Event {
     open class LogEvent(val message: String) : GameEvent()
     open class UpdateLightCollision(val points: Array<GridPoint2>) : GameEvent()
 
+    open class QuestStatusUpdated(val quest: QuestInfo) : GameEvent()
+
     //entity
     open class EntityEvent(val entity: Entity) : GameEvent()
     //entity - technical
@@ -71,6 +75,7 @@ sealed class Event {
     open class EntityStartMove(entity: Entity) : EntityEvent(entity)
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
     open class EntityFinishMove(entity: Entity) : EntityEvent(entity)
+
 
     open class EntityContentInteraction(val source: Entity, target: Entity) : EntityEvent(target)
     open class EntityTakeItems(entity: Entity, val items: Collection<Entity>) : EntityEvent(entity)

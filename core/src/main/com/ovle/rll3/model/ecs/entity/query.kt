@@ -8,12 +8,10 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.basic.CollisionComponent
 import com.ovle.rll3.model.ecs.component.basic.IdComponent
-import com.ovle.rll3.model.ecs.component.basic.TemplateComponent
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.level
 import com.ovle.rll3.model.ecs.component.util.Mappers.player
-import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.Mappers.world
 import com.ovle.rll3.model.ecs.system.level.EntityId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
@@ -39,7 +37,8 @@ fun EntitySystem.allEntities() = this.engine.entities
 fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), LevelComponent::class)?.get(level)?.level
 fun EntitySystem.levelInfo() = levelInfoNullable()!!
 
-fun EntitySystem.worldInfoNullable() = entityWith(allEntities().toList(), WorldComponent::class)?.get(world)?.world
+fun EntitySystem.world() = entityWith(allEntities().toList(), WorldComponent::class)
+fun EntitySystem.worldInfoNullable() = world()?.get(world)?.world
 fun EntitySystem.worldInfo() = worldInfoNullable()!!
 
 fun EntitySystem.playerInfoNullable() = entityWith(allEntities().toList(), PlayerComponent::class)?.get(player)?.player
@@ -56,8 +55,11 @@ fun EntitySystem.selectedEntity() = playerInteractionInfo()?.selectedEntity
 fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
     worldInfo.levels.single { it.id == levelDescriptionId }
 
-fun EntitySystem.entity(id: EntityId) = entitiesWith(allEntities().toList(), IdComponent::class)
-        .single { it[Mappers.id]!!.id == id }
+fun EntitySystem.entity(id: EntityId) = entity(id, allEntities().toList())
+
+fun entityNullable(id: EntityId, entities: Collection<Entity>) = entitiesWith(entities, IdComponent::class)
+        .singleOrNull { it[Mappers.id]!!.id == id }
+fun entity(id: EntityId, entities: Collection<Entity>) = entityNullable(id, entities)!!
 
 //----------------------------------------------------------------------------------------------------------------------------------
 

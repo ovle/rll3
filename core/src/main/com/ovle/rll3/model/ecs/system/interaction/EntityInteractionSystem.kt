@@ -7,9 +7,9 @@ import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
-import com.ovle.rll3.model.ecs.entity.controlledEntity
-import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
-import com.ovle.rll3.model.ecs.entity.selectedEntity
+import com.ovle.rll3.model.ecs.component.util.Mappers.questOwner
+import com.ovle.rll3.model.ecs.component.util.Mappers.world
+import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction.*
 import com.ovle.rll3.model.ecs.system.interaction.use.use
@@ -24,7 +24,7 @@ class EntityInteractionSystem : EventSystem() {
         EventBus.subscribe<EntityHoverEvent> { onEntityHoverEvent(it.entity) }
         EventBus.subscribe<EntityUnhoverEvent> { onEntityUnhoverEvent() }
 
-        EventBus.subscribe<EntityActionEvent> { onEntityInteractionEvent(it.entity, it.action) }
+        EventBus.subscribe<EntityActionEvent> { onEntityActionEvent(it.entity, it.action) }
     }
 
     private fun onEntityClickEvent(entity: Entity, button: Int) {
@@ -72,18 +72,10 @@ class EntityInteractionSystem : EventSystem() {
         interactionInfo.selectedEntity = null
     }
 
-    private fun onEntityInteractionEvent(entity: Entity, action: String) {
+    private fun onEntityActionEvent(entity: Entity, action: String) {
         performEntityInteraction(entity, action)
     }
 
-
-    private fun showActions(entity: Entity) {
-        val controlledEntity = controlledEntity()
-        val actions = actions(entity).filter { isAvailable(it, controlledEntity!!, entity) }
-        if (actions.isNotEmpty()) {
-            send(ShowEntityActionsEvent(entity, actions))
-        }
-    }
 
     private fun performEntityInteraction(entity: Entity, action: String) {
         val playerEntity = controlledEntity()!!
@@ -96,6 +88,9 @@ class EntityInteractionSystem : EventSystem() {
             Combat.actionName -> {
                 showCombatActions(playerEntity, entity)
             }
+            Talk.actionName -> {
+                showTalkActions(playerEntity, entity)
+            }
             Use.actionName -> {
                 use(playerEntity, entity)
                 //todo event log waits for send(EntityActionEvent(playerEntity, entity, action))
@@ -104,8 +99,29 @@ class EntityInteractionSystem : EventSystem() {
         }
     }
 
+    private fun showActions(entity: Entity) {
+        val controlledEntity = controlledEntity()
+        val actions = actions(entity).filter { isAvailable(it, controlledEntity!!, entity) }
+        if (actions.isNotEmpty()) {
+            showActions(entity, actions)
+        }
+    }
+
+    private fun showTalkActions(playerEntity: Entity, entity: Entity) {
+        //todo dialogs
+        //todo check available/taken quests
+        val actions = entity[questOwner]?.questIds ?: mutableListOf()
+        if (actions.isNotEmpty()) {
+            showActions(entity, actions)
+        }
+    }
+
     private fun showCombatActions(playerEntity: Entity, entity: Entity) {
-        val combatActions = combatActions.filter { isAvailable(it, playerEntity, entity) }.map { it.name }
-        send(ShowEntityActionsEvent(entity, combatActions))
+        val actions = combatActions.filter { isAvailable(it, playerEntity, entity) }.map { it.name }
+        showActions(entity, actions)
+    }
+
+    private fun showActions(entity: Entity, actions: List<String>) {
+        send(ShowEntityActionsEvent(entity, actions))
     }
 }

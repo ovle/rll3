@@ -3,6 +3,7 @@ package com.ovle.rll3.model.ecs.component.special
 import com.badlogic.ashley.core.Component
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.ecs.system.level.WorldId
+import com.ovle.rll3.model.ecs.system.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import kotlin.random.Random
 
@@ -29,5 +30,6 @@ data class LevelDescription(
 
 class WorldComponent(
     var world: WorldInfo,
-    var time: TimeInfo
+    var time: TimeInfo,
+    val quests: MutableList<QuestInfo> = mutableListOf()
 ): Component

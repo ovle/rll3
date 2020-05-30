@@ -15,7 +15,8 @@ data class StructureTemplate(
     var spawns: Collection<SpawnTemplate> = listOf(),
     var mask: String = "",
     var entities: Collection<StructureEntity> = listOf(),
-    var playerSpawns: Collection<GridPoint2> = listOf()
+    var playerSpawns: Collection<GridPoint2> = listOf(),
+    var quests: Collection<StructureQuest> = listOf()
 ) {
     val parsedMask: List<List<TileType>> by lazy {
         parsedMask(mask)!!
@@ -26,4 +27,9 @@ data class StructureEntity(
     var templateName: String = "",
     var points: Array<Pair<Int, Int>> = arrayOf(),
     var ids: Array<String> = arrayOf()
+)
+
+data class StructureQuest(
+    var questId: String = "",
+    var entityId: String = ""
 )

@@ -3,6 +3,7 @@ package com.ovle.rll3.model.ecs.system.interaction
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
+import com.ovle.rll3.model.ecs.component.util.Mappers.questOwner
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction.*
 import ktx.ashley.get
 import ktx.ashley.has
@@ -12,15 +13,15 @@ val combatActionNames = combatActions.map { it.name }
 fun defaultAction(entity: Entity) = actions(entity)
     .singleOrNull { it == defaultActionName(entity) }
 
-private fun defaultActionName(entity: Entity): String {
+private fun defaultActionName(entity: Entity): String? {
     return when {
         (entity.has(levelConnection)) -> "travel"
-        (entity.has(living)) -> "combat" //todo
+        (entity.has(living)) -> null
         else -> "use"
     }
 }
 
-fun actions(entity: Entity)= values()
+fun actions(entity: Entity) = values()
     .filter {
         it.check(entity)
     }.map {
