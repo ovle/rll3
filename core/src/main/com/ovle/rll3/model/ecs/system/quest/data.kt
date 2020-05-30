@@ -1,6 +1,8 @@
 package com.ovle.rll3.model.ecs.system.quest
 
 import com.badlogic.ashley.core.EntitySystem
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.entityNullable
@@ -31,6 +33,9 @@ fun questDescriptions(entitySystem: EntitySystem) =
             failCondition = {
                 val levelInfo = entitySystem.levelInfo()
                 levelInfo.description.id != firstLevelDescId
+            },
+            onSuccess = {
+                send(Event.LogEvent("thank you!"))
             }
         )
     )

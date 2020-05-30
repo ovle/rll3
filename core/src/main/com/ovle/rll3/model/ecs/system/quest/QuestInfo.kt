@@ -14,8 +14,9 @@ data class QuestInfo(
     var status: QuestStatus = QuestStatus.InProcess
 )
 
-enum class QuestStatus(val finished: Boolean) {
+enum class QuestStatus(val isTerminal: Boolean) {
     InProcess(false),
-    Completed(true),
+    Completed(false),
+    Rewarded(true),
     Failed(true);
 }

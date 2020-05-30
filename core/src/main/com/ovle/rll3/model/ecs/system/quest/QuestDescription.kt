@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.ecs.system.quest
 
 typealias QuestCondition = (() -> Boolean)
-typealias QuestHook = (() -> Unit)?
+typealias QuestHook = ((QuestInfo) -> Unit)?
 
 class QuestDescription(
     val id: String,
