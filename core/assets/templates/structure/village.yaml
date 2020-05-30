@@ -29,6 +29,9 @@ mask: |
   ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
 playerSpawns:
   - [11, 8]
+quests:
+  - questId: q1
+    entityId: elder1
 entities:
   - templateName: lamp
     points:
@@ -50,6 +53,11 @@ entities:
     ids:
       - b1
       - b2
+  - templateName: elder
+    points:
+      - [13, 5]
+    ids:
+      - elder1
   - templateName: stash
     points:
       - [4, 2]
@@ -61,6 +69,9 @@ entities:
   - templateName: table
     points:
       - [7, 3]
+  - templateName: chair
+    points:
+      - [14, 4]
   - templateName: oven
     points:
       - [6, 1]

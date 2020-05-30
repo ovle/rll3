@@ -146,6 +146,13 @@ sprite:
 
 ---
 
+name: chair
+description: ''
+sprite:
+  default: [10, 0]
+
+---
+
 name: oven
 description: ''
 state:

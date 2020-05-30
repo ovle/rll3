@@ -101,3 +101,25 @@ animations:
       - [12, 13]
       - [13, 13]
       - [14, 13]
+
+---
+
+name: elder
+description: ''
+state:
+  living:
+    health: 3
+    stamina: 3
+  collision:
+    passable4Light: false
+sprite:
+  default: [11, 9]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [11, 9]
+      - [12, 9]
+      - [13, 9]
+      - [14, 9]
