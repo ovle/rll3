@@ -4,8 +4,6 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.template.AnimationTemplate
 import com.ovle.rll3.model.template.SpawnTemplate
 
-data class EntityTemplates(val templates: Collection<EntityTemplate>)
-
 data class EntityTemplate(
     var name: String = "",
     var version: String = "0.1",

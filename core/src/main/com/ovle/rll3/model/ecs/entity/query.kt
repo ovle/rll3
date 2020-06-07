@@ -37,6 +37,8 @@ fun EntitySystem.allEntities() = this.engine.entities
 fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), LevelComponent::class)?.get(level)?.level
 fun EntitySystem.levelInfo() = levelInfoNullable()!!
 
+fun levelInfo(entities: Array<Entity>) = entityWith(entities.toList(), LevelComponent::class)?.get(level)?.level
+
 fun EntitySystem.world() = entityWith(allEntities().toList(), WorldComponent::class)
 fun EntitySystem.worldInfoNullable() = world()?.get(world)?.world
 fun EntitySystem.worldInfo() = worldInfoNullable()!!

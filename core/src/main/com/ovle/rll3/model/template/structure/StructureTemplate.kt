@@ -6,8 +6,6 @@ import com.ovle.rll3.model.template.parsedMask
 import com.ovle.rll3.model.tile.TileType
 
 
-data class StructureTemplates(val templates: Collection<StructureTemplate>)
-
 data class StructureTemplate(
     var name: String = "",
     var version: String = "0.1",

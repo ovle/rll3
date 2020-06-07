@@ -21,6 +21,7 @@ const val guiTexturePath = "images/gui.png"
 
 const val entityTemplatePath = "templates/entity/"
 const val structureTemplatePath = "templates/structure/"
+const val behaviorTreePath = "templates/behaviorTree/"
 
 const val defaultAnimationInterval = 0.125f
 

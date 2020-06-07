@@ -11,6 +11,7 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.eventLogHook
 import com.ovle.rll3.model.ecs.system.*
+import com.ovle.rll3.model.ecs.system.ai.AISystem
 import com.ovle.rll3.model.ecs.system.gui.GUISystem
 import com.ovle.rll3.model.ecs.system.interaction.CombatSystem
 import com.ovle.rll3.model.ecs.system.interaction.DebugCombatAiSystem
@@ -68,6 +69,7 @@ class GameScreen(
             AnimationSystem(objectsTextureInfo),
             SightSystem(),
             ContainerSystem(),
+            AISystem(assetsManager.behaviorTrees),
 
             DebugCombatAiSystem(),
             DebugQuestSystem()

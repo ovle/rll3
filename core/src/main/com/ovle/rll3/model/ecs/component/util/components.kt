@@ -27,7 +27,8 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "perception" to { value -> PerceptionComponent(value!!["sight"] as Int? ?: 5) },
     "door" to { _ -> DoorComponent() },
     "stash" to { _ -> StashComponent() },
-    "container" to { _ -> ContainerComponent() }
+    "container" to { _ -> ContainerComponent() },
+    "ai" to { value -> AIComponent(AIType.valueOf((value!!["type"] as String).capitalize())) }
 )
 
 

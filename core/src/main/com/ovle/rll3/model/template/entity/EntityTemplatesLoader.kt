@@ -7,8 +7,12 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.utils.Array
-import com.ovle.rll3.model.util.loadEntityTemplates
+import org.yaml.snakeyaml.Yaml
+import org.yaml.snakeyaml.constructor.Constructor
+import java.io.File
 
+
+data class EntityTemplates(val templates: Collection<EntityTemplate>)
 
 class EntityTemplatesLoader(resolver: FileHandleResolver): SynchronousAssetLoader<EntityTemplates, AssetLoaderParameters<EntityTemplates>>(resolver) {
 
@@ -16,4 +20,12 @@ class EntityTemplatesLoader(resolver: FileHandleResolver): SynchronousAssetLoade
         = file?.file()?.run { loadEntityTemplates(this) }
 
     override fun getDependencies(fileName: String?, file: FileHandle?, parameter: AssetLoaderParameters<EntityTemplates>?): Array<AssetDescriptor<Any>>? = null
+
+    private fun loadEntityTemplates(file: File): EntityTemplates {
+        val constructor = Constructor(EntityTemplate::class.java)
+        val yaml = Yaml(constructor)
+        val inputStream = file.inputStream()
+        val templates = yaml.loadAll(inputStream).map { it as EntityTemplate }
+        return EntityTemplates(templates)
+    }
 }
