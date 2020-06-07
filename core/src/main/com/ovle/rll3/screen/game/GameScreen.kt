@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.ovle.rll3.AssetsManager
+import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
@@ -48,6 +48,7 @@ class GameScreen(
         val objectsTextureInfo = TexturesInfo(assetsManager.objectsTexture)
         val guiTextureInfo = TexturesInfo(assetsManager.guiTexture)
         TemplatesRegistry.entityTemplates = assetsManager.entityTemplates
+        TemplatesRegistry.entityViewTemplates = assetsManager.entityViewTemplates
         TemplatesRegistry.structureTemplates = assetsManager.structureTemplates
 
         val camera = batchViewport.camera as OrthographicCamera

@@ -3,6 +3,7 @@ package com.ovle.rll3.model.ecs.system.ai
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.ai.btree.BehaviorTree
+import com.ovle.rll3.assets.loader.BehaviorTrees
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.advanced.AIComponent

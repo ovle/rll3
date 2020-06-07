@@ -5,6 +5,8 @@ import com.ovle.rll3.model.ecs.component.advanced.*
 import com.ovle.rll3.model.ecs.component.basic.*
 import com.ovle.rll3.model.ecs.component.dto.AOEData
 import com.ovle.rll3.model.template.entity.EntityTemplate
+import com.ovle.rll3.model.template.entity.entityViewTemplate
+import com.ovle.rll3.model.template.entity.entityViewTemplates
 
 typealias ComponentData = Map<String, Any?>
 typealias ComponentFactory = (ComponentData?) -> Component
@@ -33,11 +35,12 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
 
 
 fun basicComponents(template: EntityTemplate): List<Component> {
+    val viewTemplate = entityViewTemplate(name = template.name)
     //todo items doesn't have anything but template
     return listOfNotNull(
         PositionComponent(),
-        TemplateComponent(template),
-        template.sprite?.run { RenderComponent() },
+        TemplateComponent(template, viewTemplate),
+        viewTemplate?.sprite?.run { RenderComponent() },
         ActionComponent()
     )
 }

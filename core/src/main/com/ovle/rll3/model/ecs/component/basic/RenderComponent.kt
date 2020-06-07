@@ -1,8 +1,7 @@
 package com.ovle.rll3.model.ecs.component.basic
 
 import com.badlogic.ashley.core.Component
-import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.ovle.rll3.model.template.AnimationType
+import com.ovle.rll3.model.template.entity.view.AnimationType
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.sprite.animation.FrameAnimation
 

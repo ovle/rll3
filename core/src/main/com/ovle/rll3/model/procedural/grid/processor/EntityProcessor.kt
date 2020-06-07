@@ -2,6 +2,7 @@ package com.ovle.rll3.model.procedural.grid.processor
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.ovle.rll3.assets.loader.EntityTemplates
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
@@ -9,7 +10,6 @@ import com.ovle.rll3.model.ecs.entity.positions
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
 import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.procedural.grid.utils.SpawnTable
-import com.ovle.rll3.model.template.entity.EntityTemplates
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.point
 import ktx.ashley.get

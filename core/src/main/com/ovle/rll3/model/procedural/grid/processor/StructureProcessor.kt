@@ -16,7 +16,7 @@ import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.template.structure.StructureEntity
 import com.ovle.rll3.model.template.structure.StructureTemplate
-import com.ovle.rll3.model.template.structure.StructureTemplates
+import com.ovle.rll3.assets.loader.StructureTemplates
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.tile.TileType

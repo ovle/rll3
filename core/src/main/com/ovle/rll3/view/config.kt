@@ -20,6 +20,7 @@ const val spriteTexturePath = "images/sprites.png"
 const val guiTexturePath = "images/gui.png"
 
 const val entityTemplatePath = "templates/entity/"
+const val entityViewTemplatePath = "templates/entity/view/"
 const val structureTemplatePath = "templates/structure/"
 const val behaviorTreePath = "templates/behaviorTree/"
 

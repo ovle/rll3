@@ -5,8 +5,6 @@ description: ''
 state:
   light:
     radius: 5
-sprite:
-  default: [11, 1]
 spawns:
   - mask: |
       ` ` `
@@ -22,16 +20,6 @@ spawns:
     rotate: false
     groupBonusChance: -1.0
     groupRadius: 2
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [7, 1]
-      - [8, 1]
-      - [9, 1]
-      - [10, 1]
-
 ---
 
 name: sceleton
@@ -41,10 +29,6 @@ state:
     health: 3
     stamina: 3
   collision:
-sprite:
-  default: [6, 10]
-portrait:
-  - [3, 0]
 spawns:
   - chance: 0.5
     rotate: true
@@ -52,23 +36,4 @@ spawns:
       1 1 `
       1 _ _
       ` _ `
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [6, 10]
-      - [7, 10]
-      - [8, 10]
-      - [9, 10]
-  - type: Death
-    terminal: true
-    frames:
-      - [6, 12]
-      - [7, 12]
-      - [8, 12]
-  - type: TakeHit
-    frames:
-      - [9, 12]
-      - [10, 12]
 

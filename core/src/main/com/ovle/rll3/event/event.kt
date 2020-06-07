@@ -7,10 +7,9 @@ import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.system.interaction.CombatAction
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
-import com.ovle.rll3.model.ecs.system.quest.QuestDescription
 import com.ovle.rll3.model.ecs.system.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
-import com.ovle.rll3.model.template.AnimationType
+import com.ovle.rll3.model.template.entity.view.AnimationType
 
 sealed class Event {
 

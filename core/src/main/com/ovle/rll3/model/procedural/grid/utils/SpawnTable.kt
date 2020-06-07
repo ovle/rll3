@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.procedural.grid.utils
 
-import com.ovle.rll3.model.template.SpawnTemplate
+import com.ovle.rll3.model.template.entity.SpawnTemplate
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.model.util.rotate180

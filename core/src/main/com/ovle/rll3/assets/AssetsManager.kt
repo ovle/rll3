@@ -1,20 +1,14 @@
-package com.ovle.rll3
+package com.ovle.rll3.assets
 
-import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.TextureLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.utils.Disposable
-import com.ovle.rll3.model.ecs.system.ai.BehaviorTrees
-import com.ovle.rll3.model.ecs.system.ai.BehaviorTreesLoader
-import com.ovle.rll3.model.ecs.system.ai.components.EntityBlackboard
+import com.ovle.rll3.assets.loader.*
 import com.ovle.rll3.model.template.TemplatesType
-import com.ovle.rll3.model.template.entity.EntityTemplates
-import com.ovle.rll3.model.template.entity.EntityTemplatesLoader
-import com.ovle.rll3.model.template.structure.StructureTemplates
-import com.ovle.rll3.model.template.structure.StructureTemplatesLoader
 import com.ovle.rll3.view.*
+
 
 class AssetsManager(val assets: AssetManager): Disposable {
 
@@ -23,13 +17,16 @@ class AssetsManager(val assets: AssetManager): Disposable {
     lateinit var guiTexture: Texture
 
     val entityTemplates = mutableMapOf<TemplatesType, EntityTemplates>()
+    val entityViewTemplates = mutableMapOf<TemplatesType, EntityViewTemplates>()
     val structureTemplates = mutableMapOf<TemplatesType, StructureTemplates>()
     val behaviorTrees = mutableMapOf<String, BehaviorTrees>()
 
     init {
         val fileHandleResolver = InternalFileHandleResolver()
+
         assets.setLoader(Texture::class.java, TextureLoader(fileHandleResolver))
         assets.setLoader(EntityTemplates::class.java, EntityTemplatesLoader(fileHandleResolver))
+        assets.setLoader(EntityViewTemplates::class.java, EntityViewTemplatesLoader(fileHandleResolver))
         assets.setLoader(StructureTemplates::class.java, StructureTemplatesLoader(fileHandleResolver))
         assets.setLoader(BehaviorTrees::class.java, BehaviorTreesLoader(fileHandleResolver))
     }
@@ -44,6 +41,10 @@ class AssetsManager(val assets: AssetManager): Disposable {
             var path = "$entityTemplatePath${it.value}.yaml"
             assets.load(path, EntityTemplates::class.java)
             entityTemplates[it] = assets.finishLoadingAsset(path)
+
+            path = "$entityViewTemplatePath${it.value}.yaml"
+            assets.load(path, EntityViewTemplates::class.java)
+            entityViewTemplates[it] = assets.finishLoadingAsset(path)
 
             path = "$structureTemplatePath${it.value}.yaml"
             assets.load(path, StructureTemplates::class.java)
@@ -60,5 +61,6 @@ class AssetsManager(val assets: AssetManager): Disposable {
     override fun dispose() {
         levelTexture.dispose()
         objectsTexture.dispose()
+        guiTexture.dispose()
     }
 }

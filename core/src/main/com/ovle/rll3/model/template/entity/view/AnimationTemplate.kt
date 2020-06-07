@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.template
+package com.ovle.rll3.model.template.entity.view
 
 
 enum class AnimationType {

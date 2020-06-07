@@ -10,7 +10,7 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.entity.entity
 import com.ovle.rll3.model.ecs.system.EventSystem
-import com.ovle.rll3.model.template.AnimationType
+import com.ovle.rll3.model.template.entity.view.AnimationType
 import ktx.ashley.get
 
 

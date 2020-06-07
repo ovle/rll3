@@ -7,10 +7,11 @@ import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
+import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.entitiesWith
-import com.ovle.rll3.model.template.AnimationType
-import com.ovle.rll3.model.template.entity.EntityTemplate
+import com.ovle.rll3.model.template.entity.view.AnimationType
+import com.ovle.rll3.model.template.entity.view.EntityViewTemplate
 import com.ovle.rll3.view.layer.TextureRegions
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.sprite.animation.FrameAnimation
@@ -65,7 +66,6 @@ class AnimationSystem(
 
     private fun onEntityAnimationStart(entity: Entity, type: AnimationType, duration: Int = 0) {
         //todo sync animation length with duration
-        println("onEntityAnimationStart: $type")
         initAnimations(entity)
 
         val animation = entity[render]
@@ -89,8 +89,8 @@ class AnimationSystem(
         val animation = entity[render] ?: return
 
         if (animation.animations.isEmpty()) {
-            val entityTemplate = entity[Mappers.template]?.template
-            animation.animations = animations(entityTemplate, regions).associateBy { it.template.type }
+            val viewTemplate = entity[template]?.viewTemplate
+            animation.animations = animations(viewTemplate, regions).associateBy { it.template.type }
             startDefault(animation)
         }
     }
@@ -128,6 +128,6 @@ class AnimationSystem(
         }
     }
 
-    fun animations(entityTemplate: EntityTemplate?, regions: TextureRegions): Array<FrameAnimation> =
-        entityTemplate?.animations?.map { FrameAnimation(regions, it) }?.toTypedArray() ?: arrayOf()
+    fun animations(template: EntityViewTemplate?, regions: TextureRegions): Array<FrameAnimation> =
+        template?.animations?.map { FrameAnimation(regions, it) }?.toTypedArray() ?: arrayOf()
 }

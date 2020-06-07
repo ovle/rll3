@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.template.structure
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.template.SpawnTemplate
+import com.ovle.rll3.model.template.entity.SpawnTemplate
 import com.ovle.rll3.model.template.parsedMask
 import com.ovle.rll3.model.tile.TileType
 

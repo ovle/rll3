@@ -3,7 +3,7 @@ package com.ovle.rll3.screen
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.utils.Align
-import com.ovle.rll3.AssetsManager
+import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.ScreenManager
 import kotlinx.coroutines.launch
 import ktx.async.KtxAsync

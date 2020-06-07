@@ -17,17 +17,13 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.has
-import com.ovle.rll3.model.ecs.entity.connection
 import com.ovle.rll3.model.ecs.entity.controlledEntity
-import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.point
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.noVisibilityFilter
-import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 import ktx.ashley.get
-import ktx.ashley.has
 
 
 class RenderObjectsSystem(
@@ -73,10 +69,10 @@ class RenderObjectsSystem(
     }
 
     private fun initSprites(renderComponent: RenderComponent, entity: Entity) {
-        val entityTemplate = entity[template]?.template
+        val viewTemplate = entity[template]?.viewTemplate
 
         if (renderComponent.sprite == null) {
-            val spritesConfig = entityTemplate?.sprite ?: entitySprite(entity)
+            val spritesConfig = viewTemplate?.sprite ?: entitySprite(entity)
             if (spritesConfig == null) {
                 renderComponent.sprite = defaultSprite
                 return

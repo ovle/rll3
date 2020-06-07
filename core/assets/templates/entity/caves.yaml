@@ -8,16 +8,5 @@ state:
     stamina: 10
   collision:
     passable4Light: false
-sprite:
-  default: [11, 10]
 spawns:
   - chance: 0.025
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [11, 10]
-      - [12, 10]
-      - [13, 10]
-      - [14, 10]

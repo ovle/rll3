@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.template.structure
+package com.ovle.rll3.assets.loader
 
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetLoaderParameters
@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.utils.Array
+import com.ovle.rll3.model.template.structure.StructureTemplate
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.Constructor
 import java.io.File

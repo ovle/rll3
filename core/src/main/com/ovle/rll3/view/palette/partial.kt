@@ -46,6 +46,14 @@ val paletteSunset = arrayOf(
 )
 
 //------------------------------------------------
+val paletteMain4Color = arrayOf(
+    black,
+    darkPurple,
+    grayBrown,
+    grayBrown,
+    white
+)
+
 val paletteRed4Color = arrayOf(
     darkGray,
     red,
@@ -68,7 +76,7 @@ val palette3Color = arrayOf(
     black,
     grayBrown,
     white,
-    grayBrown,
+    lightBrown,
     white
 )
 

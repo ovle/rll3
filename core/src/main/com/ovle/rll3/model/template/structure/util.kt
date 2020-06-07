@@ -1,5 +1,6 @@
 package com.ovle.rll3.model.template.structure
 
+import com.ovle.rll3.assets.loader.StructureTemplates
 import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.model.template.TemplatesType.Common

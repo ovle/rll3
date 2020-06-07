@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.ecs.component.advanced
 
 import com.badlogic.ashley.core.Component
-import com.ovle.rll3.model.template.AnimationType
+import com.ovle.rll3.model.template.entity.view.AnimationType
 
 /**
  * @property current       action (will be started when [timeLeft] expires)

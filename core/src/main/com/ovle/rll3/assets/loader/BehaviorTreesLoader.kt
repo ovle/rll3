@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system.ai
+package com.ovle.rll3.assets.loader
 
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.utils.BehaviorTreeLibraryManager

@@ -13,7 +13,6 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.controlledEntity
-import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.view.layer.TexturesInfo
@@ -141,12 +140,12 @@ class GUISystem(private val stage: Stage, guiTexture: TexturesInfo) : EventSyste
     private fun updateEntityInfo(entity: Entity, panelInfo: EntityPanelInfo) {
         val livingComponent = entity[living]
         val renderComponent = entity[render]
-        val entityTemplate = entity[template]?.template
+        val viewTemplate = entity[template]?.viewTemplate
 
         with(panelInfo) {
             this.entity = entity
 
-            val portraitOrigin = entityTemplate?.portrait?.random() //todo random ?
+            val portraitOrigin = viewTemplate?.portrait?.random() //todo random ?
             val portrait = portraitOrigin?.run {
                 val portraitSize = 24
                 TextureRegion(texture, x * portraitSize, y * portraitSize, portraitSize, portraitSize)

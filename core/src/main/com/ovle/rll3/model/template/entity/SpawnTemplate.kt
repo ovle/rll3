@@ -1,5 +1,6 @@
-package com.ovle.rll3.model.template
+package com.ovle.rll3.model.template.entity
 
+import com.ovle.rll3.model.template.parsedMask
 import com.ovle.rll3.model.tile.TileType
 
 data class SpawnTemplate(
