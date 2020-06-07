@@ -47,7 +47,7 @@ state:
 sprite:
   default: [0, 5]
 portrait:
-  - [1, 0]
+  - [0, 1]
 animations:
   - type: Idle
     repeat: true
@@ -184,6 +184,38 @@ state:
   collision:
 sprite:
   default: [6, 4]
+
+---
+
+name: anvil
+description: ''
+state:
+  collision:
+sprite:
+  default: [7, 4]
+
+---
+
+name: forge
+description: ''
+state:
+  collision:
+sprite:
+  default: [8, 4]
+
+---
+
+name: forge pipe
+description: ''
+sprite:
+  default: [9, 4]
+
+---
+
+name: hammer
+description: ''
+sprite:
+  default: [10, 4]
 
 ---
 

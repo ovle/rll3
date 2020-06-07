@@ -13,9 +13,9 @@ mask: |
   = = = r = = = = = _ _ _ r _ _ _ _ _ _ = _ _ _ = _
   _ _ _ r r r r r r r r r r r r r r r r r _ _ _ = _
   ` ` ` r # # # # # # _ _ r _ _ _ _ _ _ = _ _ _ = _
-  ` ` ` r # . . . . # _ _ r _ _ _ _ _ _ = = = = = _
-  ` ` ` r # . . . . . _ _ r _ _ _ _ _ _ _ _ _ _ _ _
-  ` ` ` r # . . . . # _ _ r _ _ _ _ _ _ _ _ _ _ _ _
+  ` ` ` r # : : : . # _ _ r _ _ _ _ _ _ = = = = = _
+  ` ` ` r # : : : . . _ _ r _ _ _ _ _ _ _ _ _ _ _ _
+  ` ` ` r # : : : . # _ _ r _ _ _ _ _ _ _ _ _ _ _ _
   ` ` ` r # # # # # # _ r r r _ _ _ _ _ _ _ _ _ _ _
   ` ` ` r r r r r r r r r ` r r r r r r r r r r r r
   ` ` ` ` ` ` ` ` ` ` ` r r r ` ` ` ` ` ` ` ` ` ` `
@@ -58,6 +58,11 @@ entities:
       - [13, 5]
     ids:
       - elder1
+  - templateName: blacksmith
+    points:
+      - [7, 12]
+    ids:
+      - blacksmith1
   - templateName: stash
     points:
       - [4, 2]
@@ -69,9 +74,22 @@ entities:
   - templateName: table
     points:
       - [7, 3]
+  - templateName: anvil
+    points:
+      - [6, 12]
+  - templateName: forge
+    points:
+      - [5, 11]
+  - templateName: forge pipe
+    points:
+      - [5, 10]
+  - templateName: hammer
+    points:
+      - [6, 11]
   - templateName: chair
     points:
       - [14, 4]
+      - [8, 13]
   - templateName: oven
     points:
       - [6, 1]

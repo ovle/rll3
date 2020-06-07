@@ -108,7 +108,7 @@ name: elder
 description: ''
 state:
   living:
-    health: 3
+    health: 2
     stamina: 3
   collision:
     passable4Light: false
@@ -123,3 +123,27 @@ animations:
       - [12, 9]
       - [13, 9]
       - [14, 9]
+
+---
+
+name: blacksmith
+description: ''
+state:
+  living:
+    health: 4
+    stamina: 3
+  collision:
+    passable4Light: false
+sprite:
+  default: [11, 8]
+portrait:
+  - [1, 2]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [11, 8]
+      - [12, 8]
+      - [13, 8]
+      - [14, 8]
