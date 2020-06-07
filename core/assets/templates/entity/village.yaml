@@ -88,6 +88,9 @@ state:
     health: 2
     stamina: 4
   collision:
+  move:
+  ai:
+    type: test
 sprite:
   default: [11, 13]
 portrait:
