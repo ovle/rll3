@@ -11,5 +11,6 @@ abstract class EntityTask: LeafTask<EntityBlackboard>() {
     protected val entities
         get() = this.`object`.engine.entities.toList()
 
+    //todo use reflection to copy all TaskAttribute
     override fun copyTo(otherTask: Task<EntityBlackboard>) = otherTask
 }

@@ -1,0 +1,9 @@
+import isWounded?:"com.ovle.rll3.model.ecs.system.ai.components.condition.IsWoundedCondition"
+import isInDanger?:"com.ovle.rll3.model.ecs.system.ai.components.condition.IsInDangerCondition"
+import runAway:"com.ovle.rll3.model.ecs.system.ai.components.action.RunAwayAction"
+
+root
+    sequence
+        isWounded?
+        isInDanger?
+        runAway

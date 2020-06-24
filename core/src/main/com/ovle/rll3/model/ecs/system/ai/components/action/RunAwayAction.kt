@@ -1,28 +1,29 @@
 package com.ovle.rll3.model.ecs.system.ai.components.action
 
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.entity.levelInfo
 import com.ovle.rll3.model.ecs.system.ai.components.EntityTask
 import com.ovle.rll3.model.tile.isPassable
+import com.ovle.rll3.model.util.pathfinding.aStar.path
 import ktx.ashley.get
 
 @OptIn(ExperimentalStdlibApi::class)
-class TestAction: EntityTask() {
+class RunAwayAction: EntityTask() {
 
     override fun execute(): Status {
-        println("exec TestTask")
+        println("exec RunAwayAction")
 
         val moveComponent = currentEntity[Mappers.move] ?: return Status.FAILED
         if (moveComponent.path.started) return Status.RUNNING
-        println("exec TestTask!!")
 
         val level = levelInfo(entities.toTypedArray())!!
         val tiles = level.tiles
         val toPointCandidates = tiles.positions().filter { tiles.isPassable(it) }
         val target = toPointCandidates.randomOrNull() ?: return Status.FAILED
 
-        moveComponent.path.add(target)
-        moveComponent.path.start()
+        EventBus.send(Event.EntitySetMoveTarget(currentEntity, target))
 
         return Status.SUCCEEDED
     }

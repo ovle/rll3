@@ -5,7 +5,8 @@ import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.ovle.rll3.model.ecs.system.ai.components.EntityBlackboard
 
 enum class AIType {
-    Test
+    Follow,
+    RunAway
 }
 
 class AIComponent(

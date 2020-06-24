@@ -35,6 +35,11 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
 
     fun subscribe() {
         EventBus.subscribe<Event.VoidClick> { onVoidClickEvent(it.button, it.point) }
+        EventBus.subscribe<Event.EntitySetMoveTarget> { onEntitySetMoveTargetEvent(it.entity, it.point) }
+    }
+
+    private fun onEntitySetMoveTargetEvent(entity: Entity, point: GridPoint2) {
+        setMoveTarget(levelInfo(), point, entity)
     }
 
     private fun onVoidClickEvent(button: Int, point: GridPoint2) {

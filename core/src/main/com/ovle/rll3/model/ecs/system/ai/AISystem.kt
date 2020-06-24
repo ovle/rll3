@@ -3,7 +3,6 @@ package com.ovle.rll3.model.ecs.system.ai
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.ai.btree.BehaviorTree
-import com.ovle.rll3.assets.loader.BehaviorTrees
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.advanced.AIComponent
@@ -15,7 +14,7 @@ import com.ovle.rll3.model.ecs.system.ai.components.EntityBlackboard
 import ktx.ashley.get
 
 
-class AISystem(val behaviorTrees: MutableMap<String, BehaviorTrees>) : EventSystem() {
+class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<EntityBlackboard>>) : EventSystem() {
 
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
@@ -35,7 +34,7 @@ class AISystem(val behaviorTrees: MutableMap<String, BehaviorTrees>) : EventSyst
 
         val blackboard = EntityBlackboard(entity, engine)
 
-        val behaviorTreePrototype = behaviorTrees[typeName]!!.trees.single()
+        val behaviorTreePrototype = behaviorTrees[typeName]!!
         val behaviorTree = behaviorTreePrototype.cloneTask()
             .let { it as BehaviorTree<EntityBlackboard> }
             .apply { this.`object` = blackboard }

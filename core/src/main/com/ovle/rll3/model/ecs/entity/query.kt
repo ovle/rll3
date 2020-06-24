@@ -43,12 +43,14 @@ fun EntitySystem.world() = entityWith(allEntities().toList(), WorldComponent::cl
 fun EntitySystem.worldInfoNullable() = world()?.get(world)?.world
 fun EntitySystem.worldInfo() = worldInfoNullable()!!
 
-fun EntitySystem.playerInfoNullable() = entityWith(allEntities().toList(), PlayerComponent::class)?.get(player)?.player
-fun EntitySystem.playerInfo() = playerInfoNullable()!!
+fun playerInfoNullable(entities: List<Entity>) = entityWith(entities, PlayerComponent::class)?.get(player)?.player
+fun playerInfo(entities: List<Entity>) = playerInfoNullable(entities)!!
+fun EntitySystem.playerInfo() = playerInfo(allEntities().toList())
 
-fun EntitySystem.playerInteraction() = entityWith(allEntities().toList(), PlayerInteractionComponent::class)
-fun EntitySystem.playerInteractionInfo() = playerInteraction()
+fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
+fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)
     ?.get(Mappers.playerInteraction)
+fun EntitySystem.playerInteractionInfo() = playerInteractionInfo(allEntities().toList())
 
 fun EntitySystem.controlledEntity() = playerInteractionInfo()?.controlledEntity
 fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity

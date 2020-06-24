@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.Array
 import com.ovle.rll3.model.ecs.system.ai.components.EntityBlackboard
 import ktx.assets.file
 
-
-data class BehaviorTrees(val trees: Collection<BehaviorTree<EntityBlackboard>>)
+data class BehaviorTreeInfo(val name: String, val tree: BehaviorTree<EntityBlackboard>)
+data class BehaviorTrees(val trees: Collection<BehaviorTreeInfo>)
 
 class BehaviorTreesLoader(resolver: FileHandleResolver): SynchronousAssetLoader<BehaviorTrees, AssetLoaderParameters<BehaviorTrees>>(resolver) {
 
@@ -29,6 +29,6 @@ class BehaviorTreesLoader(resolver: FileHandleResolver): SynchronousAssetLoader<
         return BehaviorTrees(result)
     }
 
-    private fun behaviorTree(fileHandle: FileHandle, btlm: BehaviorTreeLibraryManager, dirName: String): BehaviorTree<EntityBlackboard>
-        = btlm.createBehaviorTree("$dirName/${fileHandle.name()}")
+    private fun behaviorTree(fileHandle: FileHandle, btlm: BehaviorTreeLibraryManager, dirName: String)
+        = BehaviorTreeInfo(fileHandle.nameWithoutExtension(), btlm.createBehaviorTree("$dirName/${fileHandle.name()}"))
 }

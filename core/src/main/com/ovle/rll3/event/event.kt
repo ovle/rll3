@@ -71,6 +71,7 @@ sealed class Event {
     open class EntityTakeDamage(entity: Entity, val source: Entity?, val amount: Int, val blockedAmount: Int) : EntityEvent(entity)
     open class EntityDied(entity: Entity) : EntityEvent(entity)
     open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
+    open class EntitySetMoveTarget(entity: Entity, val point: GridPoint2) : EntityEvent(entity)
     open class EntityStartMove(entity: Entity) : EntityEvent(entity)
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
     open class EntityFinishMove(entity: Entity) : EntityEvent(entity)

@@ -1,11 +1,13 @@
 package com.ovle.rll3.assets
 
+import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.TextureLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.utils.Disposable
 import com.ovle.rll3.assets.loader.*
+import com.ovle.rll3.model.ecs.system.ai.components.EntityBlackboard
 import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.view.*
 
@@ -19,7 +21,7 @@ class AssetsManager(val assets: AssetManager): Disposable {
     val entityTemplates = mutableMapOf<TemplatesType, EntityTemplates>()
     val entityViewTemplates = mutableMapOf<TemplatesType, EntityViewTemplates>()
     val structureTemplates = mutableMapOf<TemplatesType, StructureTemplates>()
-    val behaviorTrees = mutableMapOf<String, BehaviorTrees>()
+    val behaviorTrees = mutableMapOf<String, BehaviorTree<EntityBlackboard>>()
 
     init {
         val fileHandleResolver = InternalFileHandleResolver()
@@ -54,8 +56,11 @@ class AssetsManager(val assets: AssetManager): Disposable {
         levelTexture = assets.finishLoadingAsset(tileTexturePath)
         objectsTexture = assets.finishLoadingAsset(spriteTexturePath)
         guiTexture = assets.finishLoadingAsset(guiTexturePath)
-        //todo
-        behaviorTrees["test"] = assets.finishLoadingAsset(behaviorTreePath)
+
+        val trees = assets.finishLoadingAsset<BehaviorTrees>(behaviorTreePath)
+        trees.trees.forEach {
+            behaviorTrees[it.name] = it.tree
+        }
     }
 
     override fun dispose() {
