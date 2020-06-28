@@ -40,6 +40,7 @@ class GameScreen(
 
     private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls()
+    private val gameCreator = GameCreator()
 
     override fun show() {
         super.show()
@@ -47,9 +48,6 @@ class GameScreen(
         val levelTexturesInfo = TexturesInfo(assetsManager.levelTexture)
         val objectsTextureInfo = TexturesInfo(assetsManager.objectsTexture)
         val guiTextureInfo = TexturesInfo(assetsManager.guiTexture)
-        TemplatesRegistry.entityTemplates = assetsManager.entityTemplates
-        TemplatesRegistry.entityViewTemplates = assetsManager.entityViewTemplates
-        TemplatesRegistry.structureTemplates = assetsManager.structureTemplates
 
         val camera = batchViewport.camera as OrthographicCamera
 
@@ -83,7 +81,7 @@ class GameScreen(
 
         send(Event.CameraScrolled(((1 - initialScale) / scaleScrollCoeff).roundToInt()))
 
-        send(Event.GameStartedEvent())
+        send(Event.GameStartedEvent(gameCreator.player(), gameCreator.world()))
     }
 
     override fun hide() {

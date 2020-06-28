@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.utils.Disposable
 import com.ovle.rll3.assets.loader.*
 import com.ovle.rll3.model.ecs.system.ai.components.EntityBlackboard
+import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.view.*
 
@@ -18,26 +19,30 @@ class AssetsManager(val assets: AssetManager): Disposable {
     lateinit var objectsTexture: Texture
     lateinit var guiTexture: Texture
 
-    val entityTemplates = mutableMapOf<TemplatesType, EntityTemplates>()
-    val entityViewTemplates = mutableMapOf<TemplatesType, EntityViewTemplates>()
-    val structureTemplates = mutableMapOf<TemplatesType, StructureTemplates>()
+    private val entityTemplates = mutableMapOf<TemplatesType, EntityTemplates>()
+    private val entityViewTemplates = mutableMapOf<TemplatesType, EntityViewTemplates>()
+    private val structureTemplates = mutableMapOf<TemplatesType, StructureTemplates>()
     val behaviorTrees = mutableMapOf<String, BehaviorTree<EntityBlackboard>>()
 
     init {
         val fileHandleResolver = InternalFileHandleResolver()
 
-        assets.setLoader(Texture::class.java, TextureLoader(fileHandleResolver))
-        assets.setLoader(EntityTemplates::class.java, EntityTemplatesLoader(fileHandleResolver))
-        assets.setLoader(EntityViewTemplates::class.java, EntityViewTemplatesLoader(fileHandleResolver))
-        assets.setLoader(StructureTemplates::class.java, StructureTemplatesLoader(fileHandleResolver))
-        assets.setLoader(BehaviorTrees::class.java, BehaviorTreesLoader(fileHandleResolver))
+        with(assets) {
+            setLoader(Texture::class.java, TextureLoader(fileHandleResolver))
+            setLoader(EntityTemplates::class.java, EntityTemplatesLoader(fileHandleResolver))
+            setLoader(EntityViewTemplates::class.java, EntityViewTemplatesLoader(fileHandleResolver))
+            setLoader(StructureTemplates::class.java, StructureTemplatesLoader(fileHandleResolver))
+            setLoader(BehaviorTrees::class.java, BehaviorTreesLoader(fileHandleResolver))
+        }
     }
 
     fun load() {
-        assets.load(tileTexturePath, Texture::class.java)
-        assets.load(spriteTexturePath, Texture::class.java)
-        assets.load(guiTexturePath, Texture::class.java)
-        assets.load(behaviorTreePath, BehaviorTrees::class.java)
+        with(assets) {
+            load(tileTexturePath, Texture::class.java)
+            load(spriteTexturePath, Texture::class.java)
+            load(guiTexturePath, Texture::class.java)
+            load(behaviorTreePath, BehaviorTrees::class.java)
+        }
 
         TemplatesType.values().forEach {
             var path = "$entityTemplatePath${it.value}.yaml"
@@ -61,6 +66,10 @@ class AssetsManager(val assets: AssetManager): Disposable {
         trees.trees.forEach {
             behaviorTrees[it.name] = it.tree
         }
+
+        TemplatesRegistry.entityTemplates = entityTemplates
+        TemplatesRegistry.entityViewTemplates = entityViewTemplates
+        TemplatesRegistry.structureTemplates = structureTemplates
     }
 
     override fun dispose() {

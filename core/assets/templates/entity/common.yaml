@@ -2,6 +2,7 @@
 
 name: wizard
 description: ''
+playable: true
 state:
   living:
     health: 3
@@ -15,10 +16,13 @@ state:
 
 name: barbarian
 description: ''
+playable: true
 state:
   living:
     health: 2
     stamina: 4
+  perception:
+    sight: 5
   move:
   container:
   collision:

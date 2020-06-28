@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.component.special.PlayerInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.system.interaction.CombatAction
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
@@ -24,7 +25,7 @@ sealed class Event {
     //global
     open class GameEvent: Event()
     open class GlobalGameEvent: Event()
-    open class GameStartedEvent: GlobalGameEvent()
+    open class GameStartedEvent(val player: PlayerInfo, val world: WorldInfo): GlobalGameEvent()
     open class GameFinishedEvent: GlobalGameEvent()
     open class WorldInitEvent(val world: WorldInfo) : GlobalGameEvent()
     open class TimeChanged(val turn: Long) : GameEvent()
