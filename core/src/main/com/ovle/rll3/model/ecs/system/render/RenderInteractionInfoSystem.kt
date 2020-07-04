@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
+import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.playerInteraction
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.spriteHeight
@@ -29,7 +30,7 @@ class RenderInteractionInfoSystem(
         super.update(deltaTime)
 
         batch.begin()
-        drawInteractionInfo(playerInteraction())
+        drawInteractionInfo(playerInteraction(this.allEntities().toList()))
         batch.end()
     }
 

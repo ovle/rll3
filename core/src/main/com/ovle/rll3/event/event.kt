@@ -6,7 +6,9 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.special.LevelInfo
 import com.ovle.rll3.model.ecs.component.special.PlayerInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
-import com.ovle.rll3.model.ecs.system.interaction.CombatAction
+import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction
+import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
+import com.ovle.rll3.model.ecs.system.interaction.combat.CombatAction
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
@@ -58,7 +60,7 @@ sealed class Event {
     open class EntityDeselectEvent(entity: Entity) : EntityEvent(entity)
     open class ShowEntityInfoEvent(entity: Entity) : EntityEvent(entity)
     open class HideEntityInfoEvent() : GameEvent()
-    open class ShowEntityActionsEvent(entity: Entity, val actions: Collection<String>) : EntityEvent(entity)
+    open class ShowEntityActionsEvent(entity: Entity, val interactions: Collection<EntityInteractionType>) : EntityEvent(entity)
     open class HideEntityActionsEvent() : GameEvent()
     open class ShowEntityContentEvent(entity: Entity) : EntityEvent(entity)
     open class EntityFovUpdated(entity: Entity) : EntityEvent(entity)
@@ -66,9 +68,8 @@ sealed class Event {
     open class EntityAnimationStart(entity: Entity, val animation: AnimationType, val duration: Int) : EntityEvent(entity)
     open class EntityAnimationFinish(entity: Entity, val animation: AnimationType) : EntityEvent(entity)
     //entity - model
-    open class EntityActionEvent(val source: Entity, target: Entity, val action: String) : EntityEvent(target)
+    open class EntityInteractionEvent(val source: Entity, target: Entity, val interaction: EntityInteraction) : EntityEvent(target)
     open class EntityChanged(entity: Entity) : EntityEvent(entity)
-    open class EntityCombatAction(entity: Entity, val action: CombatAction) : EntityEvent(entity)
     open class EntityTakeDamage(entity: Entity, val source: Entity?, val amount: Int, val blockedAmount: Int) : EntityEvent(entity)
     open class EntityDied(entity: Entity) : EntityEvent(entity)
     open class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)

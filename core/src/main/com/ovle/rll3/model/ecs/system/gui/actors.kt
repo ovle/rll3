@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Value
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
 import com.ovle.rll3.view.layer.image
 import com.ovle.rll3.view.layer.textArea
 import com.ovle.rll3.view.layer.textButton
@@ -14,7 +15,7 @@ import ktx.scene2d.*
 
 const val guiScale = 4.0f
 
-fun entityActionsActor(actions: Collection<String>, onActionClick: (String) -> Unit): KWindow {
+fun entityActionsActor(interactions: Collection<EntityInteractionType>, onActionClick: (String) -> Unit): KWindow {
     return window(
             title = "",
             style = "dialog"
@@ -22,10 +23,10 @@ fun entityActionsActor(actions: Collection<String>, onActionClick: (String) -> U
         width = 72 * guiScale
 
         verticalGroup {
-            actions.mapIndexed { i, action ->
-                textButton(text = action) {
+            interactions.mapIndexed { i, interaction ->
+                textButton(text = interaction.actionName) {
                     onClick {
-                        onActionClick(action)
+                        onActionClick(interaction.actionName)
                     }
                 }
             }

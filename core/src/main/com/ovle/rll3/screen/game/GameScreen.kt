@@ -13,8 +13,8 @@ import com.ovle.rll3.event.eventLogHook
 import com.ovle.rll3.model.ecs.system.*
 import com.ovle.rll3.model.ecs.system.ai.AISystem
 import com.ovle.rll3.model.ecs.system.gui.GUISystem
-import com.ovle.rll3.model.ecs.system.interaction.CombatSystem
-import com.ovle.rll3.model.ecs.system.interaction.DebugCombatAiSystem
+import com.ovle.rll3.model.ecs.system.interaction.combat.CombatSystem
+import com.ovle.rll3.model.ecs.system.interaction.combat.DebugCombatAiSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionSystem
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.ecs.system.quest.DebugQuestSystem
@@ -23,7 +23,6 @@ import com.ovle.rll3.model.ecs.system.render.RenderLevelSystem
 import com.ovle.rll3.model.ecs.system.render.RenderObjectsSystem
 import com.ovle.rll3.model.ecs.system.time.ActionSystem
 import com.ovle.rll3.model.ecs.system.time.TimeSystem
-import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.layer.TexturesInfo

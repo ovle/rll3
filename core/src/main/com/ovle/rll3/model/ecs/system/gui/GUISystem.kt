@@ -14,6 +14,7 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.controlledEntity
 import com.ovle.rll3.model.ecs.system.EventSystem
+import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.view.layer.TexturesInfo
 import ktx.ashley.get
@@ -55,7 +56,7 @@ class GUISystem(private val stage: Stage, guiTexture: TexturesInfo) : EventSyste
         EventBus.subscribe<ShowEntityInfoEvent> { onShowEntityInfoEvent(it.entity) }
         EventBus.subscribe<HideEntityInfoEvent> { onHideEntityInfoEvent() }
 
-        EventBus.subscribe<ShowEntityActionsEvent> { onShowEntityActionsEvent(it.entity, it.actions) }
+        EventBus.subscribe<ShowEntityActionsEvent> { onShowEntityActionsEvent(it.entity, it.interactions) }
         EventBus.subscribe<HideEntityActionsEvent> { onHideEntityActionsEvent() }
     }
 
@@ -100,17 +101,18 @@ class GUISystem(private val stage: Stage, guiTexture: TexturesInfo) : EventSyste
     }
 
     //todo
-    private fun onShowEntityActionsEvent(entity: Entity, actions: Collection<String>) {
+    private fun onShowEntityActionsEvent(entity: Entity, interactions: Collection<EntityInteractionType>) {
         hideActionsPopup()
 
         val playerEntity = controlledEntity()!!
         val onActionClick:(String) -> Unit = {
             action ->
             hideActionsPopup()
-            EventBus.send(EntityActionEvent(playerEntity, entity, action))
+            //todo
+//            EventBus.send(EntityInteractionEvent(playerEntity, entity, action))
         }
 
-        val actor = entityActionsActor(actions, onActionClick)
+        val actor = entityActionsActor(interactions, onActionClick)
                 .apply {
                     lastActionsPopup = this
                     x = screenWidth() - width

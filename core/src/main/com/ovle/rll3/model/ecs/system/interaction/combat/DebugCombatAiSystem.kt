@@ -1,16 +1,15 @@
-package com.ovle.rll3.model.ecs.system.interaction
+package com.ovle.rll3.model.ecs.system.interaction.combat
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event.DebugCombatEvent
-import com.ovle.rll3.event.Event.EntityActionEvent
+import com.ovle.rll3.event.Event.EntityInteractionEvent
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.util.Mappers.action
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.entity.entity
 import com.ovle.rll3.model.ecs.system.EventSystem
-import com.ovle.rll3.model.template.entity.view.AnimationType
+import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction
 import ktx.ashley.get
 
 
@@ -23,7 +22,7 @@ class DebugCombatAiSystem : EventSystem() {
 
     override fun subscribe() {
         EventBus.subscribe<DebugCombatEvent> { onToggleDebugCombatEvent() }
-        EventBus.subscribe<EntityActionEvent> { onEntityInteractionEvent(it.source, it.entity, it.action) }
+        EventBus.subscribe<EntityInteractionEvent> { onEntityInteractionEvent(it.source, it.entity, it.interaction) }
     }
 
     private fun onToggleDebugCombatEvent() {
@@ -54,15 +53,15 @@ class DebugCombatAiSystem : EventSystem() {
     private fun checkAction(entity: Entity?, target: Entity?) {
         val actionComponent = entity!![action]!!
         if (actionComponent.current == null) {
-            //val targetChosenAction = combatActions.filter { isAvailable(it, target, source) }.random() //todo use ai
-            val combatAction = combatActions.find { it.name == "strike" }!!
-            actionComponent.current = { send(EntityActionEvent(entity, target!!, combatAction.name)) }
-            actionComponent.animation = AnimationType.Attack
-            actionComponent.timeLeft = combatAction.timeCost
+            //todo
+//            val combatAction = combatActions.find { it.name == "strike" }!!
+//            actionComponent.current = { send(EntityInteractionEvent(entity, target!!, combatAction.name)) }
+//            actionComponent.animation = AnimationType.Attack
+//            actionComponent.timeLeft = combatAction.timeCost
         }
     }
 
-    private fun onEntityInteractionEvent(source: Entity, target: Entity, action: String) {
+    private fun onEntityInteractionEvent(source: Entity, target: Entity, interaction: EntityInteraction) {
 
     }
 }

@@ -20,8 +20,8 @@ class DebugQuestSystem : EventSystem() {
     override fun subscribe() {
         EventBus.subscribe<Event.GameStartedEvent> { onGameStartedEvent() }
         EventBus.subscribe<Event.TimeChanged> { onTimeChanged() }
-
-        EventBus.subscribe<Event.EntityActionEvent> { onEntityActionEvent(it.source, it.entity, it.action) }
+//todo
+//        EventBus.subscribe<Event.EntityInteractionEvent> { onEntityActionEvent(it.source, it.entity, it.interaction) }
     }
 
     private fun onGameStartedEvent() {

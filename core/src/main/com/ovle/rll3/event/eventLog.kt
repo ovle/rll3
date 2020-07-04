@@ -20,8 +20,7 @@ private fun isLoggableEvent(event: Event) =
     when (event) {
         is DebugShowInventoryEvent,
 
-        is EntityActionEvent,
-        is EntityCombatAction,
+        is EntityInteractionEvent,
         is EntityTakeDamage,
         is EntityDied,
         is EntityTakeItems,
@@ -37,16 +36,11 @@ private fun message(event: Event)=
             val itemsInfo = event.items.info()
             "$entityInfo has items: $itemsInfo"
         }
-        is EntityActionEvent -> {
+        is EntityInteractionEvent -> {
             val sourceInfo = event.source.info()
             val entityInfo = event.entity.info()
-            val actionInfo = event.action
+            val actionInfo = event.interaction
             "$sourceInfo $actionInfo $entityInfo"
-        }
-        is EntityCombatAction -> {
-            val entityInfo = event.entity.info()
-            val actionInfo = event.action.name
-            "$entityInfo $actionInfo"
         }
         is EntityTakeDamage -> {
             val entityInfo = event.entity.info()

@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.ecs.system.interaction
+package com.ovle.rll3.model.ecs.system.interaction.combat
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event
@@ -7,6 +7,8 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.advanced.LivingComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.system.EventSystem
+import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction
+import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
 import ktx.ashley.get
 import java.lang.Integer.min
 
@@ -14,17 +16,15 @@ import java.lang.Integer.min
 class CombatSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<Event.EntityActionEvent> { onEntityInteractionEvent(it.source, it.entity, it.action) }
+        EventBus.subscribe<Event.EntityInteractionEvent> { onEntityInteractionEvent(it.source, it.entity, it.interaction) }
     }
 
-    private fun onEntityInteractionEvent(source: Entity, target: Entity, action: String) {
-        when (action) {
-            in combatActionNames -> {
-                val chosenAction = combatActions.single { it.name == action }
-
-                send(Event.EntityCombatAction(source, chosenAction))
-
-                processCombat(source, target, chosenAction)
+    private fun onEntityInteractionEvent(source: Entity, target: Entity, interaction: EntityInteraction) {
+        when (interaction.type) {
+            EntityInteractionType.Combat -> {
+                //todo
+//                val chosenAction = combatActions.single { it.name == interaction }
+//                processCombat(source, target, chosenAction)
 
                 send(Event.EntityChanged(source))
                 send(Event.EntityChanged(target))

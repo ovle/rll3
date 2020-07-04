@@ -7,10 +7,7 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
-import com.ovle.rll3.model.ecs.entity.controlledEntity
-import com.ovle.rll3.model.ecs.entity.on
-import com.ovle.rll3.model.ecs.entity.levelInfoNullable
-import com.ovle.rll3.model.ecs.entity.playerInteraction
+import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.ecs.see
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.point
@@ -57,7 +54,7 @@ class PlayerControlsSystem : EventSystem() {
         val tiles = level.tiles
         if (!tiles.isPointValid(point.x, point.y)) return
 
-        val interactionEntity = playerInteraction() ?: return
+        val interactionEntity = playerInteraction(this.allEntities().toList()) ?: return
         val positionComponent = interactionEntity[position]!!
 
         if (positionComponent.gridPosition == point) return
