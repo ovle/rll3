@@ -12,7 +12,7 @@ import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
 import ktx.ashley.get
 import java.lang.Integer.min
 
-
+@Deprecated("will use skills instead")
 class CombatSystem : EventSystem() {
 
     override fun subscribe() {
@@ -21,7 +21,7 @@ class CombatSystem : EventSystem() {
 
     private fun onEntityInteractionEvent(source: Entity, target: Entity, interaction: EntityInteraction) {
         when (interaction.type) {
-            EntityInteractionType.Combat -> {
+            EntityInteractionType.Skill -> {
                 //todo
 //                val chosenAction = combatActions.single { it.name == interaction }
 //                processCombat(source, target, chosenAction)

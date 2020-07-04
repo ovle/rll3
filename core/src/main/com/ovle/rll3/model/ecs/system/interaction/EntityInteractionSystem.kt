@@ -8,13 +8,16 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.Mappers.questOwner
-import com.ovle.rll3.model.ecs.entity.*
+import com.ovle.rll3.model.ecs.entity.controlledEntity
+import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
+import com.ovle.rll3.model.ecs.entity.selectedEntity
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType.*
+import com.ovle.rll3.model.ecs.system.interaction.skill.skill
 import com.ovle.rll3.model.ecs.system.interaction.use.use
 import ktx.ashley.get
 
-
+//todo separate view and model
 class EntityInteractionSystem : EventSystem() {
 
     override fun subscribe() {
@@ -84,16 +87,21 @@ class EntityInteractionSystem : EventSystem() {
                 val connectionComponent = entity[levelConnection]!!
                 send(EntityLevelTransition(playerEntity, connectionComponent.id))
             }
-            Combat -> {
+            Skill -> {
+                val interactionInfo = playerInteractionInfo()!!
+                val selectedSkillTemplate = interactionInfo.selectedSkillTemplate
 
+                val source = playerEntity
+                val target = entity //todo target will depend on skill's target template
+
+                selectedSkillTemplate?.let {
+                    skill(playerEntity, target, it)
+                }
             }
-            Talk -> {
-                showTalkActions(playerEntity, entity)
-            }
+            Talk -> showTalkActions(playerEntity, entity)
             Use -> {
                 use(playerEntity, entity)
-                //todo event log waits for send(EntityActionEvent(playerEntity, entity, action))
-                //but it causes endless recursion here
+                //todo events
             }
         }
     }
@@ -115,11 +123,6 @@ class EntityInteractionSystem : EventSystem() {
 //            showActions(entity, actions)
         }
     }
-
-//    private fun showCombatActions(playerEntity: Entity, entity: Entity) {
-//        val actions = combatActions.filter { isAvailable(it, playerEntity, entity) }.map { it.name }
-//        showActions(entity, actions)
-//    }
 
     private fun showActions(entity: Entity, interactions: List<EntityInteractionType>) {
         send(ShowEntityActionsEvent(entity, interactions))

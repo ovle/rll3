@@ -12,7 +12,7 @@ import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction
 import ktx.ashley.get
 
-
+@Deprecated("will use skills instead")
 class DebugCombatAiSystem : EventSystem() {
 
     private var isDebugCombat = false

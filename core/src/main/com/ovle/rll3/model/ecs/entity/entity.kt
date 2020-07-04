@@ -12,8 +12,10 @@ import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.component.util.basicComponents
 import com.ovle.rll3.model.ecs.component.util.stateComponents
+import com.ovle.rll3.model.ecs.system.interaction.skill.defaultSkill
 import com.ovle.rll3.model.ecs.system.level.EntityId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
+import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import java.util.*
 
@@ -35,7 +37,8 @@ fun newPlayerInteraction(playerEntity: Entity?, engine: Engine): Entity? = engin
     "not used",
     PlayerInteractionComponent(
         controlledEntity = playerEntity,
-        focusedEntity = playerEntity
+        focusedEntity = playerEntity,
+        selectedSkillTemplate = TemplatesRegistry.skillTemplates[defaultSkill]
     ),
     PositionComponent()
 )

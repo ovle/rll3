@@ -2,6 +2,7 @@ package com.ovle.rll3.model.ecs.system.interaction.combat
 
 import com.badlogic.ashley.core.Entity
 
+@Deprecated("will use skills instead")
 data class CombatAction(
     val name: String,
     val timeCost: Int = 100,
