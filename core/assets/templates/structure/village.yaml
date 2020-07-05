@@ -71,6 +71,9 @@ entities:
       - [21, 9]
       - [22, 9]
       - [22, 10]
+  - templateName: wolf
+    points:
+      - [14, 15]
   - templateName: table
     points:
       - [7, 3]

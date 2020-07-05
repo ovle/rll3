@@ -51,11 +51,35 @@ animations:
     repeat: true
     alwaysPlaying: true
     frames:
+      - [11, 12]
+      - [12, 12]
+      - [13, 12]
+      - [14, 12]
+
+---
+
+name: wolf
+sprite:
+  default: [11, 13]
+portrait:
+  - [2, 3]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
       - [11, 13]
       - [12, 13]
       - [13, 13]
       - [14, 13]
-
+  - type: Walk
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [11, 14]
+      - [12, 14]
+      - [13, 14]
+      - [14, 14]
 ---
 
 name: elder

@@ -59,7 +59,20 @@ state:
   collision:
   move:
   ai:
-    type: test
+    type: runAway
+---
+
+name: wolf
+description: |
+  wolf
+state:
+  living:
+    health: 2
+    stamina: 4
+  collision:
+  move:
+  ai:
+    type: follow
 ---
 
 name: elder

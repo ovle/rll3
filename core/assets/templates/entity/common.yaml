@@ -12,6 +12,11 @@ state:
   move:
   container:
   collision:
+skills:
+  - attack
+  - mass-heal
+  - jump
+
 ---
 
 name: barbarian
@@ -26,6 +31,10 @@ state:
   move:
   container:
   collision:
+skills:
+  - attack
+  - jump
+
 ---
 
 name: lamp
