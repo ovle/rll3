@@ -1,16 +1,25 @@
 package com.ovle.rll3.model.ecs.system.interaction.skill
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.system.time.Ticks
 
-//todo target template, for player to be able to target
-// empty place/self or simply click
-
+/**
+ * @property name
+ * @property cost
+ * @property target
+ * @property time
+ * @property skillEffect
+ */
 data class SkillTemplate(
     val name: String = "",
     val cost: SkillCost = {},
-    val time: Int = 0,
-    val skill: Skill = {_, _ -> }
+    val target: GetTarget? = null,
+    val time: Ticks = 0,
+    val skillEffect: SkillEffect = { _, _ -> }
 )
 
-typealias Skill = (Entity, Any?) -> Unit
+typealias SkillEffect = (Entity, Any?) -> Unit
+typealias GetTarget = (GridPoint2, LevelInfo) -> Any?
 typealias SkillCost = (Entity) -> Unit

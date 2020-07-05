@@ -8,7 +8,7 @@ import ktx.ashley.get
 
 
 fun skill(source: Entity, target: Any?, skillTemplate: SkillTemplate) {
-    val skill = skillTemplate.skill
+    val skill = skillTemplate.skillEffect
     val actionComponent = source[Mappers.action]!!
 
     actionComponent.current = {

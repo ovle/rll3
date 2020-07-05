@@ -13,11 +13,13 @@ import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.entity.selectedEntity
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType.*
+import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
 import com.ovle.rll3.model.ecs.system.interaction.skill.skill
 import com.ovle.rll3.model.ecs.system.interaction.use.use
 import ktx.ashley.get
 
-//todo separate view and model
+//todo move skills out
+//todo move technical stuff out?
 class EntityInteractionSystem : EventSystem() {
 
     override fun subscribe() {
@@ -27,6 +29,7 @@ class EntityInteractionSystem : EventSystem() {
         EventBus.subscribe<EntityUnhoverEvent> { onEntityUnhoverEvent() }
 
         EventBus.subscribe<EntityInteractionEvent> { onEntityActionEvent(it.entity, it.interaction) }
+        EventBus.subscribe<EntityUseSkill> { onEntityUseSkillEvent(it.entity, it.target, it.skillTemplate) }
     }
 
     private fun onEntityClickEvent(entity: Entity, button: Int) {
@@ -78,7 +81,6 @@ class EntityInteractionSystem : EventSystem() {
         performEntityInteraction(entity, interaction)
     }
 
-
     private fun performEntityInteraction(entity: Entity, interaction: EntityInteraction) {
         val playerEntity = controlledEntity()!!
 
@@ -87,23 +89,18 @@ class EntityInteractionSystem : EventSystem() {
                 val connectionComponent = entity[levelConnection]!!
                 send(EntityLevelTransition(playerEntity, connectionComponent.id))
             }
-            Skill -> {
-                val interactionInfo = playerInteractionInfo()!!
-                val selectedSkillTemplate = interactionInfo.selectedSkillTemplate
-
-                val source = playerEntity
-                val target = entity //todo target will depend on skill's target template
-
-                selectedSkillTemplate?.let {
-                    skill(playerEntity, target, it)
-                }
-            }
             Talk -> showTalkActions(playerEntity, entity)
             Use -> {
                 use(playerEntity, entity)
                 //todo events
             }
         }
+    }
+
+    //todo
+    private fun onEntityUseSkillEvent(entity: Entity, target: Any?, skillTemplate: SkillTemplate) {
+        println("$entity use skill ${skillTemplate.name} on $target")
+        skill(entity, target, skillTemplate)
     }
 
     private fun showActions(entity: Entity) {

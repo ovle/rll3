@@ -8,5 +8,5 @@ data class EntityTemplate(
     var playable: Boolean? = false,
     var state: Map<String, Any?> = mapOf(),
     var spawns: Collection<SpawnTemplate> = listOf(),
-    var skills: Collection<String> = listOf()
+    var skills: List<String> = listOf()
 )

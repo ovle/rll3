@@ -8,7 +8,7 @@ import com.ovle.rll3.model.ecs.component.special.PlayerInfo
 import com.ovle.rll3.model.ecs.component.special.WorldInfo
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
-import com.ovle.rll3.model.ecs.system.interaction.combat.CombatAction
+import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
@@ -23,7 +23,10 @@ sealed class Event {
     class CameraScaleDec: PlayerControlEvent()
     class CameraScrolled(val amount: Int): PlayerControlEvent()
     class CameraMoved(val amount: Vector2): PlayerControlEvent()
-    
+    class KeyPressed(val code: Int): PlayerControlEvent()
+    class NumKeyPressed(val number: Int): PlayerControlEvent()
+    class VoidClick(val button: Int, val point: GridPoint2) : PlayerControlEvent()
+
     //global
     open class GameEvent: Event()
     open class GlobalGameEvent: Event()
@@ -42,11 +45,10 @@ sealed class Event {
     class LevelLoaded(val level: LevelInfo, val levelParams: LevelParams): GameEvent()
 
     //technical
-    open class VoidClick(val button: Int, val point: GridPoint2) : GameEvent()
     open class LogEvent(val message: String) : GameEvent()
     open class UpdateLightCollision(val points: Array<GridPoint2>) : GameEvent()
-
     open class QuestStatusUpdated(val quest: QuestInfo) : GameEvent()
+    open class SkillSelected(val skill: SkillTemplate) : GameEvent()
 
     //entity
     open class EntityEvent(val entity: Entity) : GameEvent()
@@ -69,6 +71,8 @@ sealed class Event {
     open class EntityAnimationFinish(entity: Entity, val animation: AnimationType) : EntityEvent(entity)
     //entity - model
     open class EntityInteractionEvent(val source: Entity, target: Entity, val interaction: EntityInteraction) : EntityEvent(target)
+    open class EntityUseSkill(source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : EntityEvent(source)
+
     open class EntityChanged(entity: Entity) : EntityEvent(entity)
     open class EntityTakeDamage(entity: Entity, val source: Entity?, val amount: Int, val blockedAmount: Int) : EntityEvent(entity)
     open class EntityDied(entity: Entity) : EntityEvent(entity)
@@ -77,7 +81,6 @@ sealed class Event {
     open class EntityStartMove(entity: Entity) : EntityEvent(entity)
     open class EntityMoved(entity: Entity) : EntityEvent(entity)
     open class EntityFinishMove(entity: Entity) : EntityEvent(entity)
-
 
     open class EntityContentInteraction(val source: Entity, target: Entity) : EntityEvent(target)
     open class EntityTakeItems(entity: Entity, val items: Collection<Entity>) : EntityEvent(entity)

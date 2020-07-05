@@ -1,45 +1,29 @@
 package com.ovle.rll3.model.ecs.system.interaction.skill
 
-import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.util.Mappers
-import ktx.ashley.get
+import com.ovle.rll3.model.ecs.component.util.Mappers.living
+import ktx.ashley.has
 
-//sample attack, target: entity
-val skill1: Skill = { _, target ->
-    target as Entity
-    target[Mappers.living]?.let { it.health -= 1 }
-}
-
-//sample healing, no target
-val skill2: Skill = { source, _ ->
-    source[Mappers.living]?.let { it.health += 1 }
-}
-
-//sample moving, target: position
-val skill3: Skill = { source, target ->
-    target as GridPoint2
-    val positionComponent = source[Mappers.position]!!
-    positionComponent.gridPosition = target
-}
+//todo scaling
 
 fun testSkillTemplates() = arrayOf(
     SkillTemplate(
         name = "attack",
         cost = { staminaCost(it, 1) },
+        target = { position, level -> entityTarget(position, level) { it.has(living) } },
         time = 50,
-        skill = skill1
+        skillEffect = damageEffect
     ),
     SkillTemplate(
-        name = "heal-self",
+        name = "mass-heal",
         cost = { staminaCost(it, 1) },
         time = 100,
-        skill = skill2
+        skillEffect = healEffect
     ),
     SkillTemplate(
         name = "jump",
         cost = { staminaCost(it, 1) },
+        target = { position, level -> emptyTileTarget(position, level) },
         time = 100,
-        skill = skill3
+        skillEffect = jumpToEffect
     )
 )

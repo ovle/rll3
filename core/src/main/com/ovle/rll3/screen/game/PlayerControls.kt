@@ -3,11 +3,10 @@ package com.ovle.rll3.screen.game
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.event.Event
-import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
-import com.ovle.rll3.view.noVisibilityFilter
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.EventBus.send
 
 class PlayerControls : InputAdapter() {
 
@@ -17,14 +16,8 @@ class PlayerControls : InputAdapter() {
     override fun keyUp(keycode: Int) = when (keycode) {
         Input.Keys.MINUS -> { send(Event.CameraScaleDec()); true }
         Input.Keys.PLUS -> { send(Event.CameraScaleInc()); true }
-
-        //debug
-        Input.Keys.A -> { send(Event.DebugCombatEvent()); true }
-        Input.Keys.F -> { send(Event.DebugToggleFocusEvent()); true }
-        Input.Keys.I -> { send(Event.DebugShowPlayerInventoryEvent()); true }
-        Input.Keys.V -> { noVisibilityFilter = !noVisibilityFilter; true }
-
-        else -> false
+        in (Input.Keys.NUM_1..Input.Keys.NUM_9) -> { send(Event.NumKeyPressed(keycode - 8)); true }
+        else -> { send(Event.KeyPressed(keycode)); true }
     }
 
     override fun scrolled(amount: Int) = send(Event.CameraScrolled(amount)).run { true }
