@@ -3,6 +3,7 @@ package com.ovle.rll3.model.ecs.system.render
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.point
 import com.ovle.rll3.roundToClosestByAbsInt
 import com.ovle.rll3.view.layer.TextureRegions
 import com.ovle.rll3.view.sprite.Sprite
@@ -29,8 +30,12 @@ fun Batch.draw(position: Vector2, region: TextureRegion, flipped: Boolean = fals
     )
 }
 
-fun sprite(regions: TextureRegions, x: Int, y: Int): Sprite {
-    return Sprite(
-            region = regions[y][x] //switched
-    )
-}
+val defaultSpritePoint = point(0, 0)
+
+fun sprite(regions: TextureRegions, x: Int, y: Int): Sprite = Sprite(
+        region = when {
+            y >= regions.size || x >= regions[y].size
+                -> regions[defaultSpritePoint.y][defaultSpritePoint.x]
+            else -> regions[y][x] //switched
+        }
+)

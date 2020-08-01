@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
@@ -28,13 +29,14 @@ import ktx.ashley.get
 
 class RenderObjectsSystem(
     private val batch: Batch,
-    spriteTexture: TexturesInfo
+    assetsManager: AssetsManager
 ) : IteratingSystem(all(RenderComponent::class.java).get()) {
 
+    private val spriteTexturesInfo = assetsManager.objectsTexture
     private var toRender = mutableListOf<Entity>()
 
     //todo use all texture versions
-    private val spriteRegions = split(spriteTexture.texture, spriteWidth.toInt(), spriteHeight.toInt())
+    private val spriteRegions = split(spriteTexturesInfo.texture, spriteWidth.toInt(), spriteHeight.toInt())
     private val defaultSprite = sprite(spriteRegions, 0, 0)
 
 

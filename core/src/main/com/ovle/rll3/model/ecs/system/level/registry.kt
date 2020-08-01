@@ -1,8 +1,9 @@
 package com.ovle.rll3.model.ecs.system.level
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.id
+import com.ovle.rll3.persistance.StoredEntity
 
 
 object LevelRegistry {
@@ -10,6 +11,9 @@ object LevelRegistry {
     private val levelsById = mutableMapOf<LevelId, LevelInfo>()
     private val levelsByDescriptionId = mutableMapOf<LevelDescriptionId, LevelInfo>()
     private val entitiesByLevel = mutableMapOf<LevelId, Collection<StoredEntity>?>()
+
+    fun levels() = levelsById.values
+    fun levelEntities() = entitiesByLevel
 
     fun levelInfo(levelId: LevelId) = levelsById[levelId]
 

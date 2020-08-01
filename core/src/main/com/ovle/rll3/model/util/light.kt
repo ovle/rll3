@@ -3,7 +3,7 @@ package com.ovle.rll3.model.util
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.advanced.LightSourceComponent
 import com.ovle.rll3.model.ecs.component.dto.AOETilePosition
-import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.entity.entitiesWith
 import com.ovle.rll3.model.tile.TileArray

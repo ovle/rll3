@@ -75,7 +75,7 @@ class PlayerControlsSystem : EventSystem() {
 
         val entitiesOnPosition = level.entities.on(positionComponent.gridPosition) //todo filter interaction itself
         val interactionComponent = interactionEntity[playerInteraction] ?: return
-        interactionComponent.hoveredEntities = entitiesOnPosition
+        interactionComponent.hoveredEntity = entitiesOnPosition.singleOrNull()
 
         send(EntityUnhoverEvent())
         entitiesOnPosition.forEach {
@@ -103,6 +103,9 @@ class PlayerControlsSystem : EventSystem() {
     private fun onKeyPressed(code: Int) {
         when(code) {
             //debug
+            Input.Keys.ESCAPE -> send(
+                DebugSaveGameEvent().then(ExitGameEvent())
+            )
             Input.Keys.A -> send(DebugCombatEvent())
             Input.Keys.F -> send(DebugToggleFocusEvent())
             Input.Keys.I -> send(DebugShowPlayerInventoryEvent())

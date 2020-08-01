@@ -12,13 +12,14 @@ import com.ovle.rll3.model.ecs.system.interaction.skill.testSkillTemplates
 import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.view.*
+import com.ovle.rll3.view.layer.TexturesInfo
 
 
 class AssetsManager(val assets: AssetManager): Disposable {
 
-    lateinit var levelTexture: Texture
-    lateinit var objectsTexture: Texture
-    lateinit var guiTexture: Texture
+    lateinit var levelTexture: TexturesInfo
+    lateinit var objectsTexture: TexturesInfo
+    lateinit var guiTexture: TexturesInfo
 
     private val entityTemplates = mutableMapOf<TemplatesType, EntityTemplates>()
     private val entityViewTemplates = mutableMapOf<TemplatesType, EntityViewTemplates>()
@@ -59,9 +60,9 @@ class AssetsManager(val assets: AssetManager): Disposable {
             structureTemplates[it] = assets.finishLoadingAsset(path)
         }
 
-        levelTexture = assets.finishLoadingAsset(tileTexturePath)
-        objectsTexture = assets.finishLoadingAsset(spriteTexturePath)
-        guiTexture = assets.finishLoadingAsset(guiTexturePath)
+        levelTexture = TexturesInfo(assets.finishLoadingAsset(tileTexturePath))
+        objectsTexture = TexturesInfo(assets.finishLoadingAsset(spriteTexturePath))
+        guiTexture = TexturesInfo(assets.finishLoadingAsset(guiTexturePath))
 
         val trees = assets.finishLoadingAsset<BehaviorTrees>(behaviorTreePath)
         trees.trees.forEach {
@@ -75,8 +76,8 @@ class AssetsManager(val assets: AssetManager): Disposable {
     }
 
     override fun dispose() {
-        levelTexture.dispose()
-        objectsTexture.dispose()
-        guiTexture.dispose()
+        levelTexture.all.forEach { it.dispose() }
+        objectsTexture.all.forEach { it.dispose() }
+        guiTexture.all.forEach{ it.dispose() }
     }
 }

@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.ecs.component.advanced
 
 import com.badlogic.ashley.core.Component
+import com.ovle.rll3.model.ecs.component.BaseComponent
 
 enum class Race(val value: String) {
     Human("human")
@@ -12,7 +13,7 @@ class LivingComponent(
     var stamina: Int = 3,
     var maxStamina: Int = 3,
     var race: Race? = null
-) : Component {
+) : BaseComponent {
     val isDead
         get() = health == 0
 }

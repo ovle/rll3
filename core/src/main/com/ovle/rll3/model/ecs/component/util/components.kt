@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component
 import com.ovle.rll3.model.ecs.component.advanced.*
 import com.ovle.rll3.model.ecs.component.basic.*
 import com.ovle.rll3.model.ecs.component.dto.AOEData
+import com.ovle.rll3.model.ecs.system.ai.components.AIType
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.template.entity.entityViewTemplate
 import com.ovle.rll3.model.template.entity.entityViewTemplates

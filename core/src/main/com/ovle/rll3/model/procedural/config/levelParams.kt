@@ -14,10 +14,6 @@ import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
 import com.ovle.rll3.model.template.TemplatesType.*
 import com.ovle.rll3.model.template.entity.entityTemplates
 import com.ovle.rll3.model.template.structure.structureTemplates
-import com.ovle.rll3.model.util.*
-import com.ovle.rll3.view.layer.level.caveTileToTexture
-import com.ovle.rll3.view.layer.level.dungeonTileToTexture
-import com.ovle.rll3.view.layer.level.villageTileToTexture
 
 val dungeonLevelParams = LevelParams(
     templateName = "Dungeon",
@@ -35,10 +31,7 @@ val dungeonLevelParams = LevelParams(
         RoomsInfoProcessor(),
         RoomStructureProcessor(),
         EntityProcessor(entityTemplates(Dungeon))
-    ),
-
-    gridValueToTileType = ::dungeonGridValueToTileType,
-    tileToTexture = ::dungeonTileToTexture
+    )
 )
 
 val caveLevelParams = LevelParams(
@@ -50,10 +43,7 @@ val caveLevelParams = LevelParams(
     gridFactory = CelullarAutomataGridFactory(),
     postProcessors = arrayOf(
         EntityProcessor(entityTemplates(Caves))
-    ),
-
-    gridValueToTileType = ::caveGridValueToTileType,
-    tileToTexture = ::caveTileToTexture
+    )
 )
 
 val villageLevelParams = LevelParams(
@@ -67,9 +57,11 @@ val villageLevelParams = LevelParams(
     postProcessors = arrayOf(
         StructureProcessor(structureTemplates(Village)),
         EntityProcessor(entityTemplates(Village))
-    ),
-
-    gridValueToTileType = ::villageGridValueToTileType,
-    tileToTexture = ::villageTileToTexture
+    )
 )
 
+val levelParams = mapOf(
+    dungeonLevelParams.templateName to dungeonLevelParams,
+    caveLevelParams.templateName to caveLevelParams,
+    villageLevelParams.templateName to villageLevelParams
+)

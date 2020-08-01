@@ -23,6 +23,7 @@ allprojects {
         appName = "rll3"
         gdxVersion = '1.9.10'
         ktxVersion = '1.9.10-b2'
+        kodeinVersion = '6.2.1'
         roboVMVersion = '2.3.7'
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.3'
@@ -95,6 +96,14 @@ project(":core") {
     }
 
     dependencies {
+        api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion"
+
+        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        api "com.badlogicgames.ashley:ashley:$ashleyVersion"
+
         api "io.github.libktx:ktx-assets:$ktxVersion"
         api "io.github.libktx:ktx-app:$ktxVersion"
         api "io.github.libktx:ktx-actors:$ktxVersion"
@@ -104,15 +113,11 @@ project(":core") {
         api "io.github.libktx:ktx-scene2d:$ktxVersion"
         api "io.github.libktx:ktx-log:$ktxVersion"
         api "io.github.libktx:ktx-inject:$ktxVersion"
-        api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
-        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-        api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion"
+
+        api "org.kodein.di:kodein-di-generic-jvm:$kodeinVersion"
 
         api "com.github.czyzby:noise4j:$noise4jVersion"
         api "org.yaml:snakeyaml:$snakeYamlVersion"
-        api "com.badlogicgames.ashley:ashley:$ashleyVersion"
 
         testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
         testCompile "org.junit.jupiter:junit-jupiter-engine:$junitVersion"

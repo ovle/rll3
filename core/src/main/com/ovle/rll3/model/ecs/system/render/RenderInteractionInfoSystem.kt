@@ -4,12 +4,14 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
+import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.floatPoint
+import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.playerInteraction
-import com.ovle.rll3.view.layer.TexturesInfo
+import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 import ktx.ashley.get
@@ -17,14 +19,14 @@ import ktx.ashley.get
 
 class RenderInteractionInfoSystem(
     private val batch: Batch,
-    guiTexture: TexturesInfo
+    assetsManager: AssetsManager
 ) : EntitySystem() {
 
-    private val guiRegions = split(guiTexture.texture, spriteWidth.toInt(), spriteHeight.toInt())
+    private val guiRegions = split(assetsManager.guiTexture.texture, spriteWidth.toInt(), spriteHeight.toInt())
 
-    private val cursorSprite = sprite(guiRegions, 0, 0)
+    private val controlSprite = sprite(guiRegions, 1, 0)
     private val selectionSprite = sprite(guiRegions, 1, 0)
-
+    private val hoverSprite = sprite(guiRegions, 2, 0)
 
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
@@ -34,17 +36,34 @@ class RenderInteractionInfoSystem(
         batch.end()
     }
 
-    private fun drawInteractionInfo(interactionEntity: Entity?) {
-        if (interactionEntity == null) return
+    private fun drawInteractionInfo(interaction: Entity?) {
+        if (interaction == null) return
 
-        val gridPosition = interactionEntity[position]!!.gridPosition
-        batch.draw(floatPoint(gridPosition), cursorSprite.textureRegion())
+        val interactionComponent = interaction[playerInteraction]!!
+        drawSelection(interactionComponent)
+        drawControl(interactionComponent)
+        drawHover(interactionComponent)
+    }
 
-        val pi = interactionEntity[playerInteraction]!!
-        val selectedEntity = pi.selectedEntity
-        if (selectedEntity != null) {
-            val selectedPosition = selectedEntity[position]!!.gridPosition
-            batch.draw(floatPoint(selectedPosition), selectionSprite.textureRegion())
-        }
+    private fun drawSelection(interactionComponent: PlayerInteractionComponent) {
+        val selectedEntity = interactionComponent.selectedEntity ?: return
+        draw(selectedEntity, selectionSprite)
+    }
+
+    private fun drawControl(interactionComponent: PlayerInteractionComponent) {
+        val controlledEntity = interactionComponent.controlledEntity ?: return
+        draw(controlledEntity, controlSprite)
+    }
+
+    private fun drawHover(interactionComponent: PlayerInteractionComponent) {
+        val hoveredEntity = interactionComponent.hoveredEntity ?: return
+        draw(hoveredEntity, hoverSprite)
+    }
+
+    private fun draw(entity: Entity, sprite: Sprite) {
+        val position = entity[position]!!.gridPosition
+        val region = sprite.textureRegion()
+
+        batch.draw(floatPoint(position), region)
     }
 }

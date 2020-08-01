@@ -16,31 +16,6 @@ fun gridToTileArray(grid: Grid, mapFunction: (Float) -> TileType): TileArray {
     return TileArray(tiles, size)
 }
 
-fun dungeonGridValueToTileType(gridValue: Float): TileType {
-    return when {
-        gridValue >= DungeonGridFactory.wallTreshold -> wallTileId
-        gridValue == DungeonGridFactory.floorTreshold -> groundTileId
-        gridValue == DungeonGridFactory.corridorTreshold -> corridorTileId
-        else -> throw RuntimeException("illegal tile value: $gridValue")
-    }
-}
-
-fun caveGridValueToTileType(gridValue: Float): TileType {
-    return when {
-        gridValue >= CelullarAutomataGridFactory.wallMarker -> wallTileId
-        gridValue >= CelullarAutomataGridFactory.pitMarker -> pitFloorTileId
-        else -> groundTileId //todo
-    }
-}
-
-fun villageGridValueToTileType(gridValue: Float): TileType {
-    return when {
-        gridValue >= NoiseGridFactory.wallTreshold -> wallTileId
-        gridValue >= NoiseGridFactory.floorTreshold -> groundTileId
-        else -> waterTileId //todo
-    }
-}
-
 fun lightTilePassMapperTrue(tile: Tile) = LightPassType.Passable
 
 fun lightTilePassMapper(tile: Tile) = when(tile.typeId) {

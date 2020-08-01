@@ -1,15 +1,9 @@
 package com.ovle.rll3.model.ecs.component.special
 
-import com.badlogic.ashley.core.Component
-import com.ovle.rll3.model.ecs.system.level.PlayerId
-import java.util.*
+import com.ovle.rll3.model.ecs.component.BaseComponent
+import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
 
-
-data class PlayerInfo(
-    val playerId: String,
-    val templateName: String
-)
 
 class PlayerComponent(
     var player: PlayerInfo
-): Component
+): BaseComponent

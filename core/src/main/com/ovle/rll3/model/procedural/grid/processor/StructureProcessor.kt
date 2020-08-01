@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
 import com.ovle.rll3.model.ecs.component.advanced.QuestOwnerComponent
-import com.ovle.rll3.model.ecs.component.special.LevelInfo
-import com.ovle.rll3.model.ecs.component.special.WorldInfo
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.questOwner
 import com.ovle.rll3.model.ecs.entity.entity
@@ -21,6 +21,7 @@ import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.tile.TileType
 import com.ovle.rll3.model.tile.whateverTileId
+import com.ovle.rll3.model.util.random
 import com.ovle.rll3.point
 import ktx.ashley.get
 import kotlin.random.Random
@@ -34,7 +35,7 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
         val entities = mutableListOf<Entity>()
 
         templates.templates.forEach {
-            processTemplate(it, tiles, levelInfo, gameEngine, entities, worldInfo.r)
+            processTemplate(it, tiles, levelInfo, gameEngine, entities, random)
         }
 
         levelInfo.entities.plusAssign(entities)

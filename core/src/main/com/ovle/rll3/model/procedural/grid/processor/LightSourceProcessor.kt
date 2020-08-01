@@ -3,8 +3,8 @@
 //import com.badlogic.ashley.core.Engine
 //import com.badlogic.ashley.core.Entity
 //import com.badlogic.gdx.math.GridPoint2
-//import com.ovle.rll3.model.ecs.component.special.LevelDescription
-//import com.ovle.rll3.model.ecs.component.special.LevelInfo
+//import com.ovle.rll3.model.ecs.component.dto.LevelDescription
+//import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 //import com.ovle.rll3.model.ecs.component.LightTilePosition
 //import com.ovle.rll3.model.ecs.entity.newLightSource
 //import com.ovle.rll3.model.ecs.entity.obstacles

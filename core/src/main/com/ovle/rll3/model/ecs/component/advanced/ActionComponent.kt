@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.ecs.component.advanced
 
-import com.badlogic.ashley.core.Component
+import com.ovle.rll3.model.ecs.component.BaseComponent
 import com.ovle.rll3.model.template.entity.view.AnimationType
 
 /**
@@ -12,4 +12,4 @@ class ActionComponent(
     var current: (() -> Unit)? = null,
     var animation: AnimationType? = null,
     var timeLeft: Int? = null
-) : Component
+) : BaseComponent

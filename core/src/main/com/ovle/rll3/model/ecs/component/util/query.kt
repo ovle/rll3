@@ -1,17 +1,17 @@
 package com.ovle.rll3.model.ecs.component.util
 
-import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
+import com.ovle.rll3.model.ecs.component.BaseComponent
 import com.ovle.rll3.model.ecs.component.advanced.*
 import com.ovle.rll3.model.ecs.component.basic.*
 import com.ovle.rll3.model.ecs.component.special.*
 import ktx.ashley.has
 
 
-private inline fun <reified T : Component> componentMapper(): ComponentMapper<T> = ComponentMapper.getFor(T::class.java)
+private inline fun <reified T : BaseComponent> componentMapper(): ComponentMapper<T> = ComponentMapper.getFor(T::class.java)
 
-inline fun <reified T : Component> Entity.has() = this.has(ComponentMapper.getFor(T::class.java))
+inline fun <reified T : BaseComponent> Entity.has() = this.has(ComponentMapper.getFor(T::class.java))
 
 object Mappers {
     val id = componentMapper<IdComponent>()

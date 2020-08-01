@@ -8,6 +8,7 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.basic.CollisionComponent
 import com.ovle.rll3.model.ecs.component.basic.IdComponent
+import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.level

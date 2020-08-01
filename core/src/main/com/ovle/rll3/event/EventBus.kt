@@ -20,6 +20,8 @@ object EventBus {
         subscribers[event.javaClass.kotlin]?.forEach {
             it.invoke(event)
         }
+
+        event.next?.let { send(it) }
     }
 
     inline fun <reified T : Event> subscribe(noinline callback: (T) -> Unit) {

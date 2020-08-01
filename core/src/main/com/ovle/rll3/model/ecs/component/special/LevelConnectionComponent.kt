@@ -1,9 +1,8 @@
 package com.ovle.rll3.model.ecs.component.special
 
-import com.badlogic.ashley.core.Component
+import com.ovle.rll3.model.ecs.component.BaseComponent
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
-import java.util.*
 
 class LevelConnectionComponent(
     val id: ConnectionId,
@@ -12,7 +11,7 @@ class LevelConnectionComponent(
 
     var backConnectionId: ConnectionId? = null,
     var visited: Boolean = false    //todo reset in some cases ?
-) : Component {
+) : BaseComponent {
     operator fun component1() = id
     operator fun component2() = visited
     operator fun component3() = type

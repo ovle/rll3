@@ -2,10 +2,13 @@ package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.*
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.model.ecs.component.dto.LevelDescription
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
+import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.util.Mappers.level
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
@@ -14,11 +17,14 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
+import com.ovle.rll3.model.procedural.config.levelParams
 import com.ovle.rll3.model.procedural.grid.processor.LevelConnectionProcessor
 import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.model.template.entity.entityTemplate
-import com.ovle.rll3.model.tile.isPassable
+import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.model.util.gridToTileArray
+import com.ovle.rll3.model.util.random
+import com.ovle.rll3.nearExclusive
 import ktx.ashley.get
 import kotlin.collections.random
 import kotlin.random.Random
@@ -63,7 +69,7 @@ class LevelSystem: EventSystem() {
         val playerTemplate = entityTemplate(TemplatesType.Common, playerInfo.templateName)
         if (playerEntity == null) playerEntity = newTemplatedEntity(randomId(), playerTemplate, engine)
 
-        val startPosition = playerStartPosition(newLevel, oldConnection, worldInfo.r)
+        val startPosition = playerStartPosition(newLevel, oldConnection, random)
         resetEntity(playerEntity, startPosition)
 
         if (interactionEntity == null) interactionEntity = newPlayerInteraction(playerEntity, engine)
@@ -75,7 +81,7 @@ class LevelSystem: EventSystem() {
 
         val newLevelDescription = newLevel.description
 
-        send(LevelLoaded(newLevel, newLevelDescription.params))
+        send(LevelLoaded(newLevel, levelParams(newLevelDescription)))
         send(EntityInitialized(playerEntity))
         send(EntityChanged(playerEntity))
 
@@ -103,7 +109,7 @@ class LevelSystem: EventSystem() {
         }
         val newLevel = storedLevel ?: newLevelInfo(newLevelDescription, worldInfo).also {
 //            println("create new level ${it.id}, description: ${newLevelDescription.id}, transition: $connectionId")
-            val postProcessors = newLevelDescription.params.postProcessors + LevelConnectionProcessor()
+            val postProcessors = levelParams(newLevelDescription).postProcessors + LevelConnectionProcessor()
             postProcessors.forEach {
                 processor ->
                 processor.process(it, worldInfo, engine)
@@ -123,6 +129,8 @@ class LevelSystem: EventSystem() {
         return newLevel
     }
 
+    private fun levelParams(levelDescription: LevelDescription) = levelParams.getValue(levelDescription.params)
+
     private fun setVisited(connection: LevelConnectionComponent?, level: LevelInfo?) {
         if (connection == null) return
         if (level == null) return
@@ -132,11 +140,46 @@ class LevelSystem: EventSystem() {
         backConnection[levelConnection]!!.visited = true
     }
 
+    /*
+fun dungeonGridValueToTileType(gridValue: Float): TileType {
+    return when {
+        gridValue >= DungeonGridFactory.wallTreshold -> wallTileId
+        gridValue == DungeonGridFactory.floorTreshold -> groundTileId
+        gridValue == DungeonGridFactory.corridorTreshold -> corridorTileId
+        else -> throw RuntimeException("illegal tile value: $gridValue")
+    }
+}
+
+fun caveGridValueToTileType(gridValue: Float): TileType {
+    return when {
+        gridValue >= CelullarAutomataGridFactory.wallMarker -> wallTileId
+        gridValue >= CelullarAutomataGridFactory.pitMarker -> pitFloorTileId
+        else -> groundTileId //todo
+    }
+}
+
+fun villageGridValueToTileType(gridValue: Float): TileType {
+    return when {
+        gridValue >= NoiseGridFactory.wallTreshold -> wallTileId
+        gridValue >= NoiseGridFactory.floorTreshold -> groundTileId
+        else -> waterTileId //todo
+    }
+}
+    */
+
+    private fun gridValueToTileType(value: Float): TileType {
+        return when {
+            value >= 0.8 -> wallTileId
+            value >= 0.5 -> groundTileId
+            else -> waterTileId
+        }
+    }
+
     private fun newLevelInfo(levelDescription: LevelDescription, worldInfo: WorldInfo): LevelInfo {
-        val levelParams = levelDescription.params
+        val levelParams = levelParams(levelDescription)
         val factoryParams = levelParams.factoryParams
         val grid = levelParams.gridFactory.get(factoryParams, worldInfo)
-        val tiles = gridToTileArray(grid, levelParams.gridValueToTileType)
+        val tiles = gridToTileArray(grid, ::gridValueToTileType)
         val id = randomId()
 
         return LevelInfo(

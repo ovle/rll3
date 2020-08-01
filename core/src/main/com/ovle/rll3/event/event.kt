@@ -3,9 +3,9 @@ package com.ovle.rll3.event
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.model.ecs.component.special.LevelInfo
-import com.ovle.rll3.model.ecs.component.special.PlayerInfo
-import com.ovle.rll3.model.ecs.component.special.WorldInfo
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
+import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
 import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
@@ -14,7 +14,10 @@ import com.ovle.rll3.model.ecs.system.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.template.entity.view.AnimationType
 
-sealed class Event {
+sealed class Event() {
+    var next: Event? = null
+
+    fun then(next: Event?) = this.apply { this@Event.next = next }
 
     open class PlayerControlEvent : Event()
     class MouseMoved(val screenPoint: Vector2) : PlayerControlEvent()
@@ -36,6 +39,8 @@ sealed class Event {
     open class TimeChanged(val turn: Long) : GameEvent()
 
     //debug
+    open class DebugSaveGameEvent: Event()
+    open class ExitGameEvent: Event()
     open class DebugCombatEvent: Event()
     open class DebugToggleFocusEvent: Event()
     open class DebugShowPlayerInventoryEvent: Event()

@@ -1,5 +1,6 @@
 package com.ovle.rll3.model.ecs.component.special
 
-import com.badlogic.ashley.core.Component
+import com.ovle.rll3.model.ecs.component.BaseComponent
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 
-class LevelComponent(var level: LevelInfo): Component
+class LevelComponent(var level: LevelInfo): BaseComponent

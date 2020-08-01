@@ -3,7 +3,7 @@ package com.ovle.rll3.model.procedural.grid.factory
 import com.github.czyzby.noise4j.map.Grid
 import com.github.czyzby.noise4j.map.generator.room.dungeon.DungeonGenerator
 import com.github.czyzby.noise4j.map.generator.util.Generators
-import com.ovle.rll3.model.ecs.component.special.WorldInfo
+import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 import java.util.*

@@ -3,8 +3,8 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.isNear
-import com.ovle.rll3.model.ecs.component.special.LevelInfo
-import com.ovle.rll3.model.ecs.component.special.WorldInfo
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.model.tile.roomFloorTypes
 import kotlin.math.roundToInt

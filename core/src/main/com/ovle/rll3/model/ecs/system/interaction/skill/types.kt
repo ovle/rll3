@@ -2,7 +2,7 @@ package com.ovle.rll3.model.ecs.system.interaction.skill
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.system.time.Ticks
 
 /**

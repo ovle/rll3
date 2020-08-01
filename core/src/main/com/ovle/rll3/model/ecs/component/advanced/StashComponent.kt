@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.ecs.component.advanced
 
-import com.badlogic.ashley.core.Component
+import com.ovle.rll3.model.ecs.component.BaseComponent
 
 class StashComponent(
     var closed: Boolean = true
-) : Component
+) : BaseComponent

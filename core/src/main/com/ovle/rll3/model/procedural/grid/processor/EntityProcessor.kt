@@ -3,14 +3,15 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.assets.loader.EntityTemplates
-import com.ovle.rll3.model.ecs.component.special.LevelInfo
-import com.ovle.rll3.model.ecs.component.special.WorldInfo
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.positions
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
 import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.procedural.grid.utils.SpawnTable
 import com.ovle.rll3.model.tile.*
+import com.ovle.rll3.model.util.random
 import com.ovle.rll3.point
 import ktx.ashley.get
 
@@ -21,7 +22,6 @@ class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
         val tiles = levelInfo.tiles
         //some cells can be claimed by other processors
         val claimed = levelInfo.entities.positions()
-        val r = worldInfo.r
         val entities = mutableListOf<Entity>()
         val spawnTemplates = templates.templates.filter { it.spawns.isNotEmpty() }
 
@@ -30,8 +30,8 @@ class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
                 if (point(x, y) in claimed) continue
 
                 val nearTiles = nearValues(tiles, x, y)
-                val spawnTable = SpawnTable(spawnTemplates, nearTiles, worldInfo.r)
-                val check = r.nextDouble()
+                val spawnTable = SpawnTable(spawnTemplates, nearTiles, random)
+                val check = random.nextDouble()
                 val spawnTemplate = spawnTable.spawn(check) ?: continue
 
 //                val spawnCondition = spawnData.second

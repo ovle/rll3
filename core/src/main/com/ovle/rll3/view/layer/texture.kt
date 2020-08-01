@@ -17,6 +17,8 @@ class TexturesInfo(
     val texture: Texture = texture(initialTexture, Palette::map)
     val darkTexture = texture(texture, Palette::prev)
     val lightTexture = texture(texture, Palette::next)
+
+    val all = arrayOf(texture, darkTexture, lightTexture)
 }
 
 class TextureRegionsInfo(

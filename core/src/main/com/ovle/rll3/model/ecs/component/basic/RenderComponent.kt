@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.ecs.component.basic
 
-import com.badlogic.ashley.core.Component
+import com.ovle.rll3.model.ecs.component.BaseComponent
 import com.ovle.rll3.model.template.entity.view.AnimationType
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.sprite.animation.FrameAnimation
@@ -11,7 +11,7 @@ class RenderComponent(
     var zLevel: Int = 0,
     var sprites: Map<String, Sprite> = mapOf(),
     var animations: Map<AnimationType, FrameAnimation> = mapOf()
-) : Component {
+) : BaseComponent {
 
     var currentAnimation: FrameAnimation? = null
 

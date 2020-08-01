@@ -4,14 +4,13 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.basic.MoveComponent
 import com.ovle.rll3.model.ecs.component.basic.PositionComponent
-import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.action
 import com.ovle.rll3.model.ecs.component.util.Mappers.move
 import com.ovle.rll3.model.ecs.component.util.Mappers.position

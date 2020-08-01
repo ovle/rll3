@@ -4,10 +4,14 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.floatPoint
+import com.ovle.rll3.model.ecs.component.BaseComponent
 import com.ovle.rll3.model.ecs.component.basic.IdComponent
 import com.ovle.rll3.model.ecs.component.basic.PositionComponent
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
+import com.ovle.rll3.model.ecs.component.dto.TimeInfo
+import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.component.util.basicComponents

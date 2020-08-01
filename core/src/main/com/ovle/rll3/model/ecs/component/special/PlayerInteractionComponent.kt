@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.ecs.component.special
 
-import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.ovle.rll3.model.ecs.component.BaseComponent
 import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
 
 /**
@@ -14,6 +14,6 @@ class PlayerInteractionComponent(
     var controlledEntity: Entity? = null,
     var focusedEntity: Entity? = null,
     var selectedEntity: Entity? = null,
-    var hoveredEntities: Collection<Entity> = listOf(),
+    var hoveredEntity: Entity? = null,
     var selectedSkillTemplate: SkillTemplate?
-) : Component
+) : BaseComponent

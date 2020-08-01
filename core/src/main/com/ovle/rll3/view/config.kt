@@ -5,19 +5,22 @@ const val scaleScrollCoeff = 0.1f
 
 const val screenWidth = 480.0f
 const val screenHeight = 480.0f
-const val tileWidth = 24
-const val tileHeight = 24
+
+const val baseSize = 8
+
+const val tileWidth = baseSize
+const val tileHeight = baseSize
 const val textureTileWidth = tileWidth
 const val textureTileHeight = tileHeight
 
-const val spriteWidth = 24.0f
-const val spriteHeight = 24.0f
+const val spriteWidth = baseSize.toFloat()
+const val spriteHeight = baseSize.toFloat()
 const val gameFullscreen = false
 const val skinPath = "skins/c64/uiskin.json"
 
-const val tileTexturePath = "images/tiles.png"
-const val spriteTexturePath = "images/sprites.png"
-const val guiTexturePath = "images/gui.png"
+const val tileTexturePath = "images/new-tiles.png"
+const val spriteTexturePath = "images/new-tiles.png"
+const val guiTexturePath = "images/new-tiles.png"
 
 const val entityTemplatePath = "templates/entity/"
 const val entityViewTemplatePath = "templates/entity/view/"

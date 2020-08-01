@@ -4,13 +4,14 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
-import com.ovle.rll3.model.ecs.component.special.LevelInfo
-import com.ovle.rll3.model.ecs.component.special.WorldInfo
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.entity.newConnection
 import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.tile.isPassable
+import com.ovle.rll3.model.util.random
 import com.ovle.rll3.point
 import ktx.ashley.get
 import kotlin.random.Random
@@ -20,8 +21,6 @@ class LevelConnectionProcessor: TilesProcessor {
 
     override fun process(levelInfo: LevelInfo, worldInfo: WorldInfo, gameEngine: Engine) {
         val levelDescription = levelInfo.description
-        val r = worldInfo.r
-
         val connections = levelDescription.connections
         val enterConnections = worldInfo.levels
             .filter { levelDescription.id in it.connections }
@@ -31,8 +30,8 @@ class LevelConnectionProcessor: TilesProcessor {
         val result= mutableListOf<Entity>()
 
         val enterConnectionType = LevelConnectionType.Up //doesn't depend on how do we enter this level, only on world config
-        result += fillConnections(enterConnectionType, candidatePositions, enterConnections, gameEngine, r)
-        result += fillConnections(enterConnectionType.opposite(), candidatePositions, connections, gameEngine, r)
+        result += fillConnections(enterConnectionType, candidatePositions, enterConnections, gameEngine, random)
+        result += fillConnections(enterConnectionType.opposite(), candidatePositions, connections, gameEngine, random)
 
         levelInfo.entities.addAll(result)
     }

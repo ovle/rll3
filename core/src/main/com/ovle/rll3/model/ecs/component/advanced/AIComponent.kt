@@ -1,16 +1,12 @@
 package com.ovle.rll3.model.ecs.component.advanced
 
-import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.ai.btree.BehaviorTree
+import com.ovle.rll3.model.ecs.component.BaseComponent
+import com.ovle.rll3.model.ecs.system.ai.components.AIType
 import com.ovle.rll3.model.ecs.system.ai.components.EntityBlackboard
-
-enum class AIType {
-    Follow,
-    RunAway
-}
 
 class AIComponent(
     val type: AIType
-) : Component {
+) : BaseComponent {
     lateinit var behaviorTree: BehaviorTree<EntityBlackboard>
 }

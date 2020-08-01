@@ -14,11 +14,7 @@ data class LevelParams(
     //main
     val factoryParams: LevelFactoryParams,
     val gridFactory: GridFactory,
-    val postProcessors: Array<TilesProcessor>,
-
-    //mappers
-    val gridValueToTileType: (Float) -> TileType,
-    val tileToTexture: (TileToTextureParams) -> TileTextureInfo
+    val postProcessors: Array<TilesProcessor>
 )
 
 sealed class LevelFactoryParams(

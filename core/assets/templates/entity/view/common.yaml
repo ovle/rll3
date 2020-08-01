@@ -2,7 +2,7 @@
 
 name: wizard
 sprite:
-  default: [0, 1]
+  default: [1, 1]
 portrait:
   - [1, 1]
 animations:
@@ -26,7 +26,7 @@ animations:
 
 name: barbarian
 sprite:
-  default: [0, 5]
+  default: [1, 0]
 portrait:
   - [0, 1]
 animations:
@@ -77,14 +77,14 @@ animations:
 
 name: door
 sprite:
-  default: [7, 8]
-  opened: [8, 8]
+  default: [1, 4]
+  opened: [3, 4]
 ---
 
 name: stash
 sprite:
-  default: [7, 0]
-  opened: [8, 0]
+  default: [0, 6]
+  opened: [2, 6]
 ---
 
 name: table
@@ -95,44 +95,3 @@ sprite:
 name: chair
 sprite:
   default: [10, 0]
----
-
-name: oven
-sprite:
-  default: [6, 1]
----
-
-name: window
-sprite:
-  default: [6, 2]
----
-
-name: statue
-sprite:
-  default: [6, 3]
----
-
-name: well
-sprite:
-  default: [6, 4]
----
-
-name: anvil
-sprite:
-  default: [7, 4]
----
-
-name: forge
-sprite:
-  default: [8, 4]
----
-
-name: forge pipe
-sprite:
-  default: [9, 4]
----
-
-name: hammer
-sprite:
-  default: [10, 4]
-

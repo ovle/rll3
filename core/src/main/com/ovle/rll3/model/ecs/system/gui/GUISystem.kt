@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.ecs.component.special.LevelInfo
+import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
@@ -20,7 +21,9 @@ import com.ovle.rll3.view.layer.TexturesInfo
 import ktx.ashley.get
 
 
-class GUISystem(private val stage: Stage, guiTexture: TexturesInfo) : EventSystem() {
+class GUISystem(
+    private val stage: Stage, private val screenManager: ScreenManager, guiTexture: TexturesInfo
+) : EventSystem() {
 
     private val playerPanelInfo = EntityPanelInfo()
     private val focusedEntityPanelInfo = EntityPanelInfo()
@@ -34,13 +37,13 @@ class GUISystem(private val stage: Stage, guiTexture: TexturesInfo) : EventSyste
     override fun addedToEngine(engine: Engine) {
         super.addedToEngine(engine)
 
-
-        rootActor().addActor(entityInfoActor(playerPanelInfo, texture))
-        rootActor().addActor(worldInfoActor(worldPanelInfo, texture).apply {
+        val rootActor = rootActor()
+        rootActor.addActor(entityInfoActor(playerPanelInfo, texture))
+        rootActor.addActor(worldInfoActor(worldPanelInfo, texture).apply {
             x = screenWidth() - width
             y = screenHeight().toFloat() - height
         })
-        rootActor().addActor(logActor(logPanelInfo, texture).apply {
+        rootActor.addActor(logActor(logPanelInfo, texture).apply {
             x = screenWidth()/2 - width/2
         })
 
@@ -58,6 +61,8 @@ class GUISystem(private val stage: Stage, guiTexture: TexturesInfo) : EventSyste
 
         EventBus.subscribe<ShowEntityActionsEvent> { onShowEntityActionsEvent(it.entity, it.interactions) }
         EventBus.subscribe<HideEntityActionsEvent> { onHideEntityActionsEvent() }
+
+        EventBus.subscribe<ExitGameEvent> { screenManager.goToScreen(ScreenManager.ScreenType.MainMenuScreenType) }
     }
 
     private fun onLogEvent(message: String) {
