@@ -8,5 +8,6 @@ import com.ovle.rll3.view.screenWidth
 
 object RenderConfig {
     var scrollOffset: Vector2 = Vector2(screenWidth / 2, screenHeight / 2)
-    var unproject: ((Vector3) -> Vector3)? = null
+    lateinit var unproject: ((Vector3) -> Vector3)
+    lateinit var project: ((Vector3) -> Vector3)
 }

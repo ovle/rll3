@@ -1,4 +1,4 @@
-package com.ovle.rll3.view.layer.level
+package com.ovle.rll3.view.layer
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.GridPoint2

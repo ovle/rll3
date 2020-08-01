@@ -7,6 +7,8 @@ import com.ovle.rll3.component1
 import com.ovle.rll3.component2
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.view.centered
+import com.ovle.rll3.view.screenToViewport
 
 class PlayerControls : InputAdapter() {
 
@@ -23,20 +25,20 @@ class PlayerControls : InputAdapter() {
     override fun scrolled(amount: Int) = send(Event.CameraScrolled(amount)).run { true }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-        send(Event.MouseMoved(screenPoint(screenX, screenY)))
+        send(Event.MouseMoved(viewportPoint(screenX, screenY)))
         return true
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         lastDragPoint = null
         lastDragId = null
-        send(Event.MouseClick(screenPoint(screenX, screenY), button))    //todo left?
+        send(Event.MouseClick(viewportPoint(screenX, screenY), button))    //todo left?
         return true
     }
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        val screenPoint = screenPoint(screenX, screenY)
-        lastDragPoint = screenPoint
+        val viewportPoint = viewportPoint(screenX, screenY)
+        lastDragPoint = viewportPoint
         lastDragId = pointer
         return true
     }
@@ -48,7 +50,9 @@ class PlayerControls : InputAdapter() {
         return true
     }
 
-    private fun screenPoint(screenX: Int, screenY: Int) = Vector2(screenX.toFloat(), screenY.toFloat())
+    private fun viewportPoint(screenX: Int, screenY: Int): Vector2 {
+        val x = screenX.toFloat()
+        val y = screenY.toFloat()
+        return Vector2(x, y).screenToViewport().centered()
+    }
 }
-
-

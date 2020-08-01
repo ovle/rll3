@@ -11,6 +11,8 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.eventLogHook
 import com.ovle.rll3.model.ecs.system.*
+import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionSystem
+import com.ovle.rll3.model.ecs.system.interaction.TileInteractionSystem
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.ecs.system.render.DebugRenderLevelSystem
 import com.ovle.rll3.model.ecs.system.render.RenderInteractionInfoSystem
@@ -47,10 +49,11 @@ class GameScreen(
             RenderInteractionInfoSystem(batch, assetsManager),
 //            RenderLevelSystem(camera, levelTexturesInfo),
             GameSystem(),
-            LevelSystem()
+            LevelSystem(),
 //            TimeSystem(),
 //            ActionSystem(),
-//            EntityInteractionSystem(),
+            EntityInteractionSystem(),
+            TileInteractionSystem()
 //            CombatSystem(),
 //            MoveSystem(),
 //            AnimationSystem(objectsTextureInfo),

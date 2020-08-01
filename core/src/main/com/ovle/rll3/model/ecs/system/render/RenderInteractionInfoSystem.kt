@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
+import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
@@ -24,9 +25,11 @@ class RenderInteractionInfoSystem(
 
     private val guiRegions = split(assetsManager.guiTexture.texture, spriteWidth.toInt(), spriteHeight.toInt())
 
-    private val controlSprite = sprite(guiRegions, 1, 0)
-    private val selectionSprite = sprite(guiRegions, 1, 0)
+    private val cursorSprite = sprite(guiRegions, 3, 0)
+    private val controlSprite = sprite(guiRegions, 2, 0)
+    private val selectionEntitySprite = sprite(guiRegions, 1, 0)
     private val hoverSprite = sprite(guiRegions, 2, 0)
+    private val selectionTileSprite = sprite(guiRegions, 4, 0)
 
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
@@ -38,6 +41,7 @@ class RenderInteractionInfoSystem(
 
     private fun drawInteractionInfo(interaction: Entity?) {
         if (interaction == null) return
+        drawCursor(interaction)
 
         val interactionComponent = interaction[playerInteraction]!!
         drawSelection(interactionComponent)
@@ -45,9 +49,18 @@ class RenderInteractionInfoSystem(
         drawHover(interactionComponent)
     }
 
+    private fun drawCursor(entity: Entity) {
+        draw(entity, cursorSprite)
+    }
+
     private fun drawSelection(interactionComponent: PlayerInteractionComponent) {
-        val selectedEntity = interactionComponent.selectedEntity ?: return
-        draw(selectedEntity, selectionSprite)
+        val selectedEntity = interactionComponent.selectedEntity
+        selectedEntity?.let { draw(selectedEntity, selectionEntitySprite) }
+
+        val selectedTiles = interactionComponent.selectedTiles
+        selectedTiles.forEach {
+            draw(it, selectionTileSprite)
+        }
     }
 
     private fun drawControl(interactionComponent: PlayerInteractionComponent) {
@@ -55,13 +68,20 @@ class RenderInteractionInfoSystem(
         draw(controlledEntity, controlSprite)
     }
 
+    //todo highlight sprite instead
     private fun drawHover(interactionComponent: PlayerInteractionComponent) {
         val hoveredEntity = interactionComponent.hoveredEntity ?: return
+//        hoveredEntity[render]!!.switchSprite()
+//        draw(hoveredEntity)
         draw(hoveredEntity, hoverSprite)
     }
 
     private fun draw(entity: Entity, sprite: Sprite) {
         val position = entity[position]!!.gridPosition
+        draw(position, sprite)
+    }
+
+    private fun draw(position: GridPoint2, sprite: Sprite) {
         val region = sprite.textureRegion()
 
         batch.draw(floatPoint(position), region)

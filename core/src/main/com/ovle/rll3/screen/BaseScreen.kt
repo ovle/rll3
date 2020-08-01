@@ -41,6 +41,7 @@ abstract class BaseScreen(
         Gdx.input.inputProcessor = inputMultiplexer
 
         RenderConfig.unproject = batchViewport::unproject
+        RenderConfig.project = batchViewport::project
     }
 
     open fun screenInputProcessor(): InputProcessor? = null

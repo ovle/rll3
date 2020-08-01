@@ -21,8 +21,8 @@ import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.view.palette.Palette.bgColor
 import com.ovle.rll3.view.layer.CustomTiledMapTileLayer
-import com.ovle.rll3.view.layer.level.TileTextureInfo
-import com.ovle.rll3.view.layer.level.TileToTextureParams
+import com.ovle.rll3.view.layer.TileTextureInfo
+import com.ovle.rll3.view.layer.TileToTextureParams
 import com.ovle.rll3.view.layer.mapLayer
 import ktx.ashley.get
 

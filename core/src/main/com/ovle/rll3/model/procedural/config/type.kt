@@ -4,9 +4,6 @@ import com.github.czyzby.noise4j.map.generator.room.RoomType
 import com.ovle.rll3.model.procedural.grid.factory.GridFactory
 import com.ovle.rll3.model.procedural.grid.processor.TilesProcessor
 import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
-import com.ovle.rll3.model.tile.TileType
-import com.ovle.rll3.view.layer.level.TileTextureInfo
-import com.ovle.rll3.view.layer.level.TileToTextureParams
 
 
 data class LevelParams(

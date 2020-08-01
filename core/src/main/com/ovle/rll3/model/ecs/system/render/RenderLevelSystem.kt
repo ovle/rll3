@@ -20,8 +20,8 @@
 //import com.ovle.rll3.view.layer.CustomTiledMapTileLayer
 //import com.ovle.rll3.view.layer.TexturesInfo
 //import com.ovle.rll3.view.layer.level.LayerType
-//import com.ovle.rll3.view.layer.level.TileTextureInfo
-//import com.ovle.rll3.view.layer.level.TileToTextureParams
+//import com.ovle.rll3.view.layer.TileTextureInfo
+//import com.ovle.rll3.view.layer.TileToTextureParams
 //import com.ovle.rll3.view.layer.mapLayer
 //import ktx.ashley.get
 //

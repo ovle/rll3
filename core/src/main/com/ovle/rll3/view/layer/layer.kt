@@ -9,8 +9,6 @@ import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.model.util.lightByPosition
 import com.ovle.rll3.model.util.lightTiles
-import com.ovle.rll3.view.layer.level.TileTextureInfo
-import com.ovle.rll3.view.layer.level.TileToTextureParams
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
 

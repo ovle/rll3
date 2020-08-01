@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector3
 import com.ovle.rll3.model.util.config.RenderConfig
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
+import ktx.math.vec2
+import ktx.math.vec3
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -26,19 +28,6 @@ fun point(point: GridPoint2) = point(point.x, point.y)
 
 fun floatPoint(x: Float, y: Float) = Vector2(x, y)
 fun floatPoint(point: GridPoint2) = Vector2(point.x.toFloat(), point.y.toFloat())
-
-
-fun toGamePoint(screenPoint: Vector2, renderConfig: RenderConfig): Vector2 {
-    val mapScreenPoint = toMapScreenPoint(screenPoint, renderConfig)
-
-    val x = mapScreenPoint.x / tileWidth
-    val y = mapScreenPoint.y / tileHeight
-
-    return Vector2(x, y)
-}
-
-fun toMapScreenPoint(screenPoint: Vector2, renderConfig: RenderConfig): Vector3 =
-    renderConfig.unproject?.invoke(Vector3(screenPoint, 0.0f))!!
 
 
 fun isNearHV(p1: GridPoint2, p2: GridPoint2?) =

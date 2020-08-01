@@ -1,20 +1,18 @@
 package com.ovle.rll3.model.ecs.system.interaction
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.Input.Buttons
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.model.ecs.component.special.SelectionMode
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.Mappers.questOwner
 import com.ovle.rll3.model.ecs.entity.controlledEntity
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
-import com.ovle.rll3.model.ecs.entity.selectedEntity
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType.*
 import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
-import com.ovle.rll3.model.ecs.system.interaction.skill.skill
 import com.ovle.rll3.model.ecs.system.interaction.use.use
 import ktx.ashley.get
 
@@ -33,21 +31,24 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     private fun onEntityClickEvent(entity: Entity, button: Int) {
+        val interactionInfo = playerInteractionInfo()!!
+        if (interactionInfo.selectionMode != SelectionMode.Entity) return
+
         select(entity)
 
-        when (button) {
-            Buttons.RIGHT -> {
-                showActions(entity)
-            }
-            else -> {
-                val defaultInteractionType = defaultInteraction(entity)
-                if (defaultInteractionType == null) {
-                    showActions(entity)
-                } else {
-                    performEntityInteraction(entity, EntityInteraction(defaultInteractionType))
-                }
-            }
-        }
+//        when (button) {
+//            Buttons.RIGHT -> {
+//                showActions(entity)
+//            }
+//            else -> {
+//                val defaultInteractionType = defaultInteraction(entity)
+//                if (defaultInteractionType == null) {
+//                    showActions(entity)
+//                } else {
+//                    performEntityInteraction(entity, EntityInteraction(defaultInteractionType))
+//                }
+//            }
+//        }
     }
 
     private fun onVoidClickEvent(button: Int, point: GridPoint2) {
@@ -56,24 +57,36 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     private fun onEntityHoverEvent(entity: Entity) {
-        if (selectedEntity() != null) return
+        val interactionInfo = playerInteractionInfo()!!
+        interactionInfo.hoveredEntity = entity
 
         send(ShowEntityInfoEvent(entity))
     }
 
     private fun onEntityUnhoverEvent() {
-        if (selectedEntity() != null) return
+        val interactionInfo = playerInteractionInfo()!!
+        interactionInfo.hoveredEntity = null
 
         send(HideEntityInfoEvent())
     }
 
     private fun select(entity: Entity) {
         val interactionInfo = playerInteractionInfo()!!
-        interactionInfo.selectedEntity = entity
+
+        val party = arrayOf(interactionInfo.controlledEntity)
+//        val party = player()!!.party
+        val partyEntity = entity in party
+        if (partyEntity) {
+            interactionInfo.controlledEntity = entity
+        } else {
+            interactionInfo.selectedEntity = entity
+        }
     }
 
+    //at least one party entity is already selected?
     private fun deselect() {
         val interactionInfo = playerInteractionInfo()!!
+
         interactionInfo.selectedEntity = null
     }
 
@@ -100,7 +113,7 @@ class EntityInteractionSystem : EventSystem() {
     //todo
     private fun onEntityUseSkillEvent(entity: Entity, target: Any?, skillTemplate: SkillTemplate) {
         println("$entity use skill ${skillTemplate.name} on $target")
-        skill(entity, target, skillTemplate)
+//        skill(entity, target, skillTemplate)
     }
 
     private fun showActions(entity: Entity) {
