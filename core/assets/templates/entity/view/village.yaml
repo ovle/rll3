@@ -2,48 +2,22 @@
 
 name: tree 1
 sprite:
-  default: [6, 9]
+  default: [4, 4]
 ---
 
 name: tree 2
 sprite:
-  default: [7, 9]
+  default: [4, 4]
 ---
 
 name: reed 1
 sprite:
-  default: [8, 9]
----
-
-name: villager
-sprite:
-  default: [6, 13]
-portrait:
-  - [0, 2]
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [6, 13]
-  - type: Death
-    terminal: true
-    frames:
-      - [6, 15]
-  - type: Attack
-    frames:
-      - [6, 14]
-      - [7, 14]
-  - type: TakeHit
-    frames:
-      - [8, 14]
-      - [9, 14]
-
+  default: [5, 4]
 ---
 
 name: pig
 sprite:
-  default: [11, 13]
+  default: [6, 2]
 portrait:
   - [1, 3]
 animations:
@@ -60,7 +34,7 @@ animations:
 
 name: wolf
 sprite:
-  default: [11, 13]
+  default: [0, 2]
 portrait:
   - [2, 3]
 animations:
@@ -84,7 +58,7 @@ animations:
 
 name: elder
 sprite:
-  default: [11, 9]
+  default: [6, 1]
 animations:
   - type: Idle
     repeat: true
@@ -97,9 +71,34 @@ animations:
 
 ---
 
+name: villager
+sprite:
+  default: [7, 1]
+portrait:
+  - [0, 2]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [6, 13]
+  - type: Death
+    terminal: true
+    frames:
+      - [6, 15]
+  - type: Attack
+    frames:
+      - [6, 14]
+      - [7, 14]
+  - type: TakeHit
+    frames:
+      - [8, 14]
+      - [9, 14]
+---
+
 name: blacksmith
 sprite:
-  default: [11, 8]
+  default: [7, 2]
 portrait:
   - [1, 2]
 animations:

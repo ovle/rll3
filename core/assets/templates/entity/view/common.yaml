@@ -63,7 +63,7 @@ animations:
 
 name: lamp
 sprite:
-  default: [7, 2]
+  default: [1, 6]
 animations:
   - type: Idle
     repeat: true
@@ -89,9 +89,9 @@ sprite:
 
 name: table
 sprite:
-  default: [9, 0]
+  default: [2, 6]
 ---
 
 name: chair
 sprite:
-  default: [10, 0]
+  default: [3, 6]
