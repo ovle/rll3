@@ -5,8 +5,6 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.ecs.component.special.SelectionMode.Entity
-import com.ovle.rll3.model.ecs.component.special.SelectionMode.Tile
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.*
@@ -99,11 +97,6 @@ class PlayerControlsSystem : EventSystem() {
         send(SkillSelected(selectedSkillTemplate))
     }
 
-    private fun switchSelectionMode() {
-        val interactionInfo = playerInteractionInfo()!!
-        interactionInfo.selectionMode = if (interactionInfo.selectionMode == Entity) Tile else Entity
-    }
-
     private fun onKeyPressed(code: Int) {
         when(code) {
             //debug
@@ -113,7 +106,7 @@ class PlayerControlsSystem : EventSystem() {
             Input.Keys.A -> send(DebugCombat())
             Input.Keys.F -> send(DebugToggleFocus())
             Input.Keys.I -> send(DebugShowPlayerInventory())
-            Input.Keys.S -> switchSelectionMode()
+            Input.Keys.S -> send(DebugSwitchSelectionMode())
             Input.Keys.V -> { noVisibilityFilter = !noVisibilityFilter }
         }
     }

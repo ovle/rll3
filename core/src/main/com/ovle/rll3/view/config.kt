@@ -1,7 +1,8 @@
 package com.ovle.rll3.view
 
 const val initialScale = 1.3f
-const val scaleScrollCoeff = 0.1f
+const val scaleScrollCoeff = 0.05f
+const val cameraMoveCoeff = 0.5f
 
 const val screenWidth = 480.0f
 const val screenHeight = 480.0f

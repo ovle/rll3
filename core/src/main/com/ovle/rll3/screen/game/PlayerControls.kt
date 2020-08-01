@@ -9,6 +9,7 @@ import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.view.centered
 import com.ovle.rll3.view.screenToViewport
+import ktx.math.vec2
 
 class PlayerControls : InputAdapter() {
 
@@ -38,21 +39,22 @@ class PlayerControls : InputAdapter() {
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val viewportPoint = viewportPoint(screenX, screenY)
-        lastDragPoint = viewportPoint
+        lastDragPoint = viewportPoint.cpy()
         lastDragId = pointer
         return true
     }
 
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-        val (oldScreenX, oldScreenY) = lastDragPoint!!
-        send(Event.CameraMoved(Vector2(screenX - oldScreenX, screenY - oldScreenY)))
-        lastDragPoint!!.set(screenX.toFloat(), screenY.toFloat())
+        val viewportPoint = viewportPoint(screenX, screenY)
+        send(Event.CameraMoved(lastDragPoint!!.sub(viewportPoint)))
+        lastDragPoint = viewportPoint.cpy()
+
         return true
     }
 
     private fun viewportPoint(screenX: Int, screenY: Int): Vector2 {
         val x = screenX.toFloat()
         val y = screenY.toFloat()
-        return Vector2(x, y).screenToViewport().centered()
+        return Vector2(x, y).screenToViewport()//.centered()
     }
 }

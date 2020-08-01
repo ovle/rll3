@@ -11,6 +11,7 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.eventLogHook
 import com.ovle.rll3.model.ecs.system.*
+import com.ovle.rll3.model.ecs.system.interaction.BaseInteractionSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionSystem
 import com.ovle.rll3.model.ecs.system.interaction.TileInteractionSystem
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
@@ -52,6 +53,7 @@ class GameScreen(
             LevelSystem(),
 //            TimeSystem(),
 //            ActionSystem(),
+            BaseInteractionSystem(),
             EntityInteractionSystem(),
             TileInteractionSystem()
 //            CombatSystem(),

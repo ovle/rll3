@@ -16,6 +16,10 @@ import com.ovle.rll3.view.palette.full.DB16.orange
 import com.ovle.rll3.view.palette.full.DB16.red
 import com.ovle.rll3.view.palette.full.DB16.white
 import com.ovle.rll3.view.palette.full.DB16.yellow
+import com.ovle.rll3.view.palette.full.En.blackEn
+import com.ovle.rll3.view.palette.full.En.greenEn
+import com.ovle.rll3.view.palette.full.En.tealEn
+import com.ovle.rll3.view.palette.full.En.whiteEn
 import com.ovle.rll3.view.palette.full.Glow1bit.black1bit
 import com.ovle.rll3.view.palette.full.Glow1bit.white1bit
 
@@ -136,4 +140,11 @@ internal val palette2Color = arrayOf(
     white1bit,
     white1bit,
     white1bit
+)
+
+val paletteMain = arrayOf(
+    blackEn,
+    greenEn,
+    tealEn,
+    whiteEn
 )

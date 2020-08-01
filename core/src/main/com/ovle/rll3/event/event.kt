@@ -43,6 +43,7 @@ sealed class Event {
     class DebugCombat: Event()
     class DebugToggleFocus: Event()
     class DebugShowPlayerInventory: Event()
+    class DebugSwitchSelectionMode: Event()
     class DebugShowInventory(val items: Collection<com.badlogic.ashley.core.Entity>, entity: com.badlogic.ashley.core.Entity): Entity(entity)
 
     //level
