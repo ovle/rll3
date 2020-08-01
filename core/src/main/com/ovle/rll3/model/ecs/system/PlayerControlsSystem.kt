@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.ecs.component.special.SelectionMode
 import com.ovle.rll3.model.ecs.component.special.SelectionMode.Entity
 import com.ovle.rll3.model.ecs.component.special.SelectionMode.Tile
 import com.ovle.rll3.model.ecs.component.util.Mappers
@@ -72,9 +71,9 @@ class PlayerControlsSystem : EventSystem() {
         val entities = level.entities.on(position)
 //        val partyEntities = player()!!.party.entities.toList().on(position)
 
-        send(EntityUnhoverEvent())
+        send(EntityUnhover())
         entities.forEach {
-            send(EntityHoverEvent(it))
+            send(EntityHover(it))
         }
 //        partyEntities.forEach {
 //            send(EntityHoverEvent(it))
@@ -109,11 +108,11 @@ class PlayerControlsSystem : EventSystem() {
         when(code) {
             //debug
             Input.Keys.ESCAPE -> send(
-                DebugSaveGameEvent().then(ExitGameEvent())
+                DebugSaveGame().then(ExitGame())
             )
-            Input.Keys.A -> send(DebugCombatEvent())
-            Input.Keys.F -> send(DebugToggleFocusEvent())
-            Input.Keys.I -> send(DebugShowPlayerInventoryEvent())
+            Input.Keys.A -> send(DebugCombat())
+            Input.Keys.F -> send(DebugToggleFocus())
+            Input.Keys.I -> send(DebugShowPlayerInventory())
             Input.Keys.S -> switchSelectionMode()
             Input.Keys.V -> { noVisibilityFilter = !noVisibilityFilter }
         }

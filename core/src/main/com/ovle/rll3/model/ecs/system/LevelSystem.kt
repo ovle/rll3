@@ -33,7 +33,7 @@ import kotlin.random.Random
 class LevelSystem: EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<WorldInitEvent> { loadFirstLevel() }
+        EventBus.subscribe<WorldInit> { loadFirstLevel() }
         EventBus.subscribe<EntityLevelTransition> { loadNextLevel(levelInfo(), it.connectionId) }
     }
 

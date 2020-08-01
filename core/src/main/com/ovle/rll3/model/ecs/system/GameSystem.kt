@@ -19,8 +19,8 @@ import kotlin.random.Random
 class GameSystem : EventSystem() {
 
     override fun subscribe() {
-        subscribe<Event.GameStartedEvent> { createWorld(it.player, it.world) }
-        subscribe<Event.DebugSaveGameEvent> { saveGame() }
+        subscribe<Event.GameStarted> { createWorld(it.player, it.world) }
+        subscribe<Event.DebugSaveGame> { saveGame() }
     }
 
     private fun createWorld(player: PlayerInfo, world: WorldInfo) {
@@ -28,7 +28,7 @@ class GameSystem : EventSystem() {
         val playerEntity = newPlayer(player, engine)
         random = Random(world.seed)
 
-        send(Event.WorldInitEvent(world))
+        send(Event.WorldInit(world))
     }
 
     //todo load world

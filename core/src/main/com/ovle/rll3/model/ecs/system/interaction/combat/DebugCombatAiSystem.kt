@@ -1,15 +1,14 @@
 package com.ovle.rll3.model.ecs.system.interaction.combat
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.event.Event.DebugCombatEvent
-import com.ovle.rll3.event.Event.EntityInteractionEvent
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.DebugCombat
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.util.Mappers.action
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.entity.entity
 import com.ovle.rll3.model.ecs.system.EventSystem
-import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction
 import ktx.ashley.get
 
 @Deprecated("will use skills instead")
@@ -21,8 +20,8 @@ class DebugCombatAiSystem : EventSystem() {
     private var e2: Entity? = null
 
     override fun subscribe() {
-        EventBus.subscribe<DebugCombatEvent> { onToggleDebugCombatEvent() }
-        EventBus.subscribe<EntityInteractionEvent> { onEntityInteractionEvent(it.source, it.entity, it.interaction) }
+        EventBus.subscribe<DebugCombat> { onToggleDebugCombatEvent() }
+        EventBus.subscribe<Event.EntityInteraction> { onEntityInteractionEvent(it.source, it.entity, it.interaction) }
     }
 
     private fun onToggleDebugCombatEvent() {
@@ -61,7 +60,7 @@ class DebugCombatAiSystem : EventSystem() {
         }
     }
 
-    private fun onEntityInteractionEvent(source: Entity, target: Entity, interaction: EntityInteraction) {
+    private fun onEntityInteractionEvent(source: Entity, target: Entity, interaction: com.ovle.rll3.model.ecs.system.interaction.EntityInteraction) {
 
     }
 }

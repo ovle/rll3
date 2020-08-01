@@ -16,13 +16,13 @@ class ContainerSystem : EventSystem() {
 
     override fun subscribe() {
         subscribe<Event.EntityInitialized> { onEntityInitialized(it.entity) }
-        subscribe<Event.DebugShowPlayerInventoryEvent> { onDebugShowEntityInventoryEvent(controlledEntity()!!) }
+        subscribe<Event.DebugShowPlayerInventory> { onDebugShowEntityInventoryEvent(controlledEntity()!!) }
         subscribe<Event.EntityContentInteraction> { onEntityContentInteraction(it.source, it.entity) }
     }
 
     private fun onDebugShowEntityInventoryEvent(entity: Entity) {
         val containerComponent = entity[Mappers.container] ?: return
-        send(Event.DebugShowInventoryEvent(containerComponent.items, entity))
+        send(Event.DebugShowInventory(containerComponent.items, entity))
     }
 
 

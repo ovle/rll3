@@ -35,7 +35,7 @@ fun questDescriptions(entitySystem: EntitySystem) =
                 levelInfo.description.id != firstLevelDescId
             },
             onSuccess = {
-                send(Event.LogEvent("thank you!"))
+                send(Event.Log("thank you!"))
             }
         )
     )

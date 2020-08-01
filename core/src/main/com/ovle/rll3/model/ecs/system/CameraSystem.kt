@@ -28,7 +28,7 @@ class CameraSystem(
         EventBus.subscribe<EntityInitialized> { onEntityMoved(it.entity) }
         EventBus.subscribe<EntityMoved> { onEntityMoved(it.entity) }
 
-        EventBus.subscribe<DebugToggleFocusEvent> { onDebugToggleFocusEvent() }
+        EventBus.subscribe<DebugToggleFocus> { onDebugToggleFocusEvent() }
     }
 
     private fun onDebugToggleFocusEvent() {

@@ -1,12 +1,10 @@
 package com.ovle.rll3.event
 
-import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
 import com.ovle.rll3.model.ecs.component.dto.WorldInfo
-import com.ovle.rll3.model.ecs.system.interaction.EntityInteraction
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
 import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
 import com.ovle.rll3.model.ecs.system.level.ConnectionId
@@ -14,80 +12,80 @@ import com.ovle.rll3.model.ecs.system.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.template.entity.view.AnimationType
 
-sealed class Event() {
+sealed class Event {
     var next: Event? = null
 
     fun then(next: Event?) = this.apply { this@Event.next = next }
 
-    open class PlayerControlEvent : Event()
-    class MouseMoved(val viewportPoint: Vector2) : PlayerControlEvent()
-    class MouseClick(val viewportPoint: Vector2, val button: Int) : PlayerControlEvent()
-    class CameraScaleInc: PlayerControlEvent()
-    class CameraScaleDec: PlayerControlEvent()
-    class CameraScrolled(val amount: Int): PlayerControlEvent()
-    class CameraMoved(val amount: Vector2): PlayerControlEvent()
-    class KeyPressed(val code: Int): PlayerControlEvent()
-    class NumKeyPressed(val number: Int): PlayerControlEvent()
-    class Click(val button: Int, val point: GridPoint2) : PlayerControlEvent()
-    class VoidClick(val button: Int, val point: GridPoint2) : PlayerControlEvent()
+    open class PlayerControl : Event()
+    class MouseMoved(val viewportPoint: Vector2) : PlayerControl()
+    class MouseClick(val viewportPoint: Vector2, val button: Int) : PlayerControl()
+    class CameraScaleInc: PlayerControl()
+    class CameraScaleDec: PlayerControl()
+    class CameraScrolled(val amount: Int): PlayerControl()
+    class CameraMoved(val amount: Vector2): PlayerControl()
+    class KeyPressed(val code: Int): PlayerControl()
+    class NumKeyPressed(val number: Int): PlayerControl()
+    class Click(val button: Int, val point: GridPoint2) : PlayerControl()
+    class VoidClick(val button: Int, val point: GridPoint2) : PlayerControl()
 
     //global
-    open class GameEvent: Event()
-    open class GlobalGameEvent: Event()
-    class GameStartedEvent(val player: PlayerInfo, val world: WorldInfo): GlobalGameEvent()
-    class GameFinishedEvent: GlobalGameEvent()
-    class WorldInitEvent(val world: WorldInfo) : GlobalGameEvent()
-    class TimeChanged(val turn: Long) : GameEvent()
+    open class Game: Event()
+    open class GlobalGame: Event()
+    class GameStarted(val player: PlayerInfo, val world: WorldInfo): GlobalGame()
+    class GameFinished: GlobalGame()
+    class WorldInit(val world: WorldInfo) : GlobalGame()
+    class TimeChanged(val turn: Long) : Game()
 
     //debug
-    class DebugSaveGameEvent: Event()
-    class ExitGameEvent: Event()
-    class DebugCombatEvent: Event()
-    class DebugToggleFocusEvent: Event()
-    class DebugShowPlayerInventoryEvent: Event()
-    class DebugShowInventoryEvent(val items: Collection<Entity>, entity: Entity): EntityEvent(entity)
+    class DebugSaveGame: Event()
+    class ExitGame: Event()
+    class DebugCombat: Event()
+    class DebugToggleFocus: Event()
+    class DebugShowPlayerInventory: Event()
+    class DebugShowInventory(val items: Collection<com.badlogic.ashley.core.Entity>, entity: com.badlogic.ashley.core.Entity): Entity(entity)
 
     //level
-    class LevelLoaded(val level: LevelInfo, val levelParams: LevelParams): GameEvent()
+    class LevelLoaded(val level: LevelInfo, val levelParams: LevelParams): Game()
 
     //technical
-    class LogEvent(val message: String) : GameEvent()
-    class UpdateLightCollision(val points: Array<GridPoint2>) : GameEvent()
-    class QuestStatusUpdated(val quest: QuestInfo) : GameEvent()
-    class SkillSelected(val skill: SkillTemplate) : GameEvent()
+    class Log(val message: String) : Game()
+    class UpdateLightCollision(val points: Array<GridPoint2>) : Game()
+    class QuestStatusUpdated(val quest: QuestInfo) : Game()
+    class SkillSelected(val skill: SkillTemplate) : Game()
 
     //entity
-    open class EntityEvent(val entity: Entity) : GameEvent()
+    open class Entity(val entity: com.badlogic.ashley.core.Entity) : Game()
     //entity - technical
-    class EntityClick(val button: Int, entity: Entity) : EntityEvent(entity)
-    class EntityHoverEvent(entity: Entity) : EntityEvent(entity)
-    class EntityUnhoverEvent : GameEvent()
+    class EntityClick(val button: Int, entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class EntityHover(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class EntityUnhover : Game()
 
-    class EntityInitialized(entity: Entity) : EntityEvent(entity)
-    class EntitySelectEvent(entity: Entity) : EntityEvent(entity)
-    class EntityDeselectEvent(entity: Entity) : EntityEvent(entity)
-    class ShowEntityInfoEvent(entity: Entity) : EntityEvent(entity)
-    class HideEntityInfoEvent() : GameEvent()
-    class ShowEntityActionsEvent(entity: Entity, val interactions: Collection<EntityInteractionType>) : EntityEvent(entity)
-    class HideEntityActionsEvent() : GameEvent()
-    class ShowEntityContentEvent(entity: Entity) : EntityEvent(entity)
-    class EntityFovUpdated(entity: Entity) : EntityEvent(entity)
+    class EntityInitialized(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class EntitySelect(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class EntityDeselect(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class ShowEntityInfo(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class HideEntityInfo() : Game()
+    class ShowEntityActions(entity: com.badlogic.ashley.core.Entity, val interactions: Collection<EntityInteractionType>) : Entity(entity)
+    class HideEntityActions() : Game()
+    class ShowEntityContent(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class EntityFovUpdated(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
     //entity - view
-    class EntityAnimationStart(entity: Entity, val animation: AnimationType, val duration: Int) : EntityEvent(entity)
-    class EntityAnimationFinish(entity: Entity, val animation: AnimationType) : EntityEvent(entity)
+    class EntityAnimationStart(entity: com.badlogic.ashley.core.Entity, val animation: AnimationType, val duration: Int) : Entity(entity)
+    class EntityAnimationFinish(entity: com.badlogic.ashley.core.Entity, val animation: AnimationType) : Entity(entity)
     //entity - model
-    class EntityInteractionEvent(val source: Entity, target: Entity, val interaction: EntityInteraction) : EntityEvent(target)
-    class EntityUseSkill(source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : EntityEvent(source)
+    class EntityInteraction(val source: com.badlogic.ashley.core.Entity, target: com.badlogic.ashley.core.Entity, val interaction: com.ovle.rll3.model.ecs.system.interaction.EntityInteraction) : Entity(target)
+    class EntityUseSkill(source: com.badlogic.ashley.core.Entity, val target: Any?, val skillTemplate: SkillTemplate) : Entity(source)
 
-    class EntityChanged(entity: Entity) : EntityEvent(entity)
-    class EntityTakeDamage(entity: Entity, val source: Entity?, val amount: Int, val blockedAmount: Int) : EntityEvent(entity)
-    class EntityDied(entity: Entity) : EntityEvent(entity)
-    class EntityLevelTransition(entity: Entity, val connectionId: ConnectionId) : EntityEvent(entity)
-    class EntitySetMoveTarget(entity: Entity, val point: GridPoint2) : EntityEvent(entity)
-    class EntityStartMove(entity: Entity) : EntityEvent(entity)
-    class EntityMoved(entity: Entity) : EntityEvent(entity)
-    class EntityFinishMove(entity: Entity) : EntityEvent(entity)
+    class EntityChanged(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class EntityTakeDamage(entity: com.badlogic.ashley.core.Entity, val source: com.badlogic.ashley.core.Entity?, val amount: Int, val blockedAmount: Int) : Entity(entity)
+    class EntityDied(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class EntityLevelTransition(entity: com.badlogic.ashley.core.Entity, val connectionId: ConnectionId) : Entity(entity)
+    class EntitySetMoveTarget(entity: com.badlogic.ashley.core.Entity, val point: GridPoint2) : Entity(entity)
+    class EntityStartMove(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class EntityMoved(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
+    class EntityFinishMove(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
 
-    class EntityContentInteraction(val source: Entity, target: Entity) : EntityEvent(target)
-    class EntityTakeItems(entity: Entity, val items: Collection<Entity>) : EntityEvent(entity)
+    class EntityContentInteraction(val source: com.badlogic.ashley.core.Entity, target: com.badlogic.ashley.core.Entity) : Entity(target)
+    class EntityTakeItems(entity: com.badlogic.ashley.core.Entity, val items: Collection<com.badlogic.ashley.core.Entity>) : Entity(entity)
 }

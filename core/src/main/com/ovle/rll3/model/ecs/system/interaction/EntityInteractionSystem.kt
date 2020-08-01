@@ -2,6 +2,7 @@ package com.ovle.rll3.model.ecs.system.interaction
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
@@ -23,10 +24,10 @@ class EntityInteractionSystem : EventSystem() {
     override fun subscribe() {
         EventBus.subscribe<EntityClick> { onEntityClickEvent(it.entity, it.button) }
         EventBus.subscribe<VoidClick> { onVoidClickEvent(it.button, it.point) }
-        EventBus.subscribe<EntityHoverEvent> { onEntityHoverEvent(it.entity) }
-        EventBus.subscribe<EntityUnhoverEvent> { onEntityUnhoverEvent() }
+        EventBus.subscribe<EntityHover> { onEntityHoverEvent(it.entity) }
+        EventBus.subscribe<EntityUnhover> { onEntityUnhoverEvent() }
 
-        EventBus.subscribe<EntityInteractionEvent> { onEntityActionEvent(it.entity, it.interaction) }
+        EventBus.subscribe<Event.EntityInteraction> { onEntityActionEvent(it.entity, it.interaction) }
         EventBus.subscribe<EntityUseSkill> { onEntityUseSkillEvent(it.entity, it.target, it.skillTemplate) }
     }
 
@@ -53,21 +54,21 @@ class EntityInteractionSystem : EventSystem() {
 
     private fun onVoidClickEvent(button: Int, point: GridPoint2) {
         deselect()
-        send(HideEntityActionsEvent())
+        send(HideEntityActions())
     }
 
     private fun onEntityHoverEvent(entity: Entity) {
         val interactionInfo = playerInteractionInfo()!!
         interactionInfo.hoveredEntity = entity
 
-        send(ShowEntityInfoEvent(entity))
+        send(ShowEntityInfo(entity))
     }
 
     private fun onEntityUnhoverEvent() {
         val interactionInfo = playerInteractionInfo()!!
         interactionInfo.hoveredEntity = null
 
-        send(HideEntityInfoEvent())
+        send(HideEntityInfo())
     }
 
     private fun select(entity: Entity) {
@@ -135,6 +136,6 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     private fun showActions(entity: Entity, interactions: List<EntityInteractionType>) {
-        send(ShowEntityActionsEvent(entity, interactions))
+        send(ShowEntityActions(entity, interactions))
     }
 }

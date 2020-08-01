@@ -13,14 +13,14 @@ fun eventLogHook(event: Event) {
 
     val message = message(event)
     println(message)
-    send(LogEvent(message))
+    send(Log(message))
 }
 
 private fun isLoggableEvent(event: Event) =
     when (event) {
-        is DebugShowInventoryEvent,
+        is DebugShowInventory,
 
-        is EntityInteractionEvent,
+        is EntityInteraction,
         is EntityTakeDamage,
         is EntityDied,
         is EntityTakeItems,
@@ -31,12 +31,12 @@ private fun isLoggableEvent(event: Event) =
 
 private fun message(event: Event)=
     when (event) {
-        is DebugShowInventoryEvent -> {
+        is DebugShowInventory -> {
             val entityInfo = event.entity.info()
             val itemsInfo = event.items.info()
             "$entityInfo has items: $itemsInfo"
         }
-        is EntityInteractionEvent -> {
+        is EntityInteraction -> {
             val sourceInfo = event.source.info()
             val entityInfo = event.entity.info()
             val actionInfo = event.interaction

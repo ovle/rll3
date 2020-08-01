@@ -71,7 +71,7 @@ class GameScreen(
 
         send(Event.CameraScrolled(((1 - initialScale) / scaleScrollCoeff).roundToInt()))
 
-        send(Event.GameStartedEvent(gameCreator.player(), gameCreator.world()))
+        send(Event.GameStarted(gameCreator.player(), gameCreator.world()))
     }
 
     override fun hide() {

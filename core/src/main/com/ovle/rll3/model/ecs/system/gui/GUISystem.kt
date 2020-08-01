@@ -54,15 +54,15 @@ class GUISystem(
         EventBus.subscribe<LevelLoaded> { onLevelLoaded(it.level, it.levelParams) }
         EventBus.subscribe<TimeChanged> { onTimeChanged(it.turn) }
         EventBus.subscribe<EntityChanged> { onEntityChangedEvent(it.entity) }
-        EventBus.subscribe<LogEvent> { onLogEvent(it.message) }
+        EventBus.subscribe<Log> { onLogEvent(it.message) }
 
-        EventBus.subscribe<ShowEntityInfoEvent> { onShowEntityInfoEvent(it.entity) }
-        EventBus.subscribe<HideEntityInfoEvent> { onHideEntityInfoEvent() }
+        EventBus.subscribe<ShowEntityInfo> { onShowEntityInfoEvent(it.entity) }
+        EventBus.subscribe<HideEntityInfo> { onHideEntityInfoEvent() }
 
-        EventBus.subscribe<ShowEntityActionsEvent> { onShowEntityActionsEvent(it.entity, it.interactions) }
-        EventBus.subscribe<HideEntityActionsEvent> { onHideEntityActionsEvent() }
+        EventBus.subscribe<ShowEntityActions> { onShowEntityActionsEvent(it.entity, it.interactions) }
+        EventBus.subscribe<HideEntityActions> { onHideEntityActionsEvent() }
 
-        EventBus.subscribe<ExitGameEvent> { screenManager.goToScreen(ScreenManager.ScreenType.MainMenuScreenType) }
+        EventBus.subscribe<ExitGame> { screenManager.goToScreen(ScreenManager.ScreenType.MainMenuScreenType) }
     }
 
     private fun onLogEvent(message: String) {

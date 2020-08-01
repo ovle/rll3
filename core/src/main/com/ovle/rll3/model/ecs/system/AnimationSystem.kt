@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
-import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.allEntities

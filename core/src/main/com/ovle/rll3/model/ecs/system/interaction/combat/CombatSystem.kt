@@ -16,7 +16,7 @@ import java.lang.Integer.min
 class CombatSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<Event.EntityInteractionEvent> { onEntityInteractionEvent(it.source, it.entity, it.interaction) }
+        EventBus.subscribe<Event.EntityInteraction> { onEntityInteractionEvent(it.source, it.entity, it.interaction) }
     }
 
     private fun onEntityInteractionEvent(source: Entity, target: Entity, interaction: EntityInteraction) {
