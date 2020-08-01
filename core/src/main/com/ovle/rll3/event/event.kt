@@ -11,6 +11,7 @@ import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.template.entity.view.AnimationType
+import com.ovle.rll3.model.tile.Tile
 
 sealed class Event {
     var next: Event? = null
@@ -44,6 +45,8 @@ sealed class Event {
     class DebugToggleFocus: Event()
     class DebugShowPlayerInventory: Event()
     class DebugSwitchSelectionMode: Event()
+    class DebugChangeSelectedTiles: Event()
+    class DebugTileChanged(val tile: Tile, val position: GridPoint2): Event()
     class DebugShowInventory(val items: Collection<com.badlogic.ashley.core.Entity>, entity: com.badlogic.ashley.core.Entity): Entity(entity)
 
     //level

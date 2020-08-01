@@ -107,6 +107,7 @@ class PlayerControlsSystem : EventSystem() {
             Input.Keys.F -> send(DebugToggleFocus())
             Input.Keys.I -> send(DebugShowPlayerInventory())
             Input.Keys.S -> send(DebugSwitchSelectionMode())
+            Input.Keys.R -> send(DebugChangeSelectedTiles())
             Input.Keys.V -> { noVisibilityFilter = !noVisibilityFilter }
         }
     }

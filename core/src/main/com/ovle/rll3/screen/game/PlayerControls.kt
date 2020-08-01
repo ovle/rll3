@@ -3,16 +3,16 @@ package com.ovle.rll3.screen.game
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.component1
-import com.ovle.rll3.component2
+import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.utils.viewport.FitViewport
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.view.centered
-import com.ovle.rll3.view.screenToViewport
 import ktx.math.vec2
+import ktx.math.vec3
 
-class PlayerControls : InputAdapter() {
+class PlayerControls(batchViewport: FitViewport) : InputAdapter() {
 
+    private val unproject: ((Vector3) -> Vector3) = batchViewport::unproject
     private var lastDragPoint: Vector2? = null
     private var lastDragId: Int? = null
 
@@ -57,4 +57,6 @@ class PlayerControls : InputAdapter() {
         val y = screenY.toFloat()
         return Vector2(x, y).screenToViewport()//.centered()
     }
+
+    private fun Vector2.screenToViewport(): Vector2 = unproject(vec3(this)).let { vec2(it.x, it.y) }
 }

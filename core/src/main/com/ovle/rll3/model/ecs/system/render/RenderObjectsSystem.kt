@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.*
@@ -20,6 +19,7 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.entity.controlledEntity
 import com.ovle.rll3.point
+import com.ovle.rll3.vec2
 import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.noVisibilityFilter
 import com.ovle.rll3.view.spriteHeight
@@ -109,7 +109,7 @@ class RenderObjectsSystem(
             val position = entity[position]!!.gridPosition
             val region = renderComponent.currentRegion(deltaTime) ?: continue
 
-            batch.draw(floatPoint(position), region, renderComponent.flipped)
+            batch.draw(vec2(position), region, renderComponent.flipped)
         }
 
         batch.end()

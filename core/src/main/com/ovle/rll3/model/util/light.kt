@@ -7,9 +7,44 @@ import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.entity.entitiesWith
 import com.ovle.rll3.model.tile.TileArray
-import com.ovle.rll3.model.util.config.LightConfig
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
 import ktx.ashley.get
+
+object LightConfig {
+    const val radius = 4
+
+    const val fullLightCap = 5.0f
+    const val halfLightCap = 2.5f
+    const val darknessCap = 0.0f
+}
+
+//fun lightValueType(
+//    lightInfo: Map<GridPoint2, Double>, position: GridPoint2, positionDown: GridPoint2, isPitFloor: Boolean, isRoomFloorUp: Boolean, isWall: Boolean, isDoorUp: Boolean
+//): LightValueType {
+//    val tileLightValue = lightInfo[position] ?: 0.0
+//    val tileLightDownValue = lightInfo[positionDown] ?: 0.0
+//
+//    val isFullLight = tileLightValue > LightConfig.halfLightCap
+//    val isHalfLight = !isFullLight && tileLightValue > LightConfig.darknessCap
+//    val isFullLightDown = tileLightDownValue > LightConfig.halfLightCap
+//    val isHalfLightDown = !isFullLightDown && tileLightDownValue > LightConfig.darknessCap
+//
+//    return when {
+//        isFullLight -> when {
+//            !isPitFloor || isRoomFloorUp -> LightValueType.Full
+//            else -> LightValueType.No
+//        }
+//        isHalfLight -> when {
+//            !isPitFloor || isRoomFloorUp -> LightValueType.Half
+//            else -> LightValueType.No
+//        }
+//        else -> when {
+//            isWall && isFullLightDown && !isDoorUp -> LightValueType.Full
+//            isWall && isHalfLightDown && !isDoorUp -> LightValueType.Half
+//            else -> LightValueType.No
+//        }
+//    }
+//}
 
 //todo cache / memoize
 fun lightTiles(levelInfo: LevelInfo): List<AOETilePosition> {

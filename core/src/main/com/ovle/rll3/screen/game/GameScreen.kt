@@ -15,7 +15,7 @@ import com.ovle.rll3.model.ecs.system.interaction.BaseInteractionSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionSystem
 import com.ovle.rll3.model.ecs.system.interaction.TileInteractionSystem
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
-import com.ovle.rll3.model.ecs.system.render.DebugRenderLevelSystem
+import com.ovle.rll3.model.ecs.system.render.RenderLevelSystem
 import com.ovle.rll3.model.ecs.system.render.RenderInteractionInfoSystem
 import com.ovle.rll3.model.ecs.system.render.RenderObjectsSystem
 import com.ovle.rll3.screen.BaseScreen
@@ -32,7 +32,7 @@ class GameScreen(
 ) : BaseScreen(screenManager, batch, camera) {
 
     private lateinit var ecsEngine: PooledEngine
-    private val controls = PlayerControls()
+    private val controls = PlayerControls(batchViewport)
     private val gameCreator = GameCreator()
 
     override fun show() {
@@ -45,7 +45,7 @@ class GameScreen(
 //            GUISystem(stage, screenManager, guiTextureInfo),
             PlayerControlsSystem(),
             CameraSystem(camera),
-            DebugRenderLevelSystem(camera, assetsManager),
+            RenderLevelSystem(camera, assetsManager),
             RenderObjectsSystem(batch, assetsManager),
             RenderInteractionInfoSystem(batch, assetsManager),
 //            RenderLevelSystem(camera, levelTexturesInfo),

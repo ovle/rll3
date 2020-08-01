@@ -6,12 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.floatPoint
 import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.playerInteraction
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.allEntities
 import com.ovle.rll3.model.ecs.entity.playerInteraction
+import com.ovle.rll3.vec2
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
@@ -84,6 +84,6 @@ class RenderInteractionInfoSystem(
     private fun draw(position: GridPoint2, sprite: Sprite) {
         val region = sprite.textureRegion()
 
-        batch.draw(floatPoint(position), region)
+        batch.draw(vec2(position), region)
     }
 }

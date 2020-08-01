@@ -6,7 +6,7 @@ typealias TilePassTypeFn = ((Tile) -> TilePassType)
 typealias LightPassTypeFn = ((Tile) -> LightPassType)
 
 data class Tile(
-    val typeId: TileType = outOfMapTileId
+    var typeId: TileType = outOfMapTileId
 )
 
 enum class TilePassType {
