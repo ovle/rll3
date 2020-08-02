@@ -31,6 +31,7 @@ object Mappers {
     val container = componentMapper<ContainerComponent>()
     val ai = componentMapper<AIComponent>()
     val questOwner = componentMapper<QuestOwnerComponent>()
+    val taskPerformer = componentMapper<TaskPerformerComponent>()
 
     //todo remove these
     val door = componentMapper<DoorComponent>()

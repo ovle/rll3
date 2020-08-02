@@ -7,14 +7,23 @@ import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.basic.TaskPerformerComponent
+import com.ovle.rll3.model.ecs.component.dto.TaskInfo
+import com.ovle.rll3.model.ecs.component.dto.TaskTarget
+import com.ovle.rll3.model.ecs.component.dto.TaskTemplate
+import com.ovle.rll3.model.ecs.component.dto.moveTaskTemplate
 import com.ovle.rll3.model.ecs.component.special.ControlMode
 import com.ovle.rll3.model.ecs.component.special.SelectionMode
+import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.questOwner
 import com.ovle.rll3.model.ecs.component.util.Mappers.taskPerformer
 import com.ovle.rll3.model.ecs.component.util.has
+import com.ovle.rll3.model.ecs.entity.controlledEntities
+import com.ovle.rll3.model.ecs.entity.levelInfo
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
+import com.ovle.rll3.model.tile.isPassable
+import com.ovle.rll3.nearExclusive
 import ktx.ashley.get
 import ktx.ashley.has
 
@@ -24,6 +33,7 @@ class EntityInteractionSystem : EventSystem() {
 
     override fun subscribe() {
         EventBus.subscribe<EntityClick> { onEntityClickEvent(it.entity, it.button) }
+        EventBus.subscribe<Click> { onClickEvent(it.button, it.point) }
         EventBus.subscribe<VoidClick> { onVoidClickEvent(it.button, it.point) }
         EventBus.subscribe<EntityHover> { onEntityHoverEvent(it.entity) }
         EventBus.subscribe<EntityUnhover> { onEntityUnhoverEvent() }
@@ -32,22 +42,47 @@ class EntityInteractionSystem : EventSystem() {
         EventBus.subscribe<EntityUseSkill> { onEntityUseSkillEvent(it.entity, it.target, it.skillTemplate) }
     }
 
+
     private fun onEntityClickEvent(entity: Entity, button: Int) {
         val interactionInfo = playerInteractionInfo()!!
         if (interactionInfo.selectionMode != SelectionMode.Entity) return
 
         select(entity)
 
-        val isStartTask = interactionInfo.controlMode == ControlMode.Task && entity.has<TaskPerformerComponent>()
+        //todo test
+        val isStartTask = interactionInfo.controlMode == ControlMode.Task
         if (isStartTask) {
-//            entity[taskPerformer]!!.current = testTask  //todo
+            val taskTemplate = moveTaskTemplate //todo
+            val tiles = levelInfo().tiles
+            val targetPosition = entity[position]!!.gridPosition
+                .nearExclusive().first { tiles.isPassable(it) }
+            val target = TaskTarget.PositionTarget(targetPosition)
+
+            startTask(taskTemplate, target)
         }
+    }
+
+    private fun startTask(taskTemplate: TaskTemplate, target: TaskTarget.PositionTarget) {
+        val controlledEntities = controlledEntities()
+            .filter { taskTemplate.performerFilter.invoke(it) }
+        controlledEntities.forEach {
+            val performerComponent = it[taskPerformer]!!
+            performerComponent.current = TaskInfo(
+                template = taskTemplate,
+                performer = it,
+                target = target
+            )
+        }
+    }
+
+    private fun onClickEvent(button: Int, point: GridPoint2) {
     }
 
     private fun onVoidClickEvent(button: Int, point: GridPoint2) {
         deselect()
         send(HideEntityActions())
     }
+
 
     private fun onEntityHoverEvent(entity: Entity) {
         val interactionInfo = playerInteractionInfo()!!

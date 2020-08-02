@@ -1,16 +1,15 @@
 package com.ovle.rll3.model.ecs.component.util
 
 import com.badlogic.ashley.core.Component
+import com.ovle.rll3.ComponentData
+import com.ovle.rll3.ComponentFactory
 import com.ovle.rll3.model.ecs.component.advanced.*
 import com.ovle.rll3.model.ecs.component.basic.*
 import com.ovle.rll3.model.ecs.component.dto.AOEData
 import com.ovle.rll3.model.ecs.system.ai.components.AIType
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.template.entity.entityViewTemplate
-import com.ovle.rll3.model.template.entity.entityViewTemplates
 
-typealias ComponentData = Map<String, Any?>
-typealias ComponentFactory = (ComponentData?) -> Component
 
 private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "light" to { value -> LightSourceComponent(AOEData(value!!["radius"] as Int)) },
@@ -31,7 +30,8 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "door" to { _ -> DoorComponent() },
     "stash" to { _ -> StashComponent() },
     "container" to { _ -> ContainerComponent() },
-    "ai" to { value -> AIComponent(AIType.valueOf((value!!["type"] as String).capitalize())) }
+    "ai" to { value -> AIComponent(AIType.valueOf((value!!["type"] as String).capitalize())) },
+    "task" to { _ -> TaskPerformerComponent() }
 )
 
 

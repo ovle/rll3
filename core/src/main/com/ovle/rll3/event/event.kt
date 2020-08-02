@@ -2,12 +2,13 @@ package com.ovle.rll3.event
 
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.ConnectionId
+import com.ovle.rll3.Turn
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
 import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
 import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
-import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.template.entity.view.AnimationType
@@ -36,7 +37,7 @@ sealed class Event {
     class GameStarted(val player: PlayerInfo, val world: WorldInfo): GlobalGame()
     class GameFinished: GlobalGame()
     class WorldInit(val world: WorldInfo) : GlobalGame()
-    class TimeChanged(val turn: Long) : Game()
+    class TimeChanged(val turn: Turn) : Game()
 
     //debug
     class DebugSaveGame: Event()
@@ -45,6 +46,7 @@ sealed class Event {
     class DebugToggleFocus: Event()
     class DebugShowPlayerInventory: Event()
     class DebugSwitchSelectionMode: Event()
+    class DebugSwitchControlMode: Event()
     class DebugChangeSelectedTiles: Event()
     class DebugTileChanged(val tile: Tile, val position: GridPoint2): Event()
     class DebugShowInventory(val items: Collection<com.badlogic.ashley.core.Entity>, entity: com.badlogic.ashley.core.Entity): Entity(entity)

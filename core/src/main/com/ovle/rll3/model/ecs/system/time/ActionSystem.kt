@@ -18,10 +18,10 @@ class ActionSystem : IteratingSystem(all(ActionComponent::class.java).get()) {
             if (current == null) return
             checkNotNull(timeLeft)
 
-            if (animation != null) {
-                send(Event.EntityAnimationStart(entity, animation!!, timeLeft!!))
-                animation = null
-            }
+//            if (animation != null) {
+//                send(Event.EntityAnimationStart(entity, animation!!, timeLeft!!))
+//                animation = null
+//            }
 
             val deltaTicks = deltaTicks(deltaTime)
             timeLeft = timeLeft?.minus(deltaTicks)

@@ -4,7 +4,8 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.BaseComponent
+import com.ovle.rll3.EntityId
+import com.ovle.rll3.LevelDescriptionId
 import com.ovle.rll3.model.ecs.component.basic.IdComponent
 import com.ovle.rll3.model.ecs.component.basic.PositionComponent
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
@@ -16,10 +17,6 @@ import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.component.util.basicComponents
 import com.ovle.rll3.model.ecs.component.util.stateComponents
-import com.ovle.rll3.model.ecs.system.interaction.skill.defaultSkill
-import com.ovle.rll3.model.ecs.system.level.EntityId
-import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
-import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import java.util.*
 

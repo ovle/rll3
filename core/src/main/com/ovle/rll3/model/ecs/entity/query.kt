@@ -6,16 +6,17 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.EntityId
+import com.ovle.rll3.LevelDescriptionId
 import com.ovle.rll3.model.ecs.component.basic.CollisionComponent
 import com.ovle.rll3.model.ecs.component.basic.IdComponent
+import com.ovle.rll3.model.ecs.component.basic.TaskPerformerComponent
 import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.level
 import com.ovle.rll3.model.ecs.component.util.Mappers.player
 import com.ovle.rll3.model.ecs.component.util.Mappers.world
-import com.ovle.rll3.model.ecs.system.level.EntityId
-import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.reflect.KClass
@@ -55,6 +56,8 @@ fun EntitySystem.playerInteractionInfo() = playerInteractionInfo(allEntities().t
 
 fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity
 fun EntitySystem.selectedEntity() = playerInteractionInfo()?.selectedEntity
+
+fun EntitySystem.controlledEntities() = entitiesWith(allEntities().toList(), TaskPerformerComponent::class)
 
 fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
     worldInfo.levels.single { it.id == levelDescriptionId }

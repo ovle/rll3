@@ -3,13 +3,13 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.LevelDescriptionId
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.entity.newConnection
 import com.ovle.rll3.model.ecs.entity.randomId
-import com.ovle.rll3.model.ecs.system.level.LevelDescriptionId
 import com.ovle.rll3.model.tile.isPassable
 import com.ovle.rll3.model.util.random
 import com.ovle.rll3.point

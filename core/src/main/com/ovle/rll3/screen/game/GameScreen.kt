@@ -18,6 +18,9 @@ import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.ecs.system.render.RenderLevelSystem
 import com.ovle.rll3.model.ecs.system.render.RenderInteractionInfoSystem
 import com.ovle.rll3.model.ecs.system.render.RenderObjectsSystem
+import com.ovle.rll3.model.ecs.system.time.ActionSystem
+import com.ovle.rll3.model.ecs.system.time.TaskSystem
+import com.ovle.rll3.model.ecs.system.time.TimeSystem
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.scaleScrollCoeff
@@ -42,22 +45,27 @@ class GameScreen(
 
 //      order matters here!
         val systems = listOf(
-//            GUISystem(stage, screenManager, guiTextureInfo),
             PlayerControlsSystem(),
+
+//            GUISystem(stage, screenManager, guiTextureInfo),
             CameraSystem(camera),
             RenderLevelSystem(camera, assetsManager),
             RenderObjectsSystem(batch, assetsManager),
             RenderInteractionInfoSystem(batch, assetsManager),
-//            RenderLevelSystem(camera, levelTexturesInfo),
+
             GameSystem(),
             LevelSystem(),
-//            TimeSystem(),
-//            ActionSystem(),
+
+            TimeSystem(),
+            TaskSystem(),
+            ActionSystem(),
+            MoveSystem(),
+
             BaseInteractionSystem(),
             EntityInteractionSystem(),
             TileInteractionSystem()
+
 //            CombatSystem(),
-//            MoveSystem(),
 //            AnimationSystem(objectsTextureInfo),
 //            SightSystem(),
 //            ContainerSystem(),

@@ -13,8 +13,9 @@ import com.ovle.rll3.model.tile.NearValues
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TilePassType
 
-typealias TaskPerformerFilter = (Entity) -> Boolean
-typealias TaskAction = (Entity) -> Unit
+typealias EntityFilter = (Entity) -> Boolean
+typealias TaskPerformerFilter = EntityFilter
+typealias TaskAction = (Entity, TaskTarget) -> Unit
 typealias SuccessCondition = (Entity, TaskTarget) -> Boolean
 typealias FailCondition = (Entity, TaskTarget) -> Boolean
 
@@ -38,7 +39,8 @@ typealias ConnectionId = String
 typealias QuestCondition = (() -> Boolean)
 typealias QuestHook = ((QuestInfo) -> Unit)?
 
-typealias Ticks = Int
+typealias Turn = Long
+typealias Ticks = Long
 typealias Area = List<GridPoint2>
 typealias RoomTiles = MutableList<Vector2>
 

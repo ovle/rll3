@@ -1,5 +1,6 @@
 package com.ovle.rll3.model.ecs.component.advanced
 
+import com.ovle.rll3.Ticks
 import com.ovle.rll3.model.ecs.component.BaseComponent
 import com.ovle.rll3.model.template.entity.view.AnimationType
 
@@ -11,5 +12,5 @@ import com.ovle.rll3.model.template.entity.view.AnimationType
 class ActionComponent(
     var current: (() -> Unit)? = null,
     var animation: AnimationType? = null,
-    var timeLeft: Int? = null
+    var timeLeft: Ticks? = null
 ) : BaseComponent

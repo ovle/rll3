@@ -124,7 +124,10 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
             tilePassTypeFn = ::tilePassType
         )
 
-        if (path.isEmpty()) return
+        if (path.isEmpty()) {
+            println("no path found from $from to $to!")
+            return
+        }
 
         val movePath = moveComponent.path
         movePath.set(path)
