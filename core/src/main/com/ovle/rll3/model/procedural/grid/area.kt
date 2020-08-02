@@ -2,11 +2,9 @@ package com.ovle.rll3.model.procedural.grid
 
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
+import com.ovle.rll3.Area
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
-
-typealias Area = List<GridPoint2>
-
 
 fun Area.apply(grid: Grid, marker: Float) {
     forEach { point ->

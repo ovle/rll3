@@ -5,7 +5,6 @@ import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.ecs.component.util.Mappers
-import com.ovle.rll3.model.ecs.entity.controlledEntity
 import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
 import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.model.template.entity.entityTemplate
@@ -16,7 +15,7 @@ class ContainerSystem : EventSystem() {
 
     override fun subscribe() {
         subscribe<Event.EntityInitialized> { onEntityInitialized(it.entity) }
-        subscribe<Event.DebugShowPlayerInventory> { onDebugShowEntityInventoryEvent(controlledEntity()!!) }
+//        subscribe<Event.DebugShowPlayerInventory> { onDebugShowEntityInventoryEvent(controlledEntity()!!) }
         subscribe<Event.EntityContentInteraction> { onEntityContentInteraction(it.source, it.entity) }
     }
 

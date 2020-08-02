@@ -1,10 +1,10 @@
 package com.ovle.rll3.model.util.lineOfSight.rayTracing
 
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.LightPassTypeFn
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
 import com.ovle.rll3.model.tile.LightPassType
-import com.ovle.rll3.model.tile.LightPassTypeFn
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.util.discretization.bresenham.filledCircle

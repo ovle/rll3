@@ -25,10 +25,9 @@ class RenderInteractionInfoSystem(
 
     private val guiRegions = split(assetsManager.guiTexture.texture, spriteWidth.toInt(), spriteHeight.toInt())
 
-    private val cursorSprite = sprite(guiRegions, 3, 0)
-    private val controlSprite = sprite(guiRegions, 2, 0)
     private val selectionEntitySprite = sprite(guiRegions, 1, 0)
     private val hoverSprite = sprite(guiRegions, 2, 0)
+    private val cursorSprite = sprite(guiRegions, 3, 0)
     private val selectionTileSprite = sprite(guiRegions, 4, 0)
 
     override fun update(deltaTime: Float) {
@@ -61,11 +60,6 @@ class RenderInteractionInfoSystem(
         selectedTiles.forEach {
             draw(it, selectionTileSprite)
         }
-    }
-
-    private fun drawControl(interactionComponent: PlayerInteractionComponent) {
-        val controlledEntity = interactionComponent.controlledEntity ?: return
-        draw(controlledEntity, controlSprite)
     }
 
     //todo highlight sprite instead

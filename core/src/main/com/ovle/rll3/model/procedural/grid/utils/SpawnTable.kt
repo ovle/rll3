@@ -1,5 +1,7 @@
 package com.ovle.rll3.model.procedural.grid.utils
 
+import com.ovle.rll3.NearTiles
+import com.ovle.rll3.TileType
 import com.ovle.rll3.model.template.entity.SpawnTemplate
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.tile.*

@@ -3,6 +3,7 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.TileType
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
 import com.ovle.rll3.model.ecs.component.advanced.QuestOwnerComponent
@@ -19,7 +20,6 @@ import com.ovle.rll3.model.template.structure.StructureTemplate
 import com.ovle.rll3.assets.loader.StructureTemplates
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray
-import com.ovle.rll3.model.tile.TileType
 import com.ovle.rll3.model.tile.whateverTileId
 import com.ovle.rll3.model.util.random
 import com.ovle.rll3.point

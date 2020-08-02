@@ -7,7 +7,7 @@ fun entityQuery(query: String, entities: List<Entity>): Entity? {
     //todo by id
     //todo by template name
     return when (query) {
-        "player" -> playerInteractionInfo(entities)!!.controlledEntity
+//        "player" -> playerInteractionInfo(entities)!!.controlledEntity
         else -> null
     }
 }

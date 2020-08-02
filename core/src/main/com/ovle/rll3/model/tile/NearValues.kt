@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.tile
 
-typealias NearTiles = NearValues<Tile?>
+import com.ovle.rll3.NearTiles
 
 class NearValues<T>(
     val x: Int, val y: Int,

@@ -3,9 +3,9 @@ package com.ovle.rll3.model.ecs.system.render
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.TextureRegions
 import com.ovle.rll3.point
 import com.ovle.rll3.roundToClosestByAbsInt
-import com.ovle.rll3.view.layer.TextureRegions
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth

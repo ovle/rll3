@@ -33,7 +33,7 @@ class CameraSystem(
     private fun onDebugToggleFocusEvent() {
         val interactionInfo = playerInteractionInfo() ?: return
         with (interactionInfo) {
-            focusedEntity = if (focusedEntity != null) null else controlledEntity
+            focusedEntity = selectedEntity
             focusedEntity?.let { focusCamera(it) }
         }
     }

@@ -2,6 +2,8 @@ package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.ConnectionId
+import com.ovle.rll3.TileType
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
@@ -9,24 +11,20 @@ import com.ovle.rll3.model.ecs.component.dto.LevelDescription
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
 import com.ovle.rll3.model.ecs.component.dto.WorldInfo
-import com.ovle.rll3.model.ecs.component.special.*
+import com.ovle.rll3.model.ecs.component.special.LevelComponent
+import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.level
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.Mappers.move
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.*
-import com.ovle.rll3.model.ecs.system.level.ConnectionId
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.procedural.config.levelParams
 import com.ovle.rll3.model.procedural.grid.processor.LevelConnectionProcessor
-import com.ovle.rll3.model.template.TemplatesType
-import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.model.util.gridToTileArray
-import com.ovle.rll3.model.util.random
 import com.ovle.rll3.nearExclusive
 import ktx.ashley.get
-import kotlin.collections.random
 import kotlin.random.Random
 
 
@@ -62,19 +60,9 @@ class LevelSystem: EventSystem() {
 
         if (levelEntity == null) levelEntity = newLevel(newLevel, engine)!!
 
-        var playerEntity: Entity? = null
-        var interactionEntity = entityWith(entities, PlayerInteractionComponent::class)
-        if (interactionEntity != null) playerEntity = controlledEntity()
-
-        val playerTemplate = entityTemplate(TemplatesType.Common, playerInfo.templateName)
-        if (playerEntity == null) playerEntity = newTemplatedEntity(randomId(), playerTemplate, engine)
-
-        val startPosition = playerStartPosition(newLevel, oldConnection, random)
-        resetEntity(playerEntity, startPosition)
-
-        if (interactionEntity == null) interactionEntity = newPlayerInteraction(playerEntity, engine)
-
         levelEntity[level]?.level = newLevel
+
+        val interactionEntity = newPlayerInteraction(engine)
 
         //setVisited(connectionId, level)
         setVisited(oldConnection, newLevel)
@@ -82,8 +70,6 @@ class LevelSystem: EventSystem() {
         val newLevelDescription = newLevel.description
 
         send(LevelLoaded(newLevel, levelParams(newLevelDescription)))
-        send(EntityInitialized(playerEntity))
-        send(EntityChanged(playerEntity))
 
         newLevel.entities.forEach {
             send(EntityInitialized(it))

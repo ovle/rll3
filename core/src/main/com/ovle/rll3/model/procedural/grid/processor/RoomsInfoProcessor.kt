@@ -2,6 +2,7 @@ package com.ovle.rll3.model.procedural.grid.processor
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.RoomTiles
 import com.ovle.rll3.isNear
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.WorldInfo
@@ -9,7 +10,6 @@ import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.model.tile.roomFloorTypes
 import kotlin.math.roundToInt
 
-typealias RoomTiles = MutableList<Vector2>
 
 //todo component ?
 data class RoomInfo(val x: Int, val y: Int, val width: Int, val height: Int)

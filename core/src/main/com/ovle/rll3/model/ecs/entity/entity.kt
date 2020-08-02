@@ -37,13 +37,9 @@ fun newPlayer(player: PlayerInfo, engine: Engine) = engine.entity(player.playerI
 
 fun newLevel(level: LevelInfo, engine: Engine) = engine.entity(level.id, LevelComponent(level))
 
-fun newPlayerInteraction(playerEntity: Entity?, engine: Engine): Entity? = engine.entity(
+fun newPlayerInteraction(engine: Engine): Entity? = engine.entity(
     "not used",
-    PlayerInteractionComponent(
-        controlledEntity = playerEntity,
-        focusedEntity = playerEntity,
-        selectedSkillTemplate = TemplatesRegistry.skillTemplates[defaultSkill]
-    ),
+    PlayerInteractionComponent(),
     PositionComponent()
 )
 

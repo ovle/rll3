@@ -32,4 +32,4 @@ const val defaultAnimationInterval = 0.125f
 
 //debug
 var noLightning = true
-var noVisibilityFilter = false
+var noVisibilityFilter = true

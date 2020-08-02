@@ -9,8 +9,6 @@ import com.ovle.rll3.view.palette.Palette
 import com.ovle.rll3.view.textureTileHeight
 import com.ovle.rll3.view.textureTileWidth
 
-typealias TextureRegions = Array<Array<TextureRegion>>
-
 class TexturesInfo(
     initialTexture: Texture
 ) {

@@ -1,6 +1,8 @@
 package com.ovle.rll3.model.ecs.system.level
 
 import com.badlogic.ashley.core.Entity
+import com.ovle.rll3.LevelDescriptionId
+import com.ovle.rll3.LevelId
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.id
 import com.ovle.rll3.persistance.StoredEntity

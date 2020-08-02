@@ -110,9 +110,6 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         val tiles = level.tiles
         if (!tiles.isPointValid(to.x, to.y)) return
 
-        val controlledEntity = controlledEntity() ?: return
-        if (!controlledEntity.see(to)) return
-
         val moveComponent = entity[move] ?: return
         val positionComponent = entity[position]!!
 

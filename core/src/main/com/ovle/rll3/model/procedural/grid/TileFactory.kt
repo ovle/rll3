@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.procedural.grid
 
+import com.ovle.rll3.TileType
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray
-import com.ovle.rll3.model.tile.TileType
 
 //todo
 interface TileFactory {

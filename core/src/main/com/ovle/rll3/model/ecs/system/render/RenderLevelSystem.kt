@@ -21,7 +21,6 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.advanced.PerceptionComponent
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.perception
-import com.ovle.rll3.model.ecs.entity.controlledEntity
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.tile.*
@@ -146,12 +145,10 @@ class RenderLevelSystem(
     }
 
     private fun onEntityFovUpdated(entity: Entity?) {
-        if (entity == null) return
-
-        if (controlledEntity() != entity) return
-
-        val sightComponent = entity[perception] ?: return
-        markSightArea(sightComponent)
+//        if (entity == null) return
+//
+//        val sightComponent = entity[perception] ?: return
+//        markSightArea(sightComponent)
     }
 
     private fun markSightArea(perceptionComponent: PerceptionComponent) {

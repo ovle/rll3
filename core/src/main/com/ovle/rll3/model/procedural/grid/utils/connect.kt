@@ -2,7 +2,7 @@ package com.ovle.rll3.model.procedural.grid.utils
 
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.model.procedural.grid.Area
+import com.ovle.rll3.Area
 import com.ovle.rll3.model.procedural.grid.apply
 import com.ovle.rll3.model.procedural.grid.widen
 import com.ovle.rll3.model.util.floodFill

@@ -17,10 +17,8 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.has
-import com.ovle.rll3.model.ecs.entity.controlledEntity
 import com.ovle.rll3.point
 import com.ovle.rll3.vec2
-import com.ovle.rll3.view.layer.TexturesInfo
 import com.ovle.rll3.view.noVisibilityFilter
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
@@ -52,14 +50,13 @@ class RenderObjectsSystem(
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
 
-        val controlledEntity = controlledEntity()
-        val fov = controlledEntity?.get(perception)?.fov
+//        val controlledEntity = controlledEntity()
+//        val fov = controlledEntity?.get(perception)?.fov
 
         toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.gridPosition.y }))
-        if (fov != null && !noVisibilityFilter) {
-            //todo too much for each render
-            toRender = toRender.filter { isInFov(it, fov) }.toMutableList()
-        }
+//        if (fov != null && !noVisibilityFilter) {
+//            toRender = toRender.filter { isInFov(it, fov) }.toMutableList()
+//        }
 
         draw(toRender, deltaTime)
         toRender.clear()

@@ -2,8 +2,8 @@ package com.ovle.rll3.view.sprite.animation
 
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.ovle.rll3.TextureRegions
 import com.ovle.rll3.model.template.entity.view.AnimationTemplate
-import com.ovle.rll3.view.layer.TextureRegions
 
 class FrameAnimation(
     regions: TextureRegions,

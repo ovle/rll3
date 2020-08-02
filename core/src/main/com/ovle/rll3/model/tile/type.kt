@@ -1,9 +1,7 @@
 package com.ovle.rll3.model.tile
 
-typealias TileType = Char
+import com.ovle.rll3.TileType
 
-typealias TilePassTypeFn = ((Tile) -> TilePassType)
-typealias LightPassTypeFn = ((Tile) -> LightPassType)
 
 data class Tile(
     var typeId: TileType = outOfMapTileId

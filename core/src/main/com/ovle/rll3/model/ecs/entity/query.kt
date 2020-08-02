@@ -53,10 +53,8 @@ fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)
     ?.get(Mappers.playerInteraction)
 fun EntitySystem.playerInteractionInfo() = playerInteractionInfo(allEntities().toList())
 
-fun EntitySystem.controlledEntity() = playerInteractionInfo()?.controlledEntity
 fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity
 fun EntitySystem.selectedEntity() = playerInteractionInfo()?.selectedEntity
-fun EntitySystem.selectedSkillTemplate() = playerInteractionInfo()!!.selectedSkillTemplate
 
 fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
     worldInfo.levels.single { it.id == levelDescriptionId }

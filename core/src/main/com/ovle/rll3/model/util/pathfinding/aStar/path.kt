@@ -1,14 +1,9 @@
 package com.ovle.rll3.model.util.pathfinding.aStar
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.component1
-import com.ovle.rll3.component2
+import com.ovle.rll3.*
 import com.ovle.rll3.model.tile.TileArray
-import com.ovle.rll3.model.tile.TilePassTypeFn
-import com.ovle.rll3.model.util.pathfinding.MoveCostFn
-import com.ovle.rll3.model.util.pathfinding.MoveCostFn2
 import com.ovle.rll3.model.util.pathfinding.maxMoveCost
-import com.ovle.rll3.point
 
 
 private fun path(end: GridPoint2, cameFrom: Map<GridPoint2, GridPoint2>): List<GridPoint2> {

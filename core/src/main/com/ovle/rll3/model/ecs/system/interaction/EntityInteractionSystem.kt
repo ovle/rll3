@@ -6,16 +6,17 @@ import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.model.ecs.component.basic.TaskPerformerComponent
+import com.ovle.rll3.model.ecs.component.special.ControlMode
 import com.ovle.rll3.model.ecs.component.special.SelectionMode
-import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.Mappers.questOwner
-import com.ovle.rll3.model.ecs.entity.controlledEntity
+import com.ovle.rll3.model.ecs.component.util.Mappers.taskPerformer
+import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.entity.playerInteractionInfo
 import com.ovle.rll3.model.ecs.system.EventSystem
-import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType.*
 import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
-import com.ovle.rll3.model.ecs.system.interaction.use.use
 import ktx.ashley.get
+import ktx.ashley.has
 
 //todo move skills out
 //todo move technical stuff out?
@@ -37,19 +38,10 @@ class EntityInteractionSystem : EventSystem() {
 
         select(entity)
 
-//        when (button) {
-//            Buttons.RIGHT -> {
-//                showActions(entity)
-//            }
-//            else -> {
-//                val defaultInteractionType = defaultInteraction(entity)
-//                if (defaultInteractionType == null) {
-//                    showActions(entity)
-//                } else {
-//                    performEntityInteraction(entity, EntityInteraction(defaultInteractionType))
-//                }
-//            }
-//        }
+        val isStartTask = interactionInfo.controlMode == ControlMode.Task && entity.has<TaskPerformerComponent>()
+        if (isStartTask) {
+//            entity[taskPerformer]!!.current = testTask  //todo
+        }
     }
 
     private fun onVoidClickEvent(button: Int, point: GridPoint2) {
@@ -73,15 +65,7 @@ class EntityInteractionSystem : EventSystem() {
 
     private fun select(entity: Entity) {
         val interactionInfo = playerInteractionInfo()!!
-
-        val party = arrayOf(interactionInfo.controlledEntity)
-//        val party = player()!!.party
-        val partyEntity = entity in party
-        if (partyEntity) {
-            interactionInfo.controlledEntity = entity
-        } else {
-            interactionInfo.selectedEntity = entity
-        }
+        interactionInfo.selectedEntity = entity
     }
 
     //at least one party entity is already selected?
@@ -96,19 +80,19 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     private fun performEntityInteraction(entity: Entity, interaction: EntityInteraction) {
-        val playerEntity = controlledEntity()!!
-
-        when (interaction.type) {
-            Travel -> {
-                val connectionComponent = entity[levelConnection]!!
-                send(EntityLevelTransition(playerEntity, connectionComponent.id))
-            }
-            Talk -> showTalkActions(playerEntity, entity)
-            Use -> {
-                use(playerEntity, entity)
-                //todo events
-            }
-        }
+//        val playerEntity = controlledEntity()!!
+//
+//        when (interaction.type) {
+//            Travel -> {
+//                val connectionComponent = entity[levelConnection]!!
+//                send(EntityLevelTransition(playerEntity, connectionComponent.id))
+//            }
+//            Talk -> showTalkActions(playerEntity, entity)
+//            Use -> {
+//                use(playerEntity, entity)
+//                //todo events
+//            }
+//        }
     }
 
     //todo
@@ -118,7 +102,6 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     private fun showActions(entity: Entity) {
-        val controlledEntity = controlledEntity()
         val interactions = availableInteractions(entity) //.filter { isAvailable(it, controlledEntity!!, entity) }
         if (interactions.isNotEmpty()) {
             showActions(entity, interactions)

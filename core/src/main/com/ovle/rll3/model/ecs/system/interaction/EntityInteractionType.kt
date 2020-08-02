@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.ecs.system.interaction
 
 import com.badlogic.ashley.core.Entity
+import com.ovle.rll3.EntityCheck
 import com.ovle.rll3.model.ecs.component.util.Mappers.container
 import com.ovle.rll3.model.ecs.component.util.Mappers.door
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
@@ -22,7 +23,7 @@ enum class EntityInteractionType(
     Travel("travel");
 }
 
-typealias EntityCheck = Entity.() -> Boolean
+
 data class InteractionRule(val interactionType: EntityInteractionType, val check: EntityCheck)
 
 private val interactionRules = listOf(

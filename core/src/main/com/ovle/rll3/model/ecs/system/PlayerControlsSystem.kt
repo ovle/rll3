@@ -34,16 +34,14 @@ class PlayerControlsSystem : EventSystem() {
 
         send(Click(button, position))
 
-        val controlledEntity = controlledEntity()
-
-        val skillTemplate = selectedSkillTemplate()
-        val skillWithTarget = skillTemplate?.target != null
-        val skillTarget = skillTemplate?.target?.invoke(position, level)
-        val isCorrectTarget = !skillWithTarget || skillTarget != null
+//        val skillTemplate = selectedSkillTemplate()
+//        val skillWithTarget = skillTemplate?.target != null
+//        val skillTarget = skillTemplate?.target?.invoke(position, level)
+//        val isCorrectTarget = !skillWithTarget || skillTarget != null
 
         if (false) {
 //        if (skillTemplate != null && isCorrectTarget) {
-            send(EntityUseSkill(controlledEntity!!, skillTarget, skillTemplate!!))
+//            send(EntityUseSkill(controlledEntity!!, skillTarget, skillTemplate!!))
         } else {
             val entities = level.entities.on(position)
 //            val partyEntities = player()!!.party.entities.toList().on(position)
@@ -64,37 +62,32 @@ class PlayerControlsSystem : EventSystem() {
         val positionComponent = interactionEntity[Mappers.position]!!
         if (positionComponent.gridPosition == position) return
 
-        positionComponent.gridPosition = position
-
-        val entities = level.entities.on(position)
-//        val partyEntities = player()!!.party.entities.toList().on(position)
-
         send(EntityUnhover())
+
+        positionComponent.gridPosition = position
+        val entities = level.entities.on(position)
         entities.forEach {
             send(EntityHover(it))
         }
-//        partyEntities.forEach {
-//            send(EntityHoverEvent(it))
-//        }
     }
 
     private fun onNumKeyPressed(number: Int) {
-        val controlledEntity = controlledEntity() ?: return
-        val templateComponent = controlledEntity[template] ?: return
-        val skillNames = templateComponent.template.skills
-        if (number >= skillNames.size) return
-
-        val selectedSkillName = skillNames[number]
-
-        //todo
-        val selectedSkillTemplate = TemplatesRegistry.skillTemplates[selectedSkillName]
-        checkNotNull(selectedSkillTemplate)
-
-        val interactionInfo = playerInteractionInfo()!!
-        interactionInfo.selectedSkillTemplate = selectedSkillTemplate
-
-        println("select skill: $selectedSkillName")
-        send(SkillSelected(selectedSkillTemplate))
+//        val controlledEntity = controlledEntity() ?: return
+//        val templateComponent = controlledEntity[template] ?: return
+//        val skillNames = templateComponent.template.skills
+//        if (number >= skillNames.size) return
+//
+//        val selectedSkillName = skillNames[number]
+//
+//        //todo
+//        val selectedSkillTemplate = TemplatesRegistry.skillTemplates[selectedSkillName]
+//        checkNotNull(selectedSkillTemplate)
+//
+//        val interactionInfo = playerInteractionInfo()!!
+//        interactionInfo.selectedSkillTemplate = selectedSkillTemplate
+//
+//        println("select skill: $selectedSkillName")
+//        send(SkillSelected(selectedSkillTemplate))
     }
 
     private fun onKeyPressed(code: Int) {
@@ -107,6 +100,7 @@ class PlayerControlsSystem : EventSystem() {
             Input.Keys.F -> send(DebugToggleFocus())
             Input.Keys.I -> send(DebugShowPlayerInventory())
             Input.Keys.S -> send(DebugSwitchSelectionMode())
+            Input.Keys.C -> send(DebugSwitchControlMode())
             Input.Keys.R -> send(DebugChangeSelectedTiles())
             Input.Keys.V -> { noVisibilityFilter = !noVisibilityFilter }
         }

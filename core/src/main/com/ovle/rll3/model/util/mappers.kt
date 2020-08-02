@@ -1,10 +1,11 @@
 package com.ovle.rll3.model.util
 
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory
-import com.ovle.rll3.model.procedural.grid.factory.DungeonGridFactory
-import com.ovle.rll3.model.procedural.grid.factory.NoiseGridFactory
-import com.ovle.rll3.model.tile.*
+import com.ovle.rll3.TileType
+import com.ovle.rll3.model.tile.LightPassType
+import com.ovle.rll3.model.tile.Tile
+import com.ovle.rll3.model.tile.TileArray
+import com.ovle.rll3.model.tile.solidWallTypes
 
 
 fun gridToTileArray(grid: Grid, mapFunction: (Float) -> TileType): TileArray {

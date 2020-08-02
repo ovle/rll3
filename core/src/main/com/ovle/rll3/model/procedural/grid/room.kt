@@ -1,5 +1,7 @@
 package com.ovle.rll3.model.procedural.grid
 
+import com.ovle.rll3.NearTiles
+import com.ovle.rll3.TileType
 import com.ovle.rll3.model.procedural.grid.RoomStructure.DirectionValue.*
 import com.ovle.rll3.model.procedural.grid.RoomStructure.ParamKey.*
 import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
