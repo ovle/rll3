@@ -11,13 +11,13 @@ mask: |
   _ # # . # # r r = _ _ # . # # # _ _ _ _ _ _ _ _ _
   _ r r r r r r r = _ _ _ r _ _ _ _ _ _ = = = = = _
   = = = r = = = = = _ _ _ r _ _ _ _ _ _ = _ _ _ = _
-  _ _ _ r r r r r r r r r r r r r r r r r _ _ _ = _
-  ` ` ` r # # # # # # _ _ r _ _ _ _ _ _ = _ _ _ = _
-  ` ` ` r # : : : . # _ _ r _ _ _ _ _ _ = = = = = _
-  ` ` ` r # : : : . . _ _ r _ _ _ _ _ _ _ _ _ _ _ _
-  ` ` ` r # : : : . # _ _ r _ _ _ _ _ _ _ _ _ _ _ _
-  ` ` ` r # # # # # # _ r r r _ _ _ _ _ _ _ _ _ _ _
-  ` ` ` r r r r r r r r r ` r r r r r r r r r r r r
+  _ _ r r r r r r r r r r r r r r r r r _ _ _ _ = _
+  ` ` r w w w w w . # _ _ r _ _ _ _ _ _ = _ _ _ = _
+  ` ` r w : : : w . . _ _ r _ _ _ _ _ _ = = = = = _
+  ` ` r w : : : : . . _ _ r _ _ _ _ _ _ _ _ _ _ _ _
+  ` ` r w : : : w . . _ _ r _ _ _ _ _ _ _ _ _ _ _ _
+  ` ` r w w w w w . # _ r r r _ _ _ _ _ _ _ _ _ _ _
+  ` ` r r r r r r r r r r ` r r r r r r r r r r r r
   ` ` ` ` ` ` ` ` ` ` _ r r r _ ` ` ` ` ` ` ` ` ` `
   ` ` ` ` ` ` ` ` ` ` _ _ r _ _ ` ` ` ` ` ` ` ` ` `
   ` ` ` ` ` ` ` ` ` ` _ _ r _ _ ` ` ` ` ` ` ` ` ` `
@@ -28,7 +28,7 @@ mask: |
   ` ` ` ` ` ` ` ` ` 0 0 0 r 0 0 w w ` 1 1 1 ` 1 1 1
   ` ` ` ` ` ` ` ` ` ` 0 0 0 0 0 0 ` 1 1 1 1 1 1 1 1
 playerSpawns:
-  - [23, 16]
+  - [23, 14]
 quests:
   - questId: q1
     entityId: elder1
@@ -39,24 +39,24 @@ entities:
       - [4, 2]
       - [1, 7]
       - [5, 7]
-      - [13, 4]
+      - [12, 4]
       - [8, 11]
   - templateName: door w
     points:
       - [3, 6]
       - [12, 6]
-      - [9, 12]
   - templateName: door s
     points:
-      - [5, 3]
+      - [7, 12]
   - templateName: window w
     points:
       - [3, 1]
       - [14, 3]
-      - [7, 14]
   - templateName: window s
     points:
       - [7, 5]
+      - [5, 10]
+      - [5, 14]
   - templateName: barbarian
     points:
       - [2, 4]
@@ -65,18 +65,18 @@ entities:
       - b2
   - templateName: elder
     points:
-      - [13, 5]
+      - [14, 16]
     ids:
       - elder1
   - templateName: blacksmith
     points:
-      - [7, 12]
+      - [5, 12]
     ids:
       - blacksmith1
   - templateName: villager
     points:
       - [18, 10]
-      - [1, 11]
+      - [1, 14]
   - templateName: stash
     points:
       - [3, 2]
@@ -86,20 +86,26 @@ entities:
       - [22, 10]
   - templateName: wolf
     points:
-      - [2, 12]
+      - [2, 17]
   - templateName: table
     points:
       - [7, 3]
   - templateName: anvil
     points:
-      - [5, 12]
+      - [4, 12]
   - templateName: forge
     points:
-      - [5, 11]
+      - [4, 11]
   - templateName: chair
     points:
-      - [14, 4]
       - [8, 13]
+  - templateName: bed
+    points:
+      - [14, 4]
+  - templateName: barrel
+    points:
+      - [16, 3]
+      - [16, 4]
   - templateName: oven
     points:
       - [6, 2]

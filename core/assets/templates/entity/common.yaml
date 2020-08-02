@@ -107,6 +107,10 @@ name: chair
 description: ''
 ---
 
+name: bed
+description: ''
+---
+
 name: oven
 description: ''
 state:
@@ -114,7 +118,7 @@ state:
     radius: 3
 ---
 
-name: statue
+name: barrel
 description: ''
 state:
   collision:

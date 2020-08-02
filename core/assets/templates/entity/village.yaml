@@ -27,9 +27,9 @@ description: ''
 state:
   collision:
 spawns:
-  - chance: 0.8
+  - chance: 1.5
     rotate: true
-    groupBonusChance: 0.2
+    groupBonusChance: 0.4
     mask: |
       ` ` `
       ~ _ `
