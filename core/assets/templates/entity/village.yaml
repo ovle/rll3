@@ -46,6 +46,9 @@ state:
     health: 3
     stamina: 3
   collision:
+  container:
+  move:
+  task:
 ---
 
 name: pig
