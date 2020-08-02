@@ -206,7 +206,7 @@ fun villageGridValueToTileType(gridValue: Float): TileType {
             var firstStartPosition: GridPoint2? = null
             val playerSpawnPoints = newLevel.structures.flatMap { it.template.playerSpawns }
             if (playerSpawnPoints.isNotEmpty()) {
-                firstStartPosition = playerSpawnPoints.randomOrNull(r)
+                firstStartPosition = playerSpawnPoints.randomOrNull(r)?.apply { y = tiles.size - y - 1 }
             }
             if (firstStartPosition == null) {
                 firstStartPosition = tiles.positions().filter { tiles.isPassable(it) }.random(r)

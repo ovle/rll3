@@ -65,7 +65,8 @@ class RenderLevelSystem(
         val regions = params.textureRegions.regions
         val emptyRegion = regions[7][7]
         return when (params.tile.typeId) {
-            structureWallTileId -> regions[3][2]
+            structureWallWTileId -> regions[3][2]
+            structureWallSTileId -> regions[3][0]
             wallTileId -> regions[5][1]
             structureFloorTileId -> regions[3][5]
             structureInnerFloorTileId -> regions[3][4]

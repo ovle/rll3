@@ -5,86 +5,57 @@ sprite:
   default: [1, 1]
 portrait:
   - [1, 1]
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [0, 1]
-      - [1, 1]
-      - [2, 1]
-      - [3, 1]
-  - type: Walk
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [0, 2]
-      - [1, 2]
-      - [2, 2]
-      - [3, 2]
 ---
 
 name: barbarian
 sprite:
-  default: [1, 0]
+  default: [0, 1]
 portrait:
   - [0, 1]
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [0, 5]
-      - [1, 5]
-      - [2, 5]
-      - [3, 5]
-  - type: Walk
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [0, 6]
-      - [1, 6]
-      - [2, 6]
-      - [3, 6]
-  - type: Attack
-    frames:
-      - [0, 7]
-      - [1, 7]
-      - [2, 7]
-      - [3, 7]
-  - type: Death
-    terminal: true
-    frames:
-      - [0, 8]
-      - [1, 8]
-      - [2, 8]
-      - [3, 8]
 ---
 
-name: lamp
+name: window w
 sprite:
-  default: [1, 6]
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [7, 2]
-      - [8, 2]
-      - [9, 2]
-      - [10, 2]
+  default: [2, 4]
+
 ---
 
-name: door
+name: window s
 sprite:
-  default: [1, 4]
-  opened: [3, 4]
+  default: [3, 4]
+
+---
+
+name: door w
+sprite:
+  default: [0, 4]
+  opened: [1, 4]
+---
+
+name: door s
+sprite:
+  default: [2, 5]
+  opened: [3, 5]
+
+---
+
+name: well
+sprite:
+  default: [6, 5]
 ---
 
 name: stash
 sprite:
   default: [0, 6]
-  opened: [2, 6]
+  opened: [0, 7]
+
+---
+
+name: lamp
+sprite:
+  default: [1, 6]
+  inactive: [1, 7]
+
 ---
 
 name: table
@@ -95,3 +66,49 @@ sprite:
 name: chair
 sprite:
   default: [3, 6]
+
+---
+
+name: bed
+sprite:
+  default: [4, 6]
+---
+
+name: barrel
+sprite:
+  default: [5, 6]
+
+---
+
+name: anvil
+sprite:
+  default: [6, 6]
+
+---
+
+name: workbench
+sprite:
+  default: [7, 6]
+
+---
+
+name: oven
+sprite:
+  default: [5, 7]
+---
+
+name: forge
+sprite:
+  default: [6, 7]
+
+---
+
+name: grave
+sprite:
+  default: [7, 5]
+
+---
+
+name: stairs d
+sprite:
+  default: [5, 5]

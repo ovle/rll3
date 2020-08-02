@@ -45,7 +45,7 @@ class RenderInteractionInfoSystem(
 
         val interactionComponent = interaction[playerInteraction]!!
         drawSelection(interactionComponent)
-        drawControl(interactionComponent)
+//        drawControl(interactionComponent)
         drawHover(interactionComponent)
     }
 

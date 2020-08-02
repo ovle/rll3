@@ -1,6 +1,6 @@
 ---
 
-name: tree 1
+name: tree
 description: ''
 state:
   collision:
@@ -11,7 +11,7 @@ spawns:
     groupBonusChance: 0.2
 ---
 
-name: tree 2
+name: sapling
 description: ''
 state:
   collision:
@@ -22,7 +22,7 @@ spawns:
     groupBonusChance: -0.2
 ---
 
-name: reed 1
+name: reed
 description: ''
 state:
   collision:

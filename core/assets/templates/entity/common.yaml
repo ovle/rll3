@@ -44,7 +44,7 @@ state:
     radius: 5
 ---
 
-name: door
+name: door w
 description: ''
 state:
   collision:
@@ -57,6 +57,30 @@ spawns:
       _ 1 _
       0 2 _
       _ 1 _
+---
+
+name: door s
+description: ''
+state:
+  collision:
+    passable4Light: false
+  door:
+spawns:
+  - chance: 0.7
+    rotate: true
+    mask: |
+      _ 1 _
+      0 2 _
+      _ 1 _
+---
+
+name: window w
+description: ''
+
+---
+
+name: window s
+description: ''
 ---
 
 name: stash
@@ -90,10 +114,6 @@ state:
     radius: 3
 ---
 
-name: window
-description: ''
----
-
 name: statue
 description: ''
 state:
@@ -116,14 +136,17 @@ name: forge
 description: ''
 state:
   collision:
+
 ---
 
-name: forge pipe
+name: grave
 description: ''
+
 ---
 
-name: hammer
+name: stairs d
 description: ''
+
 ---
 
 name: test item

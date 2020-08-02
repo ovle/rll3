@@ -3,11 +3,11 @@
 name: village 1
 mask: |
   _ _ _ _ _ _ _ _ _ _ ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  _ # # # # # # # # _ ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  _ # . . . # : : # _ _ _ _ _ _ _ _ ` ` ` ` ` ` ` `
-  _ # . . . . : : # _ _ # # # # # _ ` ` ` ` ` ` ` `
-  _ # . . . # : : # _ _ # . . . # _ ` ` ` ` ` ` ` `
-  _ # . . . # # # # _ _ # . . . # _ ` ` ` ` ` ` ` `
+  _ # # # # w w w w _ ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
+  _ # . . . w : : w _ _ _ _ _ _ _ _ ` ` ` ` ` ` ` `
+  _ # . . . : : : w _ _ # # # # # _ ` ` ` ` ` ` ` `
+  _ # . . . w : : w _ _ # . . . # _ ` ` ` ` ` ` ` `
+  _ # . . . w w w w _ _ # . . . # _ ` ` ` ` ` ` ` `
   _ # # . # # r r = _ _ # . # # # _ _ _ _ _ _ _ _ _
   _ r r r r r r r = _ _ _ r _ _ _ _ _ _ = = = = = _
   = = = r = = = = = _ _ _ r _ _ _ _ _ _ = _ _ _ = _
@@ -18,38 +18,48 @@ mask: |
   ` ` ` r # : : : . # _ _ r _ _ _ _ _ _ _ _ _ _ _ _
   ` ` ` r # # # # # # _ r r r _ _ _ _ _ _ _ _ _ _ _
   ` ` ` r r r r r r r r r ` r r r r r r r r r r r r
-  ` ` ` ` ` ` ` ` ` ` ` r r r ` ` ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
+  ` ` ` ` ` ` ` ` ` ` _ r r r _ ` ` ` ` ` ` ` ` ` `
+  ` ` ` ` ` ` ` ` ` ` _ _ r _ _ ` ` ` ` ` ` ` ` ` `
+  ` ` ` ` ` ` ` ` ` ` _ _ r _ _ ` ` ` ` ` ` ` ` ` `
+  ` ` ` ` ` ` ` ` ` ` _ 0 r 0 _ ` ` ` ` ` 1 ` ` ` 1
+  ` ` ` ` ` ` ` ` ` ` 0 0 r 0 0 0 ` ` ` ` 1 1 ` ` `
+  ` ` ` ` ` ` ` ` ` 0 0 0 r 0 0 w w ` ` ` ` ` ` 1 1
+  ` ` ` ` ` ` ` ` ` 0 r r r r r 0 w ` 1 ` 1 ` 1 1 `
+  ` ` ` ` ` ` ` ` ` 0 0 0 r 0 0 w w ` 1 1 1 ` 1 1 1
+  ` ` ` ` ` ` ` ` ` ` 0 0 0 0 0 0 ` 1 1 1 1 1 1 1 1
 playerSpawns:
-  - [11, 8]
+  - [23, 16]
 quests:
   - questId: q1
     entityId: elder1
 entities:
   - templateName: lamp
     points:
-      - [2, 1]
-      - [4, 1]
-      - [1, 6]
-      - [5, 6]
-      - [13, 3]
-  - templateName: door
+      - [2, 2]
+      - [4, 2]
+      - [1, 7]
+      - [5, 7]
+      - [13, 4]
+      - [8, 11]
+  - templateName: door w
     points:
-      - [5, 3]
       - [3, 6]
       - [12, 6]
       - [9, 12]
+  - templateName: door s
+    points:
+      - [5, 3]
+  - templateName: window w
+    points:
+      - [3, 1]
+      - [14, 3]
+      - [7, 14]
+  - templateName: window s
+    points:
+      - [7, 5]
   - templateName: barbarian
     points:
       - [2, 4]
-      - [3, 4]
     ids:
       - b1
       - b2
@@ -63,44 +73,45 @@ entities:
       - [7, 12]
     ids:
       - blacksmith1
+  - templateName: villager
+    points:
+      - [18, 10]
+      - [1, 11]
   - templateName: stash
     points:
-      - [4, 2]
+      - [3, 2]
   - templateName: pig
     points:
       - [21, 9]
-      - [22, 9]
       - [22, 10]
   - templateName: wolf
     points:
-      - [14, 15]
+      - [2, 12]
   - templateName: table
     points:
       - [7, 3]
   - templateName: anvil
     points:
-      - [6, 12]
+      - [5, 12]
   - templateName: forge
     points:
       - [5, 11]
-  - templateName: forge pipe
-    points:
-      - [5, 10]
-  - templateName: hammer
-    points:
-      - [6, 11]
   - templateName: chair
     points:
       - [14, 4]
       - [8, 13]
   - templateName: oven
     points:
-      - [6, 1]
-  - templateName: window
-    points:
-      - [3, 1]
-      - [7, 5]
-      - [14, 3]
+      - [6, 2]
   - templateName: well
     points:
       - [12, 15]
+  - templateName: grave
+    points:
+      - [11, 21]
+      - [13, 21]
+      - [11, 23]
+      - [13, 23]
+  - templateName: stairs d
+    points:
+      - [15, 22]
