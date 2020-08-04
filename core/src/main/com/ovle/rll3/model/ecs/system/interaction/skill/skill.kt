@@ -12,7 +12,8 @@ fun skill(source: Entity, target: Any?, skillTemplate: SkillTemplate) {
     val actionComponent = source[Mappers.action]!!
 
     actionComponent.current = {
-        skill.invoke(source, target)
+        val amount = skillTemplate.skillEffectAmount(source)
+        skill.invoke(source, target, amount)
 
         send(Event.EntityChanged(source))
         if (target is Entity) {

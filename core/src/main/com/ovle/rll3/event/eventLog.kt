@@ -45,7 +45,7 @@ private fun message(event: Event)=
         is EntityTakeDamage -> {
             val entityInfo = event.entity.info()
             val sourceInfo = event.source?.info() ?: " unknown source"
-            "$entityInfo takes ${event.amount}(b${event.blockedAmount}) damage from $sourceInfo"
+            "$entityInfo takes ${event.amount} damage from $sourceInfo"
         }
         is EntityDied -> { "${event.entity.info()} died" }
         is EntityTakeItems -> {

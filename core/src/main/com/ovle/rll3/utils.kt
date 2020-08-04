@@ -40,3 +40,4 @@ fun Float.roundToClosestByAbsInt() = if (this > 0) this.roundToInt() else -((-th
 
 fun GridPoint2.near() = (x-1..x+1).map { tx -> (y-1..y+1).map { ty -> point(tx, ty) } }.flatten()
 fun GridPoint2.nearExclusive() = near().filter { it != this }
+fun GridPoint2.isNear(other: GridPoint2, delta: Int = 1) = this.dst(other) <= delta

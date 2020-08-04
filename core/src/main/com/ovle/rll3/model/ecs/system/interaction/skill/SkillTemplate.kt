@@ -1,9 +1,6 @@
 package com.ovle.rll3.model.ecs.system.interaction.skill
 
-import com.ovle.rll3.GetTarget
-import com.ovle.rll3.SkillCost
-import com.ovle.rll3.SkillEffect
-import com.ovle.rll3.Ticks
+import com.ovle.rll3.*
 
 /**
  * @property name
@@ -17,5 +14,6 @@ data class SkillTemplate(
     val cost: SkillCost = {},
     val target: GetTarget? = null,
     val time: Ticks = 0,
-    val skillEffect: SkillEffect = { _, _ -> }
+    val skillEffect: SkillEffect = { _, _, _ -> },
+    val skillEffectAmount: GetEffectAmount = { _ -> 1 }
 )

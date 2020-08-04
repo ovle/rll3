@@ -1,5 +1,23 @@
 ---
 
+name: villager
+description: |
+  dirty and grumpy farmer.
+  still, may be useful.
+state:
+  living:
+    race: human
+    health: 3
+    stamina: 3
+  collision:
+  container:
+  move:
+  task:
+skills:
+  - attack
+
+---
+
 name: wizard
 description: ''
 playable: true
@@ -15,7 +33,6 @@ state:
 skills:
   - attack
   - mass-heal
-  - jump
 
 ---
 
@@ -145,6 +162,9 @@ state:
 
 name: grave
 description: ''
+state:
+  collision:
+  container:
 
 ---
 

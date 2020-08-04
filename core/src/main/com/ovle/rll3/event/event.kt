@@ -6,6 +6,7 @@ import com.ovle.rll3.ConnectionId
 import com.ovle.rll3.Turn
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
+import com.ovle.rll3.model.ecs.component.dto.TaskTarget
 import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
 import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
@@ -60,6 +61,8 @@ sealed class Event {
     class QuestStatusUpdated(val quest: QuestInfo) : Game()
     class SkillSelected(val skill: SkillTemplate) : Game()
 
+    open class CheckTask(val target: TaskTarget) : Game()
+
     //entity
     open class Entity(val entity: com.badlogic.ashley.core.Entity) : Game()
     //entity - technical
@@ -84,7 +87,7 @@ sealed class Event {
     class EntityUseSkill(source: com.badlogic.ashley.core.Entity, val target: Any?, val skillTemplate: SkillTemplate) : Entity(source)
 
     class EntityChanged(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
-    class EntityTakeDamage(entity: com.badlogic.ashley.core.Entity, val source: com.badlogic.ashley.core.Entity?, val amount: Int, val blockedAmount: Int) : Entity(entity)
+    class EntityTakeDamage(entity: com.badlogic.ashley.core.Entity, val source: com.badlogic.ashley.core.Entity?, val amount: Int) : Entity(entity)
     class EntityDied(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
     class EntityLevelTransition(entity: com.badlogic.ashley.core.Entity, val connectionId: ConnectionId) : Entity(entity)
     class EntitySetMoveTarget(entity: com.badlogic.ashley.core.Entity, val point: GridPoint2) : Entity(entity)

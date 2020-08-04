@@ -1,5 +1,6 @@
 package com.ovle.rll3.model.ecs.system.render
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
@@ -7,19 +8,18 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
 import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
-import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.*
-import com.ovle.rll3.model.ecs.component.util.Mappers
+import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
 import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
-import com.ovle.rll3.model.ecs.component.util.Mappers.perception
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.point
 import com.ovle.rll3.vec2
-import com.ovle.rll3.view.noVisibilityFilter
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 import ktx.ashley.get
@@ -36,7 +36,25 @@ class RenderObjectsSystem(
     //todo use all texture versions
     private val spriteRegions = split(spriteTexturesInfo.texture, spriteWidth.toInt(), spriteHeight.toInt())
     private val defaultSprite = sprite(spriteRegions, 0, 0)
+    private val defaultSpriteKey = "default"
+    private val deadEntitySpriteKey = "dead"
+    private val deadEntitySpritePoint = point(7, 4)
 
+
+    override fun addedToEngine(engine: Engine) {
+        super.addedToEngine(engine)
+        subscribe()
+    }
+
+    fun subscribe() {
+        EventBus.subscribe<Event.EntityDied> { onEntityDiedEvent(it.entity) }
+    }
+
+    private fun onEntityDiedEvent(entity: Entity) {
+//        val isDeadEntity = entity.has<LivingComponent>() && entity[living]!!.isDead
+        val rc = entity[render]!!
+        rc.switchSprite(deadEntitySpriteKey)
+    }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val renderComponent = entity[render]!!
@@ -50,10 +68,12 @@ class RenderObjectsSystem(
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
 
+        toRender.sortWith(
+            compareBy({ it[render]!!.zLevel }, { -it[position]!!.gridPosition.y })
+        )
+
 //        val controlledEntity = controlledEntity()
 //        val fov = controlledEntity?.get(perception)?.fov
-
-        toRender.sortWith(compareBy({ it[render]!!.zLevel }, { -it[position]!!.gridPosition.y }))
 //        if (fov != null && !noVisibilityFilter) {
 //            toRender = toRender.filter { isInFov(it, fov) }.toMutableList()
 //        }
@@ -62,20 +82,22 @@ class RenderObjectsSystem(
         toRender.clear()
     }
 
-    private fun isInFov(entity: Entity, fov: Set<GridPoint2>): Boolean {
-        val positionComponent = entity[position]!!
-        return positionComponent.gridPosition in fov
-    }
+//    private fun isInFov(entity: Entity, fov: Set<GridPoint2>): Boolean {
+//        val positionComponent = entity[position]!!
+//        return positionComponent.gridPosition in fov
+//    }
 
     private fun initSprites(renderComponent: RenderComponent, entity: Entity) {
         val viewTemplate = entity[template]?.viewTemplate
 
         if (renderComponent.sprite == null) {
-            val spritesConfig = viewTemplate?.sprite ?: entitySprite(entity)
+            val spritesConfig = (entitySprite(entity) ?: viewTemplate?.sprite)?.toMutableMap()
             if (spritesConfig == null) {
                 renderComponent.sprite = defaultSprite
                 return
             }
+
+            spritesConfig["dead"] = deadEntitySpritePoint
 
             val sprites = spritesConfig.mapValues {
                 (_, texturePoint) ->
@@ -83,15 +105,16 @@ class RenderObjectsSystem(
             }
 
             renderComponent.sprites = sprites
-            renderComponent.sprite = sprites["default"]
+            renderComponent.sprite = sprites[defaultSpriteKey]
         }
     }
 
     private fun entitySprite(entity: Entity): Map<String, GridPoint2>? {
+        val isLevelConnection = entity.has<LevelConnectionComponent>()
         return when {
-            entity.has<LevelConnectionComponent>() -> {
+            isLevelConnection -> {
                 val type = entity[levelConnection]!!.type
-                return mapOf("default" to point(if (type == LevelConnectionType.Up) 14 else 15, 0))
+                return mapOf(defaultSpriteKey to point(if (type == LevelConnectionType.Up) 14 else 15, 0))
             }
             else -> null
         }

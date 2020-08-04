@@ -15,6 +15,7 @@ import com.ovle.rll3.model.tile.TilePassType
 
 typealias EntityFilter = (Entity) -> Boolean
 typealias TaskPerformerFilter = EntityFilter
+typealias TaskTargetFilter = (TaskTarget) -> Boolean
 typealias TaskAction = (Entity, TaskTarget) -> Unit
 typealias SuccessCondition = (Entity, TaskTarget) -> Boolean
 typealias FailCondition = (Entity, TaskTarget) -> Boolean
@@ -24,7 +25,9 @@ typealias ComponentFactory = (ComponentData?) -> Component
 
 typealias EntityCheck = Entity.() -> Boolean
 
-typealias SkillEffect = (Entity, Any?) -> Unit
+typealias EffectAmount = Int
+typealias SkillEffect = (Entity, Any?, EffectAmount) -> Unit
+typealias GetEffectAmount = (Entity) -> EffectAmount
 typealias GetTarget = (GridPoint2, LevelInfo) -> Any?
 typealias SkillCost = (Entity) -> Unit
 

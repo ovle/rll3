@@ -13,6 +13,7 @@ import com.ovle.rll3.event.eventLogHook
 import com.ovle.rll3.model.ecs.system.*
 import com.ovle.rll3.model.ecs.system.interaction.BaseInteractionSystem
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionSystem
+import com.ovle.rll3.model.ecs.system.interaction.SkillSystem
 import com.ovle.rll3.model.ecs.system.interaction.TileInteractionSystem
 import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.ecs.system.render.RenderLevelSystem
@@ -60,10 +61,13 @@ class GameScreen(
             TaskSystem(),
             ActionSystem(),
             MoveSystem(),
+            LivingSystem(),
 
             BaseInteractionSystem(),
             EntityInteractionSystem(),
-            TileInteractionSystem()
+            TileInteractionSystem(),
+
+            SkillSystem()
 
 //            CombatSystem(),
 //            AnimationSystem(objectsTextureInfo),

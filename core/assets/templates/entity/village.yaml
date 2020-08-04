@@ -36,21 +36,6 @@ spawns:
       ` ` `
 ---
 
-name: villager
-description: |
-  dirty and grumpy farmer.
-  still, may be useful.
-state:
-  living:
-    race: human
-    health: 3
-    stamina: 3
-  collision:
-  container:
-  move:
-  task:
----
-
 name: pig
 description: |
   rests in dirt and eats everything.

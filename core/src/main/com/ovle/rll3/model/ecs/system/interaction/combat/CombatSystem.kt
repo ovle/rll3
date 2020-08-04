@@ -50,7 +50,8 @@ class CombatSystem : EventSystem() {
         validate(targetComponent)
 
         if (damage > 0) {
-            send(Event.EntityTakeDamage(target, source, damage, blockedAmount))
+            send(Event.EntityTakeDamage(target, source, damage))
+//            send(Event.EntityTakeDamage(target, source, damage, blockedAmount))
         }
     }
 
