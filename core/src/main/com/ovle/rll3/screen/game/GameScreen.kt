@@ -36,7 +36,6 @@ class GameScreen(
 
     private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls(batchViewport)
-    private val gameCreator = GameCreator()
 
     override fun show() {
         super.show()
@@ -53,7 +52,6 @@ class GameScreen(
             RenderObjectsSystem(batch, assetsManager),
             RenderInteractionInfoSystem(batch, assetsManager),
 
-            GameSystem(),
             LevelSystem(),
 
             TimeSystem(),
@@ -84,7 +82,7 @@ class GameScreen(
 
         send(Event.CameraScrolled(((1 - initialScale) / scaleScrollCoeff).roundToInt()))
 
-        send(Event.GameStarted(gameCreator.player(), gameCreator.world()))
+        send(Event.GameStarted())
     }
 
     override fun hide() {

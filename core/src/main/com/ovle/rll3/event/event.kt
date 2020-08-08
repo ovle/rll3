@@ -6,7 +6,6 @@ import com.ovle.rll3.Turn
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
 import com.ovle.rll3.model.ecs.component.dto.TaskTarget
-import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType
 import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
 import com.ovle.rll3.model.ecs.system.quest.QuestInfo
@@ -34,9 +33,8 @@ sealed class Event {
     //global
     open class Game: Event()
     open class GlobalGame: Event()
-    class GameStarted(val player: PlayerInfo, val world: WorldInfo): GlobalGame()
+    class GameStarted(): GlobalGame()
     class GameFinished: GlobalGame()
-    class WorldInit(val world: WorldInfo) : GlobalGame()
     class TimeChanged(val turn: Turn) : Game()
 
     //debug

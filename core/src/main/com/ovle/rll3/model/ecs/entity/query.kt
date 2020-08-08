@@ -7,16 +7,13 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
-import com.ovle.rll3.LevelDescriptionId
 import com.ovle.rll3.model.ecs.component.basic.CollisionComponent
 import com.ovle.rll3.model.ecs.component.basic.IdComponent
 import com.ovle.rll3.model.ecs.component.basic.TaskPerformerComponent
-import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.special.*
 import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.component.util.Mappers.level
 import com.ovle.rll3.model.ecs.component.util.Mappers.player
-import com.ovle.rll3.model.ecs.component.util.Mappers.world
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.reflect.KClass
@@ -41,10 +38,6 @@ fun EntitySystem.levelInfo() = levelInfoNullable()!!
 
 fun levelInfo(entities: Array<Entity>) = entityWith(entities.toList(), LevelComponent::class)?.get(level)?.level
 
-fun EntitySystem.world() = entityWith(allEntities().toList(), WorldComponent::class)
-fun EntitySystem.worldInfoNullable() = world()?.get(world)?.world
-fun EntitySystem.worldInfo() = worldInfoNullable()!!
-
 fun playerInfoNullable(entities: List<Entity>) = entityWith(entities, PlayerComponent::class)?.get(player)?.player
 fun playerInfo(entities: List<Entity>) = playerInfoNullable(entities)!!
 fun EntitySystem.playerInfo() = playerInfo(allEntities().toList())
@@ -59,8 +52,8 @@ fun EntitySystem.selectedEntity() = playerInteractionInfo()?.selectedEntity
 
 fun EntitySystem.controlledEntities() = entitiesWith(allEntities().toList(), TaskPerformerComponent::class)
 
-fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
-    worldInfo.levels.single { it.id == levelDescriptionId }
+//fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
+//    worldInfo.levels.single { it.id == levelDescriptionId }
 
 fun EntitySystem.entity(id: EntityId) = entity(id, allEntities().toList())
 

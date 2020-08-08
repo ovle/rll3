@@ -35,12 +35,12 @@ typealias EntityId = String
 typealias PlayerId = String
 typealias WorldId = String
 typealias LevelId = String
-typealias LevelDescriptionId = String
 typealias LevelParamsId = String
 
 typealias QuestCondition = (() -> Boolean)
 typealias QuestHook = ((QuestInfo) -> Unit)?
 
+typealias Seed = Long
 typealias Turn = Long
 typealias Ticks = Long
 typealias Area = List<GridPoint2>
@@ -56,3 +56,4 @@ typealias TilePassTypeFn = ((Tile) -> TilePassType)
 typealias LightPassTypeFn = ((Tile) -> LightPassType)
 
 typealias NearTiles = NearValues<Tile?>
+typealias TileTypeMapper = (Float) -> TileType

@@ -5,7 +5,7 @@ import com.ovle.rll3.model.procedural.config.LevelFactoryParams.CelullarAutomata
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.DungeonGridFactory
-import com.ovle.rll3.model.procedural.grid.factory.NoiseGridFactory
+import com.ovle.rll3.model.procedural.grid.factory.FractalGridFactory
 import com.ovle.rll3.model.procedural.grid.processor.EntityProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomStructureProcessor
 import com.ovle.rll3.model.procedural.grid.processor.RoomsInfoProcessor
@@ -31,7 +31,8 @@ val dungeonLevelParams = LevelParams(
         RoomsInfoProcessor(),
         RoomStructureProcessor(),
         EntityProcessor(entityTemplates(Dungeon))
-    )
+    ),
+    tileMapper = ::tileMapper
 )
 
 val caveLevelParams = LevelParams(
@@ -43,21 +44,23 @@ val caveLevelParams = LevelParams(
     gridFactory = CelullarAutomataGridFactory(),
     postProcessors = arrayOf(
         EntityProcessor(entityTemplates(Caves))
-    )
+    ),
+    tileMapper = ::tileMapper
 )
 
 val villageLevelParams = LevelParams(
     templateName = "Village",
-    factoryParams = LevelFactoryParams.NoiseLevelFactoryParams(
-        size = 25,
-        radius = 2,
-        modifier = 1.3f
+    factoryParams = LevelFactoryParams.FractalLevelFactoryParams(
+        size = 129
+//        radius = 2,
+//        modifier = 1.3f
     ),
-    gridFactory = NoiseGridFactory(),
+    gridFactory = FractalGridFactory(),
     postProcessors = arrayOf(
         StructureProcessor(structureTemplates(Village)),
         EntityProcessor(entityTemplates(Village))
-    )
+    ),
+    tileMapper = ::tileMapper
 )
 
 val levelParams = mapOf(

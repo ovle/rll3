@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.procedural.config
 
 import com.github.czyzby.noise4j.map.generator.room.RoomType
+import com.ovle.rll3.TileTypeMapper
 import com.ovle.rll3.model.procedural.grid.factory.GridFactory
 import com.ovle.rll3.model.procedural.grid.processor.TilesProcessor
 import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
@@ -11,7 +12,8 @@ data class LevelParams(
     //main
     val factoryParams: LevelFactoryParams,
     val gridFactory: GridFactory,
-    val postProcessors: Array<TilesProcessor>
+    val postProcessors: Array<TilesProcessor>,
+    val tileMapper: TileTypeMapper
 )
 
 sealed class LevelFactoryParams(

@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.template.entity
 
+import com.ovle.rll3.TileType
 import com.ovle.rll3.model.template.parsedMask
-import com.ovle.rll3.model.tile.TileType
 
 data class SpawnTemplate(
     var chance: Float = 1.0f,

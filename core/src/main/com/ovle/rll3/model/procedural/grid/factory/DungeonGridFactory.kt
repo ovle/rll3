@@ -3,7 +3,7 @@ package com.ovle.rll3.model.procedural.grid.factory
 import com.github.czyzby.noise4j.map.Grid
 import com.github.czyzby.noise4j.map.generator.room.dungeon.DungeonGenerator
 import com.github.czyzby.noise4j.map.generator.util.Generators
-import com.ovle.rll3.model.ecs.component.dto.WorldInfo
+import com.ovle.rll3.Seed
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 import java.util.*
@@ -16,28 +16,28 @@ class DungeonGridFactory: GridFactory {
         const val corridorTreshold = 0.2f
     }
 
-    override fun get(factoryParams: LevelFactoryParams, worldInfo: WorldInfo): Grid {
-        factoryParams as DungeonLevelFactoryParams
+    override fun get(params: LevelFactoryParams, seed: Seed): Grid {
+        params as DungeonLevelFactoryParams
 
-        val size = factoryParams.size
+        val size = params.size
         val grid = Grid(size)
         val generator = DungeonGenerator.getInstance()
-        Generators.setRandom(Random(worldInfo.seed))
+        Generators.setRandom(Random(seed))
 
         generator.apply {
-            factoryParams.roomTypes.forEach { addRoomType(it) }
+            params.roomTypes.forEach { addRoomType(it) }
 
             roomGenerationAttempts = 100
-            maxRoomSize = factoryParams.maxRoomSize
-            minRoomSize = factoryParams.minRoomSize
-            tolerance = factoryParams.tolerance
+            maxRoomSize = params.maxRoomSize
+            minRoomSize = params.minRoomSize
+            tolerance = params.tolerance
 
             wallThreshold = wallTreshold
             floorThreshold = floorTreshold
             corridorThreshold = corridorTreshold
 
-            windingChance = factoryParams.windingChance
-            randomConnectorChance = factoryParams.randomConnectorChance
+            windingChance = params.windingChance
+            randomConnectorChance = params.randomConnectorChance
         }.generate(grid)
 
         return grid

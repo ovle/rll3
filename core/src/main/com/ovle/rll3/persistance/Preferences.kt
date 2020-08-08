@@ -1,7 +1,6 @@
 package com.ovle.rll3.persistance
 
 import com.badlogic.gdx.Gdx
-import com.ovle.rll3.screen.game.GameCreator
 
 object Preferences {
 
@@ -14,13 +13,6 @@ object Preferences {
 
     private fun setString(key: String, value: String) =
         Gdx.app.getPreferences(appKey).putString(key, value)
-
-
-    fun playerTemplateName(): String = getString(playerTemplateNameKey, GameCreator.defaultPlayerTemplateName)
-
-    fun setPlayerTemplateName(value: String) {
-        setString(playerTemplateNameKey, value)
-    }
 
     fun flush() {
         Gdx.app.getPreferences(appKey).flush()

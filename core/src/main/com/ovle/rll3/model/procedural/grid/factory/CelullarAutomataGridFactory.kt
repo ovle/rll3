@@ -3,7 +3,7 @@ package com.ovle.rll3.model.procedural.grid.factory
 import com.github.czyzby.noise4j.map.Grid
 import com.github.czyzby.noise4j.map.generator.cellular.CellularAutomataGenerator
 import com.github.czyzby.noise4j.map.generator.util.Generators
-import com.ovle.rll3.model.ecs.component.dto.WorldInfo
+import com.ovle.rll3.Seed
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.CelullarAutomataLevelFactoryParams
 import com.ovle.rll3.model.procedural.grid.utils.connect
@@ -17,14 +17,14 @@ class CelullarAutomataGridFactory: GridFactory {
         const val emptyTileMarker = 0.0f
     }
 
-    override fun get(factoryParams: LevelFactoryParams, worldInfo: WorldInfo): Grid {
-        factoryParams as CelullarAutomataLevelFactoryParams
+    override fun get(params: LevelFactoryParams, seed: Seed): Grid {
+        params as CelullarAutomataLevelFactoryParams
 
-        val size = factoryParams.size
+        val size = params.size
         val result = Grid(size)
 
         val generator = CellularAutomataGenerator.getInstance()
-        Generators.setRandom(Random(worldInfo.seed))
+        Generators.setRandom(Random(seed))
         generator.apply {
             marker = wallMarker
             deathLimit = 2  //more will kill the walls
@@ -36,7 +36,7 @@ class CelullarAutomataGridFactory: GridFactory {
         CellularAutomataGenerator.initiate(result, generator)
         init(result, size, wallMarker)
         generator.generate(result)
-        connect(result, emptyTileMarker, wallMarker, factoryParams.connectionStrategy)
+        connect(result, emptyTileMarker, wallMarker, params.connectionStrategy)
 
         return result
     }

@@ -15,7 +15,6 @@ inline fun <reified T : BaseComponent> Entity.has() = this.has(ComponentMapper.g
 
 object Mappers {
     val id = componentMapper<IdComponent>()
-    val world = componentMapper<WorldComponent>()
     val level = componentMapper<LevelComponent>()
     val playerInteraction = componentMapper<PlayerInteractionComponent>()
     val position = componentMapper<PositionComponent>()

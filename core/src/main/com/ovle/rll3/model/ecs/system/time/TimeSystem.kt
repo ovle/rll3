@@ -5,16 +5,16 @@ import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.ecs.component.special.WorldComponent
-import com.ovle.rll3.model.ecs.component.util.Mappers.world
+import com.ovle.rll3.model.ecs.component.special.LevelComponent
+import com.ovle.rll3.model.ecs.component.util.Mappers.level
 import ktx.ashley.get
 
 
-class TimeSystem : IteratingSystem(all(WorldComponent::class.java).get()) {
+class TimeSystem : IteratingSystem(all(LevelComponent::class.java).get()) {
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        val worldComponent = entity[world]!!
-        with(worldComponent.time) {
+        val worldComponent = entity[level]!!
+        with(worldComponent.level.time) {
             fractionTicks += deltaTicks(deltaTime)
             if (fractionTicks >= ticksInTurn) {
                 val deltaTurns = fractionTicks / ticksInTurn

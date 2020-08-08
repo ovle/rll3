@@ -8,12 +8,9 @@ import com.ovle.rll3.model.ecs.component.basic.IdComponent
 import com.ovle.rll3.model.ecs.component.basic.PositionComponent
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
-import com.ovle.rll3.model.ecs.component.dto.TimeInfo
-import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.special.LevelComponent
 import com.ovle.rll3.model.ecs.component.special.PlayerComponent
 import com.ovle.rll3.model.ecs.component.special.PlayerInteractionComponent
-import com.ovle.rll3.model.ecs.component.special.WorldComponent
 import com.ovle.rll3.model.ecs.component.util.basicComponents
 import com.ovle.rll3.model.ecs.component.util.stateComponents
 import com.ovle.rll3.model.template.entity.EntityTemplate
@@ -26,8 +23,6 @@ fun Engine.entity(id: EntityId, vararg components: Component) = createEntity().a
 }
 
 fun randomId() = UUID.randomUUID().toString()
-
-fun newWorld(world: WorldInfo, engine: Engine) = engine.entity(world.id, WorldComponent(world, TimeInfo()))
 
 fun newPlayer(player: PlayerInfo, engine: Engine) = engine.entity(player.playerId, PlayerComponent(player))
 

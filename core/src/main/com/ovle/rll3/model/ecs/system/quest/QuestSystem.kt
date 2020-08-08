@@ -4,12 +4,10 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.ecs.component.util.Mappers
+import com.ovle.rll3.model.ecs.entity.levelInfo
 import com.ovle.rll3.model.ecs.entity.randomId
-import com.ovle.rll3.model.ecs.entity.world
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.ecs.system.quest.QuestStatus.*
-import ktx.ashley.get
 
 
 class DebugQuestSystem : EventSystem() {
@@ -31,8 +29,8 @@ class DebugQuestSystem : EventSystem() {
     private fun onTimeChanged() {
         if (descriptions.isEmpty()) return
 
-        val world = world()!!
-        val quests = world[Mappers.world]!!.quests
+        val world = levelInfo()
+        val quests = world.quests
 
         for (description in descriptions) {
             val quest = quests.singleOrNull { it.description.id == description.id } ?: continue
@@ -53,8 +51,8 @@ class DebugQuestSystem : EventSystem() {
     }
 
     private fun onEntityActionEvent(source: Entity, entity: Entity, action: String) {
-        val world = world()!!
-        val quests = world[Mappers.world]!!.quests
+        val world = levelInfo()
+        val quests = world.quests
         when (action) {
             in questsToTake(source, quests, descriptions).ids() -> {
                 takeQuest(source, entity, action, quests)

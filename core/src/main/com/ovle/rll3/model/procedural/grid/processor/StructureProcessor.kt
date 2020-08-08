@@ -8,7 +8,6 @@ import com.ovle.rll3.component1
 import com.ovle.rll3.component2
 import com.ovle.rll3.model.ecs.component.advanced.QuestOwnerComponent
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
-import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.questOwner
 import com.ovle.rll3.model.ecs.entity.entity
@@ -21,7 +20,6 @@ import com.ovle.rll3.assets.loader.StructureTemplates
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.tile.whateverTileId
-import com.ovle.rll3.model.util.random
 import com.ovle.rll3.point
 import ktx.ashley.get
 import kotlin.random.Random
@@ -30,12 +28,12 @@ data class StructureInfo(val template: StructureTemplate, val positions: Set<Gri
 
 class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
 
-    override fun process(levelInfo: LevelInfo, worldInfo: WorldInfo, gameEngine: Engine) {
+    override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
         val tiles = levelInfo.tiles
         val entities = mutableListOf<Entity>()
-
+        val r = Random(levelInfo.seed)
         templates.templates.forEach {
-            processTemplate(it, tiles, levelInfo, gameEngine, entities, random)
+            processTemplate(it, tiles, levelInfo, gameEngine, entities, r)
         }
 
         levelInfo.entities.plusAssign(entities)

@@ -21,9 +21,6 @@ class MainMenuScreen(screenManager: ScreenManager, batch: Batch, camera: Orthogr
             textButton(text = "Play") {
                 onClick { screenManager.goToScreen(GameScreenType) }
             }
-            textButton(text = "Manage") {
-                onClick { screenManager.goToScreen(ManageScreenType) }
-            }
             textButton(text = "Options") {
                 onClick { screenManager.goToScreen(OptionsScreenType) }
             }
