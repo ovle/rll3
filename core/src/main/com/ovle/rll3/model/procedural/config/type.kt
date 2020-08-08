@@ -42,4 +42,12 @@ sealed class LevelFactoryParams(
         size: Int,
         val template: Array<Array<Int>>
     ): LevelFactoryParams(size)
+
+    class FractalLevelFactoryParams(
+        size: Int
+//        val startIteration: Int,
+//        val constantNoiseValue: Float,
+//        val flexibleNoiseValue: Float
+    ): LevelFactoryParams(size)
+
 }
