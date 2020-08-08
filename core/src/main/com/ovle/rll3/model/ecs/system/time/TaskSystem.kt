@@ -13,6 +13,8 @@ import ktx.ashley.get
 //todo how to use with behaviour trees
 class TaskSystem : EventSystem() {
 
+    private val templates = arrayOf(attackTaskTemplate, moveToTaskTemplate)
+
     override fun subscribe() {
         EventBus.subscribe<Event.TimeChanged> { onTimeChangedEvent(it.turn) }
         EventBus.subscribe<Event.CheckTask> { onCheckTaskEvent(it.target) }
@@ -30,14 +32,11 @@ class TaskSystem : EventSystem() {
     }
 
     private fun onCheckTaskEvent(target: TaskTarget) {
-        when (target) {
-            is TaskTarget.PositionTarget -> startTask(positionTargetTemplate(), target)
-            is TaskTarget.EntityTarget -> startTask(entityTargetTemplate(), target)
-        }
-    }
+        val taskTemplate = templates
+            .firstOrNull { it.targetFilter.invoke(target) } ?: return
 
-    private fun entityTargetTemplate() = attackTaskTemplate
-    private fun positionTargetTemplate() = moveToTaskTemplate
+        startTask(taskTemplate, target)
+    }
 
     private fun process(performerComponent: TaskPerformerComponent) {
         val task = performerComponent.current!!

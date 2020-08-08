@@ -37,7 +37,6 @@ typealias WorldId = String
 typealias LevelId = String
 typealias LevelDescriptionId = String
 typealias LevelParamsId = String
-typealias ConnectionId = String
 
 typealias QuestCondition = (() -> Boolean)
 typealias QuestHook = ((QuestInfo) -> Unit)?

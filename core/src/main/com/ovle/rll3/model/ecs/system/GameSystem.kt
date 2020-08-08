@@ -7,7 +7,6 @@ import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
 import com.ovle.rll3.model.ecs.component.dto.WorldInfo
 import com.ovle.rll3.model.ecs.entity.*
-import com.ovle.rll3.model.ecs.system.level.LevelRegistry
 import com.ovle.rll3.model.util.random
 import com.ovle.rll3.persistance.bytes
 import com.ovle.rll3.persistance.stored
@@ -20,7 +19,7 @@ class GameSystem : EventSystem() {
 
     override fun subscribe() {
         subscribe<Event.GameStarted> { createWorld(it.player, it.world) }
-        subscribe<Event.DebugSaveGame> { saveGame() }
+//        subscribe<Event.DebugSaveGame> { saveGame() }
     }
 
     private fun createWorld(player: PlayerInfo, world: WorldInfo) {
@@ -31,33 +30,32 @@ class GameSystem : EventSystem() {
         send(Event.WorldInit(world))
     }
 
-    //todo load world
-    private fun saveGame() {
-        val dir = Gdx.files.localStoragePath
-        val saveName = "autosave"
-        val path = Paths.get("$dir/$saveName/")
-        val path1 = Paths.get(path.toString(), "e")
-        val path2 = Paths.get(path.toString(), "l")
-        if (!Files.exists(path)) {
-            Files.createDirectory(path)
-            Files.createFile(path1)
-            Files.createFile(path2)
-        }
-
-        val toFile1 = path1.toFile()
-        allEntities()
-            .map { it.stored().bytes() }
-            .forEach { toFile1.writeBytes(it) }
-
-        val toFile2 = path2.toFile()
-        val curLevel = levelInfo()
-        LevelRegistry.store(curLevel.id)
-        LevelRegistry.levels().forEach {
-            toFile2.writeBytes(it.bytes())
-        }
-        //todo
-//        LevelRegistry.levelEntities().forEach {
+//    private fun saveGame() {
+//        val dir = Gdx.files.localStoragePath
+//        val saveName = "autosave"
+//        val path = Paths.get("$dir/$saveName/")
+//        val path1 = Paths.get(path.toString(), "e")
+//        val path2 = Paths.get(path.toString(), "l")
+//        if (!Files.exists(path)) {
+//            Files.createDirectory(path)
+//            Files.createFile(path1)
+//            Files.createFile(path2)
+//        }
+//
+//        val toFile1 = path1.toFile()
+//        allEntities()
+//            .map { it.stored().bytes() }
+//            .forEach { toFile1.writeBytes(it) }
+//
+//        val toFile2 = path2.toFile()
+//        val curLevel = levelInfo()
+//        LevelRegistry.store(curLevel.id)
+//        LevelRegistry.levels().forEach {
 //            toFile2.writeBytes(it.bytes())
 //        }
-    }
+//        //todo
+////        LevelRegistry.levelEntities().forEach {
+////            toFile2.writeBytes(it.bytes())
+////        }
+//    }
 }

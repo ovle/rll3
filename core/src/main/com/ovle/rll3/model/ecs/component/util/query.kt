@@ -18,7 +18,6 @@ object Mappers {
     val world = componentMapper<WorldComponent>()
     val level = componentMapper<LevelComponent>()
     val playerInteraction = componentMapper<PlayerInteractionComponent>()
-    val levelConnection = componentMapper<LevelConnectionComponent>()
     val position = componentMapper<PositionComponent>()
     val template = componentMapper<TemplateComponent>()
     val collision = componentMapper<CollisionComponent>()

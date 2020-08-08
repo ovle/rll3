@@ -82,11 +82,6 @@ fun Collection<Entity>.anyOn(position: GridPoint2, componentClass: KClass<out Co
         }
 
 fun Collection<Entity>.positions() = mapNotNull { it[Mappers.position]?.gridPosition }.toSet()
-
-fun Collection<Entity>.connection(id: String?) =
-    entitiesWith(this, LevelConnectionComponent::class)
-        .find { it[Mappers.levelConnection]!!.id == id }
-
 fun Collection<Entity>.lightObstacles() = obstacles { it.passable4Light }
 fun Collection<Entity>.bodyObstacles() = obstacles { it.passable4Body }
 fun Collection<Entity>.obstacles(fn: (CollisionComponent)-> Boolean) =

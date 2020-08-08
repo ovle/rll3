@@ -24,8 +24,7 @@ private fun isLoggableEvent(event: Event) =
         is EntityTakeDamage,
         is EntityDied,
         is EntityTakeItems,
-        is QuestStatusUpdated,
-        is EntityLevelTransition -> true
+        is QuestStatusUpdated -> true
         else -> false
     }
 
@@ -55,10 +54,6 @@ private fun message(event: Event)=
         is QuestStatusUpdated -> {
             val quest = event.quest
             "${quest.performer.info()} updated quest: ${quest.description.title}; status: ${quest.status}"
-        }
-        is EntityLevelTransition -> {
-            val entityInfo = event.entity.info()
-            "$entityInfo has leaved this level"
         }
         else -> throw IllegalArgumentException("not supported journal for event $event")
     }

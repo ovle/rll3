@@ -5,9 +5,11 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.*
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.model.ecs.component.advanced.LivingComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.component.util.Mappers.move
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
+import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.entity.anyTaskPerformer
 import com.ovle.rll3.model.template.TemplatesRegistry
 import ktx.ashley.get
@@ -25,7 +27,7 @@ data class TaskInfo(
 
 data class TaskTemplate (
     val performerFilter: TaskPerformerFilter,
-    val targetFilter: TaskTargetFilter? = null, //todo use
+    val targetFilter: TaskTargetFilter,
     val oneTimeAction: TaskAction? = null,
     val everyTurnAction: TaskAction? = null,
     val successCondition: SuccessCondition,
@@ -40,18 +42,21 @@ sealed class TaskTarget {
 
 val moveNearToTaskTemplate = TaskTemplate(
     performerFilter = ::anyTaskPerformer,
+    targetFilter = ::isEntityCondition,
     oneTimeAction = ::moveTaskAction,
     successCondition = ::isNearPositionCondition
 )
 
 val moveToTaskTemplate = TaskTemplate(
     performerFilter = ::anyTaskPerformer,
+    targetFilter = ::isPositionCondition,
     oneTimeAction = ::moveTaskAction,
     successCondition = ::isAtPositionCondition
 )
 
 val attackTaskTemplate = TaskTemplate(
     performerFilter = ::anyTaskPerformer,
+    targetFilter = ::isLivingEntityCondition,
     everyTurnAction = ::attackAction,
     successCondition = ::isTargetDeadCondition,
     failCondition = { e, t -> !isNearEntityCondition(e, t) }
@@ -87,3 +92,10 @@ fun isTargetDeadCondition(e: Entity, t: TaskTarget): Boolean {
     t as TaskTarget.EntityTarget
     return t.entity[living]!!.isDead
 }
+
+fun isPositionCondition(t: TaskTarget): Boolean = t is TaskTarget.PositionTarget
+fun isEntityCondition(t: TaskTarget): Boolean = t is TaskTarget.EntityTarget
+
+fun isLivingEntityCondition(t: TaskTarget): Boolean =
+    t is TaskTarget.EntityTarget &&
+    t.entity.has<LivingComponent>()

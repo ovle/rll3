@@ -11,9 +11,6 @@ import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
-import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent
-import com.ovle.rll3.model.ecs.component.special.LevelConnectionComponent.LevelConnectionType
-import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
@@ -109,17 +106,14 @@ class RenderObjectsSystem(
         }
     }
 
+    /**
+     * personal sprite for some kinds of entity
+     */
     private fun entitySprite(entity: Entity): Map<String, GridPoint2>? {
-        val isLevelConnection = entity.has<LevelConnectionComponent>()
         return when {
-            isLevelConnection -> {
-                val type = entity[levelConnection]!!.type
-                return mapOf(defaultSpriteKey to point(if (type == LevelConnectionType.Up) 14 else 15, 0))
-            }
             else -> null
         }
     }
-
 
     private fun draw(entities: List<Entity>, deltaTime: Float) {
         batch.begin()

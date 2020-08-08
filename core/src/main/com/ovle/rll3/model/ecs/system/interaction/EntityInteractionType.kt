@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.EntityCheck
 import com.ovle.rll3.model.ecs.component.util.Mappers.container
 import com.ovle.rll3.model.ecs.component.util.Mappers.door
-import com.ovle.rll3.model.ecs.component.util.Mappers.levelConnection
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
 import com.ovle.rll3.model.ecs.component.util.Mappers.questOwner
 import com.ovle.rll3.model.ecs.system.interaction.EntityInteractionType.*
@@ -19,8 +18,7 @@ enum class EntityInteractionType(
     Investigate("investigate"),
     Skill("skill"),
     Talk("talk"),
-    Use("use"),
-    Travel("travel");
+    Use("use");
 }
 
 
@@ -28,7 +26,6 @@ data class InteractionRule(val interactionType: EntityInteractionType, val check
 
 private val interactionRules = listOf(
     InteractionRule(Talk) { has(questOwner) }, //todo dialog instead
-    InteractionRule(Travel) { has(levelConnection) },
     InteractionRule(Use) { has(door) || has(container) },
     InteractionRule(Skill) { has(living) }, //todo base on current skill's target template?
     InteractionRule(Investigate) { true }

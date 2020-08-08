@@ -2,7 +2,6 @@ package com.ovle.rll3.event
 
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.ConnectionId
 import com.ovle.rll3.Turn
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
@@ -89,7 +88,6 @@ sealed class Event {
     class EntityChanged(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
     class EntityTakeDamage(entity: com.badlogic.ashley.core.Entity, val source: com.badlogic.ashley.core.Entity?, val amount: Int) : Entity(entity)
     class EntityDied(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
-    class EntityLevelTransition(entity: com.badlogic.ashley.core.Entity, val connectionId: ConnectionId) : Entity(entity)
     class EntitySetMoveTarget(entity: com.badlogic.ashley.core.Entity, val point: GridPoint2) : Entity(entity)
     class EntityStartMove(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
     class EntityMoved(entity: com.badlogic.ashley.core.Entity) : Entity(entity)
