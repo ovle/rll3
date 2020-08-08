@@ -1,15 +1,13 @@
 package com.ovle.rll3.model.ecs.system
 
+import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
 import com.ovle.rll3.model.ecs.component.dto.TimeInfo
-import com.ovle.rll3.model.ecs.entity.newLevel
-import com.ovle.rll3.model.ecs.entity.newPlayer
-import com.ovle.rll3.model.ecs.entity.newPlayerInteraction
-import com.ovle.rll3.model.ecs.entity.randomId
+import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.procedural.config.levelParams
 import com.ovle.rll3.model.util.gridToTileArray
@@ -24,12 +22,12 @@ class LevelSystem: EventSystem() {
         EventBus.subscribe<GameStarted> { onGameStartedEvent() }
     }
 
-    private fun onGameStartedEvent(): LevelInfo {
+    private fun onGameStartedEvent() {
         val level = level(levelParams(levelTemplateName), testSeed)
-        return initEntities(level)
+        initEntities(level)
     }
 
-    private fun initEntities(level: LevelInfo): LevelInfo {
+    private fun initEntities(level: LevelInfo) {
         val playerEntity = newPlayer(PlayerInfo(randomId()), engine)
         val interactionEntity = newPlayerInteraction(engine)
         val levelEntity = newLevel(level, engine)!!
@@ -40,7 +38,8 @@ class LevelSystem: EventSystem() {
             send(EntityInitialized(it))
         }
 
-        return level
+        val startEntity = entity("elder1")
+        send(EntityFocus(startEntity))
     }
 
     private fun level(levelParams: LevelParams, seed: Long): LevelInfo {

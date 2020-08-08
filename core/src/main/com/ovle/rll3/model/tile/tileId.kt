@@ -16,9 +16,9 @@ const val roadTileId = 'r'
 const val fenceTileId = '='
 const val waterTileId = '~'
 
-val pitTypes = setOf(pitFloorTileId, waterTileId)
-val solidWallTypes = setOf(wallTileId, structureWallWTileId)
-val wallTypes = setOf(wallTileId, structureWallWTileId, fenceTileId)
+val pitTypes = setOf(pitFloorTileId, waterTileId, structurePitTileId)
+val solidWallTypes = setOf(wallTileId, structureWallWTileId, structureWallSTileId)
+val wallTypes = setOf(wallTileId, structureWallWTileId, structureWallSTileId, fenceTileId)
 val roomFloorTypes = setOf(groundTileId, pitFloorTileId, structureFloorTileId)
 val floorTypes = setOf(groundTileId, pitFloorTileId, corridorTileId, structureFloorTileId, structureInnerFloorTileId, roadTileId)
 val structureTypes = setOf(structureFloorTileId, structureInnerFloorTileId, structureWallWTileId)

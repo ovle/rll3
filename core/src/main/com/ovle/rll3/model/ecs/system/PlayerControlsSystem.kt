@@ -6,9 +6,7 @@ import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.util.Mappers
-import com.ovle.rll3.model.ecs.component.util.Mappers.template
 import com.ovle.rll3.model.ecs.entity.*
-import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.view.noVisibilityFilter
 import com.ovle.rll3.view.viewportToGame
 import ktx.ashley.get
@@ -97,7 +95,6 @@ class PlayerControlsSystem : EventSystem() {
                 DebugSaveGame().then(ExitGame())
             )
             Input.Keys.A -> send(DebugCombat())
-            Input.Keys.F -> send(DebugToggleFocus())
             Input.Keys.I -> send(DebugShowPlayerInventory())
             Input.Keys.S -> send(DebugSwitchSelectionMode())
             Input.Keys.C -> send(DebugSwitchControlMode())

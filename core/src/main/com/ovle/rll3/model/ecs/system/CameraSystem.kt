@@ -27,13 +27,13 @@ class CameraSystem(
         EventBus.subscribe<EntityInitialized> { onEntityMoved(it.entity) }
         EventBus.subscribe<EntityMoved> { onEntityMoved(it.entity) }
 
-        EventBus.subscribe<DebugToggleFocus> { onDebugToggleFocusEvent() }
+        EventBus.subscribe<EntityFocus> { onEntityFocusEvent(it.entity) }
     }
 
-    private fun onDebugToggleFocusEvent() {
+    private fun onEntityFocusEvent(entity: Entity) {
         val interactionInfo = playerInteractionInfo() ?: return
         with (interactionInfo) {
-            focusedEntity = selectedEntity
+            focusedEntity = entity
             focusedEntity?.let { focusCamera(it) }
         }
     }

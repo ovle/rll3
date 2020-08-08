@@ -49,9 +49,9 @@ class EntityInteractionSystem : EventSystem() {
 
     private fun onVoidClickEvent(button: Int, point: GridPoint2) {
         deselect()
+        unfocus()
         send(HideEntityActions())
     }
-
 
     private fun onEntityHoverEvent(entity: Entity) {
         val interactionInfo = playerInteractionInfo()!!
@@ -72,31 +72,14 @@ class EntityInteractionSystem : EventSystem() {
         interactionInfo.selectedEntity = entity
     }
 
-    //at least one party entity is already selected?
     private fun deselect() {
         val interactionInfo = playerInteractionInfo()!!
 
         interactionInfo.selectedEntity = null
     }
 
-//    private fun onEntityActionEvent(entity: Entity, interaction: EntityInteraction) {
-//        performEntityInteraction(entity, interaction)
-//    }
-
-//    private fun performEntityInteraction(entity: Entity, interaction: EntityInteraction) {
-//        val playerEntity = controlledEntity()!!
-//
-//        when (interaction.type) {
-//            Travel -> {
-//                val connectionComponent = entity[levelConnection]!!
-//                send(EntityLevelTransition(playerEntity, connectionComponent.id))
-//            }
-//            Talk -> showTalkActions(playerEntity, entity)
-//            Use -> {
-//                use(playerEntity, entity)
-//                //todo events
-//            }
-//        }
-//    }
-
+    private fun unfocus() {
+        val interactionInfo = playerInteractionInfo()!!
+        interactionInfo.focusedEntity = null
+    }
 }
