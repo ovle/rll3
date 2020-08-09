@@ -64,7 +64,8 @@ class GameScreen(
             EntityInteractionSystem(),
             TileInteractionSystem(),
 
-            SkillSystem()
+            SkillSystem(),
+            ResourceSystem()
 
 //            CombatSystem(),
 //            AnimationSystem(objectsTextureInfo),

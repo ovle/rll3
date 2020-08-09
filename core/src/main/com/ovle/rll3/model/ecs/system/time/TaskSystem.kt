@@ -13,7 +13,7 @@ import ktx.ashley.get
 //todo how to use with behaviour trees
 class TaskSystem : EventSystem() {
 
-    private val templates = arrayOf(attackTaskTemplate, moveToTaskTemplate)
+    private val templates = arrayOf(gatherTaskTemplate, attackTaskTemplate, moveToTaskTemplate)
 
     override fun subscribe() {
         EventBus.subscribe<Event.TimeChanged> { onTimeChangedEvent(it.turn) }

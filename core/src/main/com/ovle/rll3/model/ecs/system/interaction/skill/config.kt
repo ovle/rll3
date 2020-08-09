@@ -1,11 +1,17 @@
 package com.ovle.rll3.model.ecs.system.interaction.skill
 
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
+import com.ovle.rll3.model.ecs.component.util.Mappers.source
 import ktx.ashley.has
 
-//todo scaling
-
 fun testSkillTemplates() = arrayOf(
+    SkillTemplate(
+        name = "gather",
+        cost = { staminaCost(it, 1) },
+        target = { position, level -> entityTarget(position, level) { it.has(source) } },
+        time = 50,
+        skillEffect = gatherEffect
+    ),
     SkillTemplate(
         name = "attack",
         cost = { staminaCost(it, 1) },

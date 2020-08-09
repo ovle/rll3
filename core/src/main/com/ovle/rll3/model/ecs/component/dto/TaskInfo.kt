@@ -6,8 +6,9 @@ import com.ovle.rll3.*
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.advanced.LivingComponent
+import com.ovle.rll3.model.ecs.component.basic.ResourceComponent
+import com.ovle.rll3.model.ecs.component.basic.SourceComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.living
-import com.ovle.rll3.model.ecs.component.util.Mappers.move
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.model.ecs.entity.anyTaskPerformer
@@ -62,9 +63,23 @@ val attackTaskTemplate = TaskTemplate(
     failCondition = { e, t -> !isNearEntityCondition(e, t) }
 )
 
+val gatherTaskTemplate = TaskTemplate(
+    performerFilter = ::anyTaskPerformer,
+    targetFilter = ::isSourceEntityCondition,
+    everyTurnAction = ::gatherAction,
+    successCondition = { e, t -> !isTargetExistsCondition(e, t) },
+    failCondition = { e, t -> !isNearEntityCondition(e, t) }
+)
+
 fun moveTaskAction(e: Entity, t: TaskTarget) {
     t as TaskTarget.PositionTarget  //todo
     send(Event.EntitySetMoveTarget(e, t.position))
+}
+
+fun gatherAction(e: Entity, t: TaskTarget) {
+    t as TaskTarget.EntityTarget  //todo
+    val st = TemplatesRegistry.skillTemplates["gather"] //todo
+    send(Event.EntityUseSkill(e, t.entity, st!!))
 }
 
 fun attackAction(e: Entity, t: TaskTarget) {
@@ -75,7 +90,8 @@ fun attackAction(e: Entity, t: TaskTarget) {
 
 fun isNearEntityCondition(e: Entity, t: TaskTarget): Boolean {
     t as TaskTarget.EntityTarget
-    return e[position]!!.gridPosition.isNear(t.entity[position]!!.gridPosition)
+    val targetPosition = t.entity[position]?.gridPosition ?: return false
+    return e[position]!!.gridPosition.isNear(targetPosition)
 }
 
 fun isNearPositionCondition(e: Entity, t: TaskTarget): Boolean {
@@ -93,9 +109,22 @@ fun isTargetDeadCondition(e: Entity, t: TaskTarget): Boolean {
     return t.entity[living]!!.isDead
 }
 
+fun isTargetExistsCondition(e: Entity, t: TaskTarget): Boolean {
+    t as TaskTarget.EntityTarget
+    return !t.entity.isScheduledForRemoval
+}
+
 fun isPositionCondition(t: TaskTarget): Boolean = t is TaskTarget.PositionTarget
 fun isEntityCondition(t: TaskTarget): Boolean = t is TaskTarget.EntityTarget
 
 fun isLivingEntityCondition(t: TaskTarget): Boolean =
     t is TaskTarget.EntityTarget &&
     t.entity.has<LivingComponent>()
+
+fun isSourceEntityCondition(t: TaskTarget): Boolean =
+    t is TaskTarget.EntityTarget &&
+    t.entity.has<SourceComponent>()
+
+fun isResourceEntityCondition(t: TaskTarget): Boolean =
+    t is TaskTarget.EntityTarget &&
+    t.entity.has<ResourceComponent>()

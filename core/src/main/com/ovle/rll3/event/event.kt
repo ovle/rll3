@@ -67,6 +67,7 @@ sealed class Event {
     class EntityUnhover : Game()
 
     class EntityInitialized(entity: Entity) : EntityEvent(entity)
+    class EntityDestroyed(entity: Entity) : EntityEvent(entity)
     class EntitySelect(entity: Entity) : EntityEvent(entity)
     class EntityDeselect(entity: Entity) : EntityEvent(entity)
     class ShowEntityInfo(entity: Entity) : EntityEvent(entity)
@@ -84,6 +85,7 @@ sealed class Event {
     class EntityUseSkill(source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : EntityEvent(source)
 
     class EntityChanged(entity: Entity) : EntityEvent(entity)
+    class EntityGathered(entity: Entity, val source: Entity?, val amount: Int) : EntityEvent(entity)
     class EntityTakeDamage(entity: Entity, val source: Entity?, val amount: Int) : EntityEvent(entity)
     class EntityDied(entity: Entity) : EntityEvent(entity)
     class EntitySetMoveTarget(entity: Entity, val point: GridPoint2) : EntityEvent(entity)

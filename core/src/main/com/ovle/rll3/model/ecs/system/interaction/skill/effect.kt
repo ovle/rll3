@@ -15,6 +15,11 @@ val damageEffect: SkillEffect = { source, target, amount ->
     EventBus.send(Event.EntityTakeDamage(target, source, amount))
 }
 
+val gatherEffect: SkillEffect = { source, target, amount ->
+    target as Entity
+    EventBus.send(Event.EntityGathered(target, source, amount))
+}
+
 val healEffect: SkillEffect = { source, _, amount ->
     //todo
 }

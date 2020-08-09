@@ -24,7 +24,18 @@ class EntityInteractionSystem : EventSystem() {
         EventBus.subscribe<EntityHover> { onEntityHoverEvent(it.entity) }
         EventBus.subscribe<EntityUnhover> { onEntityUnhoverEvent() }
 
+        EventBus.subscribe<EntityDestroyed> { onEntityDestroyedEvent(it.entity) }
+
 //        EventBus.subscribe<Event.EntityInteraction> { onEntityActionEvent(it.entity, it.interaction) }
+    }
+
+    private fun onEntityDestroyedEvent(entity: Entity) {
+        val interactionInfo = playerInteractionInfo()!!
+        with(interactionInfo) {
+            if (selectedEntity == entity) selectedEntity = null
+            if (focusedEntity == entity) focusedEntity = null
+            if (hoveredEntity == entity) hoveredEntity = null
+        }
     }
 
     private fun onEntityClickEvent(entity: Entity, button: Int) {
