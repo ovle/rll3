@@ -9,7 +9,7 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.utils.Array
-import com.ovle.rll3.model.ecs.system.ai.components.EntityBlackboard
+import com.ovle.rll3.model.module.ai.EntityBlackboard
 import ktx.assets.file
 
 data class BehaviorTreeInfo(val name: String, val tree: BehaviorTree<EntityBlackboard>)

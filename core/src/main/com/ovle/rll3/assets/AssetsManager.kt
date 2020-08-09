@@ -7,8 +7,8 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.utils.Disposable
 import com.ovle.rll3.assets.loader.*
-import com.ovle.rll3.model.ecs.system.ai.components.EntityBlackboard
-import com.ovle.rll3.model.ecs.system.interaction.skill.testSkillTemplates
+import com.ovle.rll3.model.module.ai.EntityBlackboard
+import com.ovle.rll3.model.module.skill.testSkillTemplates
 import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.view.*

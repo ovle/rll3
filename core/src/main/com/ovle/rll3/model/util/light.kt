@@ -1,11 +1,11 @@
 package com.ovle.rll3.model.util
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.ecs.component.advanced.LightSourceComponent
-import com.ovle.rll3.model.ecs.component.dto.AOETilePosition
-import com.ovle.rll3.model.ecs.component.dto.LevelInfo
-import com.ovle.rll3.model.ecs.component.util.Mappers
-import com.ovle.rll3.model.ecs.entity.entitiesWith
+import com.ovle.rll3.model.module.light.LightSourceComponent
+import com.ovle.rll3.model.module.light.AOETilePosition
+import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.core.component.Mappers
+import com.ovle.rll3.model.module.core.entity.entitiesWith
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
 import ktx.ashley.get

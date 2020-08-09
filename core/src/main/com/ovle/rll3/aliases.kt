@@ -5,9 +5,9 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.model.ecs.component.dto.LevelInfo
-import com.ovle.rll3.model.ecs.component.dto.TaskTarget
-import com.ovle.rll3.model.ecs.system.quest.QuestInfo
+import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.tile.LightPassType
 import com.ovle.rll3.model.tile.NearValues
 import com.ovle.rll3.model.tile.Tile

@@ -3,11 +3,11 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.assets.loader.EntityTemplates
-import com.ovle.rll3.model.ecs.component.dto.LevelInfo
-import com.ovle.rll3.model.ecs.component.util.Mappers.position
-import com.ovle.rll3.model.ecs.entity.positions
-import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
-import com.ovle.rll3.model.ecs.entity.randomId
+import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.core.component.Mappers.position
+import com.ovle.rll3.model.module.core.entity.positions
+import com.ovle.rll3.model.module.core.entity.newTemplatedEntity
+import com.ovle.rll3.model.module.core.entity.randomId
 import com.ovle.rll3.model.procedural.grid.utils.SpawnTable
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.point

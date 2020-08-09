@@ -1,6 +1,6 @@
-import isNearEntity?:"com.ovle.rll3.model.ecs.system.ai.components.condition.IsNearEntityCondition"
-import isMovingToEntity?:"com.ovle.rll3.model.ecs.system.ai.components.condition.IsMovingToEntityCondition"
-import startMovingToEntity:"com.ovle.rll3.model.ecs.system.ai.components.action.StartMovingToEntityAction"
+import isNearEntity?:"com.ovle.rll3.model.module.ai.condition.IsNearEntityCondition"
+import isMovingToEntity?:"com.ovle.rll3.model.module.ai.condition.IsMovingToEntityCondition"
+import startMovingToEntity:"com.ovle.rll3.model.module.ai.action.StartMovingToEntityAction"
 
 root
     sequence

@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.RoomTiles
 import com.ovle.rll3.isNear
-import com.ovle.rll3.model.ecs.component.dto.LevelInfo
+import com.ovle.rll3.model.module.game.LevelInfo
 import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.model.tile.roomFloorTypes
 import kotlin.math.roundToInt

@@ -4,10 +4,10 @@
 //import com.badlogic.ashley.core.Entity
 //import com.badlogic.gdx.math.GridPoint2
 //import com.ovle.rll3.model.ecs.component.dto.LevelDescription
-//import com.ovle.rll3.model.ecs.component.dto.LevelInfo
+//import com.ovle.rll3.model.module.game.LevelInfo
 //import com.ovle.rll3.model.ecs.component.LightTilePosition
-//import com.ovle.rll3.model.ecs.entity.newLightSource
-//import com.ovle.rll3.model.ecs.entity.obstacles
+//import com.ovle.rll3.model.module.core.entity.newLightSource
+//import com.ovle.rll3.model.module.core.entity.obstacles
 //import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 //import com.ovle.rll3.model.procedural.grid.floorTypes
 //import com.ovle.rll3.model.tile.TileArray

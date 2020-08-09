@@ -3,9 +3,9 @@ package com.ovle.rll3.event
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.ecs.component.basic.TemplateComponent
-import com.ovle.rll3.model.ecs.component.util.Mappers.template
-import com.ovle.rll3.model.ecs.component.util.has
+import com.ovle.rll3.model.module.core.component.TemplateComponent
+import com.ovle.rll3.model.module.core.component.Mappers.template
+import com.ovle.rll3.model.module.core.component.has
 import ktx.ashley.get
 
 fun eventLogHook(event: Event) {

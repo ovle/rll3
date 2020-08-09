@@ -3,7 +3,7 @@ package com.ovle.rll3.model.template
 import com.ovle.rll3.assets.loader.EntityTemplates
 import com.ovle.rll3.assets.loader.EntityViewTemplates
 import com.ovle.rll3.assets.loader.StructureTemplates
-import com.ovle.rll3.model.ecs.system.interaction.skill.SkillTemplate
+import com.ovle.rll3.model.module.skill.SkillTemplate
 
 
 object TemplatesRegistry {

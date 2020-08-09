@@ -1,7 +1,7 @@
 package com.ovle.rll3.persistance
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.ecs.id
+import com.ovle.rll3.model.module.core.entity.id
 import java.io.ByteArrayOutputStream
 import java.io.ObjectOutputStream
 import java.io.Serializable

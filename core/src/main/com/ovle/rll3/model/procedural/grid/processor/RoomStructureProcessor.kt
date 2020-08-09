@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.procedural.grid.processor
 
 import com.badlogic.ashley.core.Engine
-import com.ovle.rll3.model.ecs.component.dto.LevelInfo
+import com.ovle.rll3.model.module.game.LevelInfo
 import com.ovle.rll3.model.procedural.grid.RoomStructure
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.tile.nearValues
