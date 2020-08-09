@@ -13,45 +13,38 @@ fun eventLogHook(event: Event) {
 
     val message = message(event)
     println(message)
-    send(Log(message))
+    send(GameEvent.LogCommand(message))
 }
 
 private fun isLoggableEvent(event: Event) =
     when (event) {
-        is DebugShowInventory,
-
-        is EntityInteraction,
-        is EntityTakeDamage,
-        is EntityDied,
-        is EntityTakeItems,
-        is QuestStatusUpdated -> true
+        is GameEvent.EntityEvent.EntityInteraction,
+        is GameEvent.EntityEvent.EntityTakeDamageEvent,
+        is GameEvent.EntityEvent.EntityDiedEvent,
+        is GameEvent.EntityEvent.EntityTakeItems,
+        is GameEvent.QuestStatusUpdatedEvent -> true
         else -> false
     }
 
 private fun message(event: Event)=
     when (event) {
-        is DebugShowInventory -> {
-            val entityInfo = event.entity.info()
-            val itemsInfo = event.items.info()
-            "$entityInfo has items: $itemsInfo"
-        }
-        is EntityInteraction -> {
+        is GameEvent.EntityEvent.EntityInteraction -> {
             val sourceInfo = event.source.info()
             val entityInfo = event.entity.info()
             val actionInfo = event.interaction
             "$sourceInfo $actionInfo $entityInfo"
         }
-        is EntityTakeDamage -> {
+        is GameEvent.EntityEvent.EntityTakeDamageEvent -> {
             val entityInfo = event.entity.info()
             val sourceInfo = event.source?.info() ?: " unknown source"
             "$entityInfo takes ${event.amount} damage from $sourceInfo"
         }
-        is EntityDied -> { "${event.entity.info()} died" }
-        is EntityTakeItems -> {
+        is GameEvent.EntityEvent.EntityDiedEvent -> { "${event.entity.info()} died" }
+        is GameEvent.EntityEvent.EntityTakeItems -> {
             val itemsInfo = event.items.info()
             "${event.entity.info()} taken: $itemsInfo"
         }
-        is QuestStatusUpdated -> {
+        is GameEvent.QuestStatusUpdatedEvent -> {
             val quest = event.quest
             "${quest.performer.info()} updated quest: ${quest.description.title}; status: ${quest.status}"
         }

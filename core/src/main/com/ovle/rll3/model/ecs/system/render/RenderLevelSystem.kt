@@ -16,11 +16,12 @@ import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.utils.Array
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.Event
-import com.ovle.rll3.event.Event.LevelLoaded
+import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
+import com.ovle.rll3.event.Event.GameEvent.LevelLoadedEvent
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.advanced.PerceptionComponent
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
-import com.ovle.rll3.model.ecs.component.util.Mappers.perception
 import com.ovle.rll3.model.ecs.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.tile.*
@@ -29,7 +30,6 @@ import com.ovle.rll3.view.layer.*
 import com.ovle.rll3.view.palette.Palette.bgColor
 import com.ovle.rll3.view.tileHeight
 import com.ovle.rll3.view.tileWidth
-import ktx.ashley.get
 
 
 class RenderLevelSystem(
@@ -45,9 +45,9 @@ class RenderLevelSystem(
 
 
     override fun subscribe() {
-        EventBus.subscribe<Event.EntityFovUpdated> { onEntityFovUpdated(it.entity) }
-        EventBus.subscribe<LevelLoaded> { onLevelLoaded(it.level, it.levelParams) }
-        EventBus.subscribe<Event.DebugTileChanged> { onDebugTileChanged(it.tile, it.position) }
+        EventBus.subscribe<EntityFovUpdatedEvent> { onEntityFovUpdated(it.entity) }
+        EventBus.subscribe<LevelLoadedEvent> { onLevelLoaded(it.level, it.levelParams) }
+        EventBus.subscribe<DebugTileChanged> { onDebugTileChanged(it.tile, it.position) }
     }
 
     private fun onLevelLoaded(level: LevelInfo, levelParams: LevelParams) {

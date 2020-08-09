@@ -19,6 +19,6 @@ fun processDoor(source: Entity, entity: Entity) {
     entity[render]?.switchSprite(if (closed) "default" else "opened")
 
     send(
-        Event.UpdateLightCollision(arrayOf(entity[position]!!.gridPosition))
+        Event.GameEvent.UpdateLightCollisionCommand(arrayOf(entity[position]!!.gridPosition))
     )
 }

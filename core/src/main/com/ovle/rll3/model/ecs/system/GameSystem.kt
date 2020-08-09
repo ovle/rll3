@@ -1,28 +1,37 @@
 package com.ovle.rll3.model.ecs.system
 
-import com.ovle.rll3.event.Event
-import com.ovle.rll3.event.Event.*
+import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.event.Event.GameEvent.*
+import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.dto.LevelInfo
 import com.ovle.rll3.model.ecs.component.dto.PlayerInfo
 import com.ovle.rll3.model.ecs.component.dto.TimeInfo
+import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.entity.*
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.procedural.config.levelParams
+import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.util.gridToTileArray
+import ktx.ashley.get
 
 
-class LevelSystem: EventSystem() {
+class GameSystem: EventSystem() {
 
     private val testSeed = 123L
     private val levelTemplateName = "Village"
+    private val startFocusEntityId = "elder1"
 
     override fun subscribe() {
-        EventBus.subscribe<GameStarted> { onGameStartedEvent() }
+        EventBus.subscribe<StartGameCommand> { onStartGameCommand() }
+
+        EventBus.subscribe<DestroyEntityCommand> { onDestroyEntityCommand(it.entity) }
+        EventBus.subscribe<CreateEntityCommand> { onCreateEntityCommand(it.entityTemplate, it.position) }
     }
 
-    private fun onGameStartedEvent() {
+    private fun onStartGameCommand() {
         val level = level(levelParams(levelTemplateName), testSeed)
         initEntities(level)
     }
@@ -32,14 +41,14 @@ class LevelSystem: EventSystem() {
         val interactionEntity = newPlayerInteraction(engine)
         val levelEntity = newLevel(level, engine)!!
 
-        send(LevelLoaded(level, level.params))
+        send(LevelLoadedEvent(level, level.params))
 
         level.entities.forEach {
-            send(EntityInitialized(it))
+            send(EntityInitializedEvent(it))
         }
 
-        val startEntity = entity("elder1")
-        send(EntityFocus(startEntity))
+        val startEntity = entity(startFocusEntityId)
+        send(FocusEntityCommand(startEntity))
     }
 
     private fun level(levelParams: LevelParams, seed: Long): LevelInfo {
@@ -66,6 +75,18 @@ class LevelSystem: EventSystem() {
     }
 
     private fun levelParams(name: String) = levelParams.getValue(name)
+
+    private fun onCreateEntityCommand(entityTemplate: EntityTemplate, position: GridPoint2) {
+        val entity = newTemplatedEntity(randomId(), entityTemplate, engine)
+            .apply { this[Mappers.position]!!.gridPosition = position }
+
+        send(EntityInitializedEvent(entity))
+    }
+
+    private fun onDestroyEntityCommand(entity: Entity) {
+        engine.removeEntity(entity)
+        send(EntityDestroyedEvent(entity))
+    }
 
 //    @OptIn(ExperimentalStdlibApi::class)
 //    private fun playerStartPosition(newLevel: LevelInfo, oldConnection: LevelConnectionComponent?, r: Random): GridPoint2 {

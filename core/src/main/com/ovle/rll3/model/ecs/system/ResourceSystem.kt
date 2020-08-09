@@ -2,13 +2,14 @@ package com.ovle.rll3.model.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.Turn
-import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.GameEvent.CreateEntityCommand
+import com.ovle.rll3.event.Event.GameEvent.EntityEvent.DestroyEntityCommand
+import com.ovle.rll3.event.Event.GameEvent.EntityEvent.EntityGatheredEvent
+import com.ovle.rll3.event.Event.GameEvent.TimeChangedEvent
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.source
-import com.ovle.rll3.model.ecs.entity.newTemplatedEntity
-import com.ovle.rll3.model.ecs.entity.randomId
 import com.ovle.rll3.model.template.entity.entityTemplate
 import ktx.ashley.get
 
@@ -16,8 +17,8 @@ import ktx.ashley.get
 class ResourceSystem : EventSystem() {
 
     override fun subscribe() {
-        subscribe<Event.EntityGathered> { onEntityGathered(it.entity, it.amount) }
-        subscribe<Event.TimeChanged> { onTimeChanged(it.turn) }
+        subscribe<EntityGatheredEvent> { onEntityGathered(it.entity, it.amount) }
+        subscribe<TimeChangedEvent> { onTimeChanged(it.turn) }
     }
 
     private fun onEntityGathered(entity: Entity, amount: Int) {
@@ -28,15 +29,14 @@ class ResourceSystem : EventSystem() {
             val gridPosition = entity[position]!!.gridPosition
             val resourceType = sourceComponent.type.name.decapitalize()
 
-            engine.removeEntity(entity)
-            send(Event.EntityDestroyed(entity))
+            send(DestroyEntityCommand(entity))
 
-            newTemplatedEntity(randomId(), entityTemplate(name = resourceType), engine)
-                .apply { this[position]!!.gridPosition = gridPosition }
+            val template = entityTemplate(name = resourceType)
+            send(CreateEntityCommand(template, gridPosition))
         }
     }
 
     private fun onTimeChanged(turn: Turn) {
-
+        //todo
     }
 }

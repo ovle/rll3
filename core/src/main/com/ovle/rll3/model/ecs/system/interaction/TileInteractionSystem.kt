@@ -2,6 +2,8 @@ package com.ovle.rll3.model.ecs.system.interaction
 
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.DebugChangeSelectedTiles
+import com.ovle.rll3.event.Event.PlayerControlEvent.ClickEvent
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.special.SelectionMode
@@ -15,10 +17,8 @@ import com.ovle.rll3.model.tile.groundTileId
 class TileInteractionSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<Event.Click> { onClickEvent(it.button, it.point) }
-        EventBus.subscribe<Event.DebugChangeSelectedTiles> { onDebugChangeSelectedTilesEvent() }
-
-//        EventBus.subscribe<EntityInteractionEvent> { onEntityActionEvent(it.entity, it.interaction) }
+        EventBus.subscribe<ClickEvent> { onClickEvent(it.button, it.point) }
+        EventBus.subscribe<DebugChangeSelectedTiles> { onDebugChangeSelectedTilesEvent() }
 //        EventBus.subscribe<EntityUseSkill> { onEntityUseSkillEvent(it.entity, it.target, it.skillTemplate) }
     }
 
@@ -51,14 +51,4 @@ class TileInteractionSystem : EventSystem() {
     private fun typeId(tile: Tile): Char {
         return groundTileId //todo
     }
-
-//    private fun onEntityActionEvent(entity: Entity, interaction: EntityInteraction) {
-//        performEntityInteraction(entity, interaction)
-//    }
-//
-//    //todo
-//    private fun onEntityUseSkillEvent(entity: Entity, target: Any?, skillTemplate: SkillTemplate) {
-//        println("$entity use skill ${skillTemplate.name} on $target")
-////        skill(entity, target, skillTemplate)
-//    }
 }

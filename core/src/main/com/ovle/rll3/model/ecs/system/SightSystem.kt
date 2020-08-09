@@ -3,6 +3,8 @@ package com.ovle.rll3.model.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.GameEvent.*
+import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.advanced.PerceptionComponent
@@ -22,9 +24,9 @@ import ktx.ashley.get
 class SightSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<Event.EntityInitialized> { onEntityInitialized(it.entity) }
-        EventBus.subscribe<Event.EntityMoved> { onEntityMoved(it.entity) }
-        EventBus.subscribe<Event.UpdateLightCollision> { onUpdateCollision(it.points) }
+        EventBus.subscribe<EntityInitializedEvent> { onEntityInitialized(it.entity) }
+        EventBus.subscribe<EntityMovedEvent> { onEntityMoved(it.entity) }
+        EventBus.subscribe<UpdateLightCollisionCommand> { onUpdateCollision(it.points) }
     }
 
     private fun onUpdateCollision(points: Array<GridPoint2>) {
@@ -51,7 +53,7 @@ class SightSystem : EventSystem() {
         val obstacles = levelInfo().entities.lightObstacles()
         perceptionComponent.fov = fov(positionComponent, perceptionComponent, obstacles)
 
-        send(Event.EntityFovUpdated(entity))
+        send(EntityFovUpdatedEvent(entity))
     }
 
     private fun fov(positionComponent: PositionComponent, perceptionComponent: PerceptionComponent, obstacles: List<GridPoint2>): Set<GridPoint2> {

@@ -32,7 +32,7 @@ fun questDescriptions(entitySystem: EntitySystem) =
                 false
             },
             onSuccess = {
-                send(Event.Log("thank you!"))
+                send(Event.GameEvent.LogCommand("thank you!"))
             }
         )
     )

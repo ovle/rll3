@@ -3,6 +3,8 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
+import com.ovle.rll3.event.Event.PlayerControlEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.focusedEntity
@@ -19,15 +21,15 @@ class CameraSystem(
     private val screenCenter = vec3(screenWidth / 2, screenHeight / 2)
 
     override fun subscribe() {
-        EventBus.subscribe<CameraScaleInc> { onScaleChange(0.1f) }
-        EventBus.subscribe<CameraScaleDec> { onScaleChange(-0.1f) }
-        EventBus.subscribe<CameraScrolled> { onScaleChange(-it.amount.toFloat() * scaleScrollCoeff) }
-        EventBus.subscribe<CameraMoved> { onCameraMoved(it.amount) }
+        EventBus.subscribe<CameraScaleIncEvent> { onScaleChange(0.1f) }
+        EventBus.subscribe<CameraScaleDecEvent> { onScaleChange(-0.1f) }
+        EventBus.subscribe<CameraScrolledEvent> { onScaleChange(-it.amount.toFloat() * scaleScrollCoeff) }
+        EventBus.subscribe<CameraMovedEvent> { onCameraMoved(it.amount) }
 
-        EventBus.subscribe<EntityInitialized> { onEntityMoved(it.entity) }
-        EventBus.subscribe<EntityMoved> { onEntityMoved(it.entity) }
+        EventBus.subscribe<EntityInitializedEvent> { onEntityMoved(it.entity) }
+        EventBus.subscribe<EntityMovedEvent> { onEntityMoved(it.entity) }
 
-        EventBus.subscribe<EntityFocus> { onEntityFocusEvent(it.entity) }
+        EventBus.subscribe<FocusEntityCommand> { onEntityFocusEvent(it.entity) }
     }
 
     private fun onEntityFocusEvent(entity: Entity) {

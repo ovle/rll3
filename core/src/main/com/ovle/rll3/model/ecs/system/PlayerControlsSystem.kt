@@ -3,6 +3,7 @@ package com.ovle.rll3.model.ecs.system
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.Event.PlayerControlEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.util.Mappers
@@ -15,22 +16,22 @@ import ktx.ashley.get
 class PlayerControlsSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<MouseClick> {
+        EventBus.subscribe<MouseClickEvent> {
             val gamePoint = it.viewportPoint.viewportToGame()
             onMouseClick(gamePoint, it.button)
         }
-        EventBus.subscribe<MouseMoved> {
+        EventBus.subscribe<MouseMovedEvent> {
             val gamePoint = it.viewportPoint.viewportToGame()
             onMouseMoved(gamePoint)
         }
-        EventBus.subscribe<NumKeyPressed> { onNumKeyPressed(it.number) }
-        EventBus.subscribe<KeyPressed> { onKeyPressed(it.code) }
+        EventBus.subscribe<NumKeyPressedEvent> { onNumKeyPressed(it.number) }
+        EventBus.subscribe<KeyPressedEvent> { onKeyPressed(it.code) }
     }
 
     private fun onMouseClick(position: GridPoint2, button: Int) {
         val level = levelInfoNullable() ?: return
 
-        send(Click(button, position))
+        send(ClickEvent(button, position))
 
 //        val skillTemplate = selectedSkillTemplate()
 //        val skillWithTarget = skillTemplate?.target != null
@@ -44,11 +45,11 @@ class PlayerControlsSystem : EventSystem() {
             val entities = level.entities.on(position)
 //            val partyEntities = player()!!.party.entities.toList().on(position)
             when {
-                entities.isNotEmpty() -> send(EntityClick(button, entities.single()))
+                entities.isNotEmpty() -> send(GameEvent.EntityEvent.EntityClickEvent(button, entities.single()))
 //                partyEntities.isNotEmpty() -> send(EntityClick(button, partyEntities.single()))
                 else -> {
 //                    send(EntitySetMoveTarget(controlledEntity, position))
-                    send(VoidClick(button, position))
+                    send(VoidClickEvent(button, position))
                 }
             }
         }
@@ -60,12 +61,12 @@ class PlayerControlsSystem : EventSystem() {
         val positionComponent = interactionEntity[Mappers.position]!!
         if (positionComponent.gridPosition == position) return
 
-        send(EntityUnhover())
+        send(GameEvent.EntityUnhoverEvent())
 
         positionComponent.gridPosition = position
         val entities = level.entities.on(position)
         entities.forEach {
-            send(EntityHover(it))
+            send(GameEvent.EntityEvent.EntityHoverEvent(it))
         }
     }
 

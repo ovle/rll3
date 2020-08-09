@@ -6,7 +6,6 @@ import com.ovle.rll3.model.ecs.component.util.Mappers
 import com.ovle.rll3.model.ecs.entity.levelInfo
 import com.ovle.rll3.model.ecs.system.ai.components.EntityTask
 import com.ovle.rll3.model.tile.isPassable
-import com.ovle.rll3.model.util.pathfinding.aStar.path
 import ktx.ashley.get
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -23,7 +22,7 @@ class RunAwayAction: EntityTask() {
         val toPointCandidates = tiles.positions().filter { tiles.isPassable(it) }
         val target = toPointCandidates.randomOrNull() ?: return Status.FAILED
 
-        EventBus.send(Event.EntitySetMoveTarget(currentEntity, target))
+        EventBus.send(Event.GameEvent.EntityEvent.EntityStartMoveCommand(currentEntity, target))
 
         return Status.SUCCEEDED
     }

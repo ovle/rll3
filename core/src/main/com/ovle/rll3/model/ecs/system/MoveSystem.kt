@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family.all
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.ecs.component.basic.MoveComponent
@@ -15,7 +16,6 @@ import com.ovle.rll3.model.ecs.component.util.Mappers.action
 import com.ovle.rll3.model.ecs.component.util.Mappers.move
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.entity.*
-import com.ovle.rll3.model.ecs.see
 import com.ovle.rll3.model.tile.tilePassType
 import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.model.util.pathfinding.cost
@@ -33,7 +33,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
     }
 
     fun subscribe() {
-        EventBus.subscribe<Event.EntitySetMoveTarget> { onEntitySetMoveTargetEvent(it.entity, it.point) }
+        EventBus.subscribe<EntityStartMoveCommand> { onEntitySetMoveTargetEvent(it.entity, it.point) }
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
@@ -62,7 +62,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         val pathFinished = movePath.finished
         if (pathFinished) {
             movePath.reset()
-            send(Event.EntityFinishMove(entity))
+            send(EntityFinishedMoveEvent(entity))
         } else {
             val actionComponent = entity[action]!!
             if (actionComponent.current == null) {
@@ -103,7 +103,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
 
         positionComponent.gridPosition = newPosition
 
-        send(Event.EntityMoved(entity))
+        send(EntityMovedEvent(entity))
     }
 
     private fun setMoveTarget(level: LevelInfo, to: GridPoint2, entity: Entity) {
@@ -134,7 +134,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
 
         if (!movePath.started) {
             movePath.start()
-            send(Event.EntityStartMove(entity))
+            send(EntityStartedMoveEvent(entity))
         }
     }
 }

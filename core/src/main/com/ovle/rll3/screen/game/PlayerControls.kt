@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.viewport.FitViewport
-import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.PlayerControlEvent.*
 import com.ovle.rll3.event.EventBus.send
 import ktx.math.vec2
 import ktx.math.vec3
@@ -17,23 +17,23 @@ class PlayerControls(batchViewport: FitViewport) : InputAdapter() {
     private var lastDragId: Int? = null
 
     override fun keyUp(keycode: Int) = when (keycode) {
-        Input.Keys.MINUS -> { send(Event.CameraScaleDec()); true }
-        Input.Keys.PLUS -> { send(Event.CameraScaleInc()); true }
-        in (Input.Keys.NUM_1..Input.Keys.NUM_9) -> { send(Event.NumKeyPressed(keycode - 8)); true }
-        else -> { send(Event.KeyPressed(keycode)); true }
+        Input.Keys.MINUS -> { send(CameraScaleDecEvent()); true }
+        Input.Keys.PLUS -> { send(CameraScaleIncEvent()); true }
+        in (Input.Keys.NUM_1..Input.Keys.NUM_9) -> { send(NumKeyPressedEvent(keycode - 8)); true }
+        else -> { send(KeyPressedEvent(keycode)); true }
     }
 
-    override fun scrolled(amount: Int) = send(Event.CameraScrolled(amount)).run { true }
+    override fun scrolled(amount: Int) = send(CameraScrolledEvent(amount)).run { true }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-        send(Event.MouseMoved(viewportPoint(screenX, screenY)))
+        send(MouseMovedEvent(viewportPoint(screenX, screenY)))
         return true
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         lastDragPoint = null
         lastDragId = null
-        send(Event.MouseClick(viewportPoint(screenX, screenY), button))    //todo left?
+        send(MouseClickEvent(viewportPoint(screenX, screenY), button))    //todo left?
         return true
     }
 
@@ -46,7 +46,7 @@ class PlayerControls(batchViewport: FitViewport) : InputAdapter() {
 
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
         val viewportPoint = viewportPoint(screenX, screenY)
-        send(Event.CameraMoved(lastDragPoint!!.sub(viewportPoint)))
+        send(CameraMovedEvent(lastDragPoint!!.sub(viewportPoint)))
         lastDragPoint = viewportPoint.cpy()
 
         return true

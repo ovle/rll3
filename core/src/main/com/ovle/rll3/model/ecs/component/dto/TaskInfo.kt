@@ -73,19 +73,19 @@ val gatherTaskTemplate = TaskTemplate(
 
 fun moveTaskAction(e: Entity, t: TaskTarget) {
     t as TaskTarget.PositionTarget  //todo
-    send(Event.EntitySetMoveTarget(e, t.position))
+    send(Event.GameEvent.EntityEvent.EntityStartMoveCommand(e, t.position))
 }
 
 fun gatherAction(e: Entity, t: TaskTarget) {
     t as TaskTarget.EntityTarget  //todo
     val st = TemplatesRegistry.skillTemplates["gather"] //todo
-    send(Event.EntityUseSkill(e, t.entity, st!!))
+    send(Event.GameEvent.EntityEvent.EntityUseSkill(e, t.entity, st!!))
 }
 
 fun attackAction(e: Entity, t: TaskTarget) {
     t as TaskTarget.EntityTarget  //todo
     val st = TemplatesRegistry.skillTemplates["attack"] //todo
-    send(Event.EntityUseSkill(e, t.entity, st!!))
+    send(Event.GameEvent.EntityEvent.EntityUseSkill(e, t.entity, st!!))
 }
 
 fun isNearEntityCondition(e: Entity, t: TaskTarget): Boolean {

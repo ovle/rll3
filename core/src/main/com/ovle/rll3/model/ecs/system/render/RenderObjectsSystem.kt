@@ -8,13 +8,12 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.basic.RenderComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.position
 import com.ovle.rll3.model.ecs.component.util.Mappers.render
 import com.ovle.rll3.model.ecs.component.util.Mappers.template
-import com.ovle.rll3.model.ecs.component.util.has
 import com.ovle.rll3.point
 import com.ovle.rll3.vec2
 import com.ovle.rll3.view.spriteHeight
@@ -44,13 +43,12 @@ class RenderObjectsSystem(
     }
 
     fun subscribe() {
-        EventBus.subscribe<Event.EntityDied> { onEntityDiedEvent(it.entity) }
+        EventBus.subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
     }
 
     private fun onEntityDiedEvent(entity: Entity) {
-//        val isDeadEntity = entity.has<LivingComponent>() && entity[living]!!.isDead
-        val rc = entity[render]!!
-        rc.switchSprite(deadEntitySpriteKey)
+        val renderComponent = entity[render]!!
+        renderComponent.switchSprite(deadEntitySpriteKey)
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {

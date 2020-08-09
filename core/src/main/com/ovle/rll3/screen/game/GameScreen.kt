@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.ScreenManager
-import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.Event.GameEvent.*
+import com.ovle.rll3.event.Event.PlayerControlEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.eventLogHook
@@ -52,7 +54,7 @@ class GameScreen(
             RenderObjectsSystem(batch, assetsManager),
             RenderInteractionInfoSystem(batch, assetsManager),
 
-            LevelSystem(),
+            GameSystem(),
 
             TimeSystem(),
             TaskSystem(),
@@ -81,16 +83,16 @@ class GameScreen(
 
         EventBus.addHook(::eventLogHook)
 
-        send(Event.CameraScrolled(((1 - initialScale) / scaleScrollCoeff).roundToInt()))
+        send(CameraScrolledEvent(((1 - initialScale) / scaleScrollCoeff).roundToInt()))
 
-        send(Event.GameStarted())
+        send(StartGameCommand())
     }
 
     override fun hide() {
         super.hide()
 
         val camera = batchViewport.camera as OrthographicCamera
-        send(Event.CameraScrolled(((1 - camera.zoom) / scaleScrollCoeff).roundToInt()))
+        send(CameraScrolledEvent(((1 - camera.zoom) / scaleScrollCoeff).roundToInt()))
 
         ecsEngine.clearPools()
         ecsEngine.removeAllEntities()

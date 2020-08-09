@@ -21,7 +21,7 @@ class TimeSystem : IteratingSystem(all(LevelComponent::class.java).get()) {
                 turn += deltaTurns
                 fractionTicks -= deltaTurns * ticksInTurn
 
-                send(Event.TimeChanged(turn))
+                send(Event.GameEvent.TimeChangedEvent(turn))
 //                println("$turn . $fractionTicks")
             }
         }

@@ -1,23 +1,20 @@
 package com.ovle.rll3.model.ecs.system.interaction.skill
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.SkillEffect
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.ecs.component.util.Mappers
-import ktx.ashley.get
 
 //todo combine
 
 val damageEffect: SkillEffect = { source, target, amount ->
     target as Entity
-    EventBus.send(Event.EntityTakeDamage(target, source, amount))
+    EventBus.send(Event.GameEvent.EntityEvent.EntityTakeDamageEvent(target, source, amount))
 }
 
 val gatherEffect: SkillEffect = { source, target, amount ->
     target as Entity
-    EventBus.send(Event.EntityGathered(target, source, amount))
+    EventBus.send(Event.GameEvent.EntityEvent.EntityGatheredEvent(target, source, amount))
 }
 
 val healEffect: SkillEffect = { source, _, amount ->

@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.GameEvent.*
+import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.advanced.AIComponent
 import com.ovle.rll3.model.ecs.component.util.Mappers.ai
@@ -23,8 +25,8 @@ class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<EntityBlackboa
     }
 
     override fun subscribe() {
-        EventBus.subscribe<Event.EntityInitialized> { onEntityInitialized(it.entity) }
-        EventBus.subscribe<Event.TimeChanged> { onTimeChanged(it.turn) }
+        EventBus.subscribe<EntityInitializedEvent> { onEntityInitialized(it.entity) }
+        EventBus.subscribe<TimeChangedEvent> { onTimeChanged(it.turn) }
     }
 
     private fun onEntityInitialized(entity: Entity) {

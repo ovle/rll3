@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.ecs.system.interaction
 
 import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.special.ControlMode
 import com.ovle.rll3.model.ecs.component.special.ControlMode.*
@@ -15,8 +16,8 @@ import com.ovle.rll3.model.ecs.system.EventSystem
 class BaseInteractionSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<Event.DebugSwitchSelectionMode> { onSwitchSelectionModeEvent() }
-        EventBus.subscribe<Event.DebugSwitchControlMode> { onSwitchControlModeEvent() }
+        EventBus.subscribe<DebugSwitchSelectionMode> { onSwitchSelectionModeEvent() }
+        EventBus.subscribe<DebugSwitchControlMode> { onSwitchControlModeEvent() }
     }
 
     private fun onSwitchSelectionModeEvent() {

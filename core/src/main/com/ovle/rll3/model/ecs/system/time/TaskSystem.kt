@@ -2,6 +2,7 @@ package com.ovle.rll3.model.ecs.system.time
 
 import com.ovle.rll3.Turn
 import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.ecs.component.basic.TaskPerformerComponent
 import com.ovle.rll3.model.ecs.component.dto.*
@@ -16,8 +17,8 @@ class TaskSystem : EventSystem() {
     private val templates = arrayOf(gatherTaskTemplate, attackTaskTemplate, moveToTaskTemplate)
 
     override fun subscribe() {
-        EventBus.subscribe<Event.TimeChanged> { onTimeChangedEvent(it.turn) }
-        EventBus.subscribe<Event.CheckTask> { onCheckTaskEvent(it.target) }
+        EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
+        EventBus.subscribe<CheckTaskCommand> { onCheckTaskEvent(it.target) }
     }
 
     private fun onTimeChangedEvent(turn: Turn) {
@@ -70,6 +71,7 @@ class TaskSystem : EventSystem() {
     private fun startTask(taskTemplate: TaskTemplate, target: TaskTarget) {
         val controlledEntities = controlledEntities()
             .filter { taskTemplate.performerFilter.invoke(it) }
+
         controlledEntities.forEach {
             val performerComponent = it[taskPerformer]!!
             performerComponent.current = TaskInfo(
