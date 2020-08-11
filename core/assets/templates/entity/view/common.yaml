@@ -1,0 +1,261 @@
+---
+
+name: elder
+sprite:
+  default: [1, 1]
+
+---
+
+name: villager
+sprite:
+  default: [6, 1]
+portrait:
+  - [0, 2]
+---
+
+name: blacksmith
+sprite:
+  default: [7, 1]
+portrait:
+  - [1, 2]
+
+---
+
+name: wizard
+sprite:
+  default: [1, 1]
+portrait:
+  - [1, 1]
+---
+
+name: barbarian
+sprite:
+  default: [0, 1]
+portrait:
+  - [0, 1]
+---
+
+name: window w
+sprite:
+  default: [2, 4]
+
+---
+
+name: window s
+sprite:
+  default: [2, 5]
+
+---
+
+name: door w
+sprite:
+  default: [0, 4]
+  opened: [1, 4]
+---
+
+name: door s
+sprite:
+  default: [0, 5]
+  opened: [1, 5]
+
+---
+
+name: well
+sprite:
+  default: [6, 5]
+---
+
+name: stash
+sprite:
+  default: [0, 6]
+  opened: [0, 7]
+
+---
+
+name: lamp
+sprite:
+  default: [1, 6]
+  inactive: [1, 7]
+
+---
+
+name: table
+sprite:
+  default: [2, 6]
+---
+
+name: chair
+sprite:
+  default: [3, 6]
+
+---
+
+name: bed
+sprite:
+  default: [4, 6]
+---
+
+name: barrel
+sprite:
+  default: [5, 6]
+
+---
+
+name: anvil
+sprite:
+  default: [6, 6]
+
+---
+
+name: workbench
+sprite:
+  default: [7, 6]
+
+---
+
+name: oven
+sprite:
+  default: [5, 7]
+---
+
+name: forge
+sprite:
+  default: [6, 7]
+
+---
+
+name: grave
+sprite:
+  default: [7, 5]
+
+---
+
+name: stairs d
+sprite:
+  default: [5, 5]
+
+---
+
+name: common sapling
+sprite:
+  default: [12, 5]
+---
+
+name: common tree
+sprite:
+  default: [13, 5]
+---
+
+name: boreal sapling
+sprite:
+  default: [12, 4]
+---
+
+name: boreal tree
+sprite:
+  default: [13, 4]
+---
+
+name: palm sapling
+sprite:
+  default: [14, 4]
+---
+
+name: palm tree
+sprite:
+  default: [15, 4]
+---
+
+name: big sapling
+sprite:
+  default: [14, 5]
+---
+
+name: big tree
+sprite:
+  default: [15, 5]
+---
+
+name: reed
+sprite:
+  default: [6, 4]
+---
+
+name: pig
+sprite:
+  default: [6, 2]
+portrait:
+  - [1, 3]
+---
+
+name: wolf
+sprite:
+  default: [0, 2]
+portrait:
+  - [2, 3]
+---
+
+name: wood
+sprite:
+  default: [2, 7]
+---
+
+name: stone
+sprite:
+  default: [3, 7]
+
+---
+
+name: rockman
+sprite:
+  default: [11, 10]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [11, 10]
+      - [12, 10]
+      - [13, 10]
+      - [14, 10]
+---
+
+name: torch
+sprite:
+  default: [11, 1]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [7, 1]
+      - [8, 1]
+      - [9, 1]
+      - [10, 1]
+---
+
+name: sceleton
+sprite:
+  default: [6, 10]
+portrait:
+  - [3, 0]
+animations:
+  - type: Idle
+    repeat: true
+    alwaysPlaying: true
+    frames:
+      - [6, 10]
+      - [7, 10]
+      - [8, 10]
+      - [9, 10]
+  - type: Death
+    terminal: true
+    frames:
+      - [6, 12]
+      - [7, 12]
+      - [8, 12]
+  - type: TakeHit
+    frames:
+      - [9, 12]
+      - [10, 12]
+
