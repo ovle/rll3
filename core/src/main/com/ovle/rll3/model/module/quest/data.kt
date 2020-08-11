@@ -3,7 +3,7 @@ package com.ovle.rll3.model.module.quest
 import com.badlogic.ashley.core.EntitySystem
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.core.component.Mappers
+import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.entityNullable
 import ktx.ashley.get
@@ -25,7 +25,7 @@ fun questDescriptions(entitySystem: EntitySystem) =
                 val e = entityNullable("b1", entities)
                     ?: return@QuestDescription false
 
-                val lc = e[Mappers.living]!!
+                val lc = e[ComponentMappers.health]!!
                 lc.isDead
             },
             failCondition = {

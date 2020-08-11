@@ -15,8 +15,7 @@ import com.ovle.rll3.model.module.entityAction.EntityActionComponent
 import com.ovle.rll3.model.module.gathering.ResourceComponent
 import com.ovle.rll3.model.module.gathering.ResourceType
 import com.ovle.rll3.model.module.gathering.SourceComponent
-import com.ovle.rll3.model.module.health.LivingComponent
-import com.ovle.rll3.model.module.health.Race
+import com.ovle.rll3.model.module.health.HealthComponent
 import com.ovle.rll3.model.module.light.LightSourceComponent
 import com.ovle.rll3.model.module.perception.PerceptionComponent
 import com.ovle.rll3.model.module.render.RenderComponent
@@ -37,10 +36,9 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     },
     "move" to { _ -> MoveComponent() },
     "living" to { value ->
-        LivingComponent(
+        HealthComponent(
             maxHealth = value!!["health"] as Int,
-            maxStamina = value["stamina"] as Int,
-            race = value["race"]?.run { Race.values().find { it.value == this } }
+            maxStamina = value["stamina"] as Int
         ).apply {
             health = maxHealth
             stamina = maxStamina

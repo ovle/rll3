@@ -3,8 +3,8 @@ package com.ovle.rll3.model.module.core.entity
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
-import com.ovle.rll3.model.module.core.component.Mappers.id
-import com.ovle.rll3.model.module.core.component.Mappers.perception
+import com.ovle.rll3.model.module.core.component.ComponentMappers.id
+import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
 import com.ovle.rll3.model.module.core.component.print
 import com.ovle.rll3.view.noVisibilityFilter
 import ktx.ashley.get

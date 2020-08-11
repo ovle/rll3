@@ -5,14 +5,15 @@ import com.ovle.rll3.LevelId
 import com.ovle.rll3.model.module.time.TimeInfo
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
+import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
-import com.ovle.rll3.model.procedural.grid.processor.StructureInfo
+import com.ovle.rll3.model.procedural.grid.processor.structure.StructureTemplateInfo
 import com.ovle.rll3.model.tile.TileArray
 import java.io.Serializable
 
 data class LevelInfo(
     val id: LevelId,
-    val seed: Long,
+    val random: RandomParams,
     val params: LevelParams,
     var time: TimeInfo,
     val quests: MutableList<QuestInfo> = mutableListOf(),
@@ -20,5 +21,5 @@ data class LevelInfo(
 ): Serializable {
     val rooms: MutableCollection<RoomInfo> = mutableListOf()
     val entities: MutableCollection<Entity> = mutableListOf()
-    val structures: MutableCollection<StructureInfo> = mutableListOf()
+    val structureTemplates: MutableCollection<StructureTemplateInfo> = mutableListOf()
 }

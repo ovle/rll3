@@ -1,12 +1,11 @@
 package com.ovle.rll3.event
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.Event.GameEvent
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.core.component.TemplateComponent
-import com.ovle.rll3.model.module.core.component.Mappers.template
-import com.ovle.rll3.model.module.core.component.has
+import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import ktx.ashley.get
+import ktx.ashley.has
 
 fun eventLogHook(event: Event) {
     if (!isLoggableEvent(event)) return
@@ -57,6 +56,6 @@ fun Collection<Entity>.info(): String {
 }
 
 fun Entity.info() = when {
-    has<TemplateComponent>() -> this[template]!!.template.name
+    has(template) -> this[template]!!.template.name
     else -> "(unknown)"
 }

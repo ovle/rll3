@@ -1,9 +1,9 @@
 package com.ovle.rll3.model.module._deprecated.use
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.module._deprecated.DoorComponent
-import com.ovle.rll3.model.module._deprecated.StashComponent
-import com.ovle.rll3.model.module.core.component.has
+import com.ovle.rll3.model.module.core.component.ComponentMappers.door
+import com.ovle.rll3.model.module.core.component.ComponentMappers.stash
+import ktx.ashley.has
 
 class EntityInteractionCase(
     val condition: (Entity, Entity) -> Boolean,
@@ -12,11 +12,11 @@ class EntityInteractionCase(
 
 val entityInteractionCases = arrayOf(
     EntityInteractionCase(
-        condition = { _, e: Entity -> e.has<DoorComponent>() },
+        condition = { _, e: Entity -> e.has(door) },
         action = { s, e: Entity -> processDoor(s, e) }
     ),
     EntityInteractionCase(
-        condition = { _, e: Entity -> e.has<StashComponent>() },
+        condition = { _, e: Entity -> e.has(stash) },
         action = { s, e: Entity -> processStash(s, e) }
     )
 )

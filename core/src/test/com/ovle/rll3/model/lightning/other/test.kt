@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.lightning.other
 
 import com.ovle.rll3.model.ecs.component.dto.aoe.kt.AOEData
-import com.ovle.rll3.model.module.core.component.Mappers.light
-import com.ovle.rll3.model.module.core.component.Mappers.position
+import com.ovle.rll3.model.module.core.component.ComponentMappers.light
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.entityWith
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray

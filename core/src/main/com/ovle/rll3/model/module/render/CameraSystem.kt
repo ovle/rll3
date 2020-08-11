@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.Event.PlayerControlEvent.*
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.module.core.component.Mappers.position
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.focusedEntity
 import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem

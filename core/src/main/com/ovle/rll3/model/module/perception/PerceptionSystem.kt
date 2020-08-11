@@ -7,8 +7,8 @@ import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.space.PositionComponent
-import com.ovle.rll3.model.module.core.component.Mappers.perception
-import com.ovle.rll3.model.module.core.component.Mappers.position
+import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.entitiesWith
 import com.ovle.rll3.model.module.core.entity.levelInfo

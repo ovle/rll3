@@ -54,6 +54,7 @@ typealias MoveCostFn2 = ((GridPoint2, GridPoint2?, TilePassTypeFn) -> Int)
 typealias IsPassableFn = ((GridPoint2, TilePassTypeFn) -> Boolean)
 
 typealias TileType = Char
+typealias TileCondition = ((Tile) -> Boolean)
 typealias TilePassTypeFn = ((Tile) -> TilePassType)
 typealias LightPassTypeFn = ((Tile) -> LightPassType)
 

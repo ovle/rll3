@@ -1,10 +1,10 @@
 package com.ovle.rll3.model.module.skill
 
-import com.ovle.rll3.model.module.core.component.Mappers.living
-import com.ovle.rll3.model.module.core.component.Mappers.source
+import com.ovle.rll3.model.module.core.component.ComponentMappers.health
+import com.ovle.rll3.model.module.core.component.ComponentMappers.source
 import ktx.ashley.has
 
-fun testSkillTemplates() = arrayOf(
+fun skillTemplates() = arrayOf(
     SkillTemplate(
         name = "gather",
         cost = { staminaCost(it, 1) },
@@ -15,7 +15,7 @@ fun testSkillTemplates() = arrayOf(
     SkillTemplate(
         name = "attack",
         cost = { staminaCost(it, 1) },
-        target = { position, level -> entityTarget(position, level) { it.has(living) } },
+        target = { position, level -> entityTarget(position, level) { it.has(health) } },
         time = 50,
         skillEffect = damageEffect
     ),

@@ -8,8 +8,8 @@ import com.ovle.rll3.event.Event.GameEvent.EntityEvent.EntityGatheredEvent
 import com.ovle.rll3.event.Event.GameEvent.TimeChangedEvent
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.EventBus.subscribe
-import com.ovle.rll3.model.module.core.component.Mappers.position
-import com.ovle.rll3.model.module.core.component.Mappers.source
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rll3.model.module.core.component.ComponentMappers.source
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.template.entity.entityTemplate
 import ktx.ashley.get

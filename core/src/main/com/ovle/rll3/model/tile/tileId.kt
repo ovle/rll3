@@ -2,23 +2,27 @@ package com.ovle.rll3.model.tile
 
 const val whateverTileId = '`'
 const val groundTileId = '_'
-const val wallTileId = '1'
-const val corridorTileId = '2'
-const val pitFloorTileId = '3'
-const val outOfMapTileId = wallTileId
+const val naturalHighWallTileId = '1'
+const val naturalLowWallTileId = '^'
+const val corridorTileId = 'c'
+const val pitFloorTileId = 'V'
+const val outOfMapTileId = naturalHighWallTileId
 
-const val structureFloorTileId = '.'
-const val structureInnerFloorTileId = ':'
+const val structureFloorWTileId = '.'
+const val structureFloorSTileId = ':'
 const val structureWallWTileId = '#'
-const val structureWallSTileId = 'w'
+const val structureWallSTileId = '='
 const val structurePitTileId = 'O'
 const val roadTileId = 'r'
-const val fenceTileId = '='
-const val waterTileId = '~'
+const val fenceTileId = 'f'
+const val deepWaterTileId = '~'
+const val shallowWaterTileId = '"'
 
-val pitTypes = setOf(pitFloorTileId, waterTileId, structurePitTileId)
-val solidWallTypes = setOf(wallTileId, structureWallWTileId, structureWallSTileId)
-val wallTypes = setOf(wallTileId, structureWallWTileId, structureWallSTileId, fenceTileId)
-val roomFloorTypes = setOf(groundTileId, pitFloorTileId, structureFloorTileId)
-val floorTypes = setOf(groundTileId, pitFloorTileId, corridorTileId, structureFloorTileId, structureInnerFloorTileId, roadTileId)
-val structureTypes = setOf(structureFloorTileId, structureInnerFloorTileId, structureWallWTileId)
+
+val pitTypes = setOf(pitFloorTileId, deepWaterTileId, shallowWaterTileId, structurePitTileId)
+val solidWallTypes = setOf(naturalHighWallTileId, naturalLowWallTileId, structureWallWTileId, structureWallSTileId)
+val wallTypes = setOf(naturalHighWallTileId, naturalLowWallTileId, structureWallWTileId, structureWallSTileId, fenceTileId)
+val floorTypes = setOf(groundTileId, pitFloorTileId, structureFloorWTileId, structureFloorSTileId)
+val groundTypes = setOf(groundTileId)
+val naturalWallTypes = setOf(naturalLowWallTileId, naturalHighWallTileId)
+//val structureTypes = setOf(structureFloorWTileId, structureFloorSTileId, structureWallWTileId)

@@ -3,15 +3,13 @@ package com.ovle.rll3.model.module.task
 import com.ovle.rll3.Turn
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.module.core.component.Mappers.taskPerformer
+import com.ovle.rll3.model.module.core.component.ComponentMappers.taskPerformer
 import com.ovle.rll3.model.module.core.entity.controlledEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
 import ktx.ashley.get
 
 //todo how to use with behaviour trees
 class TaskSystem : EventSystem() {
-
-    private val templates = arrayOf(gatherTaskTemplate, attackTaskTemplate, moveToTaskTemplate)
 
     override fun subscribe() {
         EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
@@ -30,7 +28,7 @@ class TaskSystem : EventSystem() {
     }
 
     private fun onCheckTaskEvent(target: TaskTarget) {
-        val taskTemplate = templates
+        val taskTemplate = taskTemplates()
             .firstOrNull { it.targetFilter.invoke(target) } ?: return
 
         startTask(taskTemplate, target)

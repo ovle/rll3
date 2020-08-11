@@ -3,7 +3,7 @@ package com.ovle.rll3.model.module.health
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.module.core.component.Mappers.living
+import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.entity.id
 import com.ovle.rll3.model.module.core.system.EventSystem
 import ktx.ashley.get
@@ -16,7 +16,7 @@ class HealthSystem : EventSystem() {
     }
 
     private fun onEntityTakeDamageEvent(entity: Entity, source: Entity?, amount: Int) {
-        val lc = entity[living]!!
+        val lc = entity[health]!!
         if (lc.health == 0) {
             println("${entity.id()} is already dead")
             return

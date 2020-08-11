@@ -7,10 +7,11 @@ import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.time.TimeInfo
-import com.ovle.rll3.model.module.core.component.Mappers
+import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LevelParams
+import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.config.levelParams
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.util.gridToTileArray
@@ -20,7 +21,6 @@ import ktx.ashley.get
 class GameSystem: EventSystem() {
 
     private val testSeed = 123L
-    private val levelTemplateName = "Village"
     private val startFocusEntityId = "elder1"
 
     override fun subscribe() {
@@ -31,7 +31,7 @@ class GameSystem: EventSystem() {
     }
 
     private fun onStartGameCommand() {
-        val level = level(levelParams(levelTemplateName), testSeed)
+        val level = level(levelParams, testSeed)
         initEntities(level)
     }
 
@@ -51,20 +51,20 @@ class GameSystem: EventSystem() {
     }
 
     private fun level(levelParams: LevelParams, seed: Long): LevelInfo {
-        val factoryParams = levelParams.factoryParams
-        val grid = levelParams.gridFactory.get(factoryParams, seed)
+        val random = RandomParams(seed)
+        val grid = levelParams.factory.get(random)
         val tiles = gridToTileArray(grid, levelParams.tileMapper)
         val id = randomId()
 
         val result = LevelInfo(
             id = id,
-            seed = seed,
+            random = random,
             tiles = tiles,
             params = levelParams,
             time = TimeInfo()
         )
 
-        val postProcessors = levelParams(levelParams.templateName).postProcessors
+        val postProcessors = levelParams.postProcessors
         postProcessors.forEach {
             processor ->
             processor.process(result, engine)
@@ -73,11 +73,9 @@ class GameSystem: EventSystem() {
         return result
     }
 
-    private fun levelParams(name: String) = levelParams.getValue(name)
-
     private fun onCreateEntityCommand(entityTemplate: EntityTemplate, position: GridPoint2) {
         val entity = newTemplatedEntity(randomId(), entityTemplate, engine)
-            .apply { this[Mappers.position]!!.gridPosition = position }
+            .apply { this[ComponentMappers.position]!!.gridPosition = position }
 
         send(EntityInitializedEvent(entity))
     }

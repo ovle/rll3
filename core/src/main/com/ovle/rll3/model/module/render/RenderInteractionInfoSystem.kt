@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
-import com.ovle.rll3.model.module.core.component.Mappers.playerInteraction
-import com.ovle.rll3.model.module.core.component.Mappers.position
+import com.ovle.rll3.model.module.core.component.ComponentMappers.playerInteraction
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.playerInteraction
 import com.ovle.rll3.vec2

@@ -10,9 +10,9 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.module.core.component.Mappers.position
-import com.ovle.rll3.model.module.core.component.Mappers.render
-import com.ovle.rll3.model.module.core.component.Mappers.template
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rll3.model.module.core.component.ComponentMappers.render
+import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.point
 import com.ovle.rll3.vec2
 import com.ovle.rll3.view.spriteHeight

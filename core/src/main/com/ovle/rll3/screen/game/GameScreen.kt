@@ -11,6 +11,7 @@ import com.ovle.rll3.event.Event.PlayerControlEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.eventLogHook
+import com.ovle.rll3.model.module.GameModule
 import com.ovle.rll3.model.module.interaction.BaseInteractionSystem
 import com.ovle.rll3.model.module.interaction.EntityInteractionSystem
 import com.ovle.rll3.model.module.skill.SkillSystem
@@ -31,6 +32,7 @@ import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.scaleScrollCoeff
 import ktx.scene2d.table
+import sun.reflect.Reflection
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -52,7 +54,6 @@ class GameScreen(
         val systems = listOf(
             PlayerControlsSystem(),
 
-//            GUISystem(stage, screenManager, guiTextureInfo),
             CameraSystem(camera),
             RenderLevelSystem(camera, assetsManager),
             RenderObjectsSystem(batch, assetsManager),
@@ -72,14 +73,6 @@ class GameScreen(
 
             SkillSystem(),
             ResourceSystem()
-
-//            CombatSystem(),
-//            AnimationSystem(objectsTextureInfo),
-//            SightSystem(),
-//            ContainerSystem(),
-//            AISystem(assetsManager.behaviorTrees),
-//            DebugCombatAiSystem(),
-//            DebugQuestSystem()
         )
 
         ecsEngine = PooledEngine()

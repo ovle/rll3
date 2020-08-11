@@ -3,10 +3,10 @@ package com.ovle.rll3.model.module._deprecated.use
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.core.component.Mappers.collision
-import com.ovle.rll3.model.module.core.component.Mappers.door
-import com.ovle.rll3.model.module.core.component.Mappers.position
-import com.ovle.rll3.model.module.core.component.Mappers.render
+import com.ovle.rll3.model.module.core.component.ComponentMappers.collision
+import com.ovle.rll3.model.module.core.component.ComponentMappers.door
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import ktx.ashley.get
 
 fun processDoor(source: Entity, entity: Entity) {

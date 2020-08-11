@@ -10,9 +10,9 @@ import com.ovle.rll3.EntityId
 import com.ovle.rll3.model.module.collision.CollisionComponent
 import com.ovle.rll3.model.module.core.component.IdComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
-import com.ovle.rll3.model.module.core.component.Mappers
-import com.ovle.rll3.model.module.core.component.Mappers.level
-import com.ovle.rll3.model.module.core.component.Mappers.player
+import com.ovle.rll3.model.module.core.component.ComponentMappers
+import com.ovle.rll3.model.module.core.component.ComponentMappers.game
+import com.ovle.rll3.model.module.core.component.ComponentMappers.player
 import com.ovle.rll3.model.module.game.GameComponent
 import com.ovle.rll3.model.module.game.PlayerComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
@@ -35,10 +35,10 @@ fun EntitySystem.allEntities() = this.engine.entities
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), GameComponent::class)?.get(level)?.level
+fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), GameComponent::class)?.get(game)?.level
 fun EntitySystem.levelInfo() = levelInfoNullable()!!
 
-fun levelInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(level)?.level
+fun levelInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.level
 
 fun playerInfoNullable(entities: List<Entity>) = entityWith(entities, PlayerComponent::class)?.get(player)?.player
 fun playerInfo(entities: List<Entity>) = playerInfoNullable(entities)!!
@@ -46,7 +46,7 @@ fun EntitySystem.playerInfo() = playerInfo(allEntities().toList())
 
 fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
 fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)
-    ?.get(Mappers.playerInteraction)
+    ?.get(ComponentMappers.playerInteraction)
 fun EntitySystem.playerInteractionInfo() = playerInteractionInfo(allEntities().toList())
 
 fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity
@@ -60,25 +60,25 @@ fun EntitySystem.controlledEntities() = entitiesWith(allEntities().toList(), Tas
 fun EntitySystem.entity(id: EntityId) = entity(id, allEntities().toList())
 
 fun entityNullable(id: EntityId, entities: Collection<Entity>) = entitiesWith(entities, IdComponent::class)
-        .singleOrNull { it[Mappers.id]!!.id == id }
+        .singleOrNull { it[ComponentMappers.id]!!.id == id }
 fun entity(id: EntityId, entities: Collection<Entity>) = entityNullable(id, entities)!!
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
 fun Collection<Entity>.on(position: GridPoint2): Collection<Entity> =
     filter {
-        it[Mappers.position]?.gridPosition?.equals(position) ?: false
+        it[ComponentMappers.position]?.gridPosition?.equals(position) ?: false
     }
 
 fun Collection<Entity>.anyOn(position: GridPoint2, componentClass: KClass<out Component>): Boolean =
     entitiesWith(this, componentClass)
         .any {
-            it[Mappers.position]?.gridPosition?.equals(position) ?: false
+            it[ComponentMappers.position]?.gridPosition?.equals(position) ?: false
         }
 
-fun Collection<Entity>.positions() = mapNotNull { it[Mappers.position]?.gridPosition }.toSet()
+fun Collection<Entity>.positions() = mapNotNull { it[ComponentMappers.position]?.gridPosition }.toSet()
 fun Collection<Entity>.lightObstacles() = obstacles { it.passable4Light }
 fun Collection<Entity>.bodyObstacles() = obstacles { it.passable4Body }
 fun Collection<Entity>.obstacles(fn: (CollisionComponent)-> Boolean) =
-    filter { it[Mappers.collision]?.let { c -> !fn.invoke(c) && c.active } ?: false }
-        .mapNotNull { it[Mappers.position]?.gridPosition }
+    filter { it[ComponentMappers.collision]?.let { c -> !fn.invoke(c) && c.active } ?: false }
+        .mapNotNull { it[ComponentMappers.position]?.gridPosition }

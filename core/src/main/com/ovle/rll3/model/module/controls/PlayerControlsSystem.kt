@@ -6,7 +6,7 @@ import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.Event.PlayerControlEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.core.component.Mappers
+import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.view.noVisibilityFilter
@@ -59,7 +59,7 @@ class PlayerControlsSystem : EventSystem() {
     private fun onMouseMoved(position: GridPoint2) {
         val level = levelInfoNullable() ?: return
         val interactionEntity = playerInteraction(this.allEntities().toList()) ?: return
-        val positionComponent = interactionEntity[Mappers.position]!!
+        val positionComponent = interactionEntity[ComponentMappers.position]!!
         if (positionComponent.gridPosition == position) return
 
         send(GameEvent.EntityUnhoverEvent())

@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.module.core.component.Mappers.ai
+import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.entitiesWith
 import com.ovle.rll3.model.module.core.system.EventSystem
