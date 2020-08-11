@@ -19,7 +19,7 @@ enum class RoomStructure {
         )
 
         override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
-            val isFreeSpaceTile = nearTiles.all.all { it?.typeId in roomFloorTypes }
+            val isFreeSpaceTile = nearTiles.all.all { it?.typeId in floorTypes }
             if (!isFreeSpaceTile) return
 
             var resultTileId = pitFloorTileId
@@ -77,7 +77,7 @@ enum class RoomStructure {
             if (isPathTile) return
 
             if (isColumn) {
-                setTile(tiles, nearTiles, wallTileId)
+                setTile(tiles, nearTiles, naturalHighWallTileId)
             }
         }
     },
@@ -87,7 +87,7 @@ enum class RoomStructure {
 
         override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
             val dirValue = params[ColonnadeDirection]
-            val isFreeSpaceTile = nearTiles.nearHV.all { it?.typeId in roomFloorTypes }
+            val isFreeSpaceTile = nearTiles.nearHV.all { it?.typeId in floorTypes }
             if (!isFreeSpaceTile) return
 
             val isHColumn = nearTiles.x % 2 == 0 && (nearTiles.y == room.y + 1 || nearTiles.y == room.y + room.height - 1)
@@ -96,7 +96,7 @@ enum class RoomStructure {
                         || isVColumn && (dirValue in setOf(V, HV))
                         || isHColumn && isVColumn && dirValue == NoDirection
             if (isColumn) {
-                setTile(tiles, nearTiles, wallTileId)
+                setTile(tiles, nearTiles, naturalHighWallTileId)
             }
         }
     },
@@ -110,7 +110,7 @@ enum class RoomStructure {
             val amount = params[RandomNoiseAmount] as Float
             if (r.nextDouble() >= amount) return
 
-            val tileId = arrayOf(wallTileId, pitFloorTileId).random(r)
+            val tileId = arrayOf(naturalHighWallTileId, pitFloorTileId).random(r)
 
             setTile(tiles, nearTiles, tileId)
         }

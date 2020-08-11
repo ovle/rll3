@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.assets.loader.EntityTemplates
 import com.ovle.rll3.model.module.game.LevelInfo
-import com.ovle.rll3.model.module.core.component.Mappers.position
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.positions
 import com.ovle.rll3.model.module.core.entity.newTemplatedEntity
 import com.ovle.rll3.model.module.core.entity.randomId
@@ -12,7 +12,6 @@ import com.ovle.rll3.model.procedural.grid.utils.SpawnTable
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.point
 import ktx.ashley.get
-import kotlin.random.Random
 
 class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
 
@@ -24,14 +23,14 @@ class EntityProcessor(val templates: EntityTemplates) : TilesProcessor {
         val entities = mutableListOf<Entity>()
         val spawnTemplates = templates.templates.filter { it.spawns.isNotEmpty() }
 
-        val r = Random(levelInfo.seed)
+        val random = levelInfo.random.kRandom
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
                 if (point(x, y) in claimed) continue
 
                 val nearTiles = nearValues(tiles, x, y)
-                val spawnTable = SpawnTable(spawnTemplates, nearTiles, r)
-                val check = r.nextDouble()
+                val spawnTable = SpawnTable(spawnTemplates, nearTiles, random)
+                val check = random.nextDouble()
                 val spawnTemplate = spawnTable.spawn(check) ?: continue
 
 //                val spawnCondition = spawnData.second

@@ -3,29 +3,26 @@
 //import com.badlogic.ashley.core.Engine
 //import com.badlogic.ashley.core.Entity
 //import com.badlogic.gdx.math.GridPoint2
-//import com.ovle.rll3.model.ecs.component.dto.LevelDescription
 //import com.ovle.rll3.model.module.game.LevelInfo
-//import com.ovle.rll3.model.ecs.component.LightTilePosition
-//import com.ovle.rll3.model.module.core.entity.newLightSource
-//import com.ovle.rll3.model.module.core.entity.obstacles
 //import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
-//import com.ovle.rll3.model.procedural.grid.floorTypes
 //import com.ovle.rll3.model.tile.TileArray
+//import com.ovle.rll3.model.tile.floorTypes
 //import com.ovle.rll3.model.tile.nearValues
 //import com.ovle.rll3.model.tile.wallTileId
-//import com.ovle.rll3.model.util.config.LightConfig
+//import com.ovle.rll3.model.util.LightConfig
 //import com.ovle.rll3.model.util.lightTilePassMapper
 //import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
+//import com.ovle.rll3.model.util.lineOfSight.rayTracing.obstacles
 //import com.ovle.rll3.point
 //
 //class LightSourceProcessor : TilesProcessor {
 //
-//    override fun process(levelInfo: LevelInfo, gameEngine: Engine, levelDescription: LevelDescription) {
+//    override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
 //        val tiles = levelInfo.tiles
 //        val lightSources = mutableListOf<Entity>()
 //        val obstacles = obstacles(levelInfo)
 //
-//        val factoryParams = levelDescription.params.factoryParams
+//        val factoryParams = levelInfo.params.factoryParams
 //        factoryParams as DungeonLevelFactoryParams
 //
 //        for (x in 0 until tiles.size) {
@@ -45,7 +42,7 @@
 //            }
 //        }
 //
-//        levelInfo.objects.plusAssign(lightSources)
+//        levelInfo.entities.plusAssign(lightSources)
 //    }
 //
 //    private fun lightPositions(position: GridPoint2, tiles: TileArray, lightConfig: LightConfig, obstacles: List<GridPoint2>): List<LightTilePosition> {

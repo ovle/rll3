@@ -6,7 +6,7 @@ import com.ovle.rll3.RoomTiles
 import com.ovle.rll3.isNear
 import com.ovle.rll3.model.module.game.LevelInfo
 import com.ovle.rll3.model.tile.nearValues
-import com.ovle.rll3.model.tile.roomFloorTypes
+import com.ovle.rll3.model.tile.floorTypes
 import kotlin.math.roundToInt
 
 
@@ -23,7 +23,7 @@ class RoomsInfoProcessor : TilesProcessor {
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
                 val nearTiles = nearValues(tiles, x, y)
-                val isRoomTile = nearTiles.value?.typeId in roomFloorTypes
+                val isRoomTile = nearTiles.value?.typeId in floorTypes
                 if (isRoomTile) {
                     if (currentRoom == null) {
                         //todo refactor

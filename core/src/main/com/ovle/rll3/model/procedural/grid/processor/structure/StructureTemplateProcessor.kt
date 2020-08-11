@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.procedural.grid.processor
+package com.ovle.rll3.model.procedural.grid.processor.structure
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
@@ -8,8 +8,8 @@ import com.ovle.rll3.component1
 import com.ovle.rll3.component2
 import com.ovle.rll3.model.module.quest.QuestOwnerComponent
 import com.ovle.rll3.model.module.game.LevelInfo
-import com.ovle.rll3.model.module.core.component.Mappers.position
-import com.ovle.rll3.model.module.core.component.Mappers.questOwner
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rll3.model.module.core.component.ComponentMappers.questOwner
 import com.ovle.rll3.model.module.core.entity.entity
 import com.ovle.rll3.model.module.core.entity.newTemplatedEntity
 import com.ovle.rll3.model.module.core.entity.randomId
@@ -17,6 +17,7 @@ import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.template.structure.StructureEntity
 import com.ovle.rll3.model.template.structure.StructureTemplate
 import com.ovle.rll3.assets.loader.StructureTemplates
+import com.ovle.rll3.model.procedural.grid.processor.TilesProcessor
 import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.tile.whateverTileId
@@ -24,22 +25,22 @@ import com.ovle.rll3.point
 import ktx.ashley.get
 import kotlin.random.Random
 
-data class StructureInfo(val template: StructureTemplate, val positions: Set<GridPoint2>)
+data class StructureTemplateInfo(val template: StructureTemplate, val positions: Set<GridPoint2>)
 
-class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
+class StructureTemplateProcessor(val templates: StructureTemplates) : TilesProcessor {
 
     override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
         val tiles = levelInfo.tiles
         val entities = mutableListOf<Entity>()
-        val r = Random(levelInfo.seed)
         templates.templates.forEach {
-            processTemplate(it, tiles, levelInfo, gameEngine, entities, r)
+            processTemplate(it, tiles, levelInfo, gameEngine, entities)
         }
 
         levelInfo.entities.plusAssign(entities)
     }
 
-    private fun processTemplate(template: StructureTemplate, tiles: TileArray, levelInfo: LevelInfo, gameEngine: Engine, entities: MutableList<Entity>, r: Random) {
+    private fun processTemplate(template: StructureTemplate, tiles: TileArray, levelInfo: LevelInfo, gameEngine: Engine, entities: MutableList<Entity>) {
+        val random = levelInfo.random.kRandom
         val mask = template.parsedMask
         val maskWidth = mask.size
         val maskHeight = mask.maxBy { it.size }!!.size
@@ -47,16 +48,16 @@ class StructureProcessor(val templates: StructureTemplates) : TilesProcessor {
         val widthDiff = size - maskWidth
         val heightDiff = size - maskHeight
 
-        val check = r.nextDouble()
+        val check = random.nextDouble()
         val chance = 1.0
         val needSpawn = check <= chance
 
         //spawn point is the left top corner of mask
-        val spawnPoint = spawnPoint(widthDiff, heightDiff, size, r)
+        val spawnPoint = spawnPoint(widthDiff, heightDiff, size, random)
         val (x, y) = spawnPoint
         if (needSpawn) {
             val positions = spawnStructure(mask, tiles, x, y)
-            levelInfo.structures.add(StructureInfo(template, positions))
+            levelInfo.structureTemplates.add(StructureTemplateInfo(template, positions))
 
             val entitiesInfo = template.entities
             entitiesInfo.forEach {

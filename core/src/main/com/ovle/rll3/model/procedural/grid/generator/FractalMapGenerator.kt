@@ -8,14 +8,14 @@ import java.util.*
 class FractalMapGenerator(
     var constantNoiseValue: Float = 0.0f, //noise value that doesn't depends on cell size
     var flexibleNoiseValue: Float = 2.0f, //noise value that depends on cell size
-    var startIteration: Int = 3, //main generation parameter
+    var startIteration: Int = 3, //main generation parameter (low value = large clusters)
     var shouldRandomizeFinalIteration: Boolean = false,
     var shouldNormalize: Boolean = true,
 
     //for test only
     var stopIteration: Int = -1,
     var initialBorderValues: Array<FloatArray>? = null,
-    var r: Random
+    var random: Random
 ) {
 
     companion object {
@@ -57,7 +57,7 @@ class FractalMapGenerator(
     private fun initMap(grid: Grid) {
         val width = grid.width - 1
         val height = grid.height - 1
-        val value: Float = r.nextFloat()
+        val value: Float = random.nextFloat()
 
         grid[0, 0] = value
         grid[width, 0] = value
@@ -97,7 +97,7 @@ class FractalMapGenerator(
         var value = 0.0f
 
         if (!grid.isInitialized(actualArea.x, actualArea.y)) {
-            value = r.nextFloat()
+            value = random.nextFloat()
             grid[actualArea.x, actualArea.y] = value
             if (isToroidal) {
                 if (actualArea.x == 0) {
@@ -109,7 +109,7 @@ class FractalMapGenerator(
             }
         }
         if (!grid.isInitialized(maxX, actualArea.y)) {
-            value = r.nextFloat()
+            value = random.nextFloat()
             grid[maxX, actualArea.y] = value
             if (isToroidal) {
                 if (actualArea.y == 0) {
@@ -118,7 +118,7 @@ class FractalMapGenerator(
             }
         }
         if (!grid.isInitialized(actualArea.x, maxY)) {
-            value = r.nextFloat()
+            value = random.nextFloat()
             grid[actualArea.x, maxY] = value
             if (isToroidal) {
                 if (actualArea.x == 0) {
@@ -127,7 +127,7 @@ class FractalMapGenerator(
             }
         }
         if (!grid.isInitialized(maxX, maxY)) {
-            value = r.nextFloat()
+            value = random.nextFloat()
             grid[maxX, maxY] = value
         }
     }
@@ -176,13 +176,13 @@ class FractalMapGenerator(
         }
         val neighboursCount = neighbourValues.size
         if (neighboursCount > 0) {
-            val randomLimit: Int = r.nextInt(cellWidth) - cellWidth / 2
+            val randomLimit: Int = random.nextInt(cellWidth) - cellWidth / 2
             val randomOffset = randomLimit.toFloat() / areaLength.toFloat()
             val shouldSelectRandomNeighbour = shouldRandomizeFinalIteration &&
                 (cellWidth == MIN_AREA_SIZE || cellHeight == MIN_AREA_SIZE)
             var result = 0.0f
             if (shouldSelectRandomNeighbour) {
-                val neighbourIndex: Int = r.nextInt(neighboursCount)
+                val neighbourIndex: Int = random.nextInt(neighboursCount)
                 result = neighbourValues[neighbourIndex]
             } else {
                 //main part

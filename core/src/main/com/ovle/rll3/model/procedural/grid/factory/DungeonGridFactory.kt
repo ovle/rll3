@@ -3,12 +3,10 @@ package com.ovle.rll3.model.procedural.grid.factory
 import com.github.czyzby.noise4j.map.Grid
 import com.github.czyzby.noise4j.map.generator.room.dungeon.DungeonGenerator
 import com.github.czyzby.noise4j.map.generator.util.Generators
-import com.ovle.rll3.Seed
-import com.ovle.rll3.model.procedural.config.LevelFactoryParams
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
-import java.util.*
+import com.ovle.rll3.model.procedural.config.RandomParams
 
-class DungeonGridFactory: GridFactory {
+class DungeonGridFactory(val params: DungeonLevelFactoryParams): GridFactory {
 
     companion object {
         const val wallTreshold = 1.0f
@@ -16,13 +14,11 @@ class DungeonGridFactory: GridFactory {
         const val corridorTreshold = 0.2f
     }
 
-    override fun get(params: LevelFactoryParams, seed: Seed): Grid {
-        params as DungeonLevelFactoryParams
-
-        val size = params.size
+    override fun get(random: RandomParams): Grid {
+        val size = params.size.random(random.kRandom)
         val grid = Grid(size)
         val generator = DungeonGenerator.getInstance()
-        Generators.setRandom(Random(seed))
+        Generators.setRandom(random.jRandom)
 
         generator.apply {
             params.roomTypes.forEach { addRoomType(it) }

@@ -10,9 +10,9 @@ import kotlin.random.Random
 class RoomStructureProcessor : TilesProcessor {
 
     override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
-        val r = Random(levelInfo.seed)
+        val random = levelInfo.random.kRandom
         levelInfo.rooms.forEach {
-            processRoom(levelInfo.tiles, it, r)
+            processRoom(levelInfo.tiles, it, random)
         }
     }
 
