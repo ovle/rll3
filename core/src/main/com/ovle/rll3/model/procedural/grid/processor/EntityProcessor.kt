@@ -8,7 +8,7 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.positions
 import com.ovle.rll3.model.module.core.entity.newTemplatedEntity
 import com.ovle.rll3.model.module.core.entity.randomId
-import com.ovle.rll3.model.procedural.grid.utils.SpawnTable
+import com.ovle.rll3.model.procedural.grid.util.SpawnTable
 import com.ovle.rll3.model.tile.*
 import com.ovle.rll3.point
 import ktx.ashley.get

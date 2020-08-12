@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.template.structure
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.TileType
+import com.ovle.rll3.Tile
 import com.ovle.rll3.model.template.entity.SpawnTemplate
 import com.ovle.rll3.model.template.parsedMask
 
@@ -16,7 +16,7 @@ data class StructureTemplate(
     var playerSpawns: Collection<GridPoint2> = listOf(),
     var quests: Collection<StructureQuest> = listOf()
 ) {
-    val parsedMask: List<List<TileType>> by lazy {
+    val parsedMask: List<List<Tile>> by lazy {
         parsedMask(mask)!!
     }
 }

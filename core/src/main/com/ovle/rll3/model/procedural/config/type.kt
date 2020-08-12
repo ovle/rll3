@@ -4,7 +4,7 @@ import com.github.czyzby.noise4j.map.generator.room.RoomType
 import com.ovle.rll3.TileTypeMapper
 import com.ovle.rll3.model.procedural.grid.factory.GridFactory
 import com.ovle.rll3.model.procedural.grid.processor.TilesProcessor
-import com.ovle.rll3.model.procedural.grid.utils.ConnectionStrategy
+import com.ovle.rll3.model.procedural.grid.util.ConnectionStrategy
 import kotlin.random.Random
 
 data class RandomParams(
@@ -22,10 +22,10 @@ data class LevelParams(
 )
 
 sealed class LevelFactoryParams(
-    val size: IntRange
+    val size: Int
 ) {
     class DungeonLevelFactoryParams(
-        size: IntRange,
+        size: Int,
         val roomTypes: Array<RoomType>,
         val maxRoomSize: Int,
         val minRoomSize: Int,
@@ -35,23 +35,23 @@ sealed class LevelFactoryParams(
     ): LevelFactoryParams(size)
 
     class CelullarAutomataLevelFactoryParams(
-        size: IntRange,
+        size: Int,
         val connectionStrategy: ConnectionStrategy
     ): LevelFactoryParams(size)
 
     class NoiseLevelFactoryParams(
-        size: IntRange,
+        size: Int,
         val radius: Int,
         val modifier: Float
     ): LevelFactoryParams(size)
 
     class TemplateLevelFactoryParams(
-        size: IntRange,
+        size: Int,
         val template: Array<Array<Int>>
     ): LevelFactoryParams(size)
 
     class FractalLevelFactoryParams(
-        size: IntRange
+        size: Int
 //        val startIteration: Int,
 //        val constantNoiseValue: Float,
 //        val flexibleNoiseValue: Float

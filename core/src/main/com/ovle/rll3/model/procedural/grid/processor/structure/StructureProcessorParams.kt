@@ -5,8 +5,8 @@ import com.ovle.rll3.TileTypeMapper
 import com.ovle.rll3.model.procedural.grid.factory.GridFactory
 
 data class StructureProcessorParams(
-    val number: IntRange,
-    val size: IntRange,
+    val number: Int,
+    val size: Int,
     val factory: GridFactory,
     val tileMapper: TileTypeMapper,
     val tilePreFilter: TileCondition? = null,

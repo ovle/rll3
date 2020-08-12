@@ -23,7 +23,7 @@ class RoomsInfoProcessor : TilesProcessor {
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
                 val nearTiles = nearValues(tiles, x, y)
-                val isRoomTile = nearTiles.value?.typeId in floorTypes
+                val isRoomTile = nearTiles.value in floorTypes
                 if (isRoomTile) {
                     if (currentRoom == null) {
                         //todo refactor

@@ -63,6 +63,15 @@ fun entityNullable(id: EntityId, entities: Collection<Entity>) = entitiesWith(en
         .singleOrNull { it[ComponentMappers.id]!!.id == id }
 fun entity(id: EntityId, entities: Collection<Entity>) = entityNullable(id, entities)!!
 
+//todo
+fun entityQuery(query: String, entities: List<Entity>): Entity? {
+    //todo by id
+    //todo by template name
+    return when (query) {
+//        "player" -> playerInteractionInfo(entities)!!.controlledEntity
+        else -> null
+    }
+}
 //----------------------------------------------------------------------------------------------------------------------------------
 
 fun Collection<Entity>.on(position: GridPoint2): Collection<Entity> =

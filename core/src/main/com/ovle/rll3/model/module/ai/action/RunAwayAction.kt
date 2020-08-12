@@ -19,7 +19,7 @@ class RunAwayAction: EntityTask() {
 
         val level = levelInfo(entities.toTypedArray())!!
         val tiles = level.tiles
-        val toPointCandidates = tiles.positions().filter { tiles.isPassable(it) }
+        val toPointCandidates = tiles.points().filter { tiles.isPassable(it) }
         val target = toPointCandidates.randomOrNull() ?: return Status.FAILED
 
         EventBus.send(Event.GameEvent.EntityEvent.EntityStartMoveCommand(currentEntity, target))

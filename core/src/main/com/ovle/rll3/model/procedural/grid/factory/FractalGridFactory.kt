@@ -8,9 +8,7 @@ import com.ovle.rll3.model.procedural.grid.generator.FractalMapGenerator
 class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
 
     override fun get(random: RandomParams): Grid {
-
-        val size = params.size.random(random.kRandom)
-        val result = Grid(size)
+        val result = Grid(params.size)
 
         val mapGenerator = FractalMapGenerator(
             random = random.jRandom

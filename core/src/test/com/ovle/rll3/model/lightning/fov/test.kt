@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.lightning.fov
 
-import com.ovle.rll3.model.tile.Tile
+import com.ovle.rll3.model.module.interaction.SelectionMode
 import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.util.lightTilePassMapper
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
@@ -21,7 +21,7 @@ class Test {
     fun `test fieldOfView`(testCase: TestCase) {
         val (source, radius, areaSize, tileTemplate, expectedResult) = testCase
         val inFovPointId = 1
-        val tiles = TileArray(tileTemplate.map { Tile(it) }.toTypedArray(), areaSize)
+        val tiles = TileArray(tileTemplate.map { it }.toTypedArray(), areaSize)
         val expectedTiles = TileArray(expectedResult.map { Tile(it) }.toTypedArray(), areaSize)
 
         val expectedPositions = expectedTiles.indexedTiles()

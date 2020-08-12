@@ -1,7 +1,7 @@
-package com.ovle.rll3.model.procedural.grid.utils
+package com.ovle.rll3.model.procedural.grid.util
 
 import com.ovle.rll3.NearTiles
-import com.ovle.rll3.TileType
+import com.ovle.rll3.Tile
 import com.ovle.rll3.model.template.entity.SpawnTemplate
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.tile.*
@@ -59,8 +59,8 @@ class SpawnTable(spawnTemplates: List<EntityTemplate>, nearTiles: NearTiles, val
             matchesMask(maskTilesR3, nearTiles)
     }
 
-    private fun matchesMask(maskTiles: List<TileType>, nearTiles: NearValues<Tile?>): Boolean {
-        val actualTiles = nearTiles.asList.flatten().map { it?.typeId }
+    private fun matchesMask(maskTiles: List<Tile>, nearTiles: NearValues<Tile?>): Boolean {
+        val actualTiles = nearTiles.asList.flatten().map { it }
         return maskTiles
             .zip(actualTiles)
             .all { (maskTile, actualTile) -> maskTile == whateverTileId || maskTile == actualTile }

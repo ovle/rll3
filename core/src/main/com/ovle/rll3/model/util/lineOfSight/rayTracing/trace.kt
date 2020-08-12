@@ -1,12 +1,8 @@
 package com.ovle.rll3.model.util.lineOfSight.rayTracing
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.LightPassTypeFn
-import com.ovle.rll3.component1
-import com.ovle.rll3.component2
+import com.ovle.rll3.*
 import com.ovle.rll3.model.tile.LightPassType
-import com.ovle.rll3.model.tile.Tile
-import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.util.discretization.bresenham.filledCircle
 import com.ovle.rll3.model.util.discretization.bresenham.line
 
@@ -22,7 +18,7 @@ fun trace(fromPosition: GridPoint2, toPosition: GridPoint2, obstacles: Collectio
 
 private fun losPassable(tilePosition: GridPoint2, lightPassTypeFn: LightPassTypeFn, tiles: TileArray): Boolean {
     val (x, y) = tilePosition
-    val tile = tiles.tile(x, y)
+    val tile = tiles[x, y]
 
     return lightPassTypeFn(tile) == LightPassType.Passable
 }

@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.utils.Array
+import com.ovle.rll3.Tile
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
@@ -62,11 +63,12 @@ class RenderLevelSystem(
     private fun region(params: TileToTextureParams): TextureRegion {
         val regions = params.textureRegions.regions
         val emptyRegion = regions[7][7]
-        return when (params.tile.typeId) {
-            structureWallWTileId -> regions[3][10]
+        return when (params.tile) {
             structureWallSTileId -> regions[3][8]
-            structureFloorWTileId -> regions[3][13]
-            structureFloorSTileId -> regions[3][12]
+            structureWallWTileId -> regions[3][9]
+            fenceTileId -> regions[3][10]    //todo entity?
+            structureFloorSTileId -> regions[3][11]
+            structureFloorWTileId -> regions[3][12]
 
             naturalHighWallTileId -> regions[4][10]
             naturalLowWallTileId -> regions[4][11]
@@ -74,9 +76,10 @@ class RenderLevelSystem(
             deepWaterTileId -> regions[4][8]
             shallowWaterTileId -> regions[4][9]
 
-            groundTileId -> regions[3][15]
-            roadTileId -> regions[3][14]
-            fenceTileId -> regions[3][11]    //todo entity?
+            roadTileId -> regions[3][13]
+            highGroundTileId -> regions[3][14]
+            lowGroundTileId -> regions[3][15]
+
             else -> emptyRegion
         }
     }
@@ -113,7 +116,7 @@ class RenderLevelSystem(
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
 //                val nearTiles = nearValues(tiles, x, y)
-                val tile = tiles.tile(x, y)
+                val tile = tiles.get(x, y)
                 updateTile(result, tile, point(x, y))
             }
         }

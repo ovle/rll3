@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.procedural.grid.utils
+package com.ovle.rll3.model.procedural.grid.util
 
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid

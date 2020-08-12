@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.template.entity
 
-import com.ovle.rll3.TileType
+import com.ovle.rll3.Tile
 import com.ovle.rll3.model.template.parsedMask
 
 data class SpawnTemplate(
@@ -14,7 +14,7 @@ data class SpawnTemplate(
     var groupBonusChance: Float = 0.0f,
     var groupRadius: Int = 1
 ) {
-    val parsedMask: List<List<TileType>>? by lazy {
+    val parsedMask: List<List<Tile>>? by lazy {
         parsedMask(mask)
     }
 }

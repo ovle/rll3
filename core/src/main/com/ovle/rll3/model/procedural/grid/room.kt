@@ -1,7 +1,8 @@
 package com.ovle.rll3.model.procedural.grid
 
 import com.ovle.rll3.NearTiles
-import com.ovle.rll3.TileType
+import com.ovle.rll3.Tile
+import com.ovle.rll3.TileArray
 import com.ovle.rll3.model.procedural.grid.RoomStructure.DirectionValue.*
 import com.ovle.rll3.model.procedural.grid.RoomStructure.ParamKey.*
 import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
@@ -19,7 +20,7 @@ enum class RoomStructure {
         )
 
         override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
-            val isFreeSpaceTile = nearTiles.all.all { it?.typeId in floorTypes }
+            val isFreeSpaceTile = nearTiles.all.all { it in floorTypes }
             if (!isFreeSpaceTile) return
 
             var resultTileId = pitFloorTileId
@@ -30,7 +31,7 @@ enum class RoomStructure {
                 val isHBridgeTile = nearTiles.y == room.y + room.height / 2
                 val isVBridgeTile = nearTiles.x == room.x + room.width / 2
                 val isBridgeTile = haveHBridge && isHBridgeTile || haveVBridge && isVBridgeTile
-                if (isBridgeTile) resultTileId = groundTileId
+                if (isBridgeTile) resultTileId = highGroundTileId
             }
 
             setTile(tiles, nearTiles, resultTileId)
@@ -87,7 +88,7 @@ enum class RoomStructure {
 
         override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
             val dirValue = params[ColonnadeDirection]
-            val isFreeSpaceTile = nearTiles.nearHV.all { it?.typeId in floorTypes }
+            val isFreeSpaceTile = nearTiles.nearHV.all { it in floorTypes }
             if (!isFreeSpaceTile) return
 
             val isHColumn = nearTiles.x % 2 == 0 && (nearTiles.y == room.y + 1 || nearTiles.y == room.y + room.height - 1)
@@ -110,17 +111,17 @@ enum class RoomStructure {
             val amount = params[RandomNoiseAmount] as Float
             if (r.nextDouble() >= amount) return
 
-            val tileId = arrayOf(naturalHighWallTileId, pitFloorTileId).random(r)
+            val tile = arrayOf(naturalHighWallTileId, pitFloorTileId).random(r)
 
-            setTile(tiles, nearTiles, tileId)
+            setTile(tiles, nearTiles, tile)
         }
     };
 
-    protected fun setTile(tiles: TileArray, nearTiles: NearTiles, tileId: TileType) {
+    protected fun setTile(tiles: TileArray, nearTiles: NearTiles, tile: Tile) {
         val x = nearTiles.x
         val y = nearTiles.y
 
-        tiles.setTile(x, y, Tile(tileId))
+        tiles.set(x, y, tile)
     }
 
     abstract fun initParams(room: RoomInfo, r: kotlin.random.Random): Map<ParamKey, Any>

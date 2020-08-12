@@ -48,17 +48,17 @@ val levelParams = LevelParams(
     templateName = "Common",
     factory = FractalGridFactory(
         params = FractalLevelFactoryParams(
-            size = (257..257)
+            size = 257
         )
     ),
     postProcessors = arrayOf(
         StructureProcessor(
             params = StructureProcessorParams(
-                number = (2..5),
-                size = (10..30),
+                number = 2,
+                size = 20,
                 factory = DungeonGridFactory(
                     params = DungeonLevelFactoryParams(
-                        size = (10..30),
+                        size = 20,
                         roomTypes = arrayOf(SQUARE),
                         maxRoomSize = 7,
                         minRoomSize = 3,
@@ -68,7 +68,7 @@ val levelParams = LevelParams(
                     )
                 ),
                 tileMapper = ::dungeonTileMapper,
-                tilePreFilter = ::dungeonTileFilter
+                tilePreFilter = ::groundTileFilter
             )
         ),
         StructureTemplateProcessor(structureTemplates()),

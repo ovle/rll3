@@ -7,7 +7,7 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.ai.EntityBlackboard
 import com.ovle.rll3.model.module.ai.EntityTask
-import com.ovle.rll3.model.module.ai.entityQuery
+import com.ovle.rll3.model.module.core.entity.entityQuery
 import ktx.ashley.get
 
 

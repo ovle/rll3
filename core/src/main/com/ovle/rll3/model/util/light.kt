@@ -1,12 +1,12 @@
 package com.ovle.rll3.model.util
 
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.TileArray
 import com.ovle.rll3.model.module.light.LightSourceComponent
 import com.ovle.rll3.model.module.light.AOETilePosition
 import com.ovle.rll3.model.module.game.LevelInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.entitiesWith
-import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
 import ktx.ashley.get
 

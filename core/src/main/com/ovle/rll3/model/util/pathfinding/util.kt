@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.util.pathfinding
 
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.Tile
 import com.ovle.rll3.TilePassTypeFn
-import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TilePassType
 import kotlin.math.roundToInt
 

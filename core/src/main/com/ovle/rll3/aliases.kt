@@ -8,9 +8,9 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.model.module.game.LevelInfo
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.quest.QuestInfo
+import com.ovle.rll3.model.tile.Array2d
 import com.ovle.rll3.model.tile.LightPassType
 import com.ovle.rll3.model.tile.NearValues
-import com.ovle.rll3.model.tile.Tile
 import com.ovle.rll3.model.tile.TilePassType
 
 typealias EntityFilter = (Entity) -> Boolean
@@ -53,10 +53,10 @@ typealias MoveCostFn = ((Tile, Tile?, TilePassTypeFn) -> Int)
 typealias MoveCostFn2 = ((GridPoint2, GridPoint2?, TilePassTypeFn) -> Int)
 typealias IsPassableFn = ((GridPoint2, TilePassTypeFn) -> Boolean)
 
-typealias TileType = Char
+typealias Tile = Char
 typealias TileCondition = ((Tile) -> Boolean)
 typealias TilePassTypeFn = ((Tile) -> TilePassType)
 typealias LightPassTypeFn = ((Tile) -> LightPassType)
-
+typealias TileArray = Array2d<Tile>
 typealias NearTiles = NearValues<Tile?>
-typealias TileTypeMapper = (Float) -> TileType
+typealias TileTypeMapper = (Float) -> Tile

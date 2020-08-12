@@ -15,8 +15,7 @@ class DungeonGridFactory(val params: DungeonLevelFactoryParams): GridFactory {
     }
 
     override fun get(random: RandomParams): Grid {
-        val size = params.size.random(random.kRandom)
-        val grid = Grid(size)
+        val grid = Grid(params.size)
         val generator = DungeonGenerator.getInstance()
         Generators.setRandom(random.jRandom)
 

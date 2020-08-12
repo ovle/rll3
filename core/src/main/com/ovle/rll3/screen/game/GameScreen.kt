@@ -4,35 +4,32 @@ import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.ScreenManager
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.Event.PlayerControlEvent.*
+import com.ovle.rll3.assets.AssetsManager
+import com.ovle.rll3.event.Event.GameEvent.StartGameCommand
+import com.ovle.rll3.event.Event.PlayerControlEvent.CameraScrolledEvent
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.eventLogHook
-import com.ovle.rll3.model.module.GameModule
-import com.ovle.rll3.model.module.interaction.BaseInteractionSystem
-import com.ovle.rll3.model.module.interaction.EntityInteractionSystem
-import com.ovle.rll3.model.module.skill.SkillSystem
-import com.ovle.rll3.model.module.interaction.TileInteractionSystem
-import com.ovle.rll3.model.module.render.RenderLevelSystem
-import com.ovle.rll3.model.module.render.RenderInteractionInfoSystem
-import com.ovle.rll3.model.module.render.RenderObjectsSystem
-import com.ovle.rll3.model.module.entityAction.EntityActionSystem
-import com.ovle.rll3.model.module.task.TaskSystem
 import com.ovle.rll3.model.module.controls.PlayerControlsSystem
+import com.ovle.rll3.model.module.entityAction.EntityActionSystem
 import com.ovle.rll3.model.module.game.GameSystem
-import com.ovle.rll3.model.module.time.TimeSystem
 import com.ovle.rll3.model.module.gathering.ResourceSystem
 import com.ovle.rll3.model.module.health.HealthSystem
+import com.ovle.rll3.model.module.interaction.BaseInteractionSystem
+import com.ovle.rll3.model.module.interaction.EntityInteractionSystem
 import com.ovle.rll3.model.module.render.CameraSystem
+import com.ovle.rll3.model.module.render.RenderInteractionInfoSystem
+import com.ovle.rll3.model.module.render.RenderLevelSystem
+import com.ovle.rll3.model.module.render.RenderObjectsSystem
+import com.ovle.rll3.model.module.skill.SkillSystem
 import com.ovle.rll3.model.module.space.MoveSystem
+import com.ovle.rll3.model.module.task.TaskSystem
+import com.ovle.rll3.model.module.time.TimeSystem
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.scaleScrollCoeff
 import ktx.scene2d.table
-import sun.reflect.Reflection
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -69,7 +66,7 @@ class GameScreen(
 
             BaseInteractionSystem(),
             EntityInteractionSystem(),
-            TileInteractionSystem(),
+//            TileInteractionSystem(),
 
             SkillSystem(),
             ResourceSystem()

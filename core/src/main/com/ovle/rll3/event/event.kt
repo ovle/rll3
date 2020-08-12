@@ -3,6 +3,7 @@ package com.ovle.rll3.event
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.Tile
 import com.ovle.rll3.Turn
 import com.ovle.rll3.model.module.game.LevelInfo
 import com.ovle.rll3.model.module.task.TaskTarget
@@ -10,7 +11,6 @@ import com.ovle.rll3.model.module.skill.SkillTemplate
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.template.entity.EntityTemplate
-import com.ovle.rll3.model.tile.Tile
 
 sealed class Event {
     var next: Event? = null

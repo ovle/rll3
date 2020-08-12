@@ -2,13 +2,13 @@ package com.ovle.rll3.model.module.game
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.LevelId
+import com.ovle.rll3.TileArray
 import com.ovle.rll3.model.module.time.TimeInfo
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
 import com.ovle.rll3.model.procedural.grid.processor.structure.StructureTemplateInfo
-import com.ovle.rll3.model.tile.TileArray
 import java.io.Serializable
 
 data class LevelInfo(

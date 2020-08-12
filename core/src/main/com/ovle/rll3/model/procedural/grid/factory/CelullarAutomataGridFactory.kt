@@ -5,7 +5,7 @@ import com.github.czyzby.noise4j.map.generator.cellular.CellularAutomataGenerato
 import com.github.czyzby.noise4j.map.generator.util.Generators
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.CelullarAutomataLevelFactoryParams
 import com.ovle.rll3.model.procedural.config.RandomParams
-import com.ovle.rll3.model.procedural.grid.utils.connect
+import com.ovle.rll3.model.procedural.grid.util.connect
 
 class CelullarAutomataGridFactory(val params: CelullarAutomataLevelFactoryParams): GridFactory {
 
@@ -16,7 +16,7 @@ class CelullarAutomataGridFactory(val params: CelullarAutomataLevelFactoryParams
     }
 
     override fun get(random: RandomParams): Grid {
-        val size = params.size.random(random.kRandom)
+        val size = params.size
         val result = Grid(size)
 
         val generator = CellularAutomataGenerator.getInstance()

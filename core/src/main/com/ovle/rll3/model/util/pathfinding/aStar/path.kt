@@ -2,7 +2,6 @@ package com.ovle.rll3.model.util.pathfinding.aStar
 
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.*
-import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.util.pathfinding.maxMoveCost
 
 
@@ -27,7 +26,7 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, obstacles: Collecti
     while (open.isNotEmpty()) {
         val currentPosition = open.minBy { estimatedTotalCost.getValue(it) }!!
         val (x ,y) = currentPosition
-        val currentTile = tiles.tile(x, y)
+        val currentTile = tiles[x, y]
         if (currentPosition == to) {
             return path(currentPosition, cameFrom)
         }
@@ -43,7 +42,7 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, obstacles: Collecti
             if (!tiles.isPointValid(nX, nY)) continue
             if (obstacles.contains(point(nX, nY))) continue
 
-            val neighbourTile = tiles.tile(nX, nY)
+            val neighbourTile = tiles[nX, nY]
             val nextCost = costFn(currentTile, neighbourTile, tilePassTypeFn)
             if (nextCost == maxMoveCost) continue
 
@@ -63,10 +62,3 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, obstacles: Collecti
 //    println("no path found from $from to $to")
     return emptyList()
 }
-
-private fun nearHV(x: Int, y: Int) = arrayOf(
-    point(x - 1, y),
-    point(x + 1, y),
-    point(x, y - 1),
-    point(x, y + 1)
-)

@@ -3,9 +3,7 @@ package com.ovle.rll3.model.procedural.grid.processor.structure
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.TileType
-import com.ovle.rll3.component1
-import com.ovle.rll3.component2
+import com.ovle.rll3.*
 import com.ovle.rll3.model.module.quest.QuestOwnerComponent
 import com.ovle.rll3.model.module.game.LevelInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
@@ -17,13 +15,10 @@ import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.template.structure.StructureEntity
 import com.ovle.rll3.model.template.structure.StructureTemplate
 import com.ovle.rll3.assets.loader.StructureTemplates
+import com.ovle.rll3.model.procedural.config.groundTileFilter
 import com.ovle.rll3.model.procedural.grid.processor.TilesProcessor
-import com.ovle.rll3.model.tile.Tile
-import com.ovle.rll3.model.tile.TileArray
 import com.ovle.rll3.model.tile.whateverTileId
-import com.ovle.rll3.point
 import ktx.ashley.get
-import kotlin.random.Random
 
 data class StructureTemplateInfo(val template: StructureTemplate, val positions: Set<GridPoint2>)
 
@@ -42,18 +37,19 @@ class StructureTemplateProcessor(val templates: StructureTemplates) : TilesProce
     private fun processTemplate(template: StructureTemplate, tiles: TileArray, levelInfo: LevelInfo, gameEngine: Engine, entities: MutableList<Entity>) {
         val random = levelInfo.random.kRandom
         val mask = template.parsedMask
-        val maskWidth = mask.size
-        val maskHeight = mask.maxBy { it.size }!!.size
-        val size = tiles.size
-        val widthDiff = size - maskWidth
-        val heightDiff = size - maskHeight
 
         val check = random.nextDouble()
         val chance = 1.0
         val needSpawn = check <= chance
 
         //spawn point is the left top corner of mask
-        val spawnPoint = spawnPoint(widthDiff, heightDiff, size, random)
+        //todo
+        val spawnPoint = spawnPoint(random, tiles, mask.size, null /*::groundTileFilter*/, 15)
+        if (spawnPoint == null) {
+            println("spawn failed: can't get spawnPoint")
+            return
+        }
+
         val (x, y) = spawnPoint
         if (needSpawn) {
             val positions = spawnStructure(mask, tiles, x, y)
@@ -92,24 +88,20 @@ class StructureTemplateProcessor(val templates: StructureTemplates) : TilesProce
         }
     }
 
-    private fun spawnStructure(mask: List<List<TileType>>, tiles: TileArray, x: Int, y: Int): Set<GridPoint2> {
+    private fun spawnStructure(mask: List<List<Tile>>, tiles: TileArray, x: Int, y: Int): Set<GridPoint2> {
         val result = mutableSetOf<GridPoint2>()
         mask.forEachIndexed { i, _ ->
             mask[i].forEachIndexed { j, _ ->
-                val tileType = mask[i][j]
-                if (tileType != whateverTileId) {
+                val tile = mask[i][j]
+                if (tile != whateverTileId) {
                     val resultX = x + j
                     val resultY = y - i
 
-                    tiles.setTile(resultX, resultY, Tile(tileType))
+                    tiles[resultX, resultY] = tile
                     result.add(point(resultX, resultY))
                 }
             }
         }
         return result
     }
-
-    private fun spawnPoint(widthDiff: Int, heightDiff: Int, size: Int, r: Random) = point(
-        (0..widthDiff).random(r), (size - 1) - (0..heightDiff).random(r)
-    )
 }
