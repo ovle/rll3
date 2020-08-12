@@ -208,12 +208,12 @@ description: ''
 state:
   collision:
 spawns:
-  - chance: 1.5
+  - chance: 0.3
     rotate: true
-    groupBonusChance: 0.4
+    groupBonusChance: 0.2
     mask: |
       ` ` `
-      " _ `
+      w u `
       ` ` `
 ---
 
