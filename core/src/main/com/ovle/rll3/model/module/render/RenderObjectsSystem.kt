@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
@@ -72,7 +72,7 @@ class RenderObjectsSystem(
 //            toRender = toRender.filter { isInFov(it, fov) }.toMutableList()
 //        }
 
-        draw(toRender, deltaTime)
+        draw(toRender)
         toRender.clear()
     }
 
@@ -93,8 +93,7 @@ class RenderObjectsSystem(
 
             spritesConfig["dead"] = deadEntitySpritePoint
 
-            val sprites = spritesConfig.mapValues {
-                (_, texturePoint) ->
+            val sprites = spritesConfig.mapValues { (_, texturePoint) ->
                 sprite(spriteRegions, texturePoint.x, texturePoint.y)
             }
 
@@ -112,15 +111,14 @@ class RenderObjectsSystem(
         }
     }
 
-    private fun draw(entities: List<Entity>, deltaTime: Float) {
+    private fun draw(entities: List<Entity>) {
         batch.begin()
 
         for (entity in entities) {
             val renderComponent = entity[render]!!
             val position = entity[position]!!.gridPosition
-            val region = renderComponent.currentRegion(deltaTime) ?: continue
 
-            batch.draw(vec2(position), region, renderComponent.flipped)
+            batch.draw(position, renderComponent)
         }
 
         batch.end()

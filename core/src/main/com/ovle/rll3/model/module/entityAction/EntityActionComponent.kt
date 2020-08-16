@@ -2,7 +2,6 @@ package com.ovle.rll3.model.module.entityAction
 
 import com.ovle.rll3.Ticks
 import com.ovle.rll3.model.module.core.component.BaseComponent
-import com.ovle.rll3.model.template.entity.view.AnimationType
 
 /**
  * @property current       action (will be started when [timeLeft] expires)
@@ -11,6 +10,6 @@ import com.ovle.rll3.model.template.entity.view.AnimationType
  */
 class EntityActionComponent(
     var current: (() -> Unit)? = null,
-    var animation: AnimationType? = null,
+//    var animation: AnimationType? = null,
     var timeLeft: Ticks? = null
 ) : BaseComponent

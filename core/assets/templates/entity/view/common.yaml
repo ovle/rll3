@@ -209,29 +209,11 @@ sprite:
 name: rockman
 sprite:
   default: [11, 10]
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [11, 10]
-      - [12, 10]
-      - [13, 10]
-      - [14, 10]
 ---
 
 name: torch
 sprite:
   default: [11, 1]
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [7, 1]
-      - [8, 1]
-      - [9, 1]
-      - [10, 1]
 ---
 
 name: sceleton
@@ -239,23 +221,4 @@ sprite:
   default: [6, 10]
 portrait:
   - [3, 0]
-animations:
-  - type: Idle
-    repeat: true
-    alwaysPlaying: true
-    frames:
-      - [6, 10]
-      - [7, 10]
-      - [8, 10]
-      - [9, 10]
-  - type: Death
-    terminal: true
-    frames:
-      - [6, 12]
-      - [7, 12]
-      - [8, 12]
-  - type: TakeHit
-    frames:
-      - [9, 12]
-      - [10, 12]
 

@@ -1,19 +1,16 @@
 package com.ovle.rll3.model.module.render
 
 import com.ovle.rll3.model.module.core.component.BaseComponent
-import com.ovle.rll3.model.template.entity.view.AnimationType
 import com.ovle.rll3.view.sprite.Sprite
-import com.ovle.rll3.view.sprite.animation.FrameAnimation
 
 class RenderComponent(
     var sprite: Sprite? = null,
     var visible: Boolean = true,
     var zLevel: Int = 0,
-    var sprites: Map<String, Sprite> = mapOf(),
-    var animations: Map<AnimationType, FrameAnimation> = mapOf()
+    var sprites: Map<String, Sprite> = mapOf()
 ) : BaseComponent {
 
-    var currentAnimation: FrameAnimation? = null
+    var currentAnimation: Animation? = null
 
     var flipped = false
 
@@ -21,9 +18,10 @@ class RenderComponent(
         sprite = sprites[key]
     }
 
-    fun currentRegion(deltaTime: Float) = currentAnimation?.currentFrame(deltaTime) ?: sprite?.textureRegion()
+    fun currentRegion() = sprite?.textureRegion()
 
     fun flip() {
         flipped = !flipped
     }
 }
+
