@@ -2,10 +2,7 @@ package com.ovle.rll3.model.module.gathering
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.Turn
-import com.ovle.rll3.event.Event.GameEvent.CreateEntityCommand
-import com.ovle.rll3.event.Event.GameEvent.EntityEvent.DestroyEntityCommand
-import com.ovle.rll3.event.Event.GameEvent.EntityEvent.EntityGatheredEvent
-import com.ovle.rll3.event.Event.GameEvent.TimeChangedEvent
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
@@ -23,7 +20,7 @@ class ResourceSystem : EventSystem() {
     }
 
     private fun onEntityGathered(entity: Entity, amount: Int) {
-        val sourceComponent = entity[source]!!
+        val sourceComponent = entity[source]!!  //todo
         sourceComponent.gatherCostPaid += amount
 
         if (sourceComponent.isGathered) {

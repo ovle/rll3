@@ -18,12 +18,3 @@ class PlayerInteractionComponent(
     var controlMode: ControlMode = ControlMode.View,
     var selectionMode: SelectionMode = SelectionMode.Entity
 ) : BaseComponent
-
-enum class ControlMode {
-    View,
-    Task
-}
-enum class SelectionMode {
-    Entity,
-    Tile
-}

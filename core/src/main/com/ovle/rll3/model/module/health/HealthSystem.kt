@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.module.health
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.entity.id

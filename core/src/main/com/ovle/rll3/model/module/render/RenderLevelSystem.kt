@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.Array
 import com.ovle.rll3.Tile
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.Event.*
-import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.Event.GameEvent.LevelLoadedEvent
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.perception.PerceptionComponent

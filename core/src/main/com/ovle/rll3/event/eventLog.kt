@@ -1,53 +1,53 @@
 package com.ovle.rll3.event
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.event.Event.GameEvent
+import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.Event.GameEvent.*
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import ktx.ashley.get
 import ktx.ashley.has
 
 fun eventLogHook(event: Event) {
-    if (!isLoggableEvent(event)) return
+    val message = message(event) ?: return
 
-    val message = message(event)
     println(message)
-    send(GameEvent.LogCommand(message))
+    send(LogCommand(message))
 }
 
-private fun isLoggableEvent(event: Event) =
+private fun message(event: Event) =
     when (event) {
-        is GameEvent.EntityEvent.EntityInteraction,
-        is GameEvent.EntityEvent.EntityTakeDamageEvent,
-        is GameEvent.EntityEvent.EntityDiedEvent,
-        is GameEvent.EntityEvent.EntityTakeItems,
-        is GameEvent.QuestStatusUpdatedEvent -> true
-        else -> false
-    }
-
-private fun message(event: Event)=
-    when (event) {
-        is GameEvent.EntityEvent.EntityInteraction -> {
-            val sourceInfo = event.source.info()
-            val entityInfo = event.entity.info()
-            val actionInfo = event.interaction
-            "$sourceInfo $actionInfo $entityInfo"
+        is DebugSwitchSelectionMode -> {
+            "switch selection mode: ${event.selectionMode}"
         }
-        is GameEvent.EntityEvent.EntityTakeDamageEvent -> {
-            val entityInfo = event.entity.info()
-            val sourceInfo = event.source?.info() ?: " unknown source"
-            "$entityInfo takes ${event.amount} damage from $sourceInfo"
+        is DebugSwitchControlMode -> {
+            "switch control mode: ${event.controlMode}"
         }
-        is GameEvent.EntityEvent.EntityDiedEvent -> { "${event.entity.info()} died" }
-        is GameEvent.EntityEvent.EntityTakeItems -> {
-            val itemsInfo = event.items.info()
-            "${event.entity.info()} taken: $itemsInfo"
+        is CheckTaskCommand -> {
+           "check task.. target: ${event.target}"
         }
-        is GameEvent.QuestStatusUpdatedEvent -> {
-            val quest = event.quest
-            "${quest.performer.info()} updated quest: ${quest.description.title}; status: ${quest.status}"
-        }
-        else -> throw IllegalArgumentException("not supported journal for event $event")
+//        is EntityInteraction -> {
+//            val sourceInfo = event.source.info()
+//            val entityInfo = event.entity.info()
+//            val actionInfo = event.interaction
+//            "$sourceInfo $actionInfo $entityInfo"
+//        }
+//        is EntityTakeDamageEvent -> {
+//            val entityInfo = event.entity.info()
+//            val sourceInfo = event.source?.info() ?: " unknown source"
+//            "$entityInfo takes ${event.amount} damage from $sourceInfo"
+//        }
+        is EntityDiedEvent -> { "${event.entity.info()} died" }
+//        is EntityTakeItems -> {
+//            val itemsInfo = event.items.info()
+//            "${event.entity.info()} taken: $itemsInfo"
+//        }
+//        is QuestStatusUpdatedEvent -> {
+//            val quest = event.quest
+//            "${quest.performer.info()} updated quest: ${quest.description.title}; status: ${quest.status}"
+//        }
+        else -> null
     }
 
 fun Collection<Entity>.info(): String {

@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.Event.GameEvent.StartGameCommand
-import com.ovle.rll3.event.Event.PlayerControlEvent.CameraScrolledEvent
+import com.ovle.rll3.event.Event.PlayerControlEvent.CameraScrollCommand
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.eventLogHook
@@ -18,10 +18,8 @@ import com.ovle.rll3.model.module.gathering.ResourceSystem
 import com.ovle.rll3.model.module.health.HealthSystem
 import com.ovle.rll3.model.module.interaction.BaseInteractionSystem
 import com.ovle.rll3.model.module.interaction.EntityInteractionSystem
-import com.ovle.rll3.model.module.render.CameraSystem
-import com.ovle.rll3.model.module.render.RenderInteractionInfoSystem
-import com.ovle.rll3.model.module.render.RenderLevelSystem
-import com.ovle.rll3.model.module.render.RenderObjectsSystem
+import com.ovle.rll3.model.module.interaction.TileInteractionSystem
+import com.ovle.rll3.model.module.render.*
 import com.ovle.rll3.model.module.skill.SkillSystem
 import com.ovle.rll3.model.module.space.MoveSystem
 import com.ovle.rll3.model.module.task.TaskSystem
@@ -55,6 +53,7 @@ class GameScreen(
             RenderLevelSystem(camera, assetsManager),
             RenderObjectsSystem(batch, assetsManager),
             RenderInteractionInfoSystem(batch, assetsManager),
+            AnimationSystem(),
 
             GameSystem(),
 
@@ -66,7 +65,7 @@ class GameScreen(
 
             BaseInteractionSystem(),
             EntityInteractionSystem(),
-//            TileInteractionSystem(),
+            TileInteractionSystem(),
 
             SkillSystem(),
             ResourceSystem()
@@ -77,7 +76,7 @@ class GameScreen(
 
         EventBus.addHook(::eventLogHook)
 
-        send(CameraScrolledEvent(((1 - initialScale) / scaleScrollCoeff).roundToInt()))
+        send(CameraScrollCommand(((1 - initialScale) / scaleScrollCoeff).roundToInt()))
 
         send(StartGameCommand())
     }
@@ -86,7 +85,7 @@ class GameScreen(
         super.hide()
 
         val camera = batchViewport.camera as OrthographicCamera
-        send(CameraScrolledEvent(((1 - camera.zoom) / scaleScrollCoeff).roundToInt()))
+        send(CameraScrollCommand(((1 - camera.zoom) / scaleScrollCoeff).roundToInt()))
 
         ecsEngine.clearPools()
         ecsEngine.removeAllEntities()

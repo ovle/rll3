@@ -30,7 +30,7 @@ class StartMovingToEntityAction: EntityTask() {
         val targetEntity = entityQuery(entityQuery, entities) ?: return Status.FAILED
 
         val targetPositionComponent = targetEntity[ComponentMappers.position] ?: return Status.FAILED
-        EventBus.send(Event.GameEvent.EntityEvent.EntityStartMoveCommand(currentEntity, targetPositionComponent.gridPosition))
+        EventBus.send(Event.GameEvent.EntityStartMoveCommand(currentEntity, targetPositionComponent.gridPosition))
 
         return Status.SUCCEEDED
     }

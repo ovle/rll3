@@ -3,7 +3,7 @@ package com.ovle.rll3.model.module.game
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.Event.GameEvent.EntityEvent.*
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.time.TimeInfo

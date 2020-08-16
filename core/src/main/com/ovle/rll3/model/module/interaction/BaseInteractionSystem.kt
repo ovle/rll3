@@ -12,20 +12,18 @@ import com.ovle.rll3.model.module.core.system.EventSystem
 class BaseInteractionSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<DebugSwitchSelectionMode> { onSwitchSelectionModeEvent() }
-        EventBus.subscribe<DebugSwitchControlMode> { onSwitchControlModeEvent() }
+        EventBus.subscribe<DebugSwitchSelectionMode> { onSwitchSelectionModeEvent(it.selectionMode) }
+        EventBus.subscribe<DebugSwitchControlMode> { onSwitchControlModeEvent(it.controlMode) }
     }
 
-    private fun onSwitchSelectionModeEvent() {
+    private fun onSwitchSelectionModeEvent(selectionMode: SelectionMode) {
         val interactionInfo = playerInteractionInfo()!!
-        val newSelectionMode = if (interactionInfo.selectionMode == Entity) Tile else Entity
-        switchSelectionMode(newSelectionMode, interactionInfo)
+        switchSelectionMode(selectionMode, interactionInfo)
     }
 
-    private fun onSwitchControlModeEvent() {
+    private fun onSwitchControlModeEvent(controlMode: ControlMode) {
         val interactionInfo = playerInteractionInfo()!!
-        val newControlMode = if (interactionInfo.controlMode == View) Task else View
-        switchControlMode(newControlMode, interactionInfo)
+        switchControlMode(controlMode, interactionInfo)
     }
 
     private fun switchSelectionMode(newSelectionMode: SelectionMode, interactionInfo: PlayerInteractionComponent) {

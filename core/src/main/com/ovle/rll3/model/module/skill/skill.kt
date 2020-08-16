@@ -15,9 +15,9 @@ fun skill(source: Entity, target: Any?, skillTemplate: SkillTemplate) {
         val amount = skillTemplate.skillEffectAmount(source)
         skill.invoke(source, target, amount)
 
-        send(Event.GameEvent.EntityEvent.EntityChangedEvent(source))
+        send(Event.GameEvent.EntityChangedEvent(source))
         if (target is Entity) {
-            send(Event.GameEvent.EntityEvent.EntityChangedEvent(target))
+            send(Event.GameEvent.EntityChangedEvent(target))
         }
     }
     actionComponent.timeLeft = skillTemplate.time

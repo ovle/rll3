@@ -22,7 +22,7 @@ class RunAwayAction: EntityTask() {
         val toPointCandidates = tiles.points().filter { tiles.isPassable(it) }
         val target = toPointCandidates.randomOrNull() ?: return Status.FAILED
 
-        EventBus.send(Event.GameEvent.EntityEvent.EntityStartMoveCommand(currentEntity, target))
+        EventBus.send(Event.GameEvent.EntityStartMoveCommand(currentEntity, target))
 
         return Status.SUCCEEDED
     }

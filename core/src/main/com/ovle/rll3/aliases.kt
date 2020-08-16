@@ -19,6 +19,8 @@ typealias TaskTargetFilter = (TaskTarget) -> Boolean
 typealias TaskAction = (Entity, TaskTarget) -> Unit
 typealias SuccessCondition = (Entity, TaskTarget) -> Boolean
 typealias FailCondition = (Entity, TaskTarget) -> Boolean
+typealias PreCondition = (Entity, TaskTarget) -> Boolean
+typealias PreConditionTask = (Entity, TaskTarget) -> Unit
 
 typealias ComponentData = Map<String, Any?>
 typealias ComponentFactory = (ComponentData?) -> Component

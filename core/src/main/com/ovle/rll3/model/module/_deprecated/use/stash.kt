@@ -15,5 +15,5 @@ fun processStash(source: Entity, entity: Entity) {
     val closed = stashComponent.closed
     entity[ComponentMappers.render]?.switchSprite(if (closed) "default" else "opened")
 
-    send(Event.GameEvent.EntityEvent.EntityContentInteraction(source, entity))
+    send(Event.GameEvent.EntityContentInteraction(source, entity))
 }

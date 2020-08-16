@@ -4,8 +4,8 @@ package com.ovle.rll3.model.module.container
 //class ContainerSystem : EventSystem() {
 //
 //    override fun subscribe() {
-//        subscribe<Event.GameEvent.EntityEvent.EntityInitializedEvent> { onEntityInitialized(it.entity) }
-//        subscribe<Event.GameEvent.EntityEvent.EntityContentInteraction> { onEntityContentInteraction(it.source, it.entity) }
+//        subscribe<Event.GameEvent.EntityInitializedEvent> { onEntityInitialized(it.entity) }
+//        subscribe<Event.GameEvent.EntityContentInteraction> { onEntityContentInteraction(it.source, it.entity) }
 //    }
 //
 //    private fun onEntityInitialized(entity: Entity) {
@@ -39,7 +39,7 @@ package com.ovle.rll3.model.module.container
 //                containerComponent.items.clear()
 //                it.items.addAll(items)
 //
-//                send(Event.GameEvent.EntityEvent.EntityTakeItems(source, items))
+//                send(Event.GameEvent.EntityTakeItems(source, items))
 //            }
 //        }
 //    }

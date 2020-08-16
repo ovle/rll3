@@ -55,3 +55,14 @@ fun <T, U> cartesianProduct(c1: Collection<T>, c2: Collection<U>): List<Pair<T, 
 fun <T, U> cartesianProduct(c1: Array<T>, c2: Array<U>): Array<Pair<T, U>> {
     return c1.flatMap { lhsElem -> c2.map { rhsElem -> lhsElem to rhsElem } }.toTypedArray()
 }
+
+fun <E: Enum<E>> E.next(): E {
+    val enumConstants = this.declaringClass.enumConstants
+    val nextOrdinal = if (this.ordinal == enumConstants.size - 1) 0 else this.ordinal + 1
+    return enumConstants[nextOrdinal]
+}
+fun <E: Enum<E>> E.prev(): E {
+    val enumConstants = this.declaringClass.enumConstants
+    val nextOrdinal = if (this.ordinal == 0) enumConstants.size - 1 else this.ordinal - 1
+    return enumConstants[nextOrdinal]
+}

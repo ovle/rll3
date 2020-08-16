@@ -7,7 +7,7 @@ import java.io.Serializable
 
 data class TaskInfo(
     val template: TaskTemplate,
-    val performer: Entity,   //todo multiple ?
+    var performer: Entity?,   //todo multiple ?
     val target: TaskTarget,
     var started: Boolean = false
 ): Serializable
