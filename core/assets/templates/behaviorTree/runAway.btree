@@ -1,9 +1,0 @@
-import isWounded?:"com.ovle.rll3.model.module.ai.condition.IsWoundedCondition"
-import isInDanger?:"com.ovle.rll3.model.module.ai.condition.IsInDangerCondition"
-import runAway:"com.ovle.rll3.model.module.ai.action.RunAwayAction"
-
-root
-    sequence
-        isWounded?
-        isInDanger?
-        runAway

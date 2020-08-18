@@ -7,8 +7,8 @@ import com.ovle.rll3.model.module.core.component.BaseComponent
 /**
  * @property focusedEntity      entity, which has the camera focus
  * @property hoveredEntity      entity under the cursor
- * @property selectedEntity     entity, which is currently selected by left-click, to have some interaction
- * @property selectedTiles      tiles, which is currently selected by left-click, to have some interaction
+ * @property selectedEntity     entity, which is currently selected by left-click, to have some interaction with
+ * @property selectedTiles      tiles, which is currently selected by left-click, to have some interaction with
  */
 class PlayerInteractionComponent(
     var focusedEntity: Entity? = null,

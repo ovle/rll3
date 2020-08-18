@@ -11,6 +11,7 @@ import com.ovle.rll3.model.module.interaction.SelectionMode
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.skill.SkillTemplate
 import com.ovle.rll3.model.module.quest.QuestInfo
+import com.ovle.rll3.model.module.task.TaskInfo
 import com.ovle.rll3.model.procedural.config.LevelParams
 import com.ovle.rll3.model.template.entity.EntityTemplate
 
@@ -70,6 +71,11 @@ sealed class Event {
         class EntityFinishedMoveEvent(val entity: Entity) : GameEvent()
         class EntityContentInteraction(val source: Entity, val target: Entity) : GameEvent()
         class EntityTakeItems(val entity: Entity, val items: Collection<Entity>) : GameEvent()
+
+        class TaskStartedEvent(val task: TaskInfo) : GameEvent()
+        class TaskFinishedEvent(val task: TaskInfo) : GameEvent()
+        class TaskSucceedCommand(val task: TaskInfo) : GameEvent()
+        class TaskFailCommand(val task: TaskInfo) : GameEvent()
     }
 
     //debug

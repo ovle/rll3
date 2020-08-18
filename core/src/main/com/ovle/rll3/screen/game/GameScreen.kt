@@ -11,6 +11,7 @@ import com.ovle.rll3.event.Event.PlayerControlEvent.CameraScrollCommand
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.eventLogHook
+import com.ovle.rll3.model.module.ai.AISystem
 import com.ovle.rll3.model.module.controls.PlayerControlsSystem
 import com.ovle.rll3.model.module.entityAction.EntityActionSystem
 import com.ovle.rll3.model.module.game.GameSystem
@@ -59,6 +60,7 @@ class GameScreen(
 
             TimeSystem(),
             TaskSystem(),
+            AISystem(assetsManager.behaviorTrees),
             EntityActionSystem(),
             MoveSystem(),
             HealthSystem(),

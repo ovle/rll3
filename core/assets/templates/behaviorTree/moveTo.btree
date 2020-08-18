@@ -1,0 +1,12 @@
+import isAtPosition?:"com.ovle.rll3.model.module.ai.condition.IsAtPositionCondition"
+import isMovingToPosition?:"com.ovle.rll3.model.module.ai.condition.IsMovingToPositionCondition"
+import startMovingToPosition:"com.ovle.rll3.model.module.ai.action.StartMovingToPositionAction"
+
+root
+    selector
+        isAtPosition?
+        sequence
+            invert
+                isMovingToPosition?
+            startMovingToPosition
+            failure

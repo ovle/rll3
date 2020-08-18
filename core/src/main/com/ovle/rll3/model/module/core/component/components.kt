@@ -50,7 +50,7 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "door" to { _ -> DoorComponent() },
     "stash" to { _ -> StashComponent() },
     "container" to { _ -> ContainerComponent() },
-    "ai" to { value -> AIComponent(AIType.valueOf((value!!["type"] as String).capitalize())) },
+    "ai" to { _ -> AIComponent() },
     "task" to { _ -> TaskPerformerComponent() },
     "resource" to { _ -> ResourceComponent() },
     "source" to { value ->

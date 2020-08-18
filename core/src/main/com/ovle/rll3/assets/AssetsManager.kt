@@ -7,14 +7,12 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.utils.Disposable
 import com.ovle.rll3.assets.loader.*
-import com.ovle.rll3.model.module.ai.EntityBlackboard
+import com.ovle.rll3.model.module.ai.BaseBlackboard
 import com.ovle.rll3.model.module.skill.skillTemplates
 import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.view.*
 import com.ovle.rll3.view.layer.TexturesInfo
-import java.nio.file.Files
-import java.nio.file.Paths
 
 
 class AssetsManager(val assets: AssetManager): Disposable {
@@ -26,7 +24,7 @@ class AssetsManager(val assets: AssetManager): Disposable {
     private val entityTemplates = mutableMapOf<TemplatesType, EntityTemplates>()
     private val entityViewTemplates = mutableMapOf<TemplatesType, EntityViewTemplates>()
     private val structureTemplates = mutableMapOf<TemplatesType, StructureTemplates>()
-    val behaviorTrees = mutableMapOf<String, BehaviorTree<EntityBlackboard>>()
+    val behaviorTrees = mutableMapOf<String, BehaviorTree<BaseBlackboard>>()
 
     init {
         val fileHandleResolver = InternalFileHandleResolver()

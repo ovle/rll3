@@ -13,6 +13,7 @@ state:
   container:
   move:
   task:
+  ai:
 skills:
   - attack
 

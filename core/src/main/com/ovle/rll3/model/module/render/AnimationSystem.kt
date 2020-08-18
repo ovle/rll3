@@ -3,8 +3,7 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IteratingSystem
-import com.ovle.rll3.event.Event.GameEvent.EntityFinishedMoveEvent
-import com.ovle.rll3.event.Event.GameEvent.EntityStartMoveCommand
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import ktx.ashley.get
@@ -32,11 +31,11 @@ class AnimationSystem: IteratingSystem(Family.all(RenderComponent::class.java).g
     }
 
     fun subscribe() {
-        EventBus.subscribe<EntityStartMoveCommand> { onEntityStartMoveCommand(it.entity) }
+        EventBus.subscribe<EntityStartedMoveEvent> { onEntityStartedMoveEvent(it.entity) }
         EventBus.subscribe<EntityFinishedMoveEvent> { onEntityFinishedMoveEvent(it.entity) }
     }
 
-    private fun onEntityStartMoveCommand(entity: Entity) {
+    private fun onEntityStartedMoveEvent(entity: Entity) {
         entity[render]!!.currentAnimation = Animation(type = AnimationType.Walk)
     }
 
