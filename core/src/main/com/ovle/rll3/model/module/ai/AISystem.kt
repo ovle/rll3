@@ -36,10 +36,12 @@ class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard
         val blackboard = BaseBlackboard(taskInfo, engine)
         val taskTemplate = taskInfo.template
 
-        val behaviorTreePrototype = behaviorTrees[taskTemplate.btName]!!
+        val btName = taskTemplate.btName
+        val behaviorTreePrototype = behaviorTrees[btName]!!
         val behaviorTree = behaviorTreePrototype.cloneTask()
             .let { it as BehaviorTree<BaseBlackboard> }
             .apply { this.`object` = blackboard }
+        println("start bt: $btName")
 
         behaviorTree.addListener(
             object : TaskStatusListener() {
@@ -47,7 +49,7 @@ class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard
                     val root = behaviorTree.getChild(0)
                     if (task == root) {
                         val status = task.status
-                        println("statusUpdated: $status")
+                        println("statusUpdated: $status;  performer: ${task.`object`.task.performer};  target: ${task.`object`.task.target}")
                         if (status == Task.Status.SUCCEEDED) {
                             //todo cleanup?
                             send(TaskSucceedCommand(taskInfo))

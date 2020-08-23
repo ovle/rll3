@@ -2,18 +2,24 @@ package com.ovle.rll3.model.util.pathfinding.aStar
 
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.*
+import com.ovle.rll3.model.module.ai.action.MoveToAction
+import com.ovle.rll3.model.module.core.entity.bodyObstacles
+import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.tile.tilePassType
+import com.ovle.rll3.model.util.pathfinding.cost
+import com.ovle.rll3.model.util.pathfinding.heuristics
 import com.ovle.rll3.model.util.pathfinding.maxMoveCost
 
 
-private fun path(end: GridPoint2, cameFrom: Map<GridPoint2, GridPoint2>): List<GridPoint2> {
-    val path = mutableListOf(end)
-    var current = end
-    while (cameFrom.containsKey(current)) {
-        current = cameFrom.getValue(current)
-        path.add(0, current)
-    }
-    return path.toList()
-}
+fun path(from: GridPoint2, to: GridPoint2, level: LevelInfo): List<GridPoint2> = path(
+    from,
+    to,
+    level.tiles,
+    level.entities.bodyObstacles(),
+    heuristicsFn = ::heuristics,
+    costFn = ::cost,
+    tilePassTypeFn = ::tilePassType
+)
 
 
 fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, obstacles: Collection<GridPoint2>, heuristicsFn: MoveCostFn2, costFn: MoveCostFn, tilePassTypeFn: TilePassTypeFn): List<GridPoint2> {
@@ -25,7 +31,7 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, obstacles: Collecti
 
     while (open.isNotEmpty()) {
         val currentPosition = open.minBy { estimatedTotalCost.getValue(it) }!!
-        val (x ,y) = currentPosition
+        val (x, y) = currentPosition
         val currentTile = tiles[x, y]
         if (currentPosition == to) {
             return path(currentPosition, cameFrom)
@@ -59,6 +65,15 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, obstacles: Collecti
 
     }
 
-//    println("no path found from $from to $to")
     return emptyList()
+}
+
+private fun path(end: GridPoint2, cameFrom: Map<GridPoint2, GridPoint2>): List<GridPoint2> {
+    val path = mutableListOf(end)
+    var current = end
+    while (cameFrom.containsKey(current)) {
+        current = cameFrom.getValue(current)
+        path.add(0, current)
+    }
+    return path.toList()
 }

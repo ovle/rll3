@@ -1,0 +1,6 @@
+import useSkill:"com.ovle.rll3.model.module.ai.action.UseSkillAction"
+
+root
+    sequence
+        include subtree:"templates/behaviorTree/moveTo.btree"   #todo use 'keep (attack) distance' instead
+        useSkill skillName:"attack"

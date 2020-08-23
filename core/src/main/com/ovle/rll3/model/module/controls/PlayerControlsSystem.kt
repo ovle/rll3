@@ -33,8 +33,6 @@ class PlayerControlsSystem : EventSystem() {
     private fun onMouseClick(position: GridPoint2, button: Int) {
         val level = levelInfoNullable() ?: return
 
-        send(ClickEvent(button, position))
-
 //        val skillTemplate = selectedSkillTemplate()
 //        val skillWithTarget = skillTemplate?.target != null
 //        val skillTarget = skillTemplate?.target?.invoke(position, level)
@@ -55,6 +53,7 @@ class PlayerControlsSystem : EventSystem() {
                 }
             }
         }
+        send(ClickEvent(button, position))
     }
 
     private fun onMouseMoved(position: GridPoint2) {

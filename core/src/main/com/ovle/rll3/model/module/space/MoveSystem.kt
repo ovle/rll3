@@ -13,10 +13,7 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.*
-import com.ovle.rll3.model.tile.tilePassType
 import com.ovle.rll3.model.util.pathfinding.aStar.path
-import com.ovle.rll3.model.util.pathfinding.cost
-import com.ovle.rll3.model.util.pathfinding.heuristics
 import com.ovle.rll3.point
 import ktx.ashley.get
 import kotlin.math.abs
@@ -109,29 +106,21 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
 
         val moveComponent = entity[move] ?: return
         val positionComponent = entity[position]!!
-
         val from = positionComponent.gridPosition
-        val path = path(
-            from,
-            to,
-            tiles,
-            level.entities.bodyObstacles(),
-            heuristicsFn = ::heuristics,
-            costFn = ::cost,
-            tilePassTypeFn = ::tilePassType
-        )
 
-        if (path.isEmpty()) {
-            println("no path found from $from to $to!")
-            return
-        }
+        val newPath = path(from, to, level)
 
         val movePath = moveComponent.path
-        movePath.set(path)
+        if (newPath.isEmpty()) {
+            println("no path found from $from to $to!")
+            movePath.reset()
+        } else {
+            movePath.set(newPath)
 
-        if (!movePath.started) {
-            movePath.start()
-            send(EntityStartedMoveEvent(entity))
+            if (!movePath.started) {
+                movePath.start()
+                send(EntityStartedMoveEvent(entity))
+            }
         }
     }
 }

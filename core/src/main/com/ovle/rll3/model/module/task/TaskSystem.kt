@@ -35,7 +35,7 @@ class TaskSystem : EventSystem() {
 
     private fun onCheckTaskCommand(target: TaskTarget) {
         val taskTemplate = taskTemplates()
-            .firstOrNull { it.targetFilter.invoke(target) } ?: return
+            .firstOrNull { it.targetFilter?.invoke(target) ?: true } ?: return
 
         enqueueTask(taskTemplate, target)
     }
@@ -64,16 +64,6 @@ class TaskSystem : EventSystem() {
         send(TaskStartedEvent(task))
     }
 
-    private fun cleanupTask(task: TaskInfo) {
-        val performer = task.performer!!
-        performer[taskPerformer]!!.current = null
-//        task.performer = null
-
-        tasks.removeValue(task, true)
-
-        send(TaskFinishedEvent(task))
-    }
-
     private fun enqueueTask(taskTemplate: TaskTemplate, target: TaskTarget) {
         val task = TaskInfo(
             template = taskTemplate,
@@ -84,5 +74,17 @@ class TaskSystem : EventSystem() {
         //older task = more priority
         tasks.addLast(task)
 //        tasks.addFirst(task)
+
+        println("enqueueTask: $task")
+    }
+
+    private fun cleanupTask(task: TaskInfo) {
+        val performer = task.performer!!
+        performer[taskPerformer]!!.current = null
+//        task.performer = null
+
+        tasks.removeValue(task, true)
+
+        send(TaskFinishedEvent(task))
     }
 }

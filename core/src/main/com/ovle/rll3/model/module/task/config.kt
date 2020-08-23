@@ -1,25 +1,25 @@
 package com.ovle.rll3.model.module.task
 
-import com.ovle.rll3.event.Event
-import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.anyTaskPerformer
-import com.ovle.rll3.model.module.core.entity.freeTaskPerformer
-import com.ovle.rll3.near
-import ktx.ashley.get
+import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
+import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
 
-//val moveNearToTaskTemplate = TaskTemplate(
-//    performerFilter = ::anyTaskPerformer,
-//    targetFilter = ::isEntityCondition,
-//    btName = "moveNearTo"
-////    oneTimeAction = ::moveTaskAction,
-////    successCondition = ::isNearPositionCondition
-//)
 
 val moveToTaskTemplate = TaskTemplate(
     performerFilter = ::anyTaskPerformer,
-    targetFilter = ::isPositionCondition,
     btName = "moveTo"
+)
+
+val gatherTaskTemplate = TaskTemplate(
+    performerFilter = ::anyTaskPerformer,
+    targetFilter = { isEntityTarget(it) && isSourceEntity(it.asEntityTarget().entity) },
+    btName = "gather"
+)
+
+val attackTaskTemplate = TaskTemplate(
+    performerFilter = ::anyTaskPerformer,
+    targetFilter = { isEntityTarget(it) && isLivingEntity(it.asEntityTarget().entity)},
+    btName = "attack"
 )
 
 //val digTaskTemplate = TaskTemplate(
@@ -28,26 +28,12 @@ val moveToTaskTemplate = TaskTemplate(
 ////    oneTimeAction = ::moveTaskAction,
 ////    successCondition = ::isAtPositionCondition
 //)
-//
-//val attackTaskTemplate = TaskTemplate(
-//    performerFilter = ::anyTaskPerformer,
-//    targetFilter = ::isLivingEntityCondition,
-////    everyTurnAction = ::attackAction,
-////    successCondition = ::isTargetDeadCondition
-//)
-
-val gatherTaskTemplate = TaskTemplate(
-    performerFilter = ::anyTaskPerformer,
-    targetFilter = ::isSourceEntityCondition,
-    btName = "gather"
-)
-
-//val testTaskGraph = TaskNode (
-//    children = arrayOf(
-//        TaskNode(template = moveNearToTaskTemplate),
-//        TaskNode(template = gatherTaskTemplate)
-//    )
-//)
 
 
-fun taskTemplates() = arrayOf(gatherTaskTemplate, /*attackTaskTemplate,*/ moveToTaskTemplate)
+
+fun isPositionTarget(t: TaskTarget): Boolean = t is TaskTarget.PositionTarget
+
+fun isEntityTarget(t: TaskTarget): Boolean = t is TaskTarget.EntityTarget
+fun TaskTarget.asEntityTarget() = (this as TaskTarget.EntityTarget)
+
+fun taskTemplates() = arrayOf(gatherTaskTemplate, attackTaskTemplate, moveToTaskTemplate)

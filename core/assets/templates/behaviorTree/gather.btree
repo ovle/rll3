@@ -1,16 +1,6 @@
-import isAtPosition?:"com.ovle.rll3.model.module.ai.condition.IsAtPositionCondition"
-import isMovingToPosition?:"com.ovle.rll3.model.module.ai.condition.IsMovingToPositionCondition"
-
-import startMovingToPosition:"com.ovle.rll3.model.module.ai.action.StartMovingToPositionAction"
 import useSkill:"com.ovle.rll3.model.module.ai.action.UseSkillAction"
 
 root
-    selector
-        sequence
-            #use subtree
-            invert
-                isAtPosition?
-            invert
-                isMovingToPosition?
-            startMovingToPosition
+    sequence
+        include subtree:"templates/behaviorTree/moveTo.btree"
         useSkill skillName:"gather"

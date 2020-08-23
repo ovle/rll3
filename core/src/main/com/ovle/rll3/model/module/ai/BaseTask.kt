@@ -10,17 +10,20 @@ import ktx.ashley.get
 
 abstract class BaseTask: LeafTask<BaseBlackboard>() {
 
-    protected val entities
-        get() = this.`object`.engine.entities.toList()
-
     protected val owner: Entity
         get() = task.performer!!
 
     protected val task
         get() = this.`object`.task
 
+    protected val engine
+        get() = this.`object`.engine
+
     protected val target
         get() = this.`object`.task.target
+
+    protected val entities
+        get() = engine.entities.toList()
 
     protected val targetPosition
         get() = when (target) {

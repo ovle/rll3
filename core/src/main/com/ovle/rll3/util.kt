@@ -23,6 +23,10 @@ fun point(point: GridPoint2) = point(point.x, point.y)
 
 fun vec2(point: GridPoint2) = Vector2(point.x.toFloat(), point.y.toFloat())
 
+//--- todo builder
+
+fun nearHV(p :GridPoint2) = nearHV(p.x, p.y)
+
 fun nearHV(x: Int, y: Int) = arrayOf(
     point(x - 1, y),
     point(x + 1, y),
@@ -43,11 +47,13 @@ fun isNear(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     return (x1 in ((x2 - 1)..(x2 + 1))) && (y1 in ((y2 - 1)..(y2 + 1)))
 }
 
-fun Float.roundToClosestByAbsInt() = if (this > 0) this.roundToInt() else -((-this).roundToInt())
-
 fun GridPoint2.near() = (x-1..x+1).map { tx -> (y-1..y+1).map { ty -> point(tx, ty) } }.flatten()
 fun GridPoint2.nearExclusive() = near().filter { it != this }
 fun GridPoint2.isNear(other: GridPoint2, delta: Int = 1) = this.dst(other) <= delta
+
+//---
+
+fun Float.roundToClosestByAbsInt() = if (this > 0) this.roundToInt() else -((-this).roundToInt())
 
 fun <T, U> cartesianProduct(c1: Collection<T>, c2: Collection<U>): List<Pair<T, U>> {
     return c1.flatMap { lhsElem -> c2.map { rhsElem -> lhsElem to rhsElem } }

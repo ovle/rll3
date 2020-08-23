@@ -17,7 +17,7 @@ typealias EntityFilter = (Entity) -> Boolean
 typealias TaskPerformerFilter = EntityFilter
 typealias TaskTargetFilter = (TaskTarget) -> Boolean
 typealias TaskAction = (Entity, TaskTarget) -> Unit
-//typealias SuccessCondition = (Entity, TaskTarget) -> Boolean
+typealias SuccessCondition = (Entity, TaskTarget) -> Boolean
 //typealias FailCondition = (Entity, TaskTarget) -> Boolean
 
 typealias ComponentData = Map<String, Any?>
@@ -60,3 +60,6 @@ typealias LightPassTypeFn = ((Tile) -> LightPassType)
 typealias TileArray = Array2d<Tile>
 typealias NearTiles = NearValues<Tile?>
 typealias TileTypeMapper = (Float) -> Tile
+
+typealias MoveStrategy = (GridPoint2, GridPoint2, LevelInfo) -> Boolean
+typealias IsAtPositionStrategy = (Entity, GridPoint2) -> Boolean

@@ -18,7 +18,6 @@ class EntityInteractionSystem : EventSystem() {
 
     override fun subscribe() {
         EventBus.subscribe<EntityClickEvent> { onEntityClickEvent(it.entity, it.button) }
-        EventBus.subscribe<ClickEvent> { onClickEvent(it.button, it.point) }
         EventBus.subscribe<VoidClickEvent> { onVoidClickEvent(it.button, it.point) }
         EventBus.subscribe<EntityHoverEvent> { onEntityHoverEvent(it.entity) }
         EventBus.subscribe<EntityUnhoverEvent> { onEntityUnhoverEvent() }
@@ -47,17 +46,18 @@ class EntityInteractionSystem : EventSystem() {
         }
     }
 
-    private fun onClickEvent(button: Int, point: GridPoint2) {
+    private fun onVoidClickEvent(button: Int, point: GridPoint2) {
+        unfocus()   //todo
+
         val interactionInfo = playerInteractionInfo()!!
+        if (interactionInfo.selectionMode == SelectionMode.Entity) {
+            deselect()
+        }
+
         val needCheckTask = interactionInfo.controlMode == ControlMode.Task
         if (needCheckTask) {
             send(CheckTaskCommand(TaskTarget.PositionTarget(point)))
         }
-    }
-
-    private fun onVoidClickEvent(button: Int, point: GridPoint2) {
-        deselect()
-        unfocus()
     }
 
     private fun onEntityHoverEvent(entity: Entity) {
