@@ -57,4 +57,8 @@ sealed class LevelFactoryParams(
 //        val flexibleNoiseValue: Float
     ): LevelFactoryParams(size)
 
+    class GradientLevelFactoryParams(
+        size: Int
+    ): LevelFactoryParams(size)
+
 }

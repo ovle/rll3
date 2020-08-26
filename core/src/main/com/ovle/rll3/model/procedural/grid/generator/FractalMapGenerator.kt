@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.procedural.grid.generator
 
 import com.github.czyzby.noise4j.map.Grid
+import com.ovle.rll3.model.procedural.grid.util.normalize
 import java.awt.Rectangle
 import java.util.*
 
@@ -46,8 +47,7 @@ class FractalMapGenerator(
         processArea(grid, 0, 0, grid.width, grid.height, startIteration)
 
         if (shouldNormalize) {
-            val normalizer = MapValuesNormalizer()
-            normalizer.process(grid)
+            normalize(grid)
         }
     }
 
