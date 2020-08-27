@@ -61,7 +61,8 @@ class GameSystem: EventSystem() {
             random = random,
             tiles = tiles,
             params = levelParams,
-            time = TimeInfo()
+            time = TimeInfo(),
+            sourceGrid = grid
         )
 
         val postProcessors = levelParams.postProcessors

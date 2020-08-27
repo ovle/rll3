@@ -5,6 +5,7 @@ import com.github.czyzby.noise4j.map.generator.cellular.CellularAutomataGenerato
 import com.github.czyzby.noise4j.map.generator.util.Generators
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.CelullarAutomataLevelFactoryParams
 import com.ovle.rll3.model.procedural.config.RandomParams
+import com.ovle.rll3.model.procedural.grid.GridFactory
 import com.ovle.rll3.model.procedural.grid.util.connect
 
 class CelullarAutomataGridFactory(val params: CelullarAutomataLevelFactoryParams): GridFactory {

@@ -2,6 +2,7 @@ package com.ovle.rll3
 
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
+import com.github.czyzby.noise4j.map.Grid
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -50,6 +51,9 @@ fun isNear(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
 fun GridPoint2.near() = (x-1..x+1).map { tx -> (y-1..y+1).map { ty -> point(tx, ty) } }.flatten()
 fun GridPoint2.nearExclusive() = near().filter { it != this }
 fun GridPoint2.isNear(other: GridPoint2, delta: Int = 1) = this.dst(other) <= delta
+
+fun Grid.isPointValid(x: Int, y: Int) = x in (0 until width) && y in (0 until height)
+
 
 //---
 

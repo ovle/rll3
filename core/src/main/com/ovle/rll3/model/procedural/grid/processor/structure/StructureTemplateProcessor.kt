@@ -15,14 +15,13 @@ import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.template.structure.StructureEntity
 import com.ovle.rll3.model.template.structure.StructureTemplate
 import com.ovle.rll3.assets.loader.StructureTemplates
-import com.ovle.rll3.model.procedural.config.groundTileFilter
-import com.ovle.rll3.model.procedural.grid.processor.TilesProcessor
+import com.ovle.rll3.model.procedural.grid.LevelProcessor
 import com.ovle.rll3.model.tile.whateverTileId
 import ktx.ashley.get
 
 data class StructureTemplateInfo(val template: StructureTemplate, val positions: Set<GridPoint2>)
 
-class StructureTemplateProcessor(val templates: StructureTemplates) : TilesProcessor {
+class StructureTemplateProcessor(val templates: StructureTemplates) : LevelProcessor {
 
     override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
         val tiles = levelInfo.tiles

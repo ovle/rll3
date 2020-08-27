@@ -5,6 +5,8 @@ import com.ovle.rll3.model.procedural.config.LevelFactoryParams.*
 import com.ovle.rll3.model.procedural.grid.factory.DungeonGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.FractalGridFactory
 import com.ovle.rll3.model.procedural.grid.processor.EntityProcessor
+import com.ovle.rll3.model.procedural.grid.processor.RiverLevelProcessor
+import com.ovle.rll3.model.procedural.grid.processor.RiverLevelProcessorParams
 import com.ovle.rll3.model.procedural.grid.processor.structure.StructureProcessor
 import com.ovle.rll3.model.procedural.grid.processor.structure.StructureProcessorParams
 import com.ovle.rll3.model.procedural.grid.processor.structure.StructureTemplateProcessor
@@ -52,6 +54,11 @@ val levelParams = LevelParams(
         )
     ),
     postProcessors = arrayOf(
+        RiverLevelProcessor(
+            params = RiverLevelProcessorParams(
+                count = 5
+            )
+        ),
         StructureProcessor(
             params = StructureProcessorParams(
                 number = 2,

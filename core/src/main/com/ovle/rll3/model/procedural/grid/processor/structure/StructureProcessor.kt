@@ -5,10 +5,10 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.TileArray
 import com.ovle.rll3.model.module.game.LevelInfo
 import com.ovle.rll3.model.procedural.config.RandomParams
-import com.ovle.rll3.model.procedural.grid.processor.TilesProcessor
+import com.ovle.rll3.model.procedural.grid.LevelProcessor
 import com.ovle.rll3.model.util.gridToTileArray
 
-class StructureProcessor(private val params: StructureProcessorParams) : TilesProcessor {
+class StructureProcessor(private val params: StructureProcessorParams) : LevelProcessor {
 
     override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
         val tiles = levelInfo.tiles

@@ -5,6 +5,7 @@ import com.github.czyzby.noise4j.map.generator.room.dungeon.DungeonGenerator
 import com.github.czyzby.noise4j.map.generator.util.Generators
 import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 import com.ovle.rll3.model.procedural.config.RandomParams
+import com.ovle.rll3.model.procedural.grid.GridFactory
 
 class DungeonGridFactory(val params: DungeonLevelFactoryParams): GridFactory {
 

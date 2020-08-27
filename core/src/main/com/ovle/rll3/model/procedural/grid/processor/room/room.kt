@@ -1,11 +1,10 @@
-package com.ovle.rll3.model.procedural.grid
+package com.ovle.rll3.model.procedural.grid.processor.room
 
 import com.ovle.rll3.NearTiles
 import com.ovle.rll3.Tile
 import com.ovle.rll3.TileArray
-import com.ovle.rll3.model.procedural.grid.RoomStructure.DirectionValue.*
-import com.ovle.rll3.model.procedural.grid.RoomStructure.ParamKey.*
-import com.ovle.rll3.model.procedural.grid.processor.RoomInfo
+import com.ovle.rll3.model.procedural.grid.processor.room.RoomStructure.DirectionValue.*
+import com.ovle.rll3.model.procedural.grid.processor.room.RoomStructure.ParamKey.*
 import com.ovle.rll3.model.tile.*
 
 enum class RoomStructure {
