@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.assets.AssetsManager
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.Event.GameEvent.StartGameCommand
 import com.ovle.rll3.event.Event.PlayerControlEvent.CameraScrollCommand
 import com.ovle.rll3.event.EventBus
@@ -26,6 +28,7 @@ import com.ovle.rll3.model.module.space.MoveSystem
 import com.ovle.rll3.model.module.task.TaskSystem
 import com.ovle.rll3.model.module.time.TimeSystem
 import com.ovle.rll3.screen.BaseScreen
+import com.ovle.rll3.screen.PlayerControls
 import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.scaleScrollCoeff
 import ktx.scene2d.table
@@ -45,6 +48,7 @@ class GameScreen(
         super.show()
 
         val camera = batchViewport.camera as OrthographicCamera
+        val gamePayload = payload as InitGameInfo
 
 //      order matters here!
         val systems = listOf(
@@ -56,7 +60,7 @@ class GameScreen(
             RenderInteractionInfoSystem(batch, assetsManager),
             AnimationSystem(),
 
-            GameSystem(),
+            GameSystem(gamePayload),
 
             TimeSystem(),
             TaskSystem(),
@@ -78,9 +82,15 @@ class GameScreen(
 
         EventBus.addHook(::eventLogHook)
 
+        EventBus.subscribe<GameDidFinishedEvent> { onGameDidFinishedEvent() }
+
         send(CameraScrollCommand(((1 - initialScale) / scaleScrollCoeff).roundToInt()))
 
         send(StartGameCommand())
+    }
+
+    private fun onGameDidFinishedEvent() {
+        screenManager.goToScreen(ScreenManager.ScreenType.WorldScreenType)
     }
 
     override fun hide() {

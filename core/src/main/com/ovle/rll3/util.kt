@@ -26,13 +26,21 @@ fun vec2(point: GridPoint2) = Vector2(point.x.toFloat(), point.y.toFloat())
 
 //--- todo builder
 
-fun nearHV(p :GridPoint2) = nearHV(p.x, p.y)
+fun GridPoint2.nearHV() = nearHV(x, y)
+fun GridPoint2.nearD() = nearD(x, y)
 
 fun nearHV(x: Int, y: Int) = arrayOf(
     point(x - 1, y),
     point(x + 1, y),
     point(x, y - 1),
     point(x, y + 1)
+)
+
+fun nearD(x: Int, y: Int) = arrayOf(
+    point(x - 1, y - 1),
+    point(x + 1, y + 1),
+    point(x + 1, y - 1),
+    point(x - 1, y + 1)
 )
 
 fun isNearHV(p1: GridPoint2, p2: GridPoint2?) =

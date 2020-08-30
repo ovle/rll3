@@ -13,9 +13,9 @@ const val tileWidth = baseSize
 const val tileHeight = baseSize
 const val textureTileWidth = tileWidth
 const val textureTileHeight = tileHeight
-
 const val spriteWidth = baseSize.toFloat()
 const val spriteHeight = baseSize.toFloat()
+
 const val gameFullscreen = false
 const val skinPath = "skins/c64/uiskin.json"
 

@@ -2,20 +2,19 @@ package com.ovle.rll3.model.util.pathfinding.aStar
 
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.*
-import com.ovle.rll3.model.module.ai.action.MoveToAction
 import com.ovle.rll3.model.module.core.entity.bodyObstacles
-import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.tile.tilePassType
 import com.ovle.rll3.model.util.pathfinding.cost
 import com.ovle.rll3.model.util.pathfinding.heuristics
 import com.ovle.rll3.model.util.pathfinding.maxMoveCost
 
 
-fun path(from: GridPoint2, to: GridPoint2, level: LevelInfo): List<GridPoint2> = path(
+fun path(from: GridPoint2, to: GridPoint2, location: LocationInfo): List<GridPoint2> = path(
     from,
     to,
-    level.tiles,
-    level.entities.bodyObstacles(),
+    location.tiles,
+    location.entities.bodyObstacles(),
     heuristicsFn = ::heuristics,
     costFn = ::cost,
     tilePassTypeFn = ::tilePassType

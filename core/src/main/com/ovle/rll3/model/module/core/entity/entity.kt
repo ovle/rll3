@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.EntityId
 import com.ovle.rll3.model.module.core.component.IdComponent
 import com.ovle.rll3.model.module.space.PositionComponent
-import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.game.PlayerInfo
 import com.ovle.rll3.model.module.game.GameComponent
 import com.ovle.rll3.model.module.game.PlayerComponent
@@ -26,7 +26,7 @@ fun randomId() = UUID.randomUUID().toString()
 
 fun newPlayer(player: PlayerInfo, engine: Engine) = engine.entity(player.playerId, PlayerComponent(player))
 
-fun newLevel(level: LevelInfo, engine: Engine) = engine.entity(level.id, GameComponent(level))
+fun newLocation(location: LocationInfo, engine: Engine) = engine.entity(location.id, GameComponent(location))
 
 fun newPlayerInteraction(engine: Engine): Entity? = engine.entity(
     "not used",

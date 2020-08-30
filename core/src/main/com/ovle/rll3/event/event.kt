@@ -5,14 +5,15 @@ import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.Tile
 import com.ovle.rll3.Turn
-import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.interaction.ControlMode
 import com.ovle.rll3.model.module.interaction.SelectionMode
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.skill.SkillTemplate
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.module.task.TaskInfo
-import com.ovle.rll3.model.procedural.config.LevelParams
+import com.ovle.rll3.model.procedural.config.LocationGenerationParams
+import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
 
 sealed class Event {
@@ -33,11 +34,13 @@ sealed class Event {
         class VoidClickEvent(val button: Int, val point: GridPoint2) : PlayerControlEvent()
     }
 
+    class LocationSelectedEvent(val point: GridPoint2, val world: WorldInfo) : Event()
+
     //global
     sealed class GameEvent : Event() {
         class StartGameCommand : GameEvent()
         class TimeChangedEvent(val turn: Turn) : GameEvent()
-        class LevelLoadedEvent(val level: LevelInfo, val levelParams: LevelParams) : GameEvent()
+        class LevelLoadedEvent(val location: LocationInfo, val generationParams: LocationGenerationParams) : GameEvent()
 
         //technical
         class LogCommand(val message: String) : GameEvent()
@@ -80,7 +83,8 @@ sealed class Event {
 
     //debug
     class DebugSaveGame : Event()
-    class ExitGame : Event()
+    class ExitGameCommand : Event()
+    class GameDidFinishedEvent : Event()
     class DebugSwitchSelectionMode(val selectionMode: SelectionMode) : Event()
     class DebugSwitchControlMode(val controlMode: ControlMode) : Event()
     class DebugTileChanged(val tile: Tile, val position: GridPoint2) : Event()

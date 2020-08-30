@@ -30,6 +30,7 @@ class RenderInteractionInfoSystem(
     private val cursorSprite = sprite(guiRegions, 3, 0)
     private val selectionTileSprite = sprite(guiRegions, 4, 0)
 
+
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
 

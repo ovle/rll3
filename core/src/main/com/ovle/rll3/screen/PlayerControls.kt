@@ -1,4 +1,4 @@
-package com.ovle.rll3.screen.game
+package com.ovle.rll3.screen
 
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter

@@ -35,10 +35,10 @@ fun EntitySystem.allEntities() = this.engine.entities
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), GameComponent::class)?.get(game)?.level
+fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), GameComponent::class)?.get(game)?.location
 fun EntitySystem.levelInfo() = levelInfoNullable()!!
 
-fun levelInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.level
+fun levelInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.location
 
 fun playerInfoNullable(entities: List<Entity>) = entityWith(entities, PlayerComponent::class)?.get(player)?.player
 fun playerInfo(entities: List<Entity>) = playerInfoNullable(entities)!!
@@ -58,6 +58,7 @@ fun EntitySystem.controlledEntities() = entitiesWith(allEntities().toList(), Tas
 //    worldInfo.levels.single { it.id == levelDescriptionId }
 
 fun EntitySystem.entity(id: EntityId) = entity(id, allEntities().toList())
+fun EntitySystem.entityNullable(id: EntityId) = entityNullable(id, allEntities().toList())
 
 fun entityNullable(id: EntityId, entities: Collection<Entity>) = entitiesWith(entities, IdComponent::class)
         .singleOrNull { it[ComponentMappers.id]!!.id == id }

@@ -10,7 +10,7 @@ import com.ovle.rll3.model.module.ai.BaseTask
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.levelInfo
-import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.EntityConditions.isAtPosition
 import com.ovle.rll3.model.module.task.EntityConditions.isMoving
 import com.ovle.rll3.model.module.task.EntityConditions.isNearPosition
@@ -50,8 +50,8 @@ class MoveToAction: BaseTask() {
     private fun moveStrategy(target: TaskTarget): MoveStrategy =
         if (target is TaskTarget.PositionTarget) ::moveTo else ::moveNearTo
 
-    private fun moveTo(from: GridPoint2, to: GridPoint2, level: LevelInfo): Boolean {
-        val path = path(from, to, level)
+    private fun moveTo(from: GridPoint2, to: GridPoint2, location: LocationInfo): Boolean {
+        val path = path(from, to, location)
         val isPathExists = path.isNotEmpty()
         if (isPathExists) {
             EventBus.send(EntityStartMoveCommand(owner, targetPosition))
@@ -61,12 +61,12 @@ class MoveToAction: BaseTask() {
         return isPathExists
     }
 
-    private fun moveNearTo(from: GridPoint2, to: GridPoint2, level: LevelInfo): Boolean {
-        val nearPoints = nearHV(to).sortedBy { it.dst(from) }
+    private fun moveNearTo(from: GridPoint2, to: GridPoint2, location: LocationInfo): Boolean {
+        val nearPoints = to.nearHV().sortedBy { it.dst(from) }
         var isPathExists = false
 
         for (it in nearPoints) {
-            isPathExists = moveTo(from, it, level)
+            isPathExists = moveTo(from, it, location)
             if (isPathExists) {
                 EventBus.send(EntityStartMoveCommand(owner, it))
 

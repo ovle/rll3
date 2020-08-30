@@ -2,17 +2,17 @@ package com.ovle.rll3.model.procedural.grid.processor.room
 
 import com.badlogic.ashley.core.Engine
 import com.ovle.rll3.TileArray
-import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.procedural.grid.LevelProcessor
 import com.ovle.rll3.model.tile.nearValues
 import kotlin.random.Random
 
 class RoomStructureProcessor : LevelProcessor {
 
-    override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
-        val random = levelInfo.random.kRandom
-        levelInfo.rooms.forEach {
-            processRoom(levelInfo.tiles, it, random)
+    override fun process(locationInfo: LocationInfo, gameEngine: Engine) {
+        val random = locationInfo.random.kRandom
+        locationInfo.rooms.forEach {
+            processRoom(locationInfo.tiles, it, random)
         }
     }
 

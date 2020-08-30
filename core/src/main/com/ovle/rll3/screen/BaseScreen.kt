@@ -21,8 +21,10 @@ import ktx.app.LetterboxingViewport
 abstract class BaseScreen(
     protected val screenManager: ScreenManager,
     protected val batch: Batch,
-    camera: OrthographicCamera): KtxScreen {
+    protected val camera: OrthographicCamera
+): KtxScreen {
 
+    var payload: Any? = null
     protected val stage = Stage(LetterboxingViewport(aspectRatio = screenWidth / screenHeight))
     protected val batchViewport = FitViewport(screenWidth, screenHeight, camera)
     protected var rootActor: Actor? = null

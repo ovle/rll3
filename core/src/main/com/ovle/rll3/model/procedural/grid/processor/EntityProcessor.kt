@@ -3,7 +3,7 @@ package com.ovle.rll3.model.procedural.grid.processor
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.assets.loader.EntityTemplates
-import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.positions
 import com.ovle.rll3.model.module.core.entity.newTemplatedEntity
@@ -17,14 +17,14 @@ import ktx.ashley.get
 class EntityProcessor(val templates: EntityTemplates) : LevelProcessor {
 
     @OptIn(ExperimentalStdlibApi::class)
-    override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
-        val tiles = levelInfo.tiles
+    override fun process(locationInfo: LocationInfo, gameEngine: Engine) {
+        val tiles = locationInfo.tiles
         //some cells can be claimed by other processors
-        val claimed = levelInfo.entities.positions()
+        val claimed = locationInfo.entities.positions()
         val entities = mutableListOf<Entity>()
         val spawnTemplates = templates.templates.filter { it.spawns.isNotEmpty() }
 
-        val random = levelInfo.random.kRandom
+        val random = locationInfo.random.kRandom
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
                 if (point(x, y) in claimed) continue
@@ -48,7 +48,7 @@ class EntityProcessor(val templates: EntityTemplates) : LevelProcessor {
             }
         }
 
-        levelInfo.entities.plusAssign(entities)
+        locationInfo.entities.plusAssign(entities)
     }
 
 //    private fun haveSameEntityNear(templateName: String, x: Int, y: Int, radius: Int, entities: MutableList<Entity>): Boolean {

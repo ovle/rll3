@@ -95,7 +95,7 @@ class PlayerControlsSystem : EventSystem() {
         when(code) {
             //debug
             Input.Keys.ESCAPE -> send(
-                DebugSaveGame().then(ExitGame())
+                DebugSaveGame().then(ExitGameCommand())
             )
             Input.Keys.S -> send(DebugSwitchSelectionMode(interactionComponent.selectionMode.next()))
             Input.Keys.C -> send(DebugSwitchControlMode(interactionComponent.controlMode.next()))

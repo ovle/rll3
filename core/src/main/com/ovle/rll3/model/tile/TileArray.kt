@@ -18,5 +18,6 @@ class Array2d<T>(
     fun indexedElements() = data.mapIndexed { index, el -> index to el }
     fun points() = data.mapIndexed { index, _ -> point(index) }
 
+    fun isPointValid(point: GridPoint2) = isPointValid(point.x, point.y)
     fun isPointValid(x: Int, y: Int) = x in (0 until size) && y in (0 until size)
 }

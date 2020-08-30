@@ -5,13 +5,18 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.tile.Array2d
 import com.ovle.rll3.model.tile.LightPassType
 import com.ovle.rll3.model.tile.NearValues
 import com.ovle.rll3.model.tile.TilePassType
+import com.ovle.rll3.screen.BaseScreen
+import com.ovle.rll3.view.layer.TileToTextureParams
+import kotlin.random.Random
+
+typealias SetScreen = (BaseScreen, Any?) -> Unit
 
 typealias EntityFilter = (Entity) -> Boolean
 typealias TaskPerformerFilter = EntityFilter
@@ -28,16 +33,16 @@ typealias EntityCheck = Entity.() -> Boolean
 typealias EffectAmount = Int
 typealias SkillEffect = (Entity, Any?, EffectAmount) -> Unit
 typealias GetEffectAmount = (Entity) -> EffectAmount
-typealias GetTarget = (GridPoint2, LevelInfo) -> Any?
+typealias GetTarget = (GridPoint2, LocationInfo) -> Any?
 typealias SkillCost = (Entity) -> Unit
 
 typealias EntityId = String
 typealias PlayerId = String
 typealias WorldId = String
-typealias LevelId = String
+typealias LocationId = String
 typealias LevelParamsId = String
 
-typealias QuestCondition = (() -> Boolean)
+typealias QuestCondition = () -> Boolean
 typealias QuestHook = ((QuestInfo) -> Unit)?
 
 typealias Seed = Long
@@ -48,18 +53,21 @@ typealias ResourceGatherCost = Int
 typealias Area = List<GridPoint2>
 typealias RoomTiles = MutableList<Vector2>
 
+typealias TileToTextureRegion = (TileToTextureParams) -> TextureRegion
 typealias TextureRegions = Array<Array<TextureRegion>>
-typealias MoveCostFn = ((Tile, Tile?, TilePassTypeFn) -> Int)
-typealias MoveCostFn2 = ((GridPoint2, GridPoint2?, TilePassTypeFn) -> Int)
-typealias IsPassableFn = ((GridPoint2, TilePassTypeFn) -> Boolean)
+typealias MoveCostFn = (Tile, Tile?, TilePassTypeFn) -> Int
+typealias MoveCostFn2 = (GridPoint2, GridPoint2?, TilePassTypeFn) -> Int
+typealias IsPassableFn = (GridPoint2, TilePassTypeFn) -> Boolean
+typealias GridValueCombinator = (Float, Float, Random) -> Float
 
 typealias Tile = Char
-typealias TileCondition = ((Tile) -> Boolean)
-typealias TilePassTypeFn = ((Tile) -> TilePassType)
-typealias LightPassTypeFn = ((Tile) -> LightPassType)
+typealias TileCondition = (Tile) -> Boolean
+typealias TilePassTypeFn = (Tile) -> TilePassType
+typealias LightPassTypeFn = (Tile) -> LightPassType
 typealias TileArray = Array2d<Tile>
 typealias NearTiles = NearValues<Tile?>
-typealias TileTypeMapper = (Float) -> Tile
+typealias TileMapper2 = (Float, Float) -> Tile
+typealias TileMapper1 = (Float) -> Tile
 
-typealias MoveStrategy = (GridPoint2, GridPoint2, LevelInfo) -> Boolean
+typealias MoveStrategy = (GridPoint2, GridPoint2, LocationInfo) -> Boolean
 typealias IsAtPositionStrategy = (Entity, GridPoint2) -> Boolean

@@ -28,7 +28,13 @@ class RLL3Game : KtxGame<BaseScreen>() {
         KtxAsync.initiate()
 
         context = disposable(Context())
-        val screenManager = disposable(ScreenManager(context) { bs: BaseScreen -> setScreen(bs.javaClass) })
+        val screenManager = disposable(
+            ScreenManager(context) {
+                bs: BaseScreen, payload: Any? ->
+                bs.payload = payload
+                setScreen(bs.javaClass)
+            }
+        )
         val assetManager = disposable(AssetManager())
 
         val skin = Skin(Gdx.files.internal(skinPath))
@@ -63,5 +69,5 @@ class RLL3Game : KtxGame<BaseScreen>() {
             update()
         }
 
-    private inline fun <reified T: Disposable> disposable(d: T) = d.apply{ disposables.add(d) }
+    private inline fun <reified T : Disposable> disposable(d: T) = d.apply { disposables.add(d) }
 }

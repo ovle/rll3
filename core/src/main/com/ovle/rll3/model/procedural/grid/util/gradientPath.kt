@@ -9,10 +9,10 @@ data class Path(val points: MutableSet<GridPoint2> = mutableSetOf())
 
 data class GradientPathParams(
     val finishValue: Float = 0.3f,
-    val erosionPower: Int = 3,
+    val erosionPower: Float = 0.01f,
     val maxRecursionDepth: Int = 1,
     val branchChance: Float = 0.1f,
-    val r: Random
+    val random: Random
 )
 
 
@@ -33,7 +33,7 @@ private fun gradientPath(grid: Grid, path: Path, from: GridPoint2, params: Gradi
         newPoint = nextPoint(grid, path, previousPoint, params)
         if (newPoint == null) break
 
-        if (params.r.nextFloat() <= params.branchChance) {
+        if (params.random.nextFloat() <= params.branchChance) {
             gradientPath(grid, path, newPoint, params, recursionDepth + 1)
         }
 

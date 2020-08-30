@@ -1,9 +1,10 @@
 package com.ovle.rll3.model.procedural.config
 
 import com.github.czyzby.noise4j.map.generator.room.RoomType
-import com.ovle.rll3.TileTypeMapper
+import com.ovle.rll3.TileMapper2
 import com.ovle.rll3.model.procedural.grid.GridFactory
 import com.ovle.rll3.model.procedural.grid.LevelProcessor
+import com.ovle.rll3.model.procedural.grid.WorldProcessor
 import com.ovle.rll3.model.procedural.grid.util.ConnectionStrategy
 import kotlin.random.Random
 
@@ -14,17 +15,25 @@ data class RandomParams(
     val jRandom = java.util.Random(seed)
 }
 
-data class LevelParams(
+data class LocationGenerationParams(
     val templateName: String,
-    val factory: GridFactory,
+    val heightMapFactory: GridFactory,
     val postProcessors: Array<LevelProcessor>,
-    val tileMapper: TileTypeMapper
+    val tileMapper: TileMapper2
 )
 
-sealed class LevelFactoryParams(
+data class WorldGenerationParams(
+    val templateName: String,
+    val heightMapFactory: GridFactory,
+    val heatMapFactory: GridFactory,
+    val postProcessors: Array<WorldProcessor>,
+    val tileMapper: TileMapper2
+)
+
+sealed class GridFactoryParams(
     val size: Int
 ) {
-    class DungeonLevelFactoryParams(
+    class DungeonGridFactoryParams(
         size: Int,
         val roomTypes: Array<RoomType>,
         val maxRoomSize: Int,
@@ -32,35 +41,33 @@ sealed class LevelFactoryParams(
         val tolerance: Int, // Max difference between width and height.
         val windingChance: Float,
         val randomConnectorChance: Float
-    ) : LevelFactoryParams(size)
+    ) : GridFactoryParams(size)
 
-    class CelullarAutomataLevelFactoryParams(
+    class CelullarAutomataGridFactoryParams(
         size: Int,
-        val connectionStrategy: ConnectionStrategy
-    ) : LevelFactoryParams(size)
+        val iterationsAmount: Int = 3,
+        val radius: Int = 1,
+        val deathLimit: Int = 2,  //more will kill the walls
+        val birthLimit: Int = 4,
+        val aliveChance: Float = 0.6f,
+        val lifeCellMarker: Float = 1.0f,
+        val deadCellMarker: Float = 0.0f,
+        val isHaveWalls: Boolean = false,
+        val connectionStrategy: ConnectionStrategy? = null
+    ) : GridFactoryParams(size)
 
-    class NoiseLevelFactoryParams(
+    class FractalGridFactoryParams(
         size: Int,
-        val radius: Int,
-        val modifier: Float
-    ) : LevelFactoryParams(size)
+//        val constantNoiseValue: Float = 0.0f,
+        val flexibleNoiseValue: Float = 2.0f,
+        val startIteration: Int = 3,
+        val shouldRandomizeFinalIteration: Boolean = false,
+        val stopIteration: Int = -1,
+        val initialBorderValues: Array<FloatArray>? = null,
+        val noiseGridFactory: GridFactory? = null
+    ) : GridFactoryParams(size)
 
-    class TemplateLevelFactoryParams(
-        size: Int,
-        val template: Array<Array<Int>>
-    ) : LevelFactoryParams(size)
-
-    class FractalLevelFactoryParams(
-        size: Int,
-        var constantNoiseValue: Float = 0.0f,
-        var flexibleNoiseValue: Float = 2.0f,
-        var startIteration: Int = 3,
-        var shouldRandomizeFinalIteration: Boolean = false,
-        var stopIteration: Int = -1,
-        var initialBorderValues: Array<FloatArray>? = null
-    ) : LevelFactoryParams(size)
-
-    class GradientLevelFactoryParams(
+    class GradientGridFactoryParams(
         size: Int,
         val startValue: Float = 0.0f,
         val endValue: Float = 1.0f,
@@ -68,5 +75,5 @@ sealed class LevelFactoryParams(
         var boundsSharpness: Int = 3,
         var dryValueCoeff: Int = 10,
         val isHorisontal: Boolean = false
-    ) : LevelFactoryParams(size)
+    ) : GridFactoryParams(size)
 }

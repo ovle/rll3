@@ -2,6 +2,7 @@ package com.ovle.rll3.model.procedural.grid.util
 
 import com.ovle.rll3.NearTiles
 import com.ovle.rll3.Tile
+import com.ovle.rll3.model.procedural.config.location.whateverTileId
 import com.ovle.rll3.model.template.entity.SpawnTemplate
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.tile.*

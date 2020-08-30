@@ -3,6 +3,8 @@ package com.ovle.rll3.model.tile
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.Tile
 import com.ovle.rll3.TileArray
+import com.ovle.rll3.model.procedural.config.location.pitTypes
+import com.ovle.rll3.model.procedural.config.location.wallTypes
 
 
 fun tilePassType(tile: Tile) = when(tile) {

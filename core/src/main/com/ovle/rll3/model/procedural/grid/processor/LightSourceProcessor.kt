@@ -6,7 +6,7 @@
 //import com.ovle.rll3.model.module.game.LevelInfo
 //import com.ovle.rll3.model.procedural.config.LevelFactoryParams.DungeonLevelFactoryParams
 //import com.ovle.rll3.model.tile.TileArray
-//import com.ovle.rll3.model.tile.floorTypes
+//import com.ovle.rll3.model.procedural.config.level.getFloorTypes
 //import com.ovle.rll3.model.tile.nearValues
 //import com.ovle.rll3.model.tile.wallTileId
 //import com.ovle.rll3.model.util.LightConfig

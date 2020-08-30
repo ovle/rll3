@@ -4,10 +4,10 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.RoomTiles
 import com.ovle.rll3.isNear
-import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.procedural.grid.LevelProcessor
 import com.ovle.rll3.model.tile.nearValues
-import com.ovle.rll3.model.tile.floorTypes
+import com.ovle.rll3.model.procedural.config.location.floorTypes
 import kotlin.math.roundToInt
 
 
@@ -17,8 +17,8 @@ data class RoomInfo(val x: Int, val y: Int, val width: Int, val height: Int)
 
 class RoomsInfoProcessor : LevelProcessor {
 
-    override fun process(levelInfo: LevelInfo, gameEngine: Engine) {
-        val tiles = levelInfo.tiles
+    override fun process(locationInfo: LocationInfo, gameEngine: Engine) {
+        val tiles = locationInfo.tiles
         val roomsData = mutableListOf<RoomTiles>()
         var currentRoom: RoomTiles? = null
         for (x in 0 until tiles.size) {
@@ -55,6 +55,6 @@ class RoomsInfoProcessor : LevelProcessor {
             return@map room
         }
 
-        levelInfo.rooms.addAll(result)
+        locationInfo.rooms.addAll(result)
     }
 }

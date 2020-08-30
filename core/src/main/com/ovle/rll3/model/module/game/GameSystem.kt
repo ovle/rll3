@@ -2,7 +2,9 @@ package com.ovle.rll3.model.module.game
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.event.Event.GameEvent.*
+import com.github.czyzby.noise4j.map.Grid
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
@@ -10,68 +12,38 @@ import com.ovle.rll3.model.module.time.TimeInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.procedural.config.LevelParams
+import com.ovle.rll3.model.procedural.config.LocationGenerationParams
 import com.ovle.rll3.model.procedural.config.RandomParams
-import com.ovle.rll3.model.procedural.config.levelParams
+import com.ovle.rll3.model.procedural.config.location.locationParams
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.util.gridToTileArray
+import com.ovle.rll3.screen.game.InitGameInfo
 import ktx.ashley.get
 
 
-class GameSystem: EventSystem() {
+class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
 
-    private val testSeed = 123L
     private val startFocusEntityId = "elder1"
+    private val world = initGameInfo.world
+    private val locationPoint = initGameInfo.locationPoint
+
 
     override fun subscribe() {
         EventBus.subscribe<StartGameCommand> { onStartGameCommand() }
+        EventBus.subscribe<ExitGameCommand> { onExitGameCommand() }
 
         EventBus.subscribe<DestroyEntityCommand> { onDestroyEntityCommand(it.entity) }
         EventBus.subscribe<CreateEntityCommand> { onCreateEntityCommand(it.entityTemplate, it.position) }
     }
 
     private fun onStartGameCommand() {
-        val level = level(levelParams, testSeed)
+        val level = location(locationParams(world, locationPoint), world.random.seed)
         initEntities(level)
     }
 
-    private fun initEntities(level: LevelInfo) {
-        val playerEntity = newPlayer(PlayerInfo(randomId()), engine)
-        val interactionEntity = newPlayerInteraction(engine)
-        val levelEntity = newLevel(level, engine)!!
-
-        send(LevelLoadedEvent(level, level.params))
-
-        level.entities.forEach {
-            send(EntityInitializedEvent(it))
-        }
-
-        val startEntity = entity(startFocusEntityId)
-        send(FocusEntityCommand(startEntity))
-    }
-
-    private fun level(levelParams: LevelParams, seed: Long): LevelInfo {
-        val random = RandomParams(seed)
-        val grid = levelParams.factory.get(random)
-        val tiles = gridToTileArray(grid, levelParams.tileMapper)
-        val id = randomId()
-
-        val result = LevelInfo(
-            id = id,
-            random = random,
-            tiles = tiles,
-            params = levelParams,
-            time = TimeInfo(),
-            sourceGrid = grid
-        )
-
-        val postProcessors = levelParams.postProcessors
-        postProcessors.forEach {
-            processor ->
-            processor.process(result, engine)
-        }
-
-        return result
+    private fun onExitGameCommand() {
+        //todo cleanup
+        send(GameDidFinishedEvent())
     }
 
     private fun onCreateEntityCommand(entityTemplate: EntityTemplate, position: GridPoint2) {
@@ -84,6 +56,52 @@ class GameSystem: EventSystem() {
     private fun onDestroyEntityCommand(entity: Entity) {
         engine.removeEntity(entity)
         send(EntityDestroyedEvent(entity))
+    }
+
+
+    private fun initEntities(location: LocationInfo) {
+        val playerEntity = newPlayer(PlayerInfo(randomId()), engine)
+        val interactionEntity = newPlayerInteraction(engine)
+        val locationEntity = newLocation(location, engine)!!
+
+        send(LevelLoadedEvent(location, location.params))
+
+        location.entities.forEach {
+            send(EntityInitializedEvent(it))
+        }
+
+        val startEntity = entityNullable(startFocusEntityId)
+        startEntity?.let {
+            send(FocusEntityCommand(it))
+        }
+    }
+
+    private fun location(generationParams: LocationGenerationParams, seed: Long): LocationInfo {
+        val random = RandomParams(seed)
+        val heightGrid = generationParams.heightMapFactory.get(random)
+        val heatValue = world.heatGrid[locationPoint.x, locationPoint.y]
+        val heatGrid = Grid(heatValue, heightGrid.width, heightGrid.height) //todo
+        val id = randomId()
+
+        val tiles = gridToTileArray(heightGrid, heatGrid, generationParams.tileMapper)
+
+        val result = LocationInfo(
+            id = id,
+            random = random,
+            tiles = tiles,
+            params = generationParams,
+            time = TimeInfo(),
+            heightGrid = heightGrid,
+            heatGrid = heatGrid
+        )
+
+        val postProcessors = generationParams.postProcessors
+        postProcessors.forEach {
+            processor ->
+            processor.process(result, engine)
+        }
+
+        return result
     }
 
 //    @OptIn(ExperimentalStdlibApi::class)

@@ -14,7 +14,7 @@ class TimeSystem : IteratingSystem(all(GameComponent::class.java).get()) {
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val worldComponent = entity[game]!!
-        with(worldComponent.level.time) {
+        with(worldComponent.location.time) {
             fractionTicks += deltaTicks(deltaTime)
             if (fractionTicks >= ticksInTurn) {
                 val deltaTurns = fractionTicks / ticksInTurn

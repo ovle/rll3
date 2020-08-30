@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.game.LevelInfo
+import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
@@ -100,15 +100,15 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         send(EntityMovedEvent(entity))
     }
 
-    private fun setMoveTarget(level: LevelInfo, to: GridPoint2, entity: Entity) {
-        val tiles = level.tiles
+    private fun setMoveTarget(location: LocationInfo, to: GridPoint2, entity: Entity) {
+        val tiles = location.tiles
         if (!tiles.isPointValid(to.x, to.y)) return
 
         val moveComponent = entity[move] ?: return
         val positionComponent = entity[position]!!
         val from = positionComponent.gridPosition
 
-        val newPath = path(from, to, level)
+        val newPath = path(from, to, location)
 
         val movePath = moveComponent.path
         if (newPath.isEmpty()) {

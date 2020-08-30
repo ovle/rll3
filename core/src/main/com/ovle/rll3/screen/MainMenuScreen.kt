@@ -19,7 +19,7 @@ class MainMenuScreen(screenManager: ScreenManager, batch: Batch, camera: Orthogr
             label(text = "The game" ) {}
 
             textButton(text = "Play") {
-                onClick { screenManager.goToScreen(GameScreenType) }
+                onClick { screenManager.goToScreen(WorldScreenType) }
             }
             textButton(text = "Options") {
                 onClick { screenManager.goToScreen(OptionsScreenType) }

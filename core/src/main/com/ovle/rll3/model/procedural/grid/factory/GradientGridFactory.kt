@@ -1,14 +1,14 @@
 package com.ovle.rll3.model.procedural.grid.factory
 
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.model.procedural.config.LevelFactoryParams.GradientLevelFactoryParams
+import com.ovle.rll3.model.procedural.config.GridFactoryParams.GradientGridFactoryParams
 import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.grid.GridFactory
 import com.ovle.rll3.model.procedural.grid.util.normalize
 import kotlin.math.abs
 
 
-class GradientGridFactory(val params: GradientLevelFactoryParams): GridFactory {
+class GradientGridFactory(val params: GradientGridFactoryParams): GridFactory {
 
     override fun get(random: RandomParams): Grid {
         val result = Grid(params.size)

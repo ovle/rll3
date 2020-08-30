@@ -2,14 +2,14 @@ package com.ovle.rll3.model.procedural.grid.factory
 
 import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.isPointValid
-import com.ovle.rll3.model.procedural.config.LevelFactoryParams.FractalLevelFactoryParams
+import com.ovle.rll3.model.procedural.config.GridFactoryParams.FractalGridFactoryParams
 import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.grid.GridFactory
 import com.ovle.rll3.model.procedural.grid.util.normalize
-import java.util.*
+import kotlin.random.Random
 
 
-class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
+class FractalGridFactory(val params: FractalGridFactoryParams): GridFactory {
 
     companion object {
         private const val MIN_AREA_SIZE = 3
@@ -19,12 +19,12 @@ class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
     private val neighbourValues = mutableListOf<Float>()
     private val isToroidal: Boolean
         get() = params.initialBorderValues == null
-    
-    
+
+
     override fun get(random: RandomParams): Grid {
         val result = Grid(params.size)
 
-        val r = random.jRandom
+        val r = random.kRandom
         result.fill(TILE_NOT_INITIALIZED_ID)
         val usePreloadedValues = params.initialBorderValues != null
         if (usePreloadedValues) {
@@ -34,15 +34,14 @@ class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
         }
 
         processArea(result, r)
-        normalize(result)
 
         return result
     }
 
-    private fun initMap(grid: Grid, r: Random) {
+    private fun initMap(grid: Grid, random: Random) {
         val width = grid.width - 1
         val height = grid.height - 1
-        val value: Float = r.nextFloat()
+        val value: Float = random.nextFloat()
 
         grid[0, 0] = value
         grid[width, 0] = value
@@ -69,14 +68,82 @@ class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
         grid[halfWidth, halfHeight] = initialBorderValues[1][1]
     }
 
-    private fun initArea(grid: Grid, areaX: Int, areaY: Int, areaWidth: Int, areaHeight: Int, r: Random) {
+    private fun processArea(grid: Grid, random: Random) {
+        var currCellWidth = grid.width
+        var currCellHeight = grid.height
+        var shouldStop = false
+
+        var iterationsCount = 0
+        while (!shouldStop) {
+            val minWidthReached = currCellWidth < MIN_AREA_SIZE
+            val minHeightReached = currCellHeight < MIN_AREA_SIZE
+            shouldStop = minWidthReached && minHeightReached
+            if (shouldStop) break
+            if (iterationsCount == params.stopIteration) break
+
+            val cellsInGridRow = grid.width / (currCellWidth - 1)
+            val cellsInGridColumn: Int = grid.height / (currCellHeight - 1)
+            val useRandomFilling = iterationsCount < params.startIteration
+
+            //calc square center point value
+            for (i in 0 until cellsInGridRow) {
+                for (j in 0 until cellsInGridColumn) {
+                    val x = (currCellWidth - 1) * i
+                    val y = (currCellHeight - 1) * j
+                    val middleX = x + currCellWidth / 2
+                    val middleY = y + currCellHeight / 2
+
+                    //System.out.println("process middle point " + middleX + "," + middleY);
+                    if (!useRandomFilling) {
+                        setTileValue(grid, middleX, middleY, false, false, currCellWidth, currCellHeight, random)
+                    } else {
+                        initArea(grid, x, y, currCellWidth, currCellHeight, random)
+                    }
+                }
+            }
+
+            //calc borders middle points values
+            for (i in 0 until cellsInGridRow) {
+                for (j in 0 until cellsInGridColumn) {
+                    val x = (currCellWidth - 1) * i
+                    val y = (currCellHeight - 1) * j
+                    val middleX = x + currCellWidth / 2
+                    val middleY = y + currCellHeight / 2
+                    val maxX = x + currCellWidth - 1
+                    val maxY = y + currCellHeight - 1
+
+                    //System.out.println("process square = " + new Rectangle(x, y, cellWidth, cellHeight));
+                    if (!useRandomFilling) {
+                        setTileValue(grid, middleX, y, false, true, currCellWidth, currCellHeight, random)
+                        setTileValue(grid, middleX, maxY, false, true, currCellWidth, currCellHeight, random)
+                        setTileValue(grid, x, middleY, true, false, currCellWidth, currCellHeight, random)
+                        setTileValue(grid, maxX, middleY, true, false, currCellWidth, currCellHeight, random)
+                    } else {
+                        val cellInitWidth = currCellWidth / 2 + 1
+                        val cellInitHeight = currCellHeight / 2 + 1
+
+                        initArea(grid, x, y, cellInitWidth, cellInitHeight, random)
+                        initArea(grid, middleX, y, cellInitWidth, cellInitHeight, random)
+                        initArea(grid, x, middleY, cellInitWidth, cellInitHeight, random)
+                        initArea(grid, middleX, middleY, cellInitWidth, cellInitHeight, random)
+                    }
+                }
+            }
+            iterationsCount++
+            currCellWidth = currCellWidth / 2 + 1
+            currCellHeight = currCellHeight / 2 + 1
+        }
+    }
+
+
+    private fun initArea(grid: Grid, areaX: Int, areaY: Int, areaWidth: Int, areaHeight: Int, random: Random) {
         val width = areaWidth - 1
         val height = areaHeight - 1
         val maxX = areaX + width
         val maxY = areaY + height
 
         if (!grid.isInitialized(areaX, areaY)) {
-            val value = r.nextFloat()
+            val value = random.nextFloat()
             grid[areaX, areaY] = value
             if (isToroidal) {
                 if (areaX == 0) {
@@ -88,7 +155,7 @@ class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
             }
         }
         if (!grid.isInitialized(maxX, areaY)) {
-            val value = r.nextFloat()
+            val value = random.nextFloat()
             grid[maxX, areaY] = value
             if (isToroidal) {
                 if (areaY == 0) {
@@ -97,7 +164,7 @@ class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
             }
         }
         if (!grid.isInitialized(areaX, maxY)) {
-            val value = r.nextFloat()
+            val value = random.nextFloat()
             grid[areaX, maxY] = value
             if (isToroidal) {
                 if (areaX == 0) {
@@ -106,10 +173,9 @@ class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
             }
         }
         if (!grid.isInitialized(maxX, maxY)) {
-            grid[maxX, maxY] = r.nextFloat()
+            grid[maxX, maxY] = random.nextFloat()
         }
     }
-
 
     private fun processNeighbour(grid: Grid, x: Int, y: Int) {
         if (grid.isPointValid(x, y)) {
@@ -124,7 +190,7 @@ class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
         x: Int, y: Int,
         isBorderX: Boolean, isBorderY: Boolean,
         cellWidth: Int, cellHeight: Int,
-        r: Random
+        random: Random
     ) {
         //corner points stay unaffected
         if (isBorderX && isBorderY) return
@@ -155,12 +221,13 @@ class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
 
         val neighboursCount = neighbourValues.size
         if (neighboursCount > 0) {
-            val randomLimit: Int = r.nextInt(cellWidth) - cellWidth / 2
+            val randomLimit: Int = random.nextInt(cellWidth) - cellWidth / 2
             val randomOffset = randomLimit.toFloat() / grid.width.toFloat()
             val shouldSelectRandomNeighbour = params.shouldRandomizeFinalIteration &&
                 (cellWidth == MIN_AREA_SIZE || cellHeight == MIN_AREA_SIZE)
 
-            val value = tileValue(shouldSelectRandomNeighbour, neighboursCount, randomOffset, r)
+            val rawValue = rawTileValue(shouldSelectRandomNeighbour, neighboursCount, random)
+            val value = rawValue + randomOffset * params.flexibleNoiseValue
             grid[x, y] = value
 
             if (isToroidal) {
@@ -170,87 +237,15 @@ class FractalGridFactory(val params: FractalLevelFactoryParams): GridFactory {
         }
     }
 
-    private fun tileValue(shouldSelectRandomNeighbour: Boolean, neighboursCount: Int, randomOffset: Float, r: Random): Float {
-        var result = if (shouldSelectRandomNeighbour) {
-            val neighbourIndex: Int = r.nextInt(neighboursCount)
-            neighbourValues[neighbourIndex]
+    private fun rawTileValue(shouldSelectRandomNeighbour: Boolean, neighboursCount: Int, random: Random): Float {
+        return if (shouldSelectRandomNeighbour) {
+            neighbourValues.random(random)
         } else {
             var totalValue = 0.0f
             for (i in 0 until neighboursCount) {
                 totalValue += neighbourValues[i]
             }
             totalValue / neighboursCount
-        }
-        result += randomOffset * params.flexibleNoiseValue
-
-        return result
-    }
-
-
-    private fun processArea(grid: Grid, r: Random) {
-        var currCellWidth = grid.width
-        var currCellHeight = grid.height
-        var shouldStop = false
-
-        var iterationsCount = 0
-        while (!shouldStop) {
-            val minWidthReached = currCellWidth < MIN_AREA_SIZE
-            val minHeightReached = currCellHeight < MIN_AREA_SIZE
-            shouldStop = minWidthReached && minHeightReached
-            if (shouldStop) break
-            if (iterationsCount == params.stopIteration) break
-
-            val cellsInGridRow = grid.width / (currCellWidth - 1)
-            val cellsInGridColumn: Int = grid.height / (currCellHeight - 1)
-            val useRandomFilling = iterationsCount < params.startIteration
-
-            //calc square center point value
-            for (i in 0 until cellsInGridRow) {
-                for (j in 0 until cellsInGridColumn) {
-                    val x = (currCellWidth - 1) * i
-                    val y = (currCellHeight - 1) * j
-                    val middleX = x + currCellWidth / 2
-                    val middleY = y + currCellHeight / 2
-
-                    //System.out.println("process middle point " + middleX + "," + middleY);
-                    if (!useRandomFilling) {
-                        setTileValue(grid, middleX, middleY, false, false, currCellWidth, currCellHeight, r)
-                    } else {
-                        initArea(grid, x, y, currCellWidth, currCellHeight, r)
-                    }
-                }
-            }
-
-            //calc borders middle points values
-            for (i in 0 until cellsInGridRow) {
-                for (j in 0 until cellsInGridColumn) {
-                    val x = (currCellWidth - 1) * i
-                    val y = (currCellHeight - 1) * j
-                    val middleX = x + currCellWidth / 2
-                    val middleY = y + currCellHeight / 2
-                    val maxX = x + currCellWidth - 1
-                    val maxY = y + currCellHeight - 1
-
-                    //System.out.println("process square = " + new Rectangle(x, y, cellWidth, cellHeight));
-                    if (!useRandomFilling) {
-                        setTileValue(grid, middleX, y, false, true, currCellWidth, currCellHeight, r)
-                        setTileValue(grid, middleX, maxY, false, true, currCellWidth, currCellHeight, r)
-                        setTileValue(grid, x, middleY, true, false, currCellWidth, currCellHeight, r)
-                        setTileValue(grid, maxX, middleY, true, false, currCellWidth, currCellHeight, r)
-                    } else {
-                        val cellInitWidth = currCellWidth / 2 + 1
-                        val cellInitHeight = currCellHeight / 2 + 1
-
-                        initArea(grid, x, y, cellInitWidth, cellInitHeight, r)
-                        initArea(grid, middleX, y, cellInitWidth, cellInitHeight, r)
-                        initArea(grid, x, middleY, cellInitWidth, cellInitHeight, r)
-                        initArea(grid, middleX, middleY, cellInitWidth, cellInitHeight, r)
-                    }
-                }
-            }
-            iterationsCount++
-            currCellWidth = currCellWidth / 2 + 1
-            currCellHeight = currCellHeight / 2 + 1
         }
     }
 
