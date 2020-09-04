@@ -31,7 +31,7 @@ class PlayerControlsSystem : EventSystem() {
     }
 
     private fun onMouseClick(position: GridPoint2, button: Int) {
-        val level = levelInfoNullable() ?: return
+        val level = locationInfoNullable() ?: return
 
 //        val skillTemplate = selectedSkillTemplate()
 //        val skillWithTarget = skillTemplate?.target != null
@@ -57,7 +57,7 @@ class PlayerControlsSystem : EventSystem() {
     }
 
     private fun onMouseMoved(position: GridPoint2) {
-        val level = levelInfoNullable() ?: return
+        val level = locationInfoNullable() ?: return
         val interactionEntity = playerInteraction(this.allEntities().toList()) ?: return
         val positionComponent = interactionEntity[ComponentMappers.position]!!
         if (positionComponent.gridPosition == position) return

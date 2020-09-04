@@ -63,6 +63,8 @@ class CameraSystem(
     private fun onScaleChange(diff: Float) {
         camera.zoom -= diff
         camera.update()
+
+        println("zoom: ${camera.zoom}")
     }
 
     private fun onCameraMoved(amount: Vector2) {
@@ -74,5 +76,7 @@ class CameraSystem(
 
         camera.position.add(amount.x * cameraMoveCoeff, amount.y * cameraMoveCoeff, 0.0f)
         camera.update()
+
+        println("position: ${camera.position}")
     }
 }

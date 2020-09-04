@@ -35,10 +35,10 @@ fun EntitySystem.allEntities() = this.engine.entities
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-fun EntitySystem.levelInfoNullable() = entityWith(allEntities().toList(), GameComponent::class)?.get(game)?.location
-fun EntitySystem.levelInfo() = levelInfoNullable()!!
+fun EntitySystem.locationInfoNullable() = entityWith(allEntities().toList(), GameComponent::class)?.get(game)?.location
+fun EntitySystem.locationInfo() = locationInfoNullable()!!
 
-fun levelInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.location
+fun locationInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.location
 
 fun playerInfoNullable(entities: List<Entity>) = entityWith(entities, PlayerComponent::class)?.get(player)?.player
 fun playerInfo(entities: List<Entity>) = playerInfoNullable(entities)!!
@@ -47,6 +47,7 @@ fun EntitySystem.playerInfo() = playerInfo(allEntities().toList())
 fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
 fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)
     ?.get(ComponentMappers.playerInteraction)
+fun EntitySystem.playerInteraction() = playerInteraction(this.allEntities().toList())
 fun EntitySystem.playerInteractionInfo() = playerInteractionInfo(allEntities().toList())
 
 fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity

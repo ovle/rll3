@@ -13,6 +13,8 @@ import com.ovle.rll3.model.module.game.PlayerComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import com.ovle.rll3.model.module.core.component.basicComponents
 import com.ovle.rll3.model.module.core.component.stateComponents
+import com.ovle.rll3.model.module.time.TimeInfo
+import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import java.util.*
 
@@ -26,7 +28,10 @@ fun randomId() = UUID.randomUUID().toString()
 
 fun newPlayer(player: PlayerInfo, engine: Engine) = engine.entity(player.playerId, PlayerComponent(player))
 
-fun newLocation(location: LocationInfo, engine: Engine) = engine.entity(location.id, GameComponent(location))
+fun newLocation(location: LocationInfo, world: WorldInfo, engine: Engine) = engine.entity(
+    location.id,
+    GameComponent(location, world, TimeInfo())
+)
 
 fun newPlayerInteraction(engine: Engine): Entity? = engine.entity(
     "not used",

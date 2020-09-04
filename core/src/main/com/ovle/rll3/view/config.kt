@@ -18,6 +18,7 @@ const val spriteHeight = baseSize.toFloat()
 
 const val gameFullscreen = false
 const val skinPath = "skins/c64/uiskin.json"
+const val fontName = "commodore-64"
 
 const val tileTexturePath = "images/new-tiles.png"
 const val spriteTexturePath = "images/new-tiles.png"

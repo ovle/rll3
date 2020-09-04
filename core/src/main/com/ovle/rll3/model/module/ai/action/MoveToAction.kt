@@ -9,7 +9,7 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.ai.BaseTask
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.entity.levelInfo
+import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.EntityConditions.isAtPosition
 import com.ovle.rll3.model.module.task.EntityConditions.isMoving
@@ -31,7 +31,7 @@ class MoveToAction: BaseTask() {
             isMoving(owner) -> RUNNING
             else -> {
                 val from = owner[position]!!.gridPosition
-                val level = levelInfo(entities.toTypedArray())
+                val level = locationInfo(entities.toTypedArray())
                 checkNotNull(level)
 
                 val moveStrategy = moveStrategy(target)

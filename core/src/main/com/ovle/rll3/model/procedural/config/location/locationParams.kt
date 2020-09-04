@@ -38,7 +38,7 @@ fun locationParams(world: WorldInfo, locationPoint: GridPoint2) = LocationGenera
         params = FractalGridFactoryParams(
             size = 129,
             startIteration = 0,
-            flexibleNoiseValue = 0.1f,
+            flexibleNoiseValue = 0.2f,
             initialBorderValues = initialBorderValues(world, locationPoint)
         )
     ),

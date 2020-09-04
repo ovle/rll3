@@ -2,6 +2,7 @@ package com.ovle.rll3.model.procedural.grid.processor
 
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.procedural.config.location.outdoorHighGroundTreshold
+import com.ovle.rll3.model.procedural.config.location.shallowWaterTreshold
 import com.ovle.rll3.model.procedural.config.world.heatUpperTreshold
 import com.ovle.rll3.model.procedural.config.world.shallowWaterTileId
 import com.ovle.rll3.model.procedural.config.world.worldShallowWaterTreshold
@@ -20,6 +21,7 @@ data class RiverWorldProcessorParams(
     val count: Int = 10,
     val minHeightValue: Float = outdoorHighGroundTreshold,
     val maxHeatValue: Float = heatUpperTreshold,
+    val finishHeightValue: Float = shallowWaterTreshold,
     val minLength: Int = 20,
     val erosionValue: Float = 0.1f,
     val erosionPower: Float = 0.01f
@@ -63,7 +65,7 @@ class RiverWorldProcessor(val params: RiverWorldProcessorParams): WorldProcessor
                 startPoint,
                 GradientPathParams(
                     random = random,
-                    finishValue = worldShallowWaterTreshold,
+                    finishValue = params.finishHeightValue,
                     erosionPower = params.erosionPower
                 )
             )

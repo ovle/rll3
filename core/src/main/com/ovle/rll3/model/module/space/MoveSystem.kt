@@ -39,7 +39,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
 
 
     private fun onEntitySetMoveTargetEvent(entity: Entity, point: GridPoint2) {
-        setMoveTarget(levelInfo(), point, entity)
+        setMoveTarget(locationInfo(), point, entity)
     }
 
     private fun checkMove(entity: Entity) {
@@ -91,7 +91,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
 
         val newPosition = point(currentPosition.x + dxStep, currentPosition.y + dyStep)
         //it can be expensive to do that on every move processing. cache?
-        val obstacles = levelInfo().entities.bodyObstacles()
+        val obstacles = locationInfo().entities.bodyObstacles()
         //should we finish move at that point, or consider obstacle to be temporary? or try to make another path?
         if (newPosition in obstacles) return
 

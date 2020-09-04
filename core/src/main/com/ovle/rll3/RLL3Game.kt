@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.Disposable
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.screen.BaseScreen
+import com.ovle.rll3.view.fontName
 import com.ovle.rll3.view.screenHeight
 import com.ovle.rll3.view.screenWidth
 import com.ovle.rll3.view.skinPath
@@ -38,7 +39,7 @@ class RLL3Game : KtxGame<BaseScreen>() {
         val assetManager = disposable(AssetManager())
 
         val skin = Skin(Gdx.files.internal(skinPath))
-        val font = skin.getFont("commodore-64")
+        val font = skin.getFont(fontName)
         font.data.scale(-0.1f)
         Scene2DSkin.defaultSkin = disposable(skin)
 

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.Event.GameEvent.StartGameCommand
 import com.ovle.rll3.event.Event.PlayerControlEvent.CameraScrollCommand
@@ -58,6 +57,7 @@ class GameScreen(
             RenderLevelSystem(camera, assetsManager),
             RenderObjectsSystem(batch, assetsManager),
             RenderInteractionInfoSystem(batch, assetsManager),
+            RenderGUISystem(batch, assetsManager, stage.batch),
             AnimationSystem(),
 
             GameSystem(gamePayload),
@@ -81,10 +81,10 @@ class GameScreen(
         systems.forEach { ecsEngine.addSystem((it)) }
 
         EventBus.addHook(::eventLogHook)
-
         EventBus.subscribe<GameDidFinishedEvent> { onGameDidFinishedEvent() }
 
-        send(CameraScrollCommand(((1 - initialScale) / scaleScrollCoeff).roundToInt()))
+        camera.zoom = 2.5f
+        camera.position.set(500.0f, 500.0f, 0.0f)
 
         send(StartGameCommand())
     }

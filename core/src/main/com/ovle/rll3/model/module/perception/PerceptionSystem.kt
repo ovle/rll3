@@ -3,7 +3,6 @@ package com.ovle.rll3.model.module.perception
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.space.PositionComponent
@@ -11,7 +10,7 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.entitiesWith
-import com.ovle.rll3.model.module.core.entity.levelInfo
+import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.entity.lightObstacles
 import com.ovle.rll3.model.module.core.entity.see
 import com.ovle.rll3.model.module.core.system.EventSystem
@@ -49,7 +48,7 @@ class PerceptionSystem : EventSystem() {
         val perceptionComponent = entity[perception] ?: return
         val positionComponent = entity[position] ?: return
 
-        val obstacles = levelInfo().entities.lightObstacles()
+        val obstacles = locationInfo().entities.lightObstacles()
         perceptionComponent.fov = fov(positionComponent, perceptionComponent, obstacles)
 
         send(EntityFovUpdatedEvent(entity))
@@ -62,7 +61,7 @@ class PerceptionSystem : EventSystem() {
             positionComponent.gridPosition,
             sightRadius,
             ::lightTilePassMapper,
-            levelInfo().tiles,
+            locationInfo().tiles,
             obstacles
         ).toSet()
     }
