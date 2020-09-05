@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.procedural.grid.util
+package com.ovle.rll3.model.util
 
 import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory

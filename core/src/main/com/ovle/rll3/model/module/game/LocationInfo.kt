@@ -5,13 +5,11 @@ import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.LocationId
 import com.ovle.rll3.TileArray
-import com.ovle.rll3.model.module.time.TimeInfo
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.procedural.config.LocationGenerationParams
 import com.ovle.rll3.model.procedural.config.RandomParams
-import com.ovle.rll3.model.procedural.grid.processor.room.RoomInfo
-import com.ovle.rll3.model.procedural.grid.processor.structure.StructureTemplateInfo
-import com.ovle.rll3.model.procedural.grid.world.WorldInfo
+import com.ovle.rll3.model.procedural.grid.processor.location.room.RoomInfo
+import com.ovle.rll3.model.procedural.grid.processor.location.structure.StructureTemplateInfo
 import java.io.Serializable
 
 

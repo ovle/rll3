@@ -5,9 +5,11 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
+import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.quest.QuestInfo
+import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.model.tile.Array2d
 import com.ovle.rll3.model.tile.LightPassType
 import com.ovle.rll3.model.tile.NearValues
@@ -50,7 +52,6 @@ typealias Turn = Long
 typealias Ticks = Long
 typealias ResourceAmount = Int
 typealias ResourceGatherCost = Int
-typealias Area = List<GridPoint2>
 typealias RoomTiles = MutableList<Vector2>
 
 typealias TileToTextureRegion = (TileToTextureParams) -> TextureRegion
@@ -68,6 +69,9 @@ typealias TileArray = Array2d<Tile>
 typealias NearTiles = NearValues<Tile?>
 typealias TileMapper2 = (Float, Float) -> Tile
 typealias TileMapper1 = (Float) -> Tile
+
+typealias GridPointCheck1 = (Grid, GridPoint2) -> Boolean
+typealias GridPointCheck2 = (Grid, Grid, GridPoint2) -> Boolean
 
 typealias MoveStrategy = (GridPoint2, GridPoint2, LocationInfo) -> Boolean
 typealias IsAtPositionStrategy = (Entity, GridPoint2) -> Boolean

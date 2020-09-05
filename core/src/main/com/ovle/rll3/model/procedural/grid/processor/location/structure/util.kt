@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.procedural.grid.processor.structure
+package com.ovle.rll3.model.procedural.grid.processor.location.structure
 
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.TileArray

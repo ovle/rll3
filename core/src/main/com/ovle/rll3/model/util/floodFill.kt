@@ -2,7 +2,6 @@ package com.ovle.rll3.model.util
 
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.Area
 import com.ovle.rll3.point
 
 
@@ -13,10 +12,10 @@ fun floodFill(grid: Grid, marker: Float): MutableList<Area> {
     for (x in (0 until grid.width)) {
         for (y in (0 until grid.height)) {
             if (grid[x, y] == marker) {
-                val area = mutableListOf<GridPoint2>()
-                areas.add(area)
+                val areaPoints = mutableSetOf<GridPoint2>()
+                areas.add(Area(areaPoints))
 
-                floodFill(grid, area, x, y, marker, areaMarker)
+                floodFill(grid, areaPoints, x, y, marker, areaMarker)
 
                 areaMarker++
             }
@@ -26,7 +25,7 @@ fun floodFill(grid: Grid, marker: Float): MutableList<Area> {
     return areas
 }
 
-private fun floodFill(grid: Grid, area: MutableList<GridPoint2>, x: Int, y: Int, marker: Float, areaMarker: Float) {
+private tailrec fun floodFill(grid: Grid, area: MutableCollection<GridPoint2>, x: Int, y: Int, marker: Float, areaMarker: Float) {
     if (!grid.isIndexValid(x, y)) return
 
     val value = grid[x, y]

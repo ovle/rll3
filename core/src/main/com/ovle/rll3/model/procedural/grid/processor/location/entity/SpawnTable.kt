@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.procedural.grid.util
+package com.ovle.rll3.model.procedural.grid.processor.location.entity
 
 import com.ovle.rll3.NearTiles
 import com.ovle.rll3.Tile

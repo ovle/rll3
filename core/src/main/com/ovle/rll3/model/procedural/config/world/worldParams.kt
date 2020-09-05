@@ -1,13 +1,16 @@
 package com.ovle.rll3.model.procedural.config.world
 
+import com.badlogic.gdx.math.GridPoint2
+import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.procedural.config.GridFactoryParams.*
 import com.ovle.rll3.model.procedural.config.WorldGenerationParams
+import com.ovle.rll3.model.procedural.config.location.outdoorLowWallTreshold
 import com.ovle.rll3.model.procedural.grid.factory.CelullarAutomataGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.FractalGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.GradientGridFactory
 import com.ovle.rll3.model.procedural.grid.factory.Combine
-import com.ovle.rll3.model.procedural.grid.processor.RiverWorldProcessor
-import com.ovle.rll3.model.procedural.grid.processor.RiverWorldProcessorParams
+import com.ovle.rll3.model.procedural.grid.processor.world.RiverWorldProcessor
+import com.ovle.rll3.model.procedural.grid.processor.world.RiverWorldProcessorParams
 
 const val worldSize = 257
 
@@ -43,7 +46,8 @@ val worldParams = WorldGenerationParams(
         RiverWorldProcessor(
             params = RiverWorldProcessorParams(
                 count = 20,
-                erosionPower = 0.01f
+                erosionPower = 0.02f,
+                isStartPoint = ::isRiverStartPoint
             )
         )
     ),
@@ -51,3 +55,9 @@ val worldParams = WorldGenerationParams(
 )
 
 
+private fun isRiverStartPoint(grid1: Grid, grid2: Grid, point: GridPoint2): Boolean {
+    val heightValue = grid1[point.x, point.y]
+    val heatValue = grid2[point.x, point.y]
+
+    return heightValue >= outdoorLowWallTreshold && heatValue <= heatUpperTreshold
+}

@@ -4,7 +4,7 @@ import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.procedural.config.GridFactoryParams.GradientGridFactoryParams
 import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.grid.GridFactory
-import com.ovle.rll3.model.procedural.grid.util.normalize
+import com.ovle.rll3.model.util.normalize
 import kotlin.math.abs
 
 

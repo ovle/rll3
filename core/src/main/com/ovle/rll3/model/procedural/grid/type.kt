@@ -7,7 +7,7 @@ import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 
 
-interface LevelProcessor {
+interface LocationProcessor {
     fun process(locationInfo: LocationInfo, gameEngine: Engine)
 }
 

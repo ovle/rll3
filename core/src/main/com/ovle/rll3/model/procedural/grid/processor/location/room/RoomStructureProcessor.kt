@@ -1,13 +1,13 @@
-package com.ovle.rll3.model.procedural.grid.processor.room
+package com.ovle.rll3.model.procedural.grid.processor.location.room
 
 import com.badlogic.ashley.core.Engine
 import com.ovle.rll3.TileArray
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.procedural.grid.LevelProcessor
+import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.tile.nearValues
 import kotlin.random.Random
 
-class RoomStructureProcessor : LevelProcessor {
+class RoomStructureProcessor : LocationProcessor {
 
     override fun process(locationInfo: LocationInfo, gameEngine: Engine) {
         val random = locationInfo.random.kRandom

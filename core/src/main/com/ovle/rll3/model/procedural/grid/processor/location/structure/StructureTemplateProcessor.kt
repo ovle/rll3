@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.procedural.grid.processor.structure
+package com.ovle.rll3.model.procedural.grid.processor.location.structure
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
@@ -15,13 +15,14 @@ import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.template.structure.StructureEntity
 import com.ovle.rll3.model.template.structure.StructureTemplate
 import com.ovle.rll3.assets.loader.StructureTemplates
-import com.ovle.rll3.model.procedural.grid.LevelProcessor
+import com.ovle.rll3.model.procedural.config.location.groundTileFilter
+import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.procedural.config.location.whateverTileId
 import ktx.ashley.get
 
 data class StructureTemplateInfo(val template: StructureTemplate, val positions: Set<GridPoint2>)
 
-class StructureTemplateProcessor(val templates: StructureTemplates) : LevelProcessor {
+class StructureTemplateProcessor(val templates: StructureTemplates) : LocationProcessor {
 
     override fun process(locationInfo: LocationInfo, gameEngine: Engine) {
         val tiles = locationInfo.tiles
@@ -42,8 +43,8 @@ class StructureTemplateProcessor(val templates: StructureTemplates) : LevelProce
         val needSpawn = check <= chance
 
         //spawn point is the left top corner of mask
-        //todo
-        val spawnPoint = spawnPoint(random, tiles, mask.size, null /*::groundTileFilter*/, 15)
+        //todo not hardcode groundTileFilter
+        val spawnPoint = spawnPoint(random, tiles, mask.size, ::groundTileFilter, 10)
         if (spawnPoint == null) {
             println("spawn failed: can't get spawnPoint")
             return

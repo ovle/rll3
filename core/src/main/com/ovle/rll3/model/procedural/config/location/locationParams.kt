@@ -1,14 +1,18 @@
 package com.ovle.rll3.model.procedural.config.location
 
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.assets.loader.StructureTemplates
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
 import com.ovle.rll3.model.procedural.config.GridFactoryParams.FractalGridFactoryParams
 import com.ovle.rll3.model.procedural.config.LocationGenerationParams
 import com.ovle.rll3.model.procedural.grid.factory.FractalGridFactory
-import com.ovle.rll3.model.procedural.grid.processor.EntityProcessor
-import com.ovle.rll3.model.procedural.grid.processor.structure.StructureTemplateProcessor
+import com.ovle.rll3.model.procedural.grid.processor.location.PondLocationProcessor
+import com.ovle.rll3.model.procedural.grid.processor.location.PondLocationProcessorParams
+import com.ovle.rll3.model.procedural.grid.processor.location.entity.EntityProcessor
+import com.ovle.rll3.model.procedural.grid.processor.location.structure.StructureTemplateProcessor
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
+import com.ovle.rll3.model.template.TemplatesType
 import com.ovle.rll3.model.template.entity.entityTemplates
 import com.ovle.rll3.model.template.structure.structureTemplates
 
@@ -43,6 +47,11 @@ fun locationParams(world: WorldInfo, locationPoint: GridPoint2) = LocationGenera
         )
     ),
     postProcessors = arrayOf(
+        PondLocationProcessor(
+            PondLocationProcessorParams(
+                count = pondsCount(world, locationPoint)
+            )
+        ),
 //        StructureProcessor(
 //            params = StructureProcessorParams(
 //                number = 2,
@@ -62,11 +71,12 @@ fun locationParams(world: WorldInfo, locationPoint: GridPoint2) = LocationGenera
 //                tilePreFilter = ::groundTileFilter
 //            )
 //        ),
-//        StructureTemplateProcessor(structureTemplates()),
+        StructureTemplateProcessor(structureTemplates(TemplatesType.Common)),
         EntityProcessor(entityTemplates())
     ),
     tileMapper = ::tileMapper
 )
+
 
 fun initialBorderValues(world: WorldInfo, locationPoint: GridPoint2): Array<FloatArray>? {
     val grid = world.heightGrid
@@ -77,4 +87,9 @@ fun initialBorderValues(world: WorldInfo, locationPoint: GridPoint2): Array<Floa
         FloatArray(3) { i -> grid[x + 1, y - 1 + i] }
     )
     return result
+}
+
+fun pondsCount(world: WorldInfo, locationPoint: GridPoint2): Int {
+    //todo
+    return (0..20).random(world.random.kRandom)
 }

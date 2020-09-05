@@ -5,7 +5,6 @@ import com.ovle.rll3.isPointValid
 import com.ovle.rll3.model.procedural.config.GridFactoryParams.FractalGridFactoryParams
 import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.grid.GridFactory
-import com.ovle.rll3.model.procedural.grid.util.normalize
 import kotlin.random.Random
 
 

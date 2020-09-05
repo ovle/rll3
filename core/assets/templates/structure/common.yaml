@@ -1,123 +1,143 @@
 ---
 
-name: village 1
+name: embark
 mask: |
-  _ _ _ _ _ _ _ _ _ _ ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  _ # # # # = = = = _ ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
-  _ # . . . = : : = _ _ _ _ _ _ _ _ ` ` ` ` ` ` ` `
-  _ # . . . : : : = _ _ # # # # # _ ` ` ` ` ` ` ` `
-  _ # . . . = : : = _ _ # . . . # _ ` ` ` ` ` ` ` `
-  _ # . . . = = = = _ _ # . . . # _ ` ` ` ` ` ` ` `
-  _ # # . # # r r f _ _ # . # # # _ _ _ _ _ _ _ _ _
-  _ _ r r r r r r f _ _ _ r _ _ _ _ _ _ f f f f f _
-  _ f f r f f f f f _ _ _ r _ _ _ _ _ _ f _ _ _ f _
-  _ _ r r r r r r r r r r r r r r r r r _ _ _ _ f _
-  ` _ r = = = = = . # _ _ r _ _ _ _ _ _ f _ _ _ f _
-  ` _ r = : : : = . . _ _ r _ _ _ _ _ _ f f f f f _
-  ` _ r = : : : : . . _ _ r _ _ _ _ _ _ _ _ _ _ _ _
-  ` _ r = : : : = . . _ _ r _ _ _ ` ` ` ` ` ` ` ` `
-  ` _ r = = = = = . # _ r r r _ _ ` ` ` ` ` ` ` ` `
-  ` _ r r r r r r r r r r ` r r r ` ` ` ` ` ` ` ` `
-  ` _ _ _ _ _ _ _ _ _ _ r r r _ _ ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` _ _ _ r _ _ _ ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` _ _ r _ _ ` ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` _ 0 r 0 _ ` ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` 0 0 r 0 0 0 ` ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` 0 0 0 r 0 0 = = ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` 0 r r r r r 0 = ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` 0 0 0 r 0 0 = = ` ` ` ` ` ` ` `
-  ` ` ` ` ` ` ` ` ` ` 0 0 0 0 0 0 ` ` ` ` ` ` ` ` `
-playerSpawns:
-  - [23, 14]
-quests:
-  - questId: q1
-    entityId: elder1
+  ` ` ` ` `
+  ` ` ` ` `
+  ` ` ` ` `
+  ` ` ` ` `
+  ` ` ` ` `
 entities:
-  - templateName: lamp
-    points:
-      - [2, 2]
-      - [4, 2]
-      - [1, 7]
-      - [5, 7]
-      - [12, 4]
-      - [8, 11]
-  - templateName: door w
-    points:
-      - [3, 6]
-      - [12, 6]
-  - templateName: door s
-    points:
-      - [7, 12]
-  - templateName: window w
-    points:
-      - [3, 1]
-      - [14, 3]
-  - templateName: window s
-    points:
-      - [7, 5]
-      - [5, 10]
-      - [5, 14]
-  - templateName: barbarian
-    points:
-      - [2, 4]
-    ids:
-      - b1
-      - b2
   - templateName: elder
     points:
-      - [14, 16]
+      - [1, 1]
     ids:
-      - elder1
-  - templateName: blacksmith
-    points:
-      - [5, 12]
-    ids:
-      - blacksmith1
+      - elder
   - templateName: villager
     points:
-      - [18, 10]
-      - [1, 14]
+      - [1, 3]
+      - [3, 1]
   - templateName: stash
     points:
-      - [3, 2]
-  - templateName: pig
-    points:
-      - [21, 9]
-      - [22, 10]
-  - templateName: wolf
-    points:
-      - [2, 17]
-  - templateName: table
-    points:
-      - [7, 3]
-  - templateName: anvil
-    points:
-      - [4, 12]
-  - templateName: forge
-    points:
-      - [4, 11]
-  - templateName: chair
-    points:
-      - [8, 13]
-  - templateName: bed
-    points:
-      - [14, 4]
-  - templateName: barrel
-    points:
-      - [16, 3]
-      - [16, 4]
-  - templateName: oven
-    points:
-      - [6, 2]
-  - templateName: well
-    points:
-      - [12, 15]
-  - templateName: grave
-    points:
-      - [11, 21]
-      - [13, 21]
-      - [11, 23]
-      - [13, 23]
-  - templateName: stairs d
-    points:
-      - [15, 22]
+      - [2, 2]
+
+#---
+#name: test village
+#mask: |
+#  _ _ _ _ _ _ _ _ _ _ ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
+#  _ # # # # = = = = _ ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
+#  _ # . . . = : : = _ _ _ _ _ _ _ _ ` ` ` ` ` ` ` `
+#  _ # . . . : : : = _ _ # # # # # _ ` ` ` ` ` ` ` `
+#  _ # . . . = : : = _ _ # . . . # _ ` ` ` ` ` ` ` `
+#  _ # . . . = = = = _ _ # . . . # _ ` ` ` ` ` ` ` `
+#  _ # # . # # r r f _ _ # . # # # _ _ _ _ _ _ _ _ _
+#  _ _ r r r r r r f _ _ _ r _ _ _ _ _ _ f f f f f _
+#  _ f f r f f f f f _ _ _ r _ _ _ _ _ _ f _ _ _ f _
+#  _ _ r r r r r r r r r r r r r r r r r _ _ _ _ f _
+#  ` _ r = = = = = . # _ _ r _ _ _ _ _ _ f _ _ _ f _
+#  ` _ r = : : : = . . _ _ r _ _ _ _ _ _ f f f f f _
+#  ` _ r = : : : : . . _ _ r _ _ _ _ _ _ _ _ _ _ _ _
+#  ` _ r = : : : = . . _ _ r _ _ _ ` ` ` ` ` ` ` ` `
+#  ` _ r = = = = = . # _ r r r _ _ ` ` ` ` ` ` ` ` `
+#  ` _ r r r r r r r r r r ` r r r ` ` ` ` ` ` ` ` `
+#  ` _ _ _ _ _ _ _ _ _ _ r r r _ _ ` ` ` ` ` ` ` ` `
+#  ` ` ` ` ` ` ` ` ` _ _ _ r _ _ _ ` ` ` ` ` ` ` ` `
+#  ` ` ` ` ` ` ` ` ` ` _ _ r _ _ ` ` ` ` ` ` ` ` ` `
+#  ` ` ` ` ` ` ` ` ` ` _ 0 r 0 _ ` ` ` ` ` ` ` ` ` `
+#  ` ` ` ` ` ` ` ` ` ` 0 0 r 0 0 0 ` ` ` ` ` ` ` ` `
+#  ` ` ` ` ` ` ` ` ` 0 0 0 r 0 0 = = ` ` ` ` ` ` ` `
+#  ` ` ` ` ` ` ` ` ` 0 r r r r r 0 = ` ` ` ` ` ` ` `
+#  ` ` ` ` ` ` ` ` ` 0 0 0 r 0 0 = = ` ` ` ` ` ` ` `
+#  ` ` ` ` ` ` ` ` ` ` 0 0 0 0 0 0 ` ` ` ` ` ` ` ` `
+#quests:
+#  - questId: q1
+#    entityId: elder1
+#entities:
+#  - templateName: lamp
+#    points:
+#      - [2, 2]
+#      - [4, 2]
+#      - [1, 7]
+#      - [5, 7]
+#      - [12, 4]
+#      - [8, 11]
+#  - templateName: door w
+#    points:
+#      - [3, 6]
+#      - [12, 6]
+#  - templateName: door s
+#    points:
+#      - [7, 12]
+#  - templateName: window w
+#    points:
+#      - [3, 1]
+#      - [14, 3]
+#  - templateName: window s
+#    points:
+#      - [7, 5]
+#      - [5, 10]
+#      - [5, 14]
+#  - templateName: barbarian
+#    points:
+#      - [2, 4]
+#    ids:
+#      - b1
+#      - b2
+#  - templateName: elder
+#    points:
+#      - [14, 16]
+#    ids:
+#      - elder1
+#  - templateName: blacksmith
+#    points:
+#      - [5, 12]
+#    ids:
+#      - blacksmith1
+#  - templateName: villager
+#    points:
+#      - [18, 10]
+#      - [1, 14]
+#  - templateName: stash
+#    points:
+#      - [3, 2]
+#  - templateName: pig
+#    points:
+#      - [21, 9]
+#      - [22, 10]
+#  - templateName: wolf
+#    points:
+#      - [2, 17]
+#  - templateName: table
+#    points:
+#      - [7, 3]
+#  - templateName: anvil
+#    points:
+#      - [4, 12]
+#  - templateName: forge
+#    points:
+#      - [4, 11]
+#  - templateName: chair
+#    points:
+#      - [8, 13]
+#  - templateName: bed
+#    points:
+#      - [14, 4]
+#  - templateName: barrel
+#    points:
+#      - [16, 3]
+#      - [16, 4]
+#  - templateName: oven
+#    points:
+#      - [6, 2]
+#  - templateName: well
+#    points:
+#      - [12, 15]
+#  - templateName: grave
+#    points:
+#      - [11, 21]
+#      - [13, 21]
+#      - [11, 23]
+#      - [13, 23]
+#  - templateName: stairs d
+#    points:
+#      - [15, 22]

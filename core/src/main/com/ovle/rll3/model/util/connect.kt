@@ -1,9 +1,7 @@
-package com.ovle.rll3.model.procedural.grid.util
+package com.ovle.rll3.model.util
 
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.Area
-import com.ovle.rll3.model.util.floodFill
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.trace
 
 enum class ConnectionStrategy {
@@ -14,7 +12,7 @@ enum class ConnectionStrategy {
         }
 
         private fun removeUnconnected(grid: Grid, wallTileMarker: Float, areas: MutableList<Area>): Area {
-            val mainArea = areas.maxBy { it.size }!!
+            val mainArea = areas.maxBy { it.points.size }!!
             val areasToRemove = areas.toMutableList().apply { remove(mainArea) }
             areasToRemove.forEach {
                 it.apply(grid, wallTileMarker)
@@ -30,12 +28,13 @@ enum class ConnectionStrategy {
                 val area = disconnectedAreas.first()
                 val otherAreas = disconnectedAreas.filter { other -> area != other }
                 val (from, to, otherArea) = closestPoints(area, otherAreas)
-                val path = trace(from, to, emptyList()).widen()
+                val points = trace(from, to, emptyList()).toMutableSet()
+                val path = Area(points).widen()
 
                 disconnectedAreas.remove(area)
                 disconnectedAreas.remove(otherArea)
                 val newArea = area + otherArea + path
-                disconnectedAreas.add(newArea.toMutableList())
+                disconnectedAreas.add(newArea)
             }
 
             val result = disconnectedAreas.single()
@@ -44,7 +43,7 @@ enum class ConnectionStrategy {
 
         //todo O(n^3)
         private fun closestPoints(area: Area, otherAreas: List<Area>): Triple<GridPoint2, GridPoint2, Area> {
-            val pointsInfo = area.map { point -> point to closestPointInAreas(point, otherAreas) }
+            val pointsInfo = area.points.map { point -> point to closestPointInAreas(point, otherAreas) }
             val closestPointsInfo = pointsInfo.minBy { it.first.dst2(it.second.first) }!!
             //todo rewrite, not readable
             return Triple(closestPointsInfo.first, closestPointsInfo.second.first, closestPointsInfo.second.second)
@@ -56,7 +55,7 @@ enum class ConnectionStrategy {
         }
 
         private fun closestPointInArea(point: GridPoint2, otherArea: Area): Pair<GridPoint2, Area> {
-            return otherArea.minBy { point.dst2(it) }!! to otherArea
+            return otherArea.points.minBy { point.dst2(it) }!! to otherArea
         }
     };
 

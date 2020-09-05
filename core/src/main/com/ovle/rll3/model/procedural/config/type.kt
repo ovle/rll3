@@ -3,9 +3,9 @@ package com.ovle.rll3.model.procedural.config
 import com.github.czyzby.noise4j.map.generator.room.RoomType
 import com.ovle.rll3.TileMapper2
 import com.ovle.rll3.model.procedural.grid.GridFactory
-import com.ovle.rll3.model.procedural.grid.LevelProcessor
+import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.procedural.grid.WorldProcessor
-import com.ovle.rll3.model.procedural.grid.util.ConnectionStrategy
+import com.ovle.rll3.model.util.ConnectionStrategy
 import kotlin.random.Random
 
 data class RandomParams(
@@ -18,7 +18,7 @@ data class RandomParams(
 data class LocationGenerationParams(
     val templateName: String,
     val heightMapFactory: GridFactory,
-    val postProcessors: Array<LevelProcessor>,
+    val postProcessors: Array<LocationProcessor>,
     val tileMapper: TileMapper2
 )
 

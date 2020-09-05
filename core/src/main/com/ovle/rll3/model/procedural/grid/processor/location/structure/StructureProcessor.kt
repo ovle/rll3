@@ -1,14 +1,14 @@
-package com.ovle.rll3.model.procedural.grid.processor.structure
+package com.ovle.rll3.model.procedural.grid.processor.location.structure
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.TileArray
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.procedural.config.RandomParams
-import com.ovle.rll3.model.procedural.grid.LevelProcessor
+import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.util.gridToTileArray
 
-class StructureProcessor(private val params: StructureProcessorParams) : LevelProcessor {
+class StructureProcessor(private val params: StructureProcessorParams) : LocationProcessor {
 
     override fun process(locationInfo: LocationInfo, gameEngine: Engine) {
         val tiles = locationInfo.tiles
