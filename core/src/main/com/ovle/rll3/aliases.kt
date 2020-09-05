@@ -70,6 +70,7 @@ typealias NearTiles = NearValues<Tile?>
 typealias TileMapper2 = (Float, Float) -> Tile
 typealias TileMapper1 = (Float) -> Tile
 
+typealias ValueCheck = (Float) -> Boolean
 typealias GridPointCheck1 = (Grid, GridPoint2) -> Boolean
 typealias GridPointCheck2 = (Grid, Grid, GridPoint2) -> Boolean
 

@@ -2,41 +2,49 @@ package com.ovle.rll3.model.util
 
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.point
+import com.ovle.rll3.*
 
-
-fun floodFill(grid: Grid, marker: Float): MutableList<Area> {
+//todo rewrite
+fun floodFillGrid(grid: Grid, marker: Float): MutableList<Area> {
     val areas = mutableListOf<Area>()
-    var areaMarker = 1.0f
-
-    for (x in (0 until grid.width)) {
-        for (y in (0 until grid.height)) {
-            if (grid[x, y] == marker) {
-                val areaPoints = mutableSetOf<GridPoint2>()
-                areas.add(Area(areaPoints))
-
-                floodFill(grid, areaPoints, x, y, marker, areaMarker)
-
-                areaMarker++
-            }
-        }
-    }
+//    var areaMarker = 1.0f
+//    fun check(value: Float) = value == areaMarker
+//
+//    for (x in (0 until grid.width)) {
+//        for (y in (0 until grid.height)) {
+//            val value = grid[x, y]
+//            if (value == marker) {
+//                areas.add(floodFill(x, y, grid, areaMarker, ::check))
+//                areaMarker++
+//            }
+//        }
+//    }
 
     return areas
 }
 
-private tailrec fun floodFill(grid: Grid, area: MutableCollection<GridPoint2>, x: Int, y: Int, marker: Float, areaMarker: Float) {
-    if (!grid.isIndexValid(x, y)) return
+fun floodFill(x: Int, y: Int, grid: Grid, check: ValueCheck): Area {
+    val areaPoints = mutableSetOf<GridPoint2>()
 
-    val value = grid[x, y]
-    if (value != marker) return
+    val nextPoints = mutableSetOf(point(x, y))
 
-    grid.set(x, y, areaMarker)
+    while (nextPoints.isNotEmpty()) {
+        val p = nextPoints.first()
+        nextPoints.remove(p)
 
-    area.add(point(x, y))
+        if (p in areaPoints) continue
 
-    floodFill(grid, area, x-1, y, marker, areaMarker)
-    floodFill(grid, area, x+1, y, marker, areaMarker)
-    floodFill(grid, area, x, y-1, marker, areaMarker)
-    floodFill(grid, area, x, y+1, marker, areaMarker)
+        val (x, y) = p
+        if (!grid.isIndexValid(x, y)) continue
+
+        val value = grid[x, y]
+        if (!check.invoke(value)) continue
+
+//        println("floodFill ($x $y) value: $value")
+        areaPoints.add(p)
+
+        nextPoints.addAll(p.nearHV())
+    }
+
+    return Area(areaPoints)
 }

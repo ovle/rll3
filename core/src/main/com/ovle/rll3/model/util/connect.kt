@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.util.lineOfSight.rayTracing.trace
 
+//todo fix floodFill
 enum class ConnectionStrategy {
     RemoveUnconnected {
         override fun apply(grid: Grid, emptyTileMarker: Float, wallTileMarker: Float, areas: MutableList<Area>) {
@@ -63,7 +64,8 @@ enum class ConnectionStrategy {
 }
 
 fun connect(grid: Grid, emptyTileMarker: Float, wallTileMarker: Float, connectionStrategy: ConnectionStrategy) {
-    val areas = floodFill(grid, emptyTileMarker)
+    val areas = floodFillGrid(grid, emptyTileMarker)
+
 //    println("areas: ${areas.size}")
 
     connectionStrategy.apply(grid, emptyTileMarker, wallTileMarker, areas)

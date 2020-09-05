@@ -91,5 +91,5 @@ fun initialBorderValues(world: WorldInfo, locationPoint: GridPoint2): Array<Floa
 
 fun pondsCount(world: WorldInfo, locationPoint: GridPoint2): Int {
     //todo
-    return (0..20).random(world.random.kRandom)
+    return (0..10).random(world.random.kRandom)
 }

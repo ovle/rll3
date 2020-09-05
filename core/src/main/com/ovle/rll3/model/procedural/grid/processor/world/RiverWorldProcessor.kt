@@ -32,8 +32,11 @@ class RiverWorldProcessor(val params: RiverWorldProcessorParams): WorldProcessor
         val random = worldInfo.random.jRandom
         val startPoints = getStartPoints(grid, worldInfo)
 
+        val maxAttempts = 50
+        var attempts = 0
         var count = 0
         while (count < params.count) {
+            if (attempts > maxAttempts) break
             if (startPoints.isEmpty()) break
 
             val index: Int = random.nextInt(startPoints.size)
@@ -56,11 +59,10 @@ class RiverWorldProcessor(val params: RiverWorldProcessorParams): WorldProcessor
                 rivers.add(riverInfo)
 
                 startPoints.removeAll { it in path.points }
-            } else {
-                count--
+                count++
             }
 
-            count++
+            attempts++
         }
 
         startPoints.clear()
@@ -81,7 +83,7 @@ class RiverWorldProcessor(val params: RiverWorldProcessorParams): WorldProcessor
                 }
             }
         }
-        println("start points: ${result.size}")
+        println("start points (rivers): ${result.size}")
         return result
     }
 }
