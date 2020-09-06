@@ -170,18 +170,18 @@ class WorldScreen(
 
     private fun tileToTextureRegion(params: TileToTextureParams): TextureRegion {
         val regions = params.textureRegions.regions
-        val emptyRegion = regions[7][7]
+        val emptyRegion = regions[0][7]
         return when (params.tile) {
-            highMountainTileId -> regions[7][8]
-            lowDesertMountainTileId -> regions[7][9]
-            lowMountainTileId -> regions[7][10]
+            highMountainTileId -> regions[0][0]
+            lowDesertMountainTileId -> regions[0][1]
+            lowMountainTileId -> regions[0][2]
 
-            shallowWaterTileId -> regions[7][14]
-            deepWaterTileId -> regions[7][15]
+            shallowWaterTileId -> regions[0][6]
+            deepWaterTileId -> regions[0][7]
 
-            desertTileId -> regions[7][11]
-            temperateTileId -> regions[7][12]
-            borealTileId -> regions[7][13]
+            desertTileId -> regions[0][3]
+            temperateTileId -> regions[0][4]
+            borealTileId -> regions[0][5]
 
             else -> emptyRegion
         }

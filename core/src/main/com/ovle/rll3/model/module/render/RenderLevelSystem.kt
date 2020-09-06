@@ -74,27 +74,24 @@ class RenderLevelSystem(
 
     private fun tileToTextureRegion(params: TileToTextureParams): TextureRegion {
         val regions = params.textureRegions.regions
-        val emptyRegion = regions[7][7]
+        val emptyRegion = regions[0][7]
         return when (params.tile) {
-            structureWallSTileId -> regions[3][8]
-            structureWallWTileId -> regions[3][9]
-            fenceTileId -> regions[3][10]    //todo entity?
-            structureFloorSTileId -> regions[3][11]
-            structureFloorWTileId -> regions[3][12]
+            structureWallSTileId -> regions[4][0]
+            structureWallWTileId -> regions[4][1]
+            fenceTileId -> regions[4][2]    //todo entity
+            structureFloorSTileId -> regions[4][3]
+            structureFloorWTileId -> regions[4][4]
+            roadTileId -> regions[4][5]
 
-            naturalHighWallTileId -> regions[4][10]
-            naturalLowWallTileId -> regions[4][11]
-
-            deepWaterTileId -> regions[4][8]
-            shallowWaterTileId -> regions[4][9]
-
-            roadTileId -> regions[3][13]
-            highGroundTileId -> regions[3][14]
-            lowGroundTileId -> regions[3][15]
-
-            desertTileId -> regions[6][8]
-            tundraTileId -> regions[6][10]
-            jungleTileId -> regions[6][12]
+            deepWaterTileId -> regions[2][0]
+            shallowWaterTileId -> regions[2][1]
+            naturalHighWallTileId -> regions[2][2]
+            naturalLowWallTileId -> regions[2][3]
+            highGroundTileId -> regions[2][4]
+            lowGroundTileId -> regions[2][4]
+            desertTileId -> regions[2][5]
+            jungleTileId -> regions[2][6]
+            tundraTileId -> regions[2][7]
 
             else -> emptyRegion
         }

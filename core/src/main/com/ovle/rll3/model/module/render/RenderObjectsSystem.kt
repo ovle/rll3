@@ -30,10 +30,10 @@ class RenderObjectsSystem(
 
     //todo use all texture versions
     private val spriteRegions = split(spriteTexturesInfo.texture, spriteWidth.toInt(), spriteHeight.toInt())
-    private val defaultSprite = sprite(spriteRegions, 0, 0)
+    private val defaultSprite = sprite(spriteRegions, 6, 0)
     private val defaultSpriteKey = "default"
     private val deadEntitySpriteKey = "dead"
-    private val deadEntitySpritePoint = point(7, 4)
+    private val deadEntitySpritePoint = point(7, 0)
 
 
     override fun addedToEngine(engine: Engine) {

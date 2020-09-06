@@ -1,6 +1,5 @@
 package com.ovle.rll3.view
 
-const val initialScale = 1.3f
 const val scaleScrollCoeff = 0.05f
 const val cameraMoveCoeff = 0.5f
 
@@ -20,9 +19,9 @@ const val gameFullscreen = false
 const val skinPath = "skins/c64/uiskin.json"
 const val fontName = "commodore-64"
 
-const val tileTexturePath = "images/new-tiles.png"
-const val spriteTexturePath = "images/new-tiles.png"
-const val guiTexturePath = "images/new-tiles.png"
+const val tileTexturePath = "images/tiles.png"
+const val spriteTexturePath = "images/sprites.png"
+const val guiTexturePath = "images/gui.png"
 
 const val entityTemplatePath = "templates/entity/"
 const val entityViewTemplatePath = "templates/entity/view/"

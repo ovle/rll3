@@ -28,7 +28,6 @@ import com.ovle.rll3.model.module.task.TaskSystem
 import com.ovle.rll3.model.module.time.TimeSystem
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.screen.PlayerControls
-import com.ovle.rll3.view.initialScale
 import com.ovle.rll3.view.scaleScrollCoeff
 import ktx.scene2d.table
 import kotlin.math.min
