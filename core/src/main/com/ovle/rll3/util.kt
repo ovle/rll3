@@ -61,7 +61,7 @@ fun GridPoint2.nearExclusive() = near().filter { it != this }
 fun GridPoint2.isNear(other: GridPoint2, delta: Int = 1) = this.dst(other) <= delta
 
 fun Grid.isPointValid(x: Int, y: Int) = x in (0 until width) && y in (0 until height)
-
+fun TileArray.toGrid() = Grid(data.map { it.toFloat() }.toFloatArray(), size, size)
 
 //---
 

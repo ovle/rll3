@@ -9,8 +9,7 @@ import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.quest.QuestInfo
-import com.ovle.rll3.model.procedural.grid.world.WorldInfo
-import com.ovle.rll3.model.tile.Array2d
+import com.ovle.rll3.model.util.Array2d
 import com.ovle.rll3.model.tile.LightPassType
 import com.ovle.rll3.model.tile.NearValues
 import com.ovle.rll3.model.tile.TilePassType

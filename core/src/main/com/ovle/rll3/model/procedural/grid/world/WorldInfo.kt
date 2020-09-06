@@ -6,7 +6,13 @@ import com.ovle.rll3.WorldId
 import com.ovle.rll3.model.module.time.TimeInfo
 import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.config.WorldGenerationParams
+import com.ovle.rll3.model.util.Area
 import java.io.Serializable
+
+data class WorldArea(
+    val name: String,
+    val area: Area
+)
 
 data class WorldInfo(
     val id: WorldId,
@@ -15,5 +21,6 @@ data class WorldInfo(
     val params: WorldGenerationParams,
     val tiles: TileArray,
     val heightGrid: Grid,
-    val heatGrid: Grid
+    val heatGrid: Grid,
+    val areas: Collection<WorldArea>
 ): Serializable

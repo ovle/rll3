@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Align
 import com.ovle.rll3.*
 import com.ovle.rll3.ScreenManager.ScreenType.GameScreenType
@@ -55,10 +56,13 @@ class WorldScreen(
     private var cursorPoint: GridPoint2? = null
     private var locationPoint: GridPoint2? = null
 
+    private lateinit var areaLabel: Label
 
+    //todo extract view
     override fun rootActor() =
         verticalGroup {
             label(text = "The world") {}
+            label(text = "Area:") {}.apply { areaLabel = this }
 
             textButton(text = "Generate") {
                 onClick { onGenerateWorldClick() }
@@ -71,6 +75,7 @@ class WorldScreen(
             align(Align.bottom)
             pack()
         }
+
 
     override fun show() {
         super.show()
@@ -151,6 +156,12 @@ class WorldScreen(
 
     private fun onMouseMoved(viewportPoint: Vector2) {
         cursorPoint = point(viewportPoint.x / baseSize, viewportPoint.y / baseSize)
+        updateAreaInfo()
+    }
+
+    private fun updateAreaInfo() {
+        val area = world.areas.find { cursorPoint in it.area.points } ?: return
+        areaLabel.setText("Area: ${area.name}")
     }
 
     private fun onMouseClick(viewportPoint: Vector2) {
