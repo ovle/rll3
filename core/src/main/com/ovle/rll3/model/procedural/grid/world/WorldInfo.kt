@@ -16,7 +16,7 @@ data class WorldArea(
 
 data class WorldInfo(
     val id: WorldId,
-    val name: String,
+    var name: String,
     val random: RandomParams,
     val params: WorldGenerationParams,
     val tiles: TileArray,

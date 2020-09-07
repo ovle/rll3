@@ -23,25 +23,37 @@ val worldParams = WorldGenerationParams(
             flexibleNoiseValue = 3.0f
         )
     ),
-    heatMapFactory = Combine(
-        factory1 = GradientGridFactory(
-            params = GradientGridFactoryParams(
-                size = worldSize,
-                isHorisontal = true
+    heatMapFactory = FractalGridFactory(
+        params = FractalGridFactoryParams(
+            size = worldSize,
+            startIteration = 1,
+            flexibleNoiseValue = 1.0f,
+            initialBorderValues = arrayOf(
+                FloatArray(3, heatGridInitializer()),
+                FloatArray(3, heatGridInitializer()),
+                FloatArray(3, heatGridInitializer())
             )
-        ),
-        factory2 = CelullarAutomataGridFactory(
-            params = CelullarAutomataGridFactoryParams(
-                size = worldSize,
-                iterationsAmount = 12,
-                radius = 1,
-                deathLimit = 2,
-                birthLimit = 2,
-                aliveChance = 0.1f
-            )
-        ),
-        combinator = ::heatGridValueCombinator
+        )
     ),
+//    heatMapFactory = Combine(
+//        factory1 = GradientGridFactory(
+//            params = GradientGridFactoryParams(
+//                size = worldSize,
+//                isHorisontal = true
+//            )
+//        ),
+//        factory2 = CelullarAutomataGridFactory(
+//            params = CelullarAutomataGridFactoryParams(
+//                size = worldSize,
+//                iterationsAmount = 12,
+//                radius = 1,
+//                deathLimit = 2,
+//                birthLimit = 2,
+//                aliveChance = 0.1f
+//            )
+//        ),
+//        combinator = ::heatGridValueCombinator
+//    ),
     postProcessors = arrayOf(
         RiverWorldProcessor(
             params = RiverWorldProcessorParams(
@@ -54,10 +66,11 @@ val worldParams = WorldGenerationParams(
     tileMapper = ::tileMapper
 )
 
+private fun heatGridInitializer() = { i: Int -> if (i == 1) 0.9f else 0.0f }
 
 private fun isRiverStartPoint(grid1: Grid, grid2: Grid, point: GridPoint2): Boolean {
     val heightValue = grid1[point.x, point.y]
     val heatValue = grid2[point.x, point.y]
 
-    return heightValue >= outdoorLowWallTreshold && heatValue <= heatUpperTreshold
+    return heightValue >= outdoorLowWallTreshold && heatValue <= heatDesertTreshold
 }

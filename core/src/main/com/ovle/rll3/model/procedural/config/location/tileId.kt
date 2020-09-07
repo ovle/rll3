@@ -4,6 +4,7 @@ const val whateverTileId = '`'
 
 const val highGroundTileId = '_'
 const val lowGroundTileId = 'u'
+const val aridTileId = 'a'
 const val desertTileId = 's'
 const val tundraTileId = 't'
 const val jungleTileId = 'j'

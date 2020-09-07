@@ -1,10 +1,10 @@
 package com.ovle.rll3.model.procedural.config.location
 
 import com.ovle.rll3.Tile
-import com.ovle.rll3.model.procedural.config.world.heatLowerTreshold
-import com.ovle.rll3.model.procedural.config.world.heatUpperTreshold
+import com.ovle.rll3.model.procedural.config.world.heatBorealTreshold
+import com.ovle.rll3.model.procedural.config.world.heatDesertTreshold
 
-const val outdoorHighWallTreshold = 0.8f
+const val outdoorHighWallTreshold = 0.85f
 const val outdoorLowWallTreshold = 0.7f
 const val outdoorHighGroundTreshold = 0.6f
 const val outdoorLowGroundTreshold = 0.5f
@@ -22,8 +22,8 @@ fun tileMapper(heightValue: Float, heatValue: Float): Tile {
         heightValue <= outdoorLowGroundTreshold -> shallowWaterTileId
         heightValue <= shallowWaterTreshold -> deepWaterTileId
 
-        heatValue <= heatLowerTreshold -> tundraTileId
-        heatValue >= heatUpperTreshold -> desertTileId
+        heatValue <= heatBorealTreshold -> tundraTileId
+        heatValue >= heatDesertTreshold -> desertTileId
         heightValue >= outdoorHighGroundTreshold -> highGroundTileId
         heightValue >= outdoorLowGroundTreshold -> lowGroundTileId
 

@@ -40,7 +40,7 @@ sealed class Event {
     sealed class GameEvent : Event() {
         class StartGameCommand : GameEvent()
         class TimeChangedEvent(val turn: Turn) : GameEvent()
-        class LevelLoadedEvent(val location: LocationInfo, val generationParams: LocationGenerationParams) : GameEvent()
+        class LocationLoadedEvent(val location: LocationInfo, val generationParams: LocationGenerationParams) : GameEvent()
 
         //technical
         class LogCommand(val message: String) : GameEvent()

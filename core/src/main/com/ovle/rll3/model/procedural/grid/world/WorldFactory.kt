@@ -4,6 +4,10 @@ import com.ovle.rll3.TileArray
 import com.ovle.rll3.model.module.core.entity.randomId
 import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.config.WorldGenerationParams
+import com.ovle.rll3.model.procedural.config.world.deepWaterTileId
+import com.ovle.rll3.model.procedural.config.world.highMountainTileId
+import com.ovle.rll3.model.procedural.config.world.lowMountainTileId
+import com.ovle.rll3.model.procedural.config.world.shallowWaterTileId
 import com.ovle.rll3.model.util.Area
 import com.ovle.rll3.model.util.floodFill
 import com.ovle.rll3.model.util.gridToTileArray
@@ -12,6 +16,11 @@ import com.ovle.rll3.toGrid
 
 
 class WorldFactory(val params: WorldGenerationParams) {
+
+    private val areaGroups = arrayOf(
+        setOf(highMountainTileId.toFloat(), lowMountainTileId.toFloat()),
+        setOf(deepWaterTileId.toFloat(), shallowWaterTileId.toFloat())
+    )
 
     fun get(random: RandomParams): WorldInfo {
         val heightMap = params.heightMapFactory.get(random).apply { normalize(this) }
@@ -50,12 +59,18 @@ class WorldFactory(val params: WorldGenerationParams) {
         while (allPoints.isNotEmpty()) {
             val p = allPoints.first()
             val t = grid[p.x, p.y]
-            val area = floodFill(p.x, p.y, grid) { it == t }
+            val areaCheck: (Float) -> Boolean = { it == t || isInSameGroup(it, t) }
+            val area = floodFill(p.x, p.y, grid, areaCheck)
             result.add(area)
 
             allPoints.removeAll(area.points)
         }
 
         return result
+    }
+
+    private fun isInSameGroup(value1: Float, value2: Float): Boolean {
+        val group = areaGroups.find { value1 in it } ?: return false
+        return value2 in group
     }
 }

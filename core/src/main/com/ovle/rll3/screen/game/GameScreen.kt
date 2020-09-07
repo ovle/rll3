@@ -53,7 +53,7 @@ class GameScreen(
             PlayerControlsSystem(),
 
             CameraSystem(camera),
-            RenderLevelSystem(camera, assetsManager),
+            RenderLocationSystem(camera, assetsManager),
             RenderObjectsSystem(batch, assetsManager),
             RenderInteractionInfoSystem(batch, assetsManager),
             RenderGUISystem(batch, assetsManager, stage.batch),

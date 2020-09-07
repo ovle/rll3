@@ -1,4 +1,5 @@
 package com.ovle.rll3.model.module.render
+
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
@@ -64,7 +65,7 @@ class CameraSystem(
         camera.zoom -= diff
         camera.update()
 
-        println("zoom: ${camera.zoom}")
+//        println("zoom: ${camera.zoom}")
     }
 
     private fun onCameraMoved(amount: Vector2) {
@@ -77,6 +78,6 @@ class CameraSystem(
         camera.position.add(amount.x * cameraMoveCoeff, amount.y * cameraMoveCoeff, 0.0f)
         camera.update()
 
-        println("position: ${camera.position}")
+//        println("position: ${camera.position}")
     }
 }

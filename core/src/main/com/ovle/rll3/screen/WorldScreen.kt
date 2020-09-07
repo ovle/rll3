@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.Align
 import com.ovle.rll3.*
 import com.ovle.rll3.ScreenManager.ScreenType.GameScreenType
@@ -32,6 +33,7 @@ import com.ovle.rll3.view.tiledMap
 import ktx.actors.onClick
 import ktx.scene2d.label
 import ktx.scene2d.textButton
+import ktx.scene2d.textField
 import ktx.scene2d.verticalGroup
 import kotlin.random.Random
 
@@ -56,13 +58,19 @@ class WorldScreen(
     private var cursorPoint: GridPoint2? = null
     private var locationPoint: GridPoint2? = null
 
+    private lateinit var nameTextField: TextField
     private lateinit var areaLabel: Label
+    private lateinit var seedLabel: Label
+
 
     //todo extract view
     override fun rootActor() =
         verticalGroup {
-            label(text = "The world") {}
-            label(text = "Area:") {}.apply { areaLabel = this }
+            textField(style = "nobg") {
+                text = "test world"
+            }.apply { nameTextField = this }
+            label(text = "Seed: $seed") {}.apply { seedLabel = this }
+            label(text = "Area: ") {}.apply { areaLabel = this }
 
             textButton(text = "Generate") {
                 onClick { onGenerateWorldClick() }
@@ -172,9 +180,10 @@ class WorldScreen(
     }
 
     private fun generateWorld() {
-        world = worldFactory.get(RandomParams(seed))
         seed = Random.nextLong()
+        seedLabel.setText("Seed: $seed")
 
+        world = worldFactory.get(RandomParams(seed)).apply { name = nameTextField.text }
         tiledMap = tiledMap(world.tiles, textureRegions, ::tileToTextureRegion)
         mapRenderer = OrthogonalTiledMapRenderer(tiledMap)
     }
@@ -184,15 +193,16 @@ class WorldScreen(
         val emptyRegion = regions[0][7]
         return when (params.tile) {
             highMountainTileId -> regions[0][0]
-            lowDesertMountainTileId -> regions[0][1]
-            lowMountainTileId -> regions[0][2]
+            lowMountainTileId -> regions[0][1]
+            shallowWaterTileId -> regions[0][2]
+            deepWaterTileId -> regions[0][3]
 
-            shallowWaterTileId -> regions[0][6]
-            deepWaterTileId -> regions[0][7]
-
-            desertTileId -> regions[0][3]
-            temperateTileId -> regions[0][4]
-            borealTileId -> regions[0][5]
+            desertTileId -> regions[1][0]
+            aridTileId -> regions[1][1]
+            seasonalTileId -> regions[1][2]
+            temperateTileId -> regions[1][3]
+            borealTileId -> regions[1][4]
+            arcticTileId -> regions[1][5]
 
             else -> emptyRegion
         }

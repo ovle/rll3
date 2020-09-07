@@ -1,9 +1,10 @@
 package com.ovle.rll3.model.lightning.other
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.floatPoint
-import com.ovle.rll3.model.ecs.component.dto.aoe.kt.AOEData
+import com.ovle.rll3.model.module.light.AOEData
 import com.ovle.rll3.model.module.space.PositionComponent
+import com.ovle.rll3.point
+import ktx.math.vec2
 
 class EntitiesData(val entities: Array<Entity>, val note: String = "")
 
@@ -17,10 +18,10 @@ data class ExpectedResult(
 
 fun lightSource(x: Int, y: Int, radius: Int): Entity {
     return Entity().apply {
-        add(PositionComponent(floatPoint(x.toFloat(), y.toFloat())))
-        add(AOEData(
-            radius = radius,
-            aoePositions = listOf()
-        ))
+        add(PositionComponent(point(x, y)))
+//        add(AOEData(
+//            radius = radius,
+//            aoePositions = listOf()
+//        ))
     }
 }
