@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
 import com.ovle.rll3.model.module.core.component.ComponentMappers.id
 import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
+import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.component.print
 import com.ovle.rll3.view.noVisibilityFilter
 import ktx.ashley.get
@@ -24,4 +25,9 @@ fun Entity.see(position: GridPoint2): Boolean {
 fun Entity.id(): EntityId {
     check(this.has(id))
     return this[id]!!.id
+}
+
+fun Entity.name(): EntityId {
+    check(this.has(template))
+    return this[template]!!.template.name
 }

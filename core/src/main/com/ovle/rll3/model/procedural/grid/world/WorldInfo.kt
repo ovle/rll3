@@ -1,5 +1,6 @@
 package com.ovle.rll3.model.procedural.grid.world
 
+import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.TileArray
 import com.ovle.rll3.WorldId
@@ -23,4 +24,7 @@ data class WorldInfo(
     val heightGrid: Grid,
     val heatGrid: Grid,
     val areas: Collection<WorldArea>
-): Serializable
+): Serializable {
+
+    fun area(point: GridPoint2) = areas.first { point in it.area.points }
+}

@@ -9,7 +9,6 @@ import com.ovle.rll3.model.module.container.ContainerComponent
 import com.ovle.rll3.model.module.entityAction.EntityActionComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import com.ovle.rll3.model.module.game.GameComponent
-import com.ovle.rll3.model.module.game.PlayerComponent
 import com.ovle.rll3.model.module.gathering.ResourceComponent
 import com.ovle.rll3.model.module.gathering.SourceComponent
 import com.ovle.rll3.model.module.health.HealthComponent
@@ -27,7 +26,6 @@ private inline fun <reified T : BaseComponent> mapper(): ComponentMapper<T> = Co
 object ComponentMappers {
     val id = mapper<IdComponent>()
     val game = mapper<GameComponent>()
-    val player = mapper<PlayerComponent>()
     val template = mapper<TemplateComponent>()
 
     val playerInteraction = mapper<PlayerInteractionComponent>()

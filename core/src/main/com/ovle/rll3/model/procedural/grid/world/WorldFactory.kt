@@ -1,6 +1,8 @@
 package com.ovle.rll3.model.procedural.grid.world
 
 import com.ovle.rll3.TileArray
+import com.ovle.rll3.component1
+import com.ovle.rll3.component2
 import com.ovle.rll3.model.module.core.entity.randomId
 import com.ovle.rll3.model.procedural.config.RandomParams
 import com.ovle.rll3.model.procedural.config.WorldGenerationParams
@@ -57,10 +59,10 @@ class WorldFactory(val params: WorldGenerationParams) {
         val allPoints = tiles.points().toMutableList()
 
         while (allPoints.isNotEmpty()) {
-            val p = allPoints.first()
-            val t = grid[p.x, p.y]
-            val areaCheck: (Float) -> Boolean = { it == t || isInSameGroup(it, t) }
-            val area = floodFill(p.x, p.y, grid, areaCheck)
+            val (x, y) = allPoints.first()
+            val tileValue = grid[x, y]
+            val areaCheck: (Float) -> Boolean = { it == tileValue || isInSameGroup(it, tileValue) }
+            val area = floodFill(x, y, grid, areaCheck)
             result.add(area)
 
             allPoints.removeAll(area.points)

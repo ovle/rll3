@@ -9,7 +9,6 @@ import com.ovle.rll3.model.module.space.PositionComponent
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.game.PlayerInfo
 import com.ovle.rll3.model.module.game.GameComponent
-import com.ovle.rll3.model.module.game.PlayerComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import com.ovle.rll3.model.module.core.component.basicComponents
 import com.ovle.rll3.model.module.core.component.stateComponents
@@ -25,8 +24,6 @@ fun Engine.entity(id: EntityId, vararg components: Component) = createEntity().a
 }
 
 fun randomId() = UUID.randomUUID().toString()
-
-fun newPlayer(player: PlayerInfo, engine: Engine) = engine.entity(player.playerId, PlayerComponent(player))
 
 fun newLocation(location: LocationInfo, world: WorldInfo, engine: Engine) = engine.entity(
     location.id,

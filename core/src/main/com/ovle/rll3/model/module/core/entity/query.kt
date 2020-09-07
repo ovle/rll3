@@ -12,9 +12,7 @@ import com.ovle.rll3.model.module.core.component.IdComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
-import com.ovle.rll3.model.module.core.component.ComponentMappers.player
 import com.ovle.rll3.model.module.game.GameComponent
-import com.ovle.rll3.model.module.game.PlayerComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import ktx.ashley.get
 import ktx.ashley.has
@@ -35,14 +33,11 @@ fun EntitySystem.allEntities() = this.engine.entities
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-fun EntitySystem.locationInfoNullable() = entityWith(allEntities().toList(), GameComponent::class)?.get(game)?.location
+fun EntitySystem.gameInfo() = entityWith(allEntities().toList(), GameComponent::class)?.get(game)
+
+fun EntitySystem.locationInfoNullable() = gameInfo()?.location
 fun EntitySystem.locationInfo() = locationInfoNullable()!!
-
 fun locationInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.location
-
-fun playerInfoNullable(entities: List<Entity>) = entityWith(entities, PlayerComponent::class)?.get(player)?.player
-fun playerInfo(entities: List<Entity>) = playerInfoNullable(entities)!!
-fun EntitySystem.playerInfo() = playerInfo(allEntities().toList())
 
 fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
 fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)
@@ -52,12 +47,7 @@ fun EntitySystem.playerInteractionInfo() = playerInteractionInfo(allEntities().t
 
 fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity
 fun EntitySystem.selectedEntity() = playerInteractionInfo()?.selectedEntity
-
 fun EntitySystem.controlledEntities() = entitiesWith(allEntities().toList(), TaskPerformerComponent::class)
-
-//fun levelDescription(levelDescriptionId: LevelDescriptionId, worldInfo: WorldInfo) =
-//    worldInfo.levels.single { it.id == levelDescriptionId }
-
 fun EntitySystem.entity(id: EntityId) = entity(id, allEntities().toList())
 fun EntitySystem.entityNullable(id: EntityId) = entityNullable(id, allEntities().toList())
 
@@ -65,15 +55,6 @@ fun entityNullable(id: EntityId, entities: Collection<Entity>) = entitiesWith(en
         .singleOrNull { it[ComponentMappers.id]!!.id == id }
 fun entity(id: EntityId, entities: Collection<Entity>) = entityNullable(id, entities)!!
 
-//todo
-fun entityQuery(query: String, entities: List<Entity>): Entity? {
-    //todo by id
-    //todo by template name
-    return when (query) {
-//        "player" -> playerInteractionInfo(entities)!!.controlledEntity
-        else -> null
-    }
-}
 //----------------------------------------------------------------------------------------------------------------------------------
 
 fun Collection<Entity>.on(position: GridPoint2): Collection<Entity> =

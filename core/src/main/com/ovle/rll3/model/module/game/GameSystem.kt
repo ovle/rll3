@@ -58,7 +58,6 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
 
 
     private fun initEntities(location: LocationInfo) {
-        val playerEntity = newPlayer(PlayerInfo(randomId()), engine)
         val interactionEntity = newPlayerInteraction(engine)
         val locationEntity = newLocation(location, world, engine)!!
 
@@ -101,33 +100,4 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
 
         return result
     }
-
-//    @OptIn(ExperimentalStdlibApi::class)
-//    private fun playerStartPosition(newLevel: LevelInfo, oldConnection: LevelConnectionComponent?, r: Random): GridPoint2 {
-//        val connections = entitiesWith(newLevel.entities, LevelConnectionComponent::class)
-//        check(connections.isNotEmpty())
-//
-//        val tiles = newLevel.tiles
-//        if (oldConnection == null) {
-//            var firstStartPosition: GridPoint2? = null
-//            val playerSpawnPoints = newLevel.structures.flatMap { it.template.playerSpawns }
-//            if (playerSpawnPoints.isNotEmpty()) {
-//                firstStartPosition = playerSpawnPoints.randomOrNull(r)?.apply { y = tiles.size - y - 1 }
-//            }
-//            if (firstStartPosition == null) {
-//                firstStartPosition = tiles.positions().filter { tiles.isPassable(it) }.random(r)
-//            }
-//
-//            return firstStartPosition
-//        }
-//
-//        val newConnection = connections.find { it[levelConnection]!!.id == oldConnection.backConnectionId }!!
-//        val newConnectionPosition = newConnection[position]?.gridPosition!!
-//        val entityPositions = newLevel.entities.positions()
-//        val nearPoints = newConnectionPosition.nearExclusive()
-//            .filter { tiles.isPointValid(it.x, it.y) && tiles.isPassable(it) && it !in entityPositions } //todo
-//        check(nearPoints.isNotEmpty())
-//
-//        return nearPoints.random(r)
-//    }
 }
