@@ -3,8 +3,8 @@ package com.ovle.rll3.model.procedural.grid.processor.world
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.GridPointCheck2
-import com.ovle.rll3.model.procedural.config.location.shallowWaterTreshold
 import com.ovle.rll3.model.procedural.config.world.shallowWaterTileId
+import com.ovle.rll3.model.procedural.config.world.shallowWaterTreshold
 import com.ovle.rll3.model.procedural.grid.WorldProcessor
 import com.ovle.rll3.model.util.Area
 import com.ovle.rll3.model.util.GradientPathParams

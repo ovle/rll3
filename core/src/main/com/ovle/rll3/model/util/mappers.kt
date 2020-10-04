@@ -3,7 +3,7 @@ package com.ovle.rll3.model.util
 import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.*
 import com.ovle.rll3.model.tile.LightPassType
-import com.ovle.rll3.model.procedural.config.location.solidWallTypes
+import com.ovle.rll3.model.procedural.config.location.wallTileId
 
 fun gridToTileArray(grid: Grid, mapFunction: (Float) -> Tile): TileArray {
     val size = grid.width
@@ -23,6 +23,6 @@ fun gridToTileArray(grid1: Grid, grid2: Grid, mapFunction: TileMapper2): TileArr
 }
 
 fun lightTilePassMapper(tile: Tile) = when(tile) {
-    in solidWallTypes -> LightPassType.Solid
+    wallTileId -> LightPassType.Solid
     else -> LightPassType.Passable
 }

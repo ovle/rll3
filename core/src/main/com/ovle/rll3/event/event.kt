@@ -39,6 +39,7 @@ sealed class Event {
     //global
     sealed class GameEvent : Event() {
         class StartGameCommand : GameEvent()
+        class LoadLocationCommand(val position: GridPoint2) : GameEvent()
         class TimeChangedEvent(val turn: Turn) : GameEvent()
         class LocationLoadedEvent(val location: LocationInfo, val generationParams: LocationGenerationParams) : GameEvent()
 

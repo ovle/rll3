@@ -49,6 +49,11 @@ class PlayerControlsSystem : EventSystem() {
 //                partyEntities.isNotEmpty() -> send(EntityClick(button, partyEntities.single()))
                 else -> {
 //                    send(EntitySetMoveTarget(controlledEntity, position))
+                    //todo
+                    val isInLocationClick = level.tiles.isPointValid(position)
+                    if (!isInLocationClick) {
+                        send(GameEvent.LoadLocationCommand(position))
+                    }
                     send(VoidClickEvent(button, position))
                 }
             }

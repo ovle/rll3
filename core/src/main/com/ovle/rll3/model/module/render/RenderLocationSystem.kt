@@ -71,30 +71,14 @@ class RenderLocationSystem(
 //        markSightArea(sightComponent)
     }
 
-
     private fun tileToTextureRegion(params: TileToTextureParams): TextureRegion {
         val regions = params.textureRegions.regions
-        val emptyRegion = regions[0][7]
+        val emptyRegion = regions[0][0]
+        val isLighted = true //todo
         return when (params.tile) {
-            structureWallSTileId -> regions[4][0]
-            structureWallWTileId -> regions[4][1]
-            fenceTileId -> regions[4][2]    //todo entity
-            structureFloorSTileId -> regions[4][3]
-            structureFloorWTileId -> regions[4][4]
-            roadTileId -> regions[4][5]
-
-            deepWaterTileId -> regions[2][0]
-            shallowWaterTileId -> regions[2][1]
-            naturalHighWallTileId -> regions[2][2]
-            naturalLowWallTileId -> regions[2][3]
-
-            highGroundTileId -> regions[3][0]
-            lowGroundTileId -> regions[3][0]
-            aridTileId -> regions[3][1]
-            desertTileId -> regions[3][2]
-            jungleTileId -> regions[3][3]
-            tundraTileId -> regions[3][4]
-
+            floorTileId -> regions[0][1]
+            wallTileId -> regions[0][3]
+            pitTileId -> regions[0][0]
             else -> emptyRegion
         }
     }

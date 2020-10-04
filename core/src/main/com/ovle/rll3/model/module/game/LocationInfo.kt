@@ -18,12 +18,8 @@ data class LocationInfo(
     val locationPoint: GridPoint2,
     val random: RandomParams,
     val params: LocationGenerationParams,
-
     val quests: MutableList<QuestInfo> = mutableListOf(),
-    val tiles: TileArray,
-
-    val heightGrid: Grid,
-    val heatGrid: Grid
+    val tiles: TileArray
 ): Serializable {
     val rooms: MutableCollection<RoomInfo> = mutableListOf()
     val entities: MutableCollection<Entity> = mutableListOf()

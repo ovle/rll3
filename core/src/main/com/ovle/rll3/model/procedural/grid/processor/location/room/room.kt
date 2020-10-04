@@ -3,10 +3,9 @@ package com.ovle.rll3.model.procedural.grid.processor.location.room
 import com.ovle.rll3.NearTiles
 import com.ovle.rll3.Tile
 import com.ovle.rll3.TileArray
-import com.ovle.rll3.model.procedural.config.location.floorTypes
-import com.ovle.rll3.model.procedural.config.location.highGroundTileId
-import com.ovle.rll3.model.procedural.config.location.naturalHighWallTileId
-import com.ovle.rll3.model.procedural.config.location.pitFloorTileId
+import com.ovle.rll3.model.procedural.config.location.floorTileId
+import com.ovle.rll3.model.procedural.config.location.pitTileId
+import com.ovle.rll3.model.procedural.config.location.wallTileId
 import com.ovle.rll3.model.procedural.grid.processor.location.room.RoomStructure.DirectionValue.*
 import com.ovle.rll3.model.procedural.grid.processor.location.room.RoomStructure.ParamKey.*
 
@@ -22,10 +21,10 @@ enum class RoomStructure {
         )
 
         override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
-            val isFreeSpaceTile = nearTiles.all.all { it in floorTypes }
+            val isFreeSpaceTile = nearTiles.all.all { it == floorTileId }
             if (!isFreeSpaceTile) return
 
-            var resultTileId = pitFloorTileId
+            var resultTileId = pitTileId
             val dirValue = params[PitBridgeDirection]
             if (dirValue != NoDirection) {
                 val haveHBridge = dirValue in setOf(H, HV)
@@ -33,7 +32,7 @@ enum class RoomStructure {
                 val isHBridgeTile = nearTiles.y == room.y + room.height / 2
                 val isVBridgeTile = nearTiles.x == room.x + room.width / 2
                 val isBridgeTile = haveHBridge && isHBridgeTile || haveVBridge && isVBridgeTile
-                if (isBridgeTile) resultTileId = highGroundTileId
+                if (isBridgeTile) resultTileId = wallTileId
             }
 
             setTile(tiles, nearTiles, resultTileId)
@@ -80,7 +79,7 @@ enum class RoomStructure {
             if (isPathTile) return
 
             if (isColumn) {
-                setTile(tiles, nearTiles, naturalHighWallTileId)
+                setTile(tiles, nearTiles, wallTileId)
             }
         }
     },
@@ -90,7 +89,7 @@ enum class RoomStructure {
 
         override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
             val dirValue = params[ColonnadeDirection]
-            val isFreeSpaceTile = nearTiles.nearHV.all { it in floorTypes }
+            val isFreeSpaceTile = nearTiles.nearHV.all { it == floorTileId }
             if (!isFreeSpaceTile) return
 
             val isHColumn = nearTiles.x % 2 == 0 && (nearTiles.y == room.y + 1 || nearTiles.y == room.y + room.height - 1)
@@ -99,7 +98,7 @@ enum class RoomStructure {
                         || isVColumn && (dirValue in setOf(V, HV))
                         || isHColumn && isVColumn && dirValue == NoDirection
             if (isColumn) {
-                setTile(tiles, nearTiles, naturalHighWallTileId)
+                setTile(tiles, nearTiles, wallTileId)
             }
         }
     },
@@ -113,7 +112,7 @@ enum class RoomStructure {
             val amount = params[RandomNoiseAmount] as Float
             if (r.nextDouble() >= amount) return
 
-            val tile = arrayOf(naturalHighWallTileId, pitFloorTileId).random(r)
+            val tile = arrayOf(wallTileId, pitTileId).random(r)
 
             setTile(tiles, nearTiles, tile)
         }

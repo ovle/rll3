@@ -13,7 +13,7 @@ object Palette {
     /**
      * in-game displayed palette
      */
-    val palette = paletteMain
+    val palette = palette3Color
 
     /**
      * in-game background color (usually the most dark color of the palette)
@@ -43,7 +43,8 @@ object Palette {
     }
 
     fun map(color: Color): Color {
-        val index = mappedPalette.indexOf(color)
-        return if (index == -1) color else palette[index]
+        return color
+//        val index = mappedPalette.indexOf(color)
+//        return if (index == -1) color else palette[index]
     }
 }

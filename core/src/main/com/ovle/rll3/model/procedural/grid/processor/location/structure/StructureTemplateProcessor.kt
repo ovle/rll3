@@ -15,7 +15,6 @@ import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.template.structure.StructureEntity
 import com.ovle.rll3.model.template.structure.StructureTemplate
 import com.ovle.rll3.assets.loader.StructureTemplates
-import com.ovle.rll3.model.procedural.config.location.groundTileFilter
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.procedural.config.location.whateverTileId
 import ktx.ashley.get
@@ -43,8 +42,8 @@ class StructureTemplateProcessor(val templates: StructureTemplates) : LocationPr
         val needSpawn = check <= chance
 
         //spawn point is the left top corner of mask
-        //todo not hardcode groundTileFilter
-        val spawnPoint = spawnPoint(random, tiles, mask.size, ::groundTileFilter, 10)
+        //todo
+        val spawnPoint = point(0, 6)    //spawnPoint(random, tiles, mask.size,  { tileId -> true }, 10)
         if (spawnPoint == null) {
             println("spawn failed: can't get spawnPoint")
             return

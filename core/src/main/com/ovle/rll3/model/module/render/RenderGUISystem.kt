@@ -4,9 +4,7 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.model.module.core.component.ComponentMappers.game
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.view.fontName
 import com.ovle.rll3.view.palette.Palette
@@ -41,11 +39,11 @@ class RenderGUISystem(
 
     private fun drawSystemInfo() {
         val interaction = playerInteraction()!!
-        val selectedPoint = interaction[position]!!.gridPosition
 
+        val hoveredPoint = interaction[position]!!.gridPosition
         val interactionInfo = playerInteractionInfo()!!
         val hoveredEntity = interactionInfo.hoveredEntity
-//        val selectedEntity = interactionInfo.selectedEntity
+        val selectedEntity = interactionInfo.selectedEntity
 //        val focusedEntity = interactionInfo.focusedEntity
 
         val locationInfo = locationInfo()
@@ -54,12 +52,16 @@ class RenderGUISystem(
         val game = gameInfo()!!
         val time = game.time
         val worldAreaName = game.world.area(locationPoint).name
-
         val point = vec2(0.0f, Gdx.graphics.height - dy)
+
         val info = arrayOf(
             "$worldAreaName $locationPoint",
             "turn ${time.turn}",
-            "$selectedPoint " + (hoveredEntity?.let { "(${it.name()})" } ?: "")
+            "$hoveredPoint " + (hoveredEntity?.let { "(${it.name()})" } ?: ""),
+            selectedEntity?.run {
+                val selectedPoint = get(position)!!.gridPosition
+                "selected: $selectedPoint " + ("(${name()})")
+            }
         ).filterNotNull()
 
         info.forEachIndexed {

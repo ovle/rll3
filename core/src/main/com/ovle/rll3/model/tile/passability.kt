@@ -3,13 +3,13 @@ package com.ovle.rll3.model.tile
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.Tile
 import com.ovle.rll3.TileArray
-import com.ovle.rll3.model.procedural.config.location.pitTypes
-import com.ovle.rll3.model.procedural.config.location.wallTypes
+import com.ovle.rll3.model.procedural.config.location.pitTileId
+import com.ovle.rll3.model.procedural.config.location.wallTileId
 
 
 fun tilePassType(tile: Tile) = when(tile) {
-    in wallTypes -> TilePassType.Solid
-    in pitTypes -> TilePassType.Restricted
+    wallTileId -> TilePassType.Solid
+    pitTileId -> TilePassType.Restricted
     else -> TilePassType.Passable
 }
 

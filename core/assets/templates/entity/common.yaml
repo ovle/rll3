@@ -1,9 +1,5 @@
 ---
-
-name: villager
-description: |
-  dirty and grumpy farmer.
-  still, may be useful.
+name: barb
 state:
   living:
     race: human
@@ -13,315 +9,60 @@ state:
   container:
   move:
   task:
-  ai:
 skills:
   - attack
 
 ---
-
-name: wizard
-description: ''
-playable: true
+name: wiz
 state:
   living:
+    race: human
     health: 3
-    stamina: 2
-  perception:
-    sight: 5
-  move:
-  container:
+    stamina: 3
   collision:
+  container:
+  move:
+  task:
 skills:
   - attack
-  - mass-heal
 
 ---
-
-name: barbarian
-description: ''
-playable: true
+name: scel war
 state:
   living:
-    health: 2
-    stamina: 4
-  perception:
-    sight: 5
-  move:
-  container:
+    race: undead
+    health: 3
+    stamina: 3
   collision:
+  container:
+  move:
 skills:
   - attack
-  - jump
 
 ---
 
-name: lamp
-description: ''
+name: scel wiz
 state:
-  light:
-    radius: 5
----
-
-name: door w
-description: ''
-state:
+  living:
+    race: undead
+    health: 3
+    stamina: 3
   collision:
-    passable4Light: false
-  door:
-spawns:
-  - chance: 0.7
-    rotate: true
-    mask: |
-      _ 1 _
-      0 2 _
-      _ 1 _
----
-
-name: door s
-description: ''
-state:
-  collision:
-    passable4Light: false
-  door:
-spawns:
-  - chance: 0.7
-    rotate: true
-    mask: |
-      _ 1 _
-      0 2 _
-      _ 1 _
----
-
-name: window w
-description: ''
+  container:
+  move:
+skills:
+  - attack
 
 ---
-
-name: window s
-description: ''
----
-
 name: stash
 description: ''
 state:
   stash:
   container:
-spawns:
-  - mask: |
-      1 1 1
-      _ 0 _
-      _ 0 _
-    chance: 0.01
-    rotate: true
----
 
-name: table
-description: ''
-state:
-  collision:
----
-
-name: chair
-description: ''
----
-
-name: bed
-description: ''
----
-
-name: oven
-description: ''
-state:
-  light:
-    radius: 3
----
-
-name: barrel
-description: ''
-state:
-  collision:
----
-
-name: well
-description: ''
-state:
-  collision:
----
-
-name: anvil
-description: ''
-state:
-  collision:
----
-
-name: forge
-description: ''
-state:
-  collision:
-
----
-
-name: grave
-description: ''
-state:
-  collision:
-  container:
-
----
-
-name: stairs d
-description: ''
-
----
-
-name: test item
-description: ''
-
----
-
-name: common tree
-description: ''
-state:
-  source:
-    type: wood
-    amount: 3
-  collision:
-    passable4Light: false
-spawns:
-  - chance: 0.125
-    rotate: true
-    groupBonusChance: 0.2
----
-
-name: common sapling
-description: ''
-state:
-  collision:
-    passable4Light: false
-spawns:
-  - chance: 0.125
-    rotate: true
-    groupBonusChance: -0.2
----
-
-name: reed
-description: ''
-state:
-  collision:
-spawns:
-  - chance: 0.3
-    rotate: true
-    groupBonusChance: 0.2
-    mask: |
-      ` ` `
-      w u `
-      ` ` `
----
-
-name: pig
-description: |
-  rests in dirt and eats everything.
-  almost as smart as you are.
-state:
-  living:
-    health: 2
-    stamina: 4
-  collision:
-  move:
-  ai:
-    type: runAway
----
-
-name: wolf
-description: |
-  wolf
-state:
-  living:
-    health: 2
-    stamina: 4
-  collision:
-  move:
-  ai:
-    type: follow
----
-
-name: elder
-description: ''
-state:
-  living:
-    health: 2
-    stamina: 3
-  collision:
-    passable4Light: false
----
-
-name: blacksmith
-description: ''
-state:
-  living:
-    health: 4
-    stamina: 3
-  collision:
-    passable4Light: false
----
-
-name: wood
-description: ''
-state:
-  resource:
----
-
-name: stone
-description: ''
-state:
-  resource:
-
----
-
-name: torch
-description: ''
-state:
-  light:
-    radius: 5
-spawns:
-  - mask: |
-      ` ` `
-      ` 1 `
-      ` _ `
-    rotate: false
-    groupBonusChance: -1.0
-    groupRadius: 2
-  - mask: |
-      ` ` `
-      ` 1 `
-      ` 2 `
-    rotate: false
-    groupBonusChance: -1.0
-    groupRadius: 2
----
-
-name: sceleton
-description: ''
-state:
-  living:
-    health: 3
-    stamina: 3
-  collision:
-spawns:
-  - chance: 0.5
-    rotate: true
-    mask: |
-      1 1 `
-      1 _ _
-      ` _ `
-
----
-
-name: rockman
-description: ''
-state:
-  living:
-    health: 10
-    stamina: 10
-  collision:
-    passable4Light: false
+#---
+#name: door
+#state:
+#  collision:
+#    passable4Light: false
+#  door:

@@ -21,7 +21,7 @@ import ktx.ashley.get
 
 class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
 
-    private val startFocusEntityId = "elder1"
+    private val startFocusEntityId = "main"
     private val world = initGameInfo.world
     private val locationPoint = initGameInfo.locationPoint
 
@@ -75,20 +75,17 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
 
     private fun location(generationParams: LocationGenerationParams, seed: Long): LocationInfo {
         val random = RandomParams(seed)
-        val heightGrid = generationParams.heightMapFactory.get(random)
-        val heatValue = world.heatGrid[locationPoint.x, locationPoint.y]
-        val heatGrid = Grid(heatValue, heightGrid.width, heightGrid.height) //todo
         val id = randomId()
 
-        val tiles = gridToTileArray(heightGrid, heatGrid, generationParams.tileMapper)
+        val gridSize = 7    //todo
+        val grid = Grid(gridSize, gridSize)
+        val tiles = gridToTileArray(grid, generationParams.tileMapper)
 
         val result = LocationInfo(
             id = id,
             random = random,
             tiles = tiles,
             params = generationParams,
-            heightGrid = heightGrid,
-            heatGrid = heatGrid,
             locationPoint = locationPoint
         )
 

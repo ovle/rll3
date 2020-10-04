@@ -1,218 +1,39 @@
 ---
-#-----------------------------------------------------CHARS-------------------------------------------------------------
-
-name: elder
+name: barb
 sprite:
-  default: [1, 0]
+  default: [2, 2]
 
 ---
-
-name: villager
+name: wiz
 sprite:
-  default: [5, 0]
+  default: [0, 2]
 portrait:
   - [0, 2]
 
 ---
-
-name: wizard
-sprite:
-  default: [1, 0]
-portrait:
-  - [1, 1]
----
-
-name: barbarian
+name: scel war
 sprite:
   default: [0, 3]
 portrait:
-  - [0, 1]
+  - [0, 3]
+
 ---
-
-#-----------------------------------------------------STUFF-------------------------------------------------------------
-
-name: wood
+name: scel wiz
 sprite:
-  default: [2, 7]
----
-
-name: stone
-sprite:
-  default: [3, 7]
----
-
-name: window w
-sprite:
-  default: [10, 7]
+  default: [1, 3]
+portrait:
+  - [0, 4]
 
 ---
-
-name: window s
-sprite:
-  default: [13, 7]
-
----
-
-name: door w
-sprite:
-  default: [8, 7]
-  opened: [9, 7]
----
-
-name: door s
-sprite:
-  default: [11, 7]
-  opened: [12, 7]
-
----
-
-name: well
-sprite:
-  default: [9, 5]
----
-
 name: stash
 sprite:
-  default: [8, 3]
-  opened: [8, 4]
-
----
-
-name: lamp
-sprite:
-  default: [9, 3]
-  inactive: [9, 4]
-
----
-
-name: table
-sprite:
-  default: [10, 3]
-
----
-
-name: chair
-sprite:
-  default: [11, 3]
-
----
-
-name: bed
-sprite:
-  default: [12, 3]
----
-
-name: barrel
-sprite:
-  default: [13, 3]
-
----
-
-name: anvil
-sprite:
-  default: [14, 3]
-
----
-
-name: workbench
-sprite:
-  default: [15, 3]
-
----
-
-name: oven
-sprite:
-  default: [13, 4]
----
-
-name: forge
-sprite:
-  default: [14, 4]
-
----
-
-name: grave
-sprite:
-  default: [10, 5]
-
----
-
-name: stairs d
-sprite:
-  default: [8, 5]
-
----
-#-----------------------------------------------------PLANTS------------------------------------------------------------
-
-name: common sapling
-sprite:
-  default: [8, 1]
----
-
-name: common tree
-sprite:
-  default: [9, 1]
----
-
-name: boreal sapling
-sprite:
-  default: [8, 0]
----
-
-name: boreal tree
-sprite:
-  default: [9, 0]
----
-
-name: palm sapling
-sprite:
-  default: [10, 0]
----
-
-name: palm tree
-sprite:
-  default: [11, 0]
----
-
-name: big sapling
-sprite:
-  default: [10, 1]
----
-
-name: big tree
-sprite:
-  default: [11, 1]
----
-
-name: small reed
-sprite:
-  default: [12, 0]
----
-
-name: reed
-sprite:
-  default: [13, 0]
-
----
-#-----------------------------------------------------ANIMALS-----------------------------------------------------------
-
-name: pig
-sprite:
-  default: [6, 2]
+  default: [0, 6]
 portrait:
-  - [1, 3]
----
+  - [1, 1]
 
-name: wolf
-sprite:
-  default: [0, 2]
-portrait:
-  - [2, 3]
----
-
-#-----------------------------------------------------MONSTERS-----------------------------------------------------------
-name: sceleton
-sprite:
-  default: [6, 10]
-portrait:
-  - [3, 0]
+#---
+#name: door
+#sprite:
+#  default: [0, 3]
+#portrait:
+#  - [0, 1]

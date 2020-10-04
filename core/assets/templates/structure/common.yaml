@@ -2,24 +2,59 @@
 
 name: embark
 mask: |
-  ` ` ` ` `
-  ` ` ` ` `
-  ` ` ` ` `
-  ` ` ` ` `
-  ` ` ` ` `
+  ? ? ? ? ? ? ?
+  = = . = = = =
+  = . . . . . =
+  = . . o . . =
+  = . . o . . .
+  = . . . . . =
+  = = = = = = =
+
 entities:
-  - templateName: elder
-    points:
-      - [1, 1]
+  - templateName: barb
     ids:
-      - elder
-  - templateName: villager
+      - main
     points:
-      - [1, 3]
-      - [3, 1]
+      - [1, 2]
+  - templateName: wiz
+    points:
+      - [1, 4]
+  - templateName: scel war
+    points:
+      - [4, 3]
+  - templateName: scel wiz
+    points:
+      - [4, 5]
   - templateName: stash
     points:
-      - [2, 2]
+      - [2, 5]
+#  - templateName: door
+#    points:
+#      - [2, 0]
+#      - [5, 3]
+
+#---
+#
+#name: embark
+#mask: |
+#  ` ` ` ` `
+#  ` ` ` ` `
+#  ` ` ` ` `
+#  ` ` ` ` `
+#  ` ` ` ` `
+#entities:
+#  - templateName: elder
+#    points:
+#      - [1, 1]
+#    ids:
+#      - elder
+#  - templateName: villager
+#    points:
+#      - [1, 3]
+#      - [3, 1]
+#  - templateName: stash
+#    points:
+#      - [2, 2]
 
 #---
 #name: test village

@@ -1,10 +1,12 @@
 package com.ovle.rll3.model.procedural.config.world
 
 import com.ovle.rll3.Tile
-import com.ovle.rll3.model.procedural.config.location.outdoorHighWallTreshold
-import com.ovle.rll3.model.procedural.config.location.outdoorLowGroundTreshold
-import com.ovle.rll3.model.procedural.config.location.outdoorLowWallTreshold
-import com.ovle.rll3.model.procedural.config.location.shallowWaterTreshold
+
+const val outdoorHighWallTreshold = 0.85f
+const val outdoorLowWallTreshold = 0.7f
+const val outdoorHighGroundTreshold = 0.6f
+const val outdoorLowGroundTreshold = 0.5f
+const val shallowWaterTreshold = 0.425f
 
 const val highWorldMountainTreshold = outdoorHighWallTreshold
 const val lowWorldMountainTreshold = outdoorLowWallTreshold

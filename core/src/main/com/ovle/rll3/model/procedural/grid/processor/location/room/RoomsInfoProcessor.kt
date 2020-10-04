@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.RoomTiles
 import com.ovle.rll3.isNear
 import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.procedural.config.location.floorTileId
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.tile.nearValues
-import com.ovle.rll3.model.procedural.config.location.floorTypes
 import kotlin.math.roundToInt
 
 
@@ -24,7 +24,7 @@ class RoomsInfoProcessor : LocationProcessor {
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
                 val nearTiles = nearValues(tiles, x, y)
-                val isRoomTile = nearTiles.value in floorTypes
+                val isRoomTile = nearTiles.value == floorTileId
                 if (isRoomTile) {
                     if (currentRoom == null) {
                         //todo refactor

@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.procedural.config
 
 import com.github.czyzby.noise4j.map.generator.room.RoomType
+import com.ovle.rll3.TileMapper1
 import com.ovle.rll3.TileMapper2
 import com.ovle.rll3.model.procedural.grid.GridFactory
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
@@ -17,9 +18,8 @@ data class RandomParams(
 
 data class LocationGenerationParams(
     val templateName: String,
-    val heightMapFactory: GridFactory,
     val postProcessors: Array<LocationProcessor>,
-    val tileMapper: TileMapper2
+    val tileMapper: TileMapper1
 )
 
 data class WorldGenerationParams(

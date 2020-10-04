@@ -82,7 +82,8 @@ class GameScreen(
         EventBus.addHook(::eventLogHook)
         EventBus.subscribe<GameDidFinishedEvent> { onGameDidFinishedEvent() }
 
-        camera.zoom = 2.5f
+        camera.zoom = 0.3f
+//        camera.zoom = 2.5f
         camera.position.set(500.0f, 500.0f, 0.0f)
 
         send(StartGameCommand())
