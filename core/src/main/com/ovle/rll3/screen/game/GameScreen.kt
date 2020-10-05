@@ -24,7 +24,6 @@ import com.ovle.rll3.model.module.interaction.TileInteractionSystem
 import com.ovle.rll3.model.module.render.*
 import com.ovle.rll3.model.module.skill.SkillSystem
 import com.ovle.rll3.model.module.space.MoveSystem
-import com.ovle.rll3.model.module.task.TaskSystem
 import com.ovle.rll3.model.module.time.TimeSystem
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.screen.PlayerControls
@@ -62,7 +61,7 @@ class GameScreen(
             GameSystem(gamePayload),
 
             TimeSystem(),
-            TaskSystem(),
+//            TaskSystem(),
             AISystem(assetsManager.behaviorTrees),
             EntityActionSystem(),
             MoveSystem(),

@@ -11,6 +11,7 @@ state:
   task:
 skills:
   - attack
+  - war-cry
 
 ---
 name: wiz
@@ -24,7 +25,8 @@ state:
   move:
   task:
 skills:
-  - attack
+  - fireball
+  - heal-self
 
 ---
 name: scel war

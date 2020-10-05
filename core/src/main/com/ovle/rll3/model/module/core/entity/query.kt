@@ -47,7 +47,7 @@ fun EntitySystem.playerInteractionInfo() = playerInteractionInfo(allEntities().t
 
 fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity
 fun EntitySystem.selectedEntity() = playerInteractionInfo()?.selectedEntity
-fun EntitySystem.controlledEntities() = entitiesWith(allEntities().toList(), TaskPerformerComponent::class)
+//fun EntitySystem.controlledEntities() = entitiesWith(allEntities().toList(), TaskPerformerComponent::class)
 fun EntitySystem.entity(id: EntityId) = entity(id, allEntities().toList())
 fun EntitySystem.entityNullable(id: EntityId) = entityNullable(id, allEntities().toList())
 
