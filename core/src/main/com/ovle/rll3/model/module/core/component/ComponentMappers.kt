@@ -6,7 +6,7 @@ import com.ovle.rll3.model.module._deprecated.StashComponent
 import com.ovle.rll3.model.module.ai.AIComponent
 import com.ovle.rll3.model.module.collision.CollisionComponent
 import com.ovle.rll3.model.module.container.ContainerComponent
-import com.ovle.rll3.model.module.entityAction.EntityActionComponent
+import com.ovle.rll3.model.module.game.ActionComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import com.ovle.rll3.model.module.game.GameComponent
 import com.ovle.rll3.model.module.gathering.ResourceComponent
@@ -18,7 +18,6 @@ import com.ovle.rll3.model.module.quest.QuestOwnerComponent
 import com.ovle.rll3.model.module.render.RenderComponent
 import com.ovle.rll3.model.module.space.MoveComponent
 import com.ovle.rll3.model.module.space.PositionComponent
-import com.ovle.rll3.model.module.task.TaskPerformerComponent
 
 
 private inline fun <reified T : BaseComponent> mapper(): ComponentMapper<T> = ComponentMapper.getFor(T::class.java)
@@ -36,13 +35,13 @@ object ComponentMappers {
     val move = mapper<MoveComponent>()
     val render = mapper<RenderComponent>()
     val health = mapper<HealthComponent>()
-    val entityAction = mapper<EntityActionComponent>()
     val container = mapper<ContainerComponent>()
     val ai = mapper<AIComponent>()
     val questOwner = mapper<QuestOwnerComponent>()
-    val taskPerformer = mapper<TaskPerformerComponent>()
     val resource = mapper<ResourceComponent>()
     val source = mapper<SourceComponent>()
+    val action = mapper<ActionComponent>()
+
 
     //todo remove these
     val door = mapper<DoorComponent>()

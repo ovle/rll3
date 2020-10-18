@@ -2,36 +2,39 @@
 
 name: embark
 mask: |
-  ? ? ? ? ? ? ?
-  = = . = = = =
+  = = = . = = =
+  = = . . . = =
   = . . . . . =
-  = . . o . . =
-  = . . o . . .
+  = . . = . . .
   = . . . . . =
+  = = . . . = =
   = = = = = = =
 
 entities:
   - templateName: barb
     ids:
-      - main
+      - b1
     points:
       - [1, 2]
   - templateName: wiz
+    ids:
+      - w1
     points:
       - [1, 4]
   - templateName: scel war
     points:
-      - [4, 3]
+      - [5, 2]
+      - [5, 4]
   - templateName: scel wiz
     points:
-      - [4, 5]
+      - [5, 3]
   - templateName: stash
     points:
-      - [2, 5]
-#  - templateName: door
-#    points:
-#      - [2, 0]
-#      - [5, 3]
+      - [3, 5]
+  - templateName: door
+    points:
+      - [3, 0]
+      - [6, 3]
 
 #---
 #

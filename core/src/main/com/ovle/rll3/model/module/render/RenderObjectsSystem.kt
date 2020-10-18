@@ -12,8 +12,9 @@ import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
-import com.ovle.rll3.model.module.core.component.ComponentMappers.taskPerformer
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
+import com.ovle.rll3.model.module.core.entity.id
+import com.ovle.rll3.model.module.core.entity.isPartyEntity
 import com.ovle.rll3.point
 import com.ovle.rll3.vec2
 import com.ovle.rll3.view.spriteHeight
@@ -101,7 +102,7 @@ class RenderObjectsSystem(
             renderComponent.sprites = sprites
             renderComponent.sprite = sprites[defaultSpriteKey]
 
-            val isNeedFlip = entity[taskPerformer] == null
+            val isNeedFlip = !isPartyEntity(entity.id())
             if (isNeedFlip) renderComponent.flip()
         }
     }

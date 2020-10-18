@@ -9,7 +9,6 @@ import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.*
@@ -58,11 +57,12 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
             movePath.reset()
             send(EntityFinishedMoveEvent(entity))
         } else {
-            val actionComponent = entity[entityAction]!!
-            if (actionComponent.current == null) {
-                actionComponent.current = { move(entity) }
-                actionComponent.timeLeft = moveComponent.ticksPerTile
-            }
+            //todo
+//            val actionComponent = entity[entityAction]!!
+//            if (actionComponent.current == null) {
+//                actionComponent.current = { move(entity) }
+//                actionComponent.timeLeft = moveComponent.ticksPerTile
+//            }
         }
     }
 

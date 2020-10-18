@@ -5,14 +5,14 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.EntityId
 import com.ovle.rll3.model.module.core.component.IdComponent
-import com.ovle.rll3.model.module.space.PositionComponent
-import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.game.PlayerInfo
-import com.ovle.rll3.model.module.game.GameComponent
-import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import com.ovle.rll3.model.module.core.component.basicComponents
 import com.ovle.rll3.model.module.core.component.stateComponents
-import com.ovle.rll3.model.module.time.TimeInfo
+import com.ovle.rll3.model.module.game.GameComponent
+import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.PartyInfo
+import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
+import com.ovle.rll3.model.module.space.PositionComponent
+import com.ovle.rll3.model.module.time.TurnInfo
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import java.util.*
@@ -27,7 +27,7 @@ fun randomId() = UUID.randomUUID().toString()
 
 fun newLocation(location: LocationInfo, world: WorldInfo, engine: Engine) = engine.entity(
     location.id,
-    GameComponent(location, world, TimeInfo())
+    GameComponent(location, world, TurnInfo(), PartyInfo())
 )
 
 fun newPlayerInteraction(engine: Engine): Entity? = engine.entity(

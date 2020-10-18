@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.model.module.core.component.ComponentMappers.playerInteraction
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.entity.playerInteraction
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import com.ovle.rll3.vec2
@@ -27,7 +28,10 @@ class RenderInteractionInfoSystem(
     private val selectionEntitySprite = sprite(guiRegions, 1, 0)
     private val hoverSprite = sprite(guiRegions, 2, 0)
     private val cursorSprite = sprite(guiRegions, 3, 0)
-    private val selectionTileSprite = sprite(guiRegions, 4, 0)
+
+    //todo init on entity selection
+    private val skillTargetEntitySprite = sprite(guiRegions, 4, 0)
+    private val skillTargetTileSprite = sprite(guiRegions, 6, 0)
 
 
     override fun update(deltaTime: Float) {
@@ -53,12 +57,17 @@ class RenderInteractionInfoSystem(
     }
 
     private fun drawSelection(interactionComponent: PlayerInteractionComponent) {
-        val selectedEntity = interactionComponent.selectedEntity
-        selectedEntity?.let { draw(selectedEntity, selectionEntitySprite) }
-
-        val selectedTiles = interactionComponent.selectedTiles
-        selectedTiles.forEach {
-            draw(it, selectionTileSprite)
+        with (interactionComponent) {
+            selectedEntity?.let { draw(it, selectionEntitySprite) }
+            selectedSkillTarget?.let {
+                when (it) {
+                    is GridPoint2 -> draw(it, skillTargetTileSprite)
+                    is Entity -> draw(it, skillTargetEntitySprite)
+                    else -> {
+                        //todo
+                    }
+                }
+            }
         }
     }
 
@@ -72,6 +81,9 @@ class RenderInteractionInfoSystem(
 
     private fun draw(entity: Entity, sprite: Sprite) {
         val position = entity[position]!!.gridPosition
+        val locationInfo = locationInfo()
+        if (!locationInfo.tiles.isPointValid(position)) return
+
         draw(position, sprite)
     }
 

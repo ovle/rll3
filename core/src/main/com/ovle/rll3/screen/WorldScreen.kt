@@ -54,9 +54,9 @@ class WorldScreen(
     private var mapRenderer: TiledMapRenderer? = null
     private var tiledMap: TiledMap? = null
 
-    private val controls = PlayerControls(batchViewport)
+    private val controls = PlayerControls(batchViewport, stage.viewport)
     private var cursorPoint: GridPoint2? = null
-    private var locationPoint: GridPoint2? = null
+//    private var locationPoint: GridPoint2? = null
 
     private lateinit var nameTextField: TextField
     private lateinit var areaLabel: Label
@@ -113,10 +113,10 @@ class WorldScreen(
     override fun screenInputProcessor() = controls
 
     override fun renderIntr(delta: Float) {
-        mapRenderer?.let {
-            it.setView(camera)
-            it.render()
-        }
+//        mapRenderer?.let {
+//            it.setView(camera)
+//            it.render()
+//        }
 
         renderInteractionInfo()
     }
@@ -130,11 +130,11 @@ class WorldScreen(
             }
         }
 
-        locationPoint?.let {
-            it.nearHV().forEach {
-                p -> batch.draw(vec2(p), selectionSprite.textureRegion())
-            }
-        }
+//        locationPoint?.let {
+//            it.nearHV().forEach {
+//                p -> batch.draw(vec2(p), selectionSprite.textureRegion())
+//            }
+//        }
 
         batch.end()
     }
@@ -146,7 +146,7 @@ class WorldScreen(
     private fun onEmbarkClick() {
         screenManager.goToScreen(
             GameScreenType,
-            InitGameInfo(world, locationPoint!!)
+            InitGameInfo(world)
         )
     }
 
@@ -175,7 +175,7 @@ class WorldScreen(
     private fun onMouseClick(viewportPoint: Vector2) {
         val point = point(viewportPoint.x / baseSize, viewportPoint.y / baseSize)
         if (world.tiles.isPointValid(point)) {
-            locationPoint = point
+//            locationPoint = point
         }
     }
 

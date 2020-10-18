@@ -2,6 +2,7 @@ package com.ovle.rll3.model.module.render
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.Event.PlayerControlEvent.*
@@ -10,7 +11,6 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.focusedEntity
 import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.module.interaction.ControlMode
 import com.ovle.rll3.view.*
 import ktx.ashley.get
 import ktx.math.vec3
@@ -31,15 +31,21 @@ class CameraSystem(
         EventBus.subscribe<EntityInitializedEvent> { onEntityMoved(it.entity) }
         EventBus.subscribe<EntityMovedEvent> { onEntityMoved(it.entity) }
 
-        EventBus.subscribe<FocusEntityCommand> { onEntityFocusEvent(it.entity) }
+        EventBus.subscribe<FocusEntityCommand> { onFocusEntityCommand(it.entity) }
+        EventBus.subscribe<FocusPointCommand> { onFocusPointCommand(it.point) }
     }
 
-    private fun onEntityFocusEvent(entity: Entity) {
+    private fun onFocusEntityCommand(entity: Entity) {
         val interactionInfo = playerInteractionInfo() ?: return
         with (interactionInfo) {
             focusedEntity = entity
             focusedEntity?.let { focusCamera(it) }
         }
+    }
+
+    private fun onFocusPointCommand(point: GridPoint2) {
+        //todo save
+        focusCamera(point)
     }
 
     private fun onEntityMoved(entity: Entity) {
@@ -50,9 +56,13 @@ class CameraSystem(
 
     private fun focusCamera(entity: Entity) {
         val focusedPosition = entity[position]?.gridPosition ?: return
+        focusCamera(focusedPosition)
+    }
+
+    private fun focusCamera(point: GridPoint2) {
         val focusedWorldPosition = vec3(
-            focusedPosition.x * tileWidth.toFloat(),
-            focusedPosition.y * tileHeight.toFloat()
+            point.x * tileWidth.toFloat(),
+            point.y * tileHeight.toFloat()
         )
 
         if (focusedWorldPosition.epsilonEquals(camera.position)) return
@@ -73,7 +83,6 @@ class CameraSystem(
         if (focusedEntity != null) return
 
         val interactionInfo = playerInteractionInfo()!!
-        if (interactionInfo.controlMode != ControlMode.View) return
 
         camera.position.add(amount.x * cameraMoveCoeff, amount.y * cameraMoveCoeff, 0.0f)
         camera.update()

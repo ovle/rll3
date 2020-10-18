@@ -6,6 +6,13 @@ import ktx.ashley.has
 
 fun skillTemplates() = arrayOf(
     SkillTemplate(
+        name = "move",
+        icon = point(5, 0),
+        target = { position, level -> emptyTileTarget(position, level) },
+        time = 25,
+        skillEffect = startMoveEffect
+    ),
+    SkillTemplate(
         name = "attack",
         icon = point(0, 4),
         cost = { staminaCost(it, 1) },

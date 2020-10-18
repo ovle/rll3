@@ -22,8 +22,8 @@ sealed class Event {
     fun then(next: Event?) = this.apply { this@Event.next = next }
 
     sealed class PlayerControlEvent : Event() {
-        class MouseMovedEvent(val viewportPoint: Vector2) : PlayerControlEvent()
-        class MouseClickEvent(val viewportPoint: Vector2, val button: Int) : PlayerControlEvent()
+        class MouseMovedEvent(val viewportPoint: Vector2, val stageViewportPoint: Vector2) : PlayerControlEvent()
+        class MouseClickEvent(val viewportPoint: Vector2, val stageViewportPoint: Vector2, val button: Int) : PlayerControlEvent()
         class CameraScaleIncCommand : PlayerControlEvent()
         class CameraScaleDecCommand : PlayerControlEvent()
         class CameraScrollCommand(val amount: Int) : PlayerControlEvent()
@@ -39,7 +39,6 @@ sealed class Event {
     //global
     sealed class GameEvent : Event() {
         class StartGameCommand : GameEvent()
-        class LoadLocationCommand(val position: GridPoint2) : GameEvent()
         class TimeChangedEvent(val turn: Turn) : GameEvent()
         class LocationLoadedEvent(val location: LocationInfo, val generationParams: LocationGenerationParams) : GameEvent()
 
@@ -61,6 +60,9 @@ sealed class Event {
         class ShowEntityInfoCommand(val entity: Entity) : GameEvent()
         class EntityFovUpdatedEvent(val entity: Entity) : GameEvent()
         class FocusEntityCommand(val entity: Entity) : GameEvent()
+        class FocusPointCommand(val point: GridPoint2) : GameEvent()
+        class EntitySkillSelectedEvent(val entity: Entity, val skill: SkillTemplate) : GameEvent()
+        class SkillSelectCommand(val skill: SkillTemplate) : GameEvent()
 
         //entity - model
         class EntityInteraction(val source: Entity, val target: Entity, val interaction: EntityInteraction) : GameEvent()
@@ -81,6 +83,15 @@ sealed class Event {
         class TaskSucceedCommand(val task: TaskInfo) : GameEvent()
         class TaskFailCommand(val task: TaskInfo) : GameEvent()
     }
+
+    //turn
+    class TurnStartedEvent : Event()
+    class PlayerFinishedTurnEvent : Event()
+    class AITurnCommand : Event()
+    class AIFinishedTurnEvent : Event()
+    class ApplyTurnCommand : Event()
+    class TurnAppliedEvent : Event()
+    class TurnFinishedEvent : Event()
 
     //debug
     class DebugSaveGame : Event()

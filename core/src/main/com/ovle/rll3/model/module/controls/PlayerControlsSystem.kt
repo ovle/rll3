@@ -50,10 +50,6 @@ class PlayerControlsSystem : EventSystem() {
                 else -> {
 //                    send(EntitySetMoveTarget(controlledEntity, position))
                     //todo
-                    val isInLocationClick = level.tiles.isPointValid(position)
-                    if (!isInLocationClick) {
-                        send(GameEvent.LoadLocationCommand(position))
-                    }
                     send(VoidClickEvent(button, position))
                 }
             }
@@ -102,8 +98,7 @@ class PlayerControlsSystem : EventSystem() {
             Input.Keys.ESCAPE -> send(
                 DebugSaveGame().then(ExitGameCommand())
             )
-            Input.Keys.S -> send(DebugSwitchSelectionMode(interactionComponent.selectionMode.next()))
-            Input.Keys.C -> send(DebugSwitchControlMode(interactionComponent.controlMode.next()))
+            Input.Keys.SPACE -> send(PlayerFinishedTurnEvent())
             Input.Keys.V -> { noVisibilityFilter = !noVisibilityFilter }
         }
     }

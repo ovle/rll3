@@ -9,23 +9,33 @@ import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.assets.AssetsManager
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.Event.PlayerControlEvent.MouseClickEvent
 import com.ovle.rll3.event.Event.PlayerControlEvent.MouseMovedEvent
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.model.module.core.component.ComponentMappers.action
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.component.ComponentMappers.taskPerformer
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.skill.SkillTemplate
 import com.ovle.rll3.model.template.TemplatesRegistry
-import com.ovle.rll3.view.fontName
+import com.ovle.rll3.view.*
 import com.ovle.rll3.view.palette.Palette
-import com.ovle.rll3.view.spriteHeight
-import com.ovle.rll3.view.spriteWidth
-import com.ovle.rll3.view.uncentered
 import ktx.ashley.get
 import ktx.math.vec2
 import ktx.scene2d.Scene2DSkin
+
+
+private const val textInfoDy = 20.0f
+private const val guiZoom = 7.0f
+
+private val portraitPoint = vec2(8.0f, 8.0f)
+private val actionsPoint = vec2(24.0f, 8.0f)
+
+private val systemInfoPoint = vec2(0.0f, Gdx.graphics.height - textInfoDy)
+private val namePoint = vec2(2.0f * guiZoom, 8.0f * guiZoom)
 
 
 class RenderGUISystem(
@@ -41,15 +51,12 @@ class RenderGUISystem(
 //            data.scale(-0.6f)
             color = Palette.palette.last().cpy()
         }
-    private val dy = 20.0f
-    private val guiZoom = 8.0f
-
-    private val actionsPoint = vec2(75.0f, 5.0f)
-    private val selectedActionRegion = guiRegions[1][0]
-    private val hoveredActionRegion = guiRegions[3][0]
+    private val selectedActionRegion = guiRegions[0][1]
+    private val hoveredActionRegion = guiRegions[0][3]
 
     private var controlledEntity: Entity? = null
     private var buttons = listOf<ButtonInfo>()
+
     private data class ButtonInfo(
         val iconPoint: GridPoint2,
         val frame: Rectangle,
@@ -57,15 +64,19 @@ class RenderGUISystem(
 
         var selected: Boolean = false,
         var hovered: Boolean = false
-    )
+    ) {
+        val guiViewportFrame = with(frame) {
+            Rectangle(x * tileWidth, y * tileHeight, width * guiZoom, height * guiZoom)
+        }
+    }
 
 
     override fun subscribe() {
         EventBus.subscribe<MouseClickEvent> {
-            onMouseClick(it.viewportPoint, it.button)
+            onMouseClick(it.viewportPoint, it.stageViewportPoint, it.button)
         }
         EventBus.subscribe<MouseMovedEvent> {
-            onMouseMoved(it.viewportPoint)
+            onMouseMoved(it.viewportPoint, it.stageViewportPoint)
         }
     }
 
@@ -76,7 +87,7 @@ class RenderGUISystem(
 
         drawSystemInfo()
         selectedEntity()?.let {
-            val isOwned = it[taskPerformer] != null
+            val isOwned = it.id() in gameInfo()!!.party
             if (!isOwned) return@let
 
             if (controlledEntity != it) {
@@ -84,10 +95,32 @@ class RenderGUISystem(
                 initActions(it)
             }
 
+            drawEntityInfo(it)
             drawActions()
         }
 
         stageBatch.end()
+    }
+
+    private fun drawEntityInfo(entity: Entity) {
+        val template = entity[template]!!
+        val portrait = template.viewTemplate!!.portrait
+        portrait?.let {
+            val region = guiRegions[it.y][it.x]
+            val point = vec2(portraitPoint.x, portraitPoint.y)
+
+            draw(point, region)
+        }
+
+        val name = template.template.name
+        val info = arrayOf(
+            "$name" //todd
+        ).filterNotNull()
+
+        info.forEachIndexed {
+            i, _ ->
+            font.draw(stageBatch, info[i], namePoint.x, namePoint.y /*- textInfoDy * i*/)
+        }
     }
 
 
@@ -101,16 +134,15 @@ class RenderGUISystem(
 //        val focusedEntity = interactionInfo.focusedEntity
 
         val locationInfo = locationInfo()
-        val locationPoint = locationInfo.locationPoint
+//        val locationPoint = locationInfo.locationPoint
 
         val game = gameInfo()!!
-        val time = game.time
-        val worldAreaName = game.world.area(locationPoint).name
-        val point = vec2(0.0f, Gdx.graphics.height - dy)
+        val turn = game.turn
+//        val worldAreaName = game.world.area(locationPoint).name
 
         val info = arrayOf(
-            "$worldAreaName $locationPoint",
-            "turn ${time.turn}",
+//            "$worldAreaName $locationPoint",
+            "turn ${turn.turn}",
             "$hoveredPoint " + (hoveredEntity?.let { "(${it.name()})" } ?: ""),
             selectedEntity?.run {
                 val selectedPoint = get(position)!!.gridPosition
@@ -120,7 +152,7 @@ class RenderGUISystem(
 
         info.forEachIndexed {
             i, _ ->
-            font.draw(stageBatch, info[i], point.x, point.y - dy * i)
+            font.draw(stageBatch, info[i], systemInfoPoint.x, systemInfoPoint.y - textInfoDy * i)
         }
     }
 
@@ -164,33 +196,39 @@ class RenderGUISystem(
                 .add(actionsPoint.x, actionsPoint.y)
             val buttonInfo = ButtonInfo(
                 iconPoint = iconPoint,
-                frame = Rectangle(point.x, point.y, spriteWidth * guiZoom, spriteHeight * guiZoom),
-                callback = { println(skill.name) }
+                frame = Rectangle(point.x, point.y, spriteWidth, spriteHeight),
+                callback = { send(SkillSelectCommand(skill)) }
             )
             buttonInfo
         }
     }
 
-    //todo multiple viewports issue
-    private fun onMouseClick(viewportPoint: Vector2, mouseButton: Int) {
+    private fun onMouseClick(viewportPoint: Vector2, stageViewportPoint: Vector2, mouseButton: Int) {
+        val guiPoint = guiPoint(stageViewportPoint)
+        val button = button(guiPoint) ?: return
+
         buttons.forEach {
             it.selected = false
         }
-        val button = button(viewportPoint) ?: return
-        button.selected = true
 
-        //todo skill select event
+        button.selected = true
+        button.callback.invoke()
     }
 
-    //todo multiple viewports issue
-    private fun onMouseMoved(viewportPoint: Vector2) {
+    private fun onMouseMoved(viewportPoint: Vector2, stageViewportPoint: Vector2) {
+        val guiPoint = guiPoint(stageViewportPoint)
+
         buttons.forEach {
             it.hovered = false
         }
-        val button = button(viewportPoint) ?: return
+        val button = button(guiPoint) ?: return
         button.hovered = true
     }
 
     private fun button(viewportPoint: Vector2) =
-        buttons.find { it.frame.contains(viewportPoint.uncentered()) }
+        buttons.find {
+            it.guiViewportFrame.contains(viewportPoint/*.uncentered()*/)
+        }
+
+    private fun guiPoint(viewportPoint: Vector2) = viewportPoint//.div(guiZoom)
 }

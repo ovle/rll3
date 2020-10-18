@@ -6,5 +6,5 @@ data class EntityViewTemplate(
     var name: String = "",
     var version: String = "0.1",
     var sprite: Map<String, GridPoint2>? = null,
-    var portrait: Collection<GridPoint2>? = null
+    var portrait: GridPoint2? = null
 )

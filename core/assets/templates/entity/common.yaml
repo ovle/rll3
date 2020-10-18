@@ -8,8 +8,9 @@ state:
   collision:
   container:
   move:
-  task:
+  action:
 skills:
+  - move
   - attack
   - war-cry
 
@@ -23,8 +24,9 @@ state:
   collision:
   container:
   move:
-  task:
+  action:
 skills:
+  - move
   - fireball
   - heal-self
 
@@ -38,6 +40,7 @@ state:
   collision:
   container:
   move:
+  action:
 skills:
   - attack
 
@@ -52,6 +55,7 @@ state:
   collision:
   container:
   move:
+  action:
 skills:
   - attack
 
@@ -62,9 +66,9 @@ state:
   stash:
   container:
 
-#---
-#name: door
-#state:
-#  collision:
-#    passable4Light: false
-#  door:
+---
+name: door
+state:
+  collision:
+    passable4Light: false
+  door:

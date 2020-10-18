@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
 import com.ovle.rll3.model.module.collision.CollisionComponent
 import com.ovle.rll3.model.module.core.component.IdComponent
-import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
 import com.ovle.rll3.model.module.game.GameComponent
@@ -50,6 +49,8 @@ fun EntitySystem.selectedEntity() = playerInteractionInfo()?.selectedEntity
 //fun EntitySystem.controlledEntities() = entitiesWith(allEntities().toList(), TaskPerformerComponent::class)
 fun EntitySystem.entity(id: EntityId) = entity(id, allEntities().toList())
 fun EntitySystem.entityNullable(id: EntityId) = entityNullable(id, allEntities().toList())
+
+fun EntitySystem.isPartyEntity(id: EntityId) = id in gameInfo()!!.party
 
 fun entityNullable(id: EntityId, entities: Collection<Entity>) = entitiesWith(entities, IdComponent::class)
         .singleOrNull { it[ComponentMappers.id]!!.id == id }

@@ -3,11 +3,17 @@ package com.ovle.rll3.model.module.skill
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.SkillEffect
-import com.ovle.rll3.event.Event.GameEvent.EntityGatheredEvent
-import com.ovle.rll3.event.Event.GameEvent.EntityTakeDamageEvent
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 
 //todo combine
+
+val startMoveEffect: SkillEffect = { source, target, amount ->
+    target as GridPoint2
+    println("move effect")
+//    EventBus.send(EntityStartMoveCommand(source, target))
+}
 
 val damageEffect: SkillEffect = { source, target, amount ->
     target as Entity

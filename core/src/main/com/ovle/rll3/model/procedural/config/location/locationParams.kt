@@ -29,7 +29,7 @@ import com.ovle.rll3.model.template.structure.structureTemplates
 //    tileMapper = ::tileMapper
 //)
 
-fun locationParams(world: WorldInfo, locationPoint: GridPoint2) = LocationGenerationParams(
+fun locationParams(world: WorldInfo/*locationPoint: GridPoint2*/) = LocationGenerationParams(
     templateName = "Common",
     postProcessors = arrayOf(
         StructureTemplateProcessor(structureTemplates(TemplatesType.Common)),

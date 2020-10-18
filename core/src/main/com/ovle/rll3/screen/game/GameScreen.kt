@@ -14,17 +14,15 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.eventLogHook
 import com.ovle.rll3.model.module.ai.AISystem
 import com.ovle.rll3.model.module.controls.PlayerControlsSystem
-import com.ovle.rll3.model.module.entityAction.EntityActionSystem
+import com.ovle.rll3.model.module.game.CombatSystem
 import com.ovle.rll3.model.module.game.GameSystem
 import com.ovle.rll3.model.module.gathering.ResourceSystem
 import com.ovle.rll3.model.module.health.HealthSystem
-import com.ovle.rll3.model.module.interaction.BaseInteractionSystem
-import com.ovle.rll3.model.module.interaction.EntityInteractionSystem
-import com.ovle.rll3.model.module.interaction.TileInteractionSystem
+import com.ovle.rll3.model.module.interaction.InteractionSystem
 import com.ovle.rll3.model.module.render.*
 import com.ovle.rll3.model.module.skill.SkillSystem
 import com.ovle.rll3.model.module.space.MoveSystem
-import com.ovle.rll3.model.module.time.TimeSystem
+import com.ovle.rll3.model.module.time.TurnSystem
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.screen.PlayerControls
 import com.ovle.rll3.view.scaleScrollCoeff
@@ -39,7 +37,7 @@ class GameScreen(
 ) : BaseScreen(screenManager, batch, camera) {
 
     private lateinit var ecsEngine: PooledEngine
-    private val controls = PlayerControls(batchViewport)
+    private val controls = PlayerControls(batchViewport, stage.viewport)
 
     override fun show() {
         super.show()
@@ -59,17 +57,13 @@ class GameScreen(
             AnimationSystem(),
 
             GameSystem(gamePayload),
+            CombatSystem(),
+            InteractionSystem(),
 
-            TimeSystem(),
-//            TaskSystem(),
+            TurnSystem(),
             AISystem(assetsManager.behaviorTrees),
-            EntityActionSystem(),
             MoveSystem(),
             HealthSystem(),
-
-            BaseInteractionSystem(),
-            EntityInteractionSystem(),
-            TileInteractionSystem(),
 
             SkillSystem(),
             ResourceSystem()

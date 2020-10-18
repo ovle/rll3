@@ -15,7 +15,7 @@ import java.io.Serializable
 
 data class LocationInfo(
     val id: LocationId,
-    val locationPoint: GridPoint2,
+//    val locationPoint: GridPoint2,
     val random: RandomParams,
     val params: LocationGenerationParams,
     val quests: MutableList<QuestInfo> = mutableListOf(),
