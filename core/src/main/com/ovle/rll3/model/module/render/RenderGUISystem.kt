@@ -207,6 +207,7 @@ class RenderGUISystem(
         val guiPoint = guiPoint(stageViewportPoint)
         val button = button(guiPoint) ?: return
 
+        //todo deselect on turn's end
         buttons.forEach {
             it.selected = false
         }

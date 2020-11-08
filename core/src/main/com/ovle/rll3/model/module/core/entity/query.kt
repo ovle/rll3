@@ -11,6 +11,7 @@ import com.ovle.rll3.model.module.collision.CollisionComponent
 import com.ovle.rll3.model.module.core.component.IdComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
+import com.ovle.rll3.model.module.game.ActionComponent
 import com.ovle.rll3.model.module.game.GameComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import ktx.ashley.get
@@ -33,6 +34,7 @@ fun EntitySystem.allEntities() = this.engine.entities
 //----------------------------------------------------------------------------------------------------------------------------------
 
 fun EntitySystem.gameInfo() = entityWith(allEntities().toList(), GameComponent::class)?.get(game)
+fun EntitySystem.actionEntities() = entitiesWith(allEntities().toList(), ActionComponent::class)
 
 fun EntitySystem.locationInfoNullable() = gameInfo()?.location
 fun EntitySystem.locationInfo() = locationInfoNullable()!!

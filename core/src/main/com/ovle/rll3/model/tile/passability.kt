@@ -13,4 +13,5 @@ fun tilePassType(tile: Tile) = when(tile) {
     else -> TilePassType.Passable
 }
 
-fun TileArray.isPassable(point: GridPoint2) = tilePassType(this[point.x, point.y]) == TilePassType.Passable
+fun TileArray.isPassable(point: GridPoint2) = this.isPointValid(point)
+    && tilePassType(this[point.x, point.y]) == TilePassType.Passable

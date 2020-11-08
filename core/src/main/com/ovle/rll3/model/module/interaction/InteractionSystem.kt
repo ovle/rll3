@@ -1,12 +1,16 @@
 package com.ovle.rll3.model.module.interaction
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.Event.PlayerControlEvent.*
+import com.ovle.rll3.event.Event.TurnFinishedEvent
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers
+import com.ovle.rll3.model.module.core.component.ComponentMappers.action
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
@@ -24,8 +28,24 @@ class InteractionSystem : EventSystem() {
         EventBus.subscribe<EntityHoverEvent> { onEntityHoverEvent(it.entity) }
         EventBus.subscribe<EntityUnhoverEvent> { onEntityUnhoverEvent() }
         EventBus.subscribe<SkillSelectCommand> { onSkillSelectCommand(it.skill) }
+        EventBus.subscribe<TurnFinishedEvent> { onTurnFinishedEvent() }
 
         EventBus.subscribe<EntityDestroyedEvent> { onEntityDestroyedEvent(it.entity) }
+    }
+
+    private fun onTurnFinishedEvent() {
+        val interactionInfo = playerInteractionInfo()!!
+        with(interactionInfo) {
+            selectedEntity = null
+            selectedSkill = null
+            selectedSkillTarget = null
+        }
+        val actionEntities = actionEntities()
+        actionEntities.forEach {
+            val action = it[action]!!
+            action.selectedSkill = null
+            action.selectedSkillTarget = null
+        }
     }
 
     private fun onEntityDestroyedEvent(entity: Entity) {
@@ -55,6 +75,13 @@ class InteractionSystem : EventSystem() {
 
     private fun onVoidClickEvent(button: Int, point: GridPoint2) {
         val interactionInfo = playerInteractionInfo()!!
+
+        if (button == Input.Buttons.RIGHT) {
+            when {
+                entitySelected(interactionInfo) -> deselect()
+            }
+        }
+
         when {
             partyEntitySelected(interactionInfo) &&
             skillSelected(interactionInfo) &&
@@ -72,7 +99,7 @@ class InteractionSystem : EventSystem() {
         val targetCandidate = skill.target?.invoke(point, locationInfo)
         check(targetCandidate is GridPoint2)
 
-        interactionInfo.selectedSkillTarget = targetCandidate
+        selectSkillTarget(interactionInfo, targetCandidate)
 
         println("skill target: $point")
     }
@@ -85,9 +112,16 @@ class InteractionSystem : EventSystem() {
         val targetCandidate = skill.target?.invoke(entityPosition, locationInfo)
         check(targetCandidate is Entity)
 
-        interactionInfo.selectedSkillTarget = targetCandidate
+        selectSkillTarget(interactionInfo, targetCandidate)
 
         println("skill target: $entity")
+    }
+
+    private fun selectSkillTarget(interactionInfo: PlayerInteractionComponent, targetCandidate: Any?) {
+        val selectedEntity = interactionInfo.selectedEntity!!
+
+        selectedEntity[action]!!.selectedSkillTarget = targetCandidate
+        interactionInfo.selectedSkillTarget = targetCandidate
     }
 
 
@@ -99,7 +133,7 @@ class InteractionSystem : EventSystem() {
         interactionInfo.selectedSkillTarget = null
 
         val selectedEntity = interactionInfo.selectedEntity!!
-        selectedEntity[ComponentMappers.action]!!.selectedSkill = skill
+        selectedEntity[action]!!.selectedSkill = skill
 
 //        send(EntitySkillSelectedEvent(selectedEntity()!!, skill))
     }

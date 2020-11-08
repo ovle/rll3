@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
+import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.playerInteraction
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rll3.model.module.core.entity.actionEntities
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.entity.playerInteraction
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
@@ -59,13 +61,17 @@ class RenderInteractionInfoSystem(
     private fun drawSelection(interactionComponent: PlayerInteractionComponent) {
         with (interactionComponent) {
             selectedEntity?.let { draw(it, selectionEntitySprite) }
-            selectedSkillTarget?.let {
-                when (it) {
-                    is GridPoint2 -> draw(it, skillTargetTileSprite)
-                    is Entity -> draw(it, skillTargetEntitySprite)
-                    else -> {
-                        //todo
-                    }
+        }
+
+        val actionEntities = actionEntities()
+        actionEntities.forEach {
+            val action = it[ComponentMappers.action]!!
+            val target = action.selectedSkillTarget ?: return@forEach
+            when (target) {
+                is GridPoint2 -> draw(target, skillTargetTileSprite)
+                is Entity -> draw(target, skillTargetEntitySprite)
+                else -> {
+                    //todo
                 }
             }
         }
