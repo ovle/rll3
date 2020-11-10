@@ -22,6 +22,11 @@ import com.ovle.rll3.view.palette.full.En.tealEn
 import com.ovle.rll3.view.palette.full.En.whiteEn
 import com.ovle.rll3.view.palette.full.Glow1bit.black1bit
 import com.ovle.rll3.view.palette.full.Glow1bit.white1bit
+import com.ovle.rll3.view.palette.full.Oil.blackOil
+import com.ovle.rll3.view.palette.full.Oil.darkOil
+import com.ovle.rll3.view.palette.full.Oil.grayOil
+import com.ovle.rll3.view.palette.full.Oil.lightGrayOil
+import com.ovle.rll3.view.palette.full.Oil.whiteOil
 
 //------------------------------------------------
 
@@ -142,9 +147,17 @@ internal val palette2Color = arrayOf(
     white1bit
 )
 
-val paletteMain = arrayOf(
+val paletteEn4 = arrayOf(
     blackEn,
     greenEn,
     tealEn,
     whiteEn
+)
+
+val paletteOil = arrayOf(
+    blackOil,
+    darkOil,
+    grayOil,
+    lightGrayOil,
+    whiteOil
 )

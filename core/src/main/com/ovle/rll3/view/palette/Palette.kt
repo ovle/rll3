@@ -13,7 +13,7 @@ object Palette {
     /**
      * in-game displayed palette
      */
-    val palette = paletteMain
+    val palette = paletteOil
 
     /**
      * in-game background color (usually the most dark color of the palette)

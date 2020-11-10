@@ -19,9 +19,9 @@ const val gameFullscreen = false
 const val skinPath = "skins/c64/uiskin.json"
 const val fontName = "commodore-64"
 
-const val tileTexturePath = "images/tiles.png"
-const val spriteTexturePath = "images/sprites.png"
-const val guiTexturePath = "images/gui.png"
+const val tileTexturePath = "images/tiles_oil.png"
+const val spriteTexturePath = "images/sprites_oil.png"
+const val guiTexturePath = "images/gui_oil.png"
 
 const val entityTemplatePath = "templates/entity/"
 const val entityViewTemplatePath = "templates/entity/view/"
