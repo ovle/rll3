@@ -8,6 +8,7 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers.taskPerformer
 import com.ovle.rll3.model.module.core.entity.controlledEntities
+import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import ktx.ashley.get
 
@@ -34,8 +35,9 @@ class TaskSystem : EventSystem() {
     }
 
     private fun onCheckTaskCommand(target: TaskTarget) {
+        val locationInfo = locationInfo()
         val taskTemplate = taskTemplates()
-            .firstOrNull { it.targetFilter?.invoke(target) ?: true } ?: return
+            .firstOrNull { it.targetFilter?.invoke(target, locationInfo) ?: true } ?: return
 
         enqueueTask(taskTemplate, target)
     }

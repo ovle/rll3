@@ -24,12 +24,11 @@ const val structurePitTileId = 'O'
 const val roadTileId = 'r'
 const val fenceTileId = 'f'
 
-const val outOfMapTileId = naturalHighWallTileId
-
 val pitTypes = setOf(pitFloorTileId, deepWaterTileId, shallowWaterTileId, structurePitTileId)
 val solidWallTypes = setOf(naturalHighWallTileId, naturalLowWallTileId, structureWallWTileId, structureWallSTileId)
 val wallTypes = setOf(naturalHighWallTileId, naturalLowWallTileId, structureWallWTileId, structureWallSTileId, fenceTileId)
 val floorTypes = setOf(highGroundTileId, lowGroundTileId, desertTileId, tundraTileId, jungleTileId, pitFloorTileId, structureFloorWTileId, structureFloorSTileId)
 val groundTypes = setOf(highGroundTileId, lowGroundTileId, desertTileId, tundraTileId, jungleTileId)
 val naturalWallTypes = setOf(naturalLowWallTileId, naturalHighWallTileId)
+val minableTypes = naturalWallTypes
 //val structureTypes = setOf(structureFloorWTileId, structureFloorSTileId, structureWallWTileId)

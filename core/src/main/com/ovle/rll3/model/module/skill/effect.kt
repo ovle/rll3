@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.module.skill
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.SkillEffect
 import com.ovle.rll3.event.Event.GameEvent.EntityGatheredEvent
 import com.ovle.rll3.event.Event.GameEvent.EntityTakeDamageEvent
@@ -16,6 +17,10 @@ val damageEffect: SkillEffect = { source, target, amount ->
 val gatherEffect: SkillEffect = { source, target, amount ->
     target as Entity
     EventBus.send(EntityGatheredEvent(target, source, amount))
+}
+
+val mineEffect: SkillEffect = { source, target, amount ->
+    //todo
 }
 
 val healEffect: SkillEffect = { source, _, amount ->

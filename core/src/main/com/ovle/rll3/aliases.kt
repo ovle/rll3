@@ -21,7 +21,7 @@ typealias SetScreen = (BaseScreen, Any?) -> Unit
 
 typealias EntityFilter = (Entity) -> Boolean
 typealias TaskPerformerFilter = EntityFilter
-typealias TaskTargetFilter = (TaskTarget) -> Boolean
+typealias TaskTargetFilter = (TaskTarget, LocationInfo) -> Boolean
 typealias TaskAction = (Entity, TaskTarget) -> Unit
 typealias SuccessCondition = (Entity, TaskTarget) -> Boolean
 //typealias FailCondition = (Entity, TaskTarget) -> Boolean

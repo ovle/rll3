@@ -35,9 +35,10 @@ class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard
         val aiComponent = performer[ai] ?: return
         val blackboard = BaseBlackboard(taskInfo, engine)
         val taskTemplate = taskInfo.template
-
         val btName = taskTemplate.btName
-        val behaviorTreePrototype = behaviorTrees[btName]!!
+        val behaviorTreePrototype = behaviorTrees[btName]
+        checkNotNull(behaviorTreePrototype, { "behavior tree '$btName' not found" })
+
         val behaviorTree = behaviorTreePrototype.cloneTask()
             .let { it as BehaviorTree<BaseBlackboard> }
             .apply { this.`object` = blackboard }
