@@ -40,7 +40,7 @@ class PondLocationProcessor(val params: PondLocationProcessorParams): LocationPr
             val (x, y) = startPoint
             val finishHeightValue = grid[x, y] + params.depth
             fun check(value: Float) = value < finishHeightValue
-            println("-------- start floodFill ($x $y) finishHeightValue: $finishHeightValue")
+//            println("-------- start floodFill ($x $y) finishHeightValue: $finishHeightValue")
 
             val area = floodFill(x, y, grid, ::check)
 
@@ -58,7 +58,7 @@ class PondLocationProcessor(val params: PondLocationProcessorParams): LocationPr
 
         startPoints.clear()
 
-        println("ponds: ${ponds.size}")
+//        println("ponds: ${ponds.size}")
         ponds.forEach {
             it.apply(locationInfo.tiles, shallowWaterTileId)
         }
@@ -82,7 +82,7 @@ class PondLocationProcessor(val params: PondLocationProcessorParams): LocationPr
                 }
             }
         }
-        println("start points (ponds): ${result.size}")
+//        println("start points (ponds): ${result.size}")
         return result
     }
 }

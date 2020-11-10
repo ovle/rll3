@@ -33,12 +33,12 @@ portrait:
 
 name: wood
 sprite:
-  default: [2, 7]
+  default: [8, 2]
 ---
 
 name: stone
 sprite:
-  default: [3, 7]
+  default: [9, 2]
 ---
 
 name: window w

@@ -67,7 +67,7 @@ class RiverWorldProcessor(val params: RiverWorldProcessorParams): WorldProcessor
 
         startPoints.clear()
 
-        println("rivers: ${rivers.size}")
+//        println("rivers: ${rivers.size}")
         rivers.forEach {
             it.area.apply(worldInfo.tiles, shallowWaterTileId)
         }
@@ -83,7 +83,7 @@ class RiverWorldProcessor(val params: RiverWorldProcessorParams): WorldProcessor
                 }
             }
         }
-        println("start points (rivers): ${result.size}")
+//        println("start points (rivers): ${result.size}")
         return result
     }
 }

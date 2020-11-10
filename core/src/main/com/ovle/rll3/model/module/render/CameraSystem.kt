@@ -2,6 +2,7 @@ package com.ovle.rll3.model.module.render
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.Event.PlayerControlEvent.*
@@ -21,6 +22,7 @@ class CameraSystem(
 ): EventSystem() {
 
     private val screenCenter = vec3(screenWidth / 2, screenHeight / 2)
+    private val focusZoom = 0.5f
 
     override fun subscribe() {
         EventBus.subscribe<CameraScaleIncCommand> { onScaleChange(0.1f) }
@@ -48,19 +50,6 @@ class CameraSystem(
         focusCamera(entity)
     }
 
-    private fun focusCamera(entity: Entity) {
-        val focusedPosition = entity[position]?.gridPosition ?: return
-        val focusedWorldPosition = vec3(
-            focusedPosition.x * tileWidth.toFloat(),
-            focusedPosition.y * tileHeight.toFloat()
-        )
-
-        if (focusedWorldPosition.epsilonEquals(camera.position)) return
-
-        camera.position.set(focusedWorldPosition.x, focusedWorldPosition.y, 0.0f)
-        camera.update()
-    }
-
     private fun onScaleChange(diff: Float) {
         camera.zoom -= diff
         camera.update()
@@ -79,5 +68,24 @@ class CameraSystem(
         camera.update()
 
 //        println("position: ${camera.position}")
+    }
+
+
+    private fun focusCamera(entity: Entity) {
+        val position = entity[position]?.gridPosition ?: return
+        focusCamera(position)
+    }
+
+    private fun focusCamera(position: GridPoint2) {
+        val focusedWorldPosition = vec3(
+            position.x * tileWidth.toFloat(),
+            position.y * tileHeight.toFloat()
+        )
+
+        if (focusedWorldPosition.epsilonEquals(camera.position)) return
+
+        camera.position.set(focusedWorldPosition.x, focusedWorldPosition.y, 0.0f)
+        camera.zoom = focusZoom
+        camera.update()
     }
 }

@@ -21,7 +21,7 @@ import ktx.ashley.get
 
 class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
 
-    private val startFocusEntityId = "elder1"
+    private val startFocusEntityId = "elder"
     private val world = initGameInfo.world
     private val locationPoint = initGameInfo.locationPoint
 

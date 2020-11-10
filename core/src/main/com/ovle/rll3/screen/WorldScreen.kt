@@ -44,11 +44,11 @@ class WorldScreen(
 ) : BaseScreen(screenManager, batch, camera) {
 
     private val worldFactory = WorldFactory(worldParams)
-    private lateinit var world: WorldInfo
+    private var world: WorldInfo = world()
     private var seed: Seed = 123L
 
     private val textureRegions by lazy { TextureRegionsInfo(assetsManager.levelTexture) }
-    private val cursorSprite by lazy { sprite(textureRegions.regions, 3, 0) }
+    private val cursorSprite by lazy { sprite(textureRegions.regions, 7, 0) }
     private val selectionSprite by lazy { sprite(textureRegions.regions, 6, 0) }
 
     private var mapRenderer: TiledMapRenderer? = null
@@ -56,12 +56,12 @@ class WorldScreen(
 
     private val controls = PlayerControls(batchViewport)
     private var cursorPoint: GridPoint2? = null
-    private var locationPoint: GridPoint2? = null
+//    private var locationPoint: GridPoint2? = point(76, 85)  //todo
+    private var locationPoint: GridPoint2? = point(101, 96)  //todo
 
     private lateinit var nameTextField: TextField
     private lateinit var areaLabel: Label
     private lateinit var seedLabel: Label
-
 
     //todo extract view
     override fun rootActor() =
@@ -101,7 +101,7 @@ class WorldScreen(
         subscribe<MouseMovedEvent> { onMouseMoved(it.viewportPoint) }
         subscribe<MouseClickEvent> { onMouseClick(it.viewportPoint) }
 
-        generateWorld()
+        initMap()
     }
 
     override fun hide() {
@@ -132,6 +132,9 @@ class WorldScreen(
 
         locationPoint?.let {
             it.nearHV().forEach {
+                p -> batch.draw(vec2(p), cursorSprite.textureRegion())
+            }
+            it.nearD().forEach {
                 p -> batch.draw(vec2(p), selectionSprite.textureRegion())
             }
         }
@@ -181,12 +184,18 @@ class WorldScreen(
 
     private fun generateWorld() {
         seed = Random.nextLong()
-        seedLabel.setText("Seed: $seed")
+        world = world().apply { name = nameTextField.text }
 
-        world = worldFactory.get(RandomParams(seed)).apply { name = nameTextField.text }
+        initMap()
+    }
+
+    private fun initMap() {
+        seedLabel.setText("Seed: $seed")
         tiledMap = tiledMap(world.tiles, textureRegions, ::tileToTextureRegion)
         mapRenderer = OrthogonalTiledMapRenderer(tiledMap)
     }
+
+    private fun world() = worldFactory.get(RandomParams(seed))
 
     private fun tileToTextureRegion(params: TileToTextureParams): TextureRegion {
         val regions = params.textureRegions.regions
