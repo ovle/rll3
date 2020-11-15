@@ -15,23 +15,20 @@ import ktx.ashley.get
 class ResourceSystem : EventSystem() {
 
     override fun subscribe() {
-        subscribe<EntityGatheredEvent> { onEntityGathered(it.entity, it.amount) }
+        subscribe<EntityGatheredEvent> { onEntityGathered(it.entity) }
         subscribe<TimeChangedEvent> { onTimeChanged(it.turn) }
     }
 
-    private fun onEntityGathered(entity: Entity, amount: Int) {
+    private fun onEntityGathered(entity: Entity) {
+        println("onEntityGathered!")
         val sourceComponent = entity[source]!!  //todo
-        sourceComponent.gatherCostPaid += amount
+        val gridPosition = entity[position]!!.gridPosition
+        val resourceType = sourceComponent.type.name.decapitalize()
 
-        if (sourceComponent.isGathered) {
-            val gridPosition = entity[position]!!.gridPosition
-            val resourceType = sourceComponent.type.name.decapitalize()
+        send(DestroyEntityCommand(entity))
 
-            send(DestroyEntityCommand(entity))
-
-            val template = entityTemplate(name = resourceType)
-            send(CreateEntityCommand(template, gridPosition))
-        }
+        val template = entityTemplate(name = resourceType)
+        send(CreateEntityCommand(template, gridPosition))
     }
 
     private fun onTimeChanged(turn: Turn) {

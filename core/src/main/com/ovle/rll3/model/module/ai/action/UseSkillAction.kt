@@ -2,20 +2,15 @@ package com.ovle.rll3.model.module.ai.action
 
 import com.badlogic.gdx.ai.btree.Task
 import com.badlogic.gdx.ai.btree.annotation.TaskAttribute
-import com.ovle.rll3.SuccessCondition
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.ai.BaseBlackboard
 import com.ovle.rll3.model.module.ai.BaseTask
 import com.ovle.rll3.model.module.core.entity.locationInfo
-import com.ovle.rll3.model.module.task.EntityConditions.isDead
-import com.ovle.rll3.model.module.task.EntityConditions.isExists
 import com.ovle.rll3.model.module.task.TaskTarget
-import com.ovle.rll3.model.module.task.TileConditions.isPassable
-import com.ovle.rll3.model.module.task.asEntityTarget
-import com.ovle.rll3.model.module.task.asPositionTarget
 import com.ovle.rll3.model.template.TemplatesRegistry
 
+//todo is bt needed at all at this point, with such actions?
 @OptIn(ExperimentalStdlibApi::class)
 class UseSkillAction: BaseTask() {
 
@@ -23,24 +18,15 @@ class UseSkillAction: BaseTask() {
     lateinit var skillName: String
 
     override fun executeIntr(): Status {
-        val isSucceeded = isSkillSucceeded(skillName)
-        if (isSucceeded.invoke(owner, target)) return Status.SUCCEEDED
-
         val skillTemplate = TemplatesRegistry.skillTemplates[skillName]!!
+        val isSucceeded = skillTemplate.skillSuccess
+        if (isSucceeded.invoke(owner, target, locationInfo())) return Status.SUCCEEDED
+
         val targetEntity = (target as TaskTarget.EntityTarget).entity
 
         EventBus.send(Event.GameEvent.EntityUseSkill(owner, targetEntity, skillTemplate))
         return Status.RUNNING
     }
-
-    //todo move to skill template
-    private fun isSkillSucceeded(skillName: String): SuccessCondition =
-        when (skillName) {
-            "gather" -> { _, t -> !isExists(t.asEntityTarget().entity) }
-            "mine" -> { _, t -> !isPassable(t.asPositionTarget().position, locationInfo()) }
-            "attack" -> { _, t -> isDead(t.asEntityTarget().entity) }
-            else -> { _, _ -> false }
-        }
 
     private fun locationInfo() = locationInfo(entities.toTypedArray())!!
 

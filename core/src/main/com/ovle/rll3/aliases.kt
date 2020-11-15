@@ -33,6 +33,7 @@ typealias EntityCheck = Entity.() -> Boolean
 
 typealias EffectAmount = Int
 typealias SkillEffect = (Entity, Any?, EffectAmount) -> Unit
+typealias SkillSuccessCondition = (Entity, TaskTarget, LocationInfo) -> Boolean
 typealias GetEffectAmount = (Entity) -> EffectAmount
 typealias GetTarget = (GridPoint2, LocationInfo) -> Any?
 typealias SkillCost = (Entity) -> Unit

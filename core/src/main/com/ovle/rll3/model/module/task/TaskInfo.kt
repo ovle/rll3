@@ -4,11 +4,14 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.model.module.core.entity.anyTaskPerformer
 import java.io.Serializable
 
-//todo progress
+/**
+ * task for ai
+ * no duration (varies depend on conditions)
+ * single performer (null if not taken yet)
+ */
 data class TaskInfo(
     val template: TaskTemplate,
-    var performer: Entity?,   //todo multiple ?
-    val target: TaskTarget,
-    var started: Boolean = false
+    var performer: Entity?,
+    val target: TaskTarget
 ): Serializable
 

@@ -25,6 +25,7 @@ import com.ovle.rll3.model.module.render.*
 import com.ovle.rll3.model.module.skill.SkillSystem
 import com.ovle.rll3.model.module.space.MoveSystem
 import com.ovle.rll3.model.module.task.TaskSystem
+import com.ovle.rll3.model.module.tile.TileSystem
 import com.ovle.rll3.model.module.time.TimeSystem
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.screen.PlayerControls
@@ -73,7 +74,8 @@ class GameScreen(
             TileInteractionSystem(),
 
             SkillSystem(),
-            ResourceSystem()
+            ResourceSystem(),
+            TileSystem()
         )
 
         ecsEngine = PooledEngine()

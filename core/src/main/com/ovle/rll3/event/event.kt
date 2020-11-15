@@ -65,7 +65,7 @@ sealed class Event {
         class EntityInteraction(val source: Entity, val target: Entity, val interaction: EntityInteraction) : GameEvent()
         class EntityUseSkill(val source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : GameEvent()
         class EntityChangedEvent(val entity: Entity) : GameEvent()
-        class EntityGatheredEvent(val entity: Entity, val source: Entity?, val amount: Int) : GameEvent()
+        class EntityGatheredEvent(val entity: Entity, val source: Entity?) : GameEvent()
         class EntityTakeDamageEvent(val entity: Entity, val source: Entity?, val amount: Int) : GameEvent()
         class EntityDiedEvent(val entity: Entity) : GameEvent()
         class EntityStartMoveCommand(val entity: Entity, val point: GridPoint2) : GameEvent()
@@ -74,6 +74,9 @@ sealed class Event {
         class EntityFinishedMoveEvent(val entity: Entity) : GameEvent()
         class EntityContentInteraction(val source: Entity, val target: Entity) : GameEvent()
         class EntityTakeItems(val entity: Entity, val items: Collection<Entity>) : GameEvent()
+
+        class ChangeTileCommand(val tile: Tile, val position: GridPoint2) : GameEvent()
+        class TileChangedEvent(val tile: Tile, val position: GridPoint2) : Event()
 
         class TaskStartedEvent(val task: TaskInfo) : GameEvent()
         class TaskFinishedEvent(val task: TaskInfo) : GameEvent()
@@ -87,6 +90,4 @@ sealed class Event {
     class GameDidFinishedEvent : Event()
     class DebugSwitchSelectionMode(val selectionMode: SelectionMode) : Event()
     class DebugSwitchControlMode(val controlMode: ControlMode) : Event()
-    class DebugTileChanged(val tile: Tile, val position: GridPoint2) : Event()
-
 }

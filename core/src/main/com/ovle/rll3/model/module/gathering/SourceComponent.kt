@@ -6,14 +6,8 @@ import com.ovle.rll3.model.module.core.component.BaseComponent
 
 class SourceComponent(
     val type: ResourceType,
-    val amount: ResourceAmount,
-
-    var gatherCostPaid: ResourceGatherCost = 0
-) : BaseComponent {
-
-    val isGathered: Boolean
-        get() = gatherCostPaid >= type.gatherCost
-}
+    val amount: ResourceAmount
+) : BaseComponent
 
 enum class ResourceType(val gatherCost: ResourceGatherCost) {
     Wood(3),

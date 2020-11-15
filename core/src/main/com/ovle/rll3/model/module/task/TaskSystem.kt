@@ -61,7 +61,9 @@ class TaskSystem : EventSystem() {
 
     private fun startTask(task: TaskInfo, performer: Entity) {
         task.performer = performer
-        performer[taskPerformer]!!.current = task
+
+        val performerComponent = performer[taskPerformer]!!
+        performerComponent.current = task
 
         send(TaskStartedEvent(task))
     }

@@ -12,9 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.Tile
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.event.Event.DebugTileChanged
-import com.ovle.rll3.event.Event.GameEvent.EntityFovUpdatedEvent
-import com.ovle.rll3.event.Event.GameEvent.LocationLoadedEvent
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
@@ -41,7 +39,7 @@ class RenderLocationSystem(
 
     override fun subscribe() {
         EventBus.subscribe<LocationLoadedEvent> { onLocationLoaded(it.location) }
-        EventBus.subscribe<DebugTileChanged> { onDebugTileChanged(it.tile, it.position) }
+        EventBus.subscribe<TileChangedEvent> { onTileChangedEvent(it.tile, it.position) }
         EventBus.subscribe<EntityFovUpdatedEvent> { onEntityFovUpdated(it.entity) }
     }
 
@@ -59,7 +57,7 @@ class RenderLocationSystem(
         mapRenderer = OrthogonalTiledMapRenderer(tiledMap)
     }
 
-    private fun onDebugTileChanged(tile: Tile, position: GridPoint2) {
+    private fun onTileChangedEvent(tile: Tile, position: GridPoint2) {
         val layer = tiledMap!!.layers.single() as TiledMapTileLayer
         layer.updateTile(tile, position, textureRegions, ::tileToTextureRegion)
     }
