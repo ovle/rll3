@@ -12,13 +12,25 @@ import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import ktx.ashley.get
 
+
 //todo how to use with behaviour trees
 class TaskSystem : EventSystem() {
 
+    private val isRealTime = true
     private val tasks: Queue<TaskInfo> = Queue()
 
+    override fun update(deltaTime: Float) {
+        super.update(deltaTime)
+
+        if (isRealTime) {
+            onTimeChangedEvent(0)
+        }
+    }
+
     override fun subscribe() {
-        EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
+        if (!isRealTime) {
+            EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
+        }
 
         EventBus.subscribe<CheckTaskCommand> { onCheckTaskCommand(it.target) }
         EventBus.subscribe<TaskSucceedCommand> { onTaskSucceedCommand(it.task) }

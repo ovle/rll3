@@ -16,13 +16,8 @@ class EntityActionSystem : IteratingSystem(all(EntityActionComponent::class.java
             if (current == null) return
             checkNotNull(timeLeft)
 
-//            if (animation != null) {
-//                send(Event.EntityAnimationStart(entity, animation!!, timeLeft!!))
-//                animation = null
-//            }
-
             val deltaTicks = deltaTicks(deltaTime)
-            timeLeft = timeLeft?.minus(deltaTicks)
+            timeLeft = timeLeft!!.minus(deltaTicks)
 
             if (timeLeft!! <= 0) {
                 current!!.invoke()

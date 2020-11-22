@@ -18,16 +18,24 @@ import ktx.ashley.get
 
 class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard>>) : EventSystem() {
 
+    private val isRealTime = true
+
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
 
         GdxAI.getTimepiece().update(deltaTime);
+
+        if (isRealTime) {
+            onTimeChangedEvent(0)
+        }
     }
 
     override fun subscribe() {
         EventBus.subscribe<TaskStartedEvent> { onTaskStartedEvent(it.task) }
         EventBus.subscribe<TaskFinishedEvent> { onTaskFinishedEvent(it.task) }
-        EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
+        if (!isRealTime) {
+            EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
+        }
     }
 
     private fun onTaskStartedEvent(taskInfo: TaskInfo) {
@@ -61,9 +69,6 @@ class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard
         )
 
         aiComponent.behaviorTree = behaviorTree
-
-        //todo
-//        processEntity(performer)
     }
 
     //todo cleanup?

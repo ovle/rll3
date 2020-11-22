@@ -27,9 +27,9 @@ private fun message(event: Event) =
         is EntityTakeDamageEvent -> {
            "${event.entity.info()} takes ${event.amount} damage from ${event.source.info()}"
         }
-        is EntityUseSkillCommand -> {
-            "${event.source.info()} selected skill ${event.skillTemplate.name} for use on ${event.target.info()}"
-        }
+//        is EntityUseSkillCommand -> {
+//            "${event.source.info()} check skill ${event.skillTemplate.name} for use on ${event.target.info()}..."
+//        }
         is EntityStartUseSkillEvent -> {
             " > ${event.source.info()} started skill ${event.skillTemplate.name} on ${event.target.info()}"
         }
