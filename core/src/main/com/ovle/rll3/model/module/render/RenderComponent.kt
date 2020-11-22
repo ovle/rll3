@@ -10,7 +10,7 @@ class RenderComponent(
     var sprites: Map<String, Sprite> = mapOf()
 ) : BaseComponent {
 
-    var currentAnimation: Animation? = null
+    var currentAnimation: AnimationInfo? = null
 
     var flipped = false
 

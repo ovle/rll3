@@ -23,19 +23,20 @@ fun Batch.draw(position: GridPoint2, renderComponent: RenderComponent) {
     draw(vec2(position), region, renderComponent.flipped, animation)
 }
 
-fun Batch.draw(position: Vector2, region: TextureRegion, flipped: Boolean = false, animation: Animation? = null) {
+fun Batch.draw(position: Vector2, region: TextureRegion, flipped: Boolean = false, animation: AnimationInfo? = null) {
     val screenX = (position.x).roundToClosestByAbsInt() * tileWidth
     val screenY = (position.y).roundToClosestByAbsInt() * tileHeight
     val width = spriteWidth
     //use region.flip() ?
 
-    var r = region
+    var r: TextureRegion? = region
     var p = vec2(screenX.toFloat(), screenY.toFloat())
     animation?.let {
-        val type = animation.type
-        p = animationConfig[type]!!.process(p, animation)
-        r = animationConfig[type]!!.process(r, animation)
+        p = it.animation.process(p, animation)
+        r = it.animation.process(r!!, animation)
     }
+
+    if (r == null) return
 
     draw(
         r,
