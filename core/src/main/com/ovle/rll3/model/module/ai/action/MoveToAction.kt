@@ -1,11 +1,14 @@
 package com.ovle.rll3.model.module.ai.action
 
+import com.badlogic.gdx.ai.btree.Task
 import com.badlogic.gdx.ai.btree.Task.Status.*
+import com.badlogic.gdx.ai.btree.annotation.TaskAttribute
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.IsAtPositionStrategy
 import com.ovle.rll3.MoveStrategy
 import com.ovle.rll3.event.Event.GameEvent.EntityStartMoveCommand
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.model.module.ai.BaseBlackboard
 import com.ovle.rll3.model.module.ai.BaseTask
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
@@ -19,15 +22,18 @@ import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.nearHV
 import ktx.ashley.get
 
-
+//todo extract move strategy?
 class MoveToAction: BaseTask() {
+
+    @TaskAttribute(required = true)
+    lateinit var type: String
 
     override fun executeIntr(): Status {
         checkNotNull(owner[position])
         checkNotNull(owner[move])
 
         return when {
-            isAtPositionStrategy(target).invoke(owner, targetPosition) -> SUCCEEDED
+            isFinished() -> SUCCEEDED
             isMoving(owner) -> RUNNING
             else -> {
                 val from = owner[position]!!.gridPosition
@@ -36,19 +42,26 @@ class MoveToAction: BaseTask() {
 
                 val moveStrategy = moveStrategy(target)
                 val result = moveStrategy.invoke(from, targetPosition, level)
-                println("executeIntr move from $from to $targetPosition result:$result")
 
                 if (result) RUNNING else FAILED
             }
         }
     }
 
-    //todo i.e. 'break wall' task will have position target, but need to have isNear strategy
+    override fun copyTo(otherTask: Task<BaseBlackboard>): Task<BaseBlackboard> {
+        return super.copyTo(otherTask).apply {
+            otherTask as MoveToAction
+            otherTask.type = type
+        }
+    }
+
+    private fun isFinished() = isAtPositionStrategy(target).invoke(owner, targetPosition)
+
     private fun isAtPositionStrategy(target: TaskTarget): IsAtPositionStrategy =
-        if (target is TaskTarget.PositionTarget) ::isAtPosition else ::isNearPosition
+        if (type == "exact") ::isAtPosition else ::isNearPosition
 
     private fun moveStrategy(target: TaskTarget): MoveStrategy =
-        if (target is TaskTarget.PositionTarget) ::moveTo else ::moveNearTo
+        if (type == "exact") ::moveTo else ::moveNearTo
 
     private fun moveTo(from: GridPoint2, to: GridPoint2, location: LocationInfo): Boolean {
         val path = path(from, to, location)

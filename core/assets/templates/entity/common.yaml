@@ -33,7 +33,6 @@ state:
   collision:
 skills:
   - attack
-  - mass-heal
 
 ---
 
@@ -51,7 +50,6 @@ state:
   collision:
 skills:
   - attack
-  - jump
 
 ---
 

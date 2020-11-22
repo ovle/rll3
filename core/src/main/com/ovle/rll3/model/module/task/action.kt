@@ -13,11 +13,11 @@ fun moveTaskAction(e: Entity, t: TaskTarget) {
 fun gatherAction(e: Entity, t: TaskTarget) {
     t as TaskTarget.EntityTarget  //todo
     val st = TemplatesRegistry.skillTemplates["gather"] //todo
-    EventBus.send(Event.GameEvent.EntityUseSkill(e, t.entity, st!!))
+    EventBus.send(Event.GameEvent.EntityUseSkillCommand(e, t.entity, st!!))
 }
 
 fun attackAction(e: Entity, t: TaskTarget) {
     t as TaskTarget.EntityTarget  //todo
     val st = TemplatesRegistry.skillTemplates["attack"] //todo
-    EventBus.send(Event.GameEvent.EntityUseSkill(e, t.entity, st!!))
+    EventBus.send(Event.GameEvent.EntityUseSkillCommand(e, t.entity, st!!))
 }

@@ -20,6 +20,9 @@ entities:
   - templateName: stash
     points:
       - [2, 2]
+  - templateName: wolf
+    points:
+      - [0, 4]
 
 #---
 #name: test village

@@ -1,10 +1,7 @@
-#import isAtPosition?:"com.ovle.rll3.model.module.ai.condition.IsAtPositionCondition"
-#import isMovingToPosition?:"com.ovle.rll3.model.module.ai.condition.IsMovingToPositionCondition"
-#import startMovingToPosition:"com.ovle.rll3.model.module.ai.action.StartMovingToPositionAction"
 import moveTo:"com.ovle.rll3.model.module.ai.action.MoveToAction"
 
 root
-    moveTo
+    moveTo type:"exact"
 #    selector
 #        isAtPosition?
 #        sequence

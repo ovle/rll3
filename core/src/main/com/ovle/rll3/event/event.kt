@@ -3,6 +3,7 @@ package com.ovle.rll3.event
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.EffectAmount
 import com.ovle.rll3.Tile
 import com.ovle.rll3.Turn
 import com.ovle.rll3.model.module.game.LocationInfo
@@ -60,10 +61,12 @@ sealed class Event {
         class ShowEntityInfoCommand(val entity: Entity) : GameEvent()
         class EntityFovUpdatedEvent(val entity: Entity) : GameEvent()
         class FocusEntityCommand(val entity: Entity) : GameEvent()
-
         //entity - model
+        class EntityUseSkillCommand(val source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : GameEvent()
+        class EntityStartUseSkillEvent(val source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : GameEvent()
+        class EntityFinishUseSkillEvent(val source: Entity, val target: Any?, val skillTemplate: SkillTemplate, val amount: EffectAmount) : GameEvent()
+
         class EntityInteraction(val source: Entity, val target: Entity, val interaction: EntityInteraction) : GameEvent()
-        class EntityUseSkill(val source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : GameEvent()
         class EntityChangedEvent(val entity: Entity) : GameEvent()
         class EntityGatheredEvent(val entity: Entity, val source: Entity?) : GameEvent()
         class EntityTakeDamageEvent(val entity: Entity, val source: Entity?, val amount: Int) : GameEvent()

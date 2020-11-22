@@ -22,7 +22,3 @@ val gatherEffect: SkillEffect = { source, target, _ ->
 val mineEffect: SkillEffect = { source, target, amount ->
     EventBus.send(ChangeTileCommand(lowGroundTileId, target as GridPoint2))
 }
-
-val healEffect: SkillEffect = { source, _, amount ->
-    //todo
-}

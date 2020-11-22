@@ -7,14 +7,14 @@ import com.ovle.rll3.*
  * @property cost
  * @property target
  * @property turns
- * @property skillEffect
+ * @property effect
  */
 data class SkillTemplate(
     val name: String = "",
     val cost: SkillCost = {},
     val target: GetTarget? = null,
-    val turns: Turn = 0,    //todo rewrite skill processing to support multi-turn actions
-    val skillEffect: SkillEffect = { _, _, _ -> },
-    val skillSuccess: SkillSuccessCondition = { _, _, _ -> true },
-    val skillEffectAmount: GetEffectAmount = { _ -> 1 }
+    val turns: Turn = 0,
+    val effect: SkillEffect = { _, _, _ -> },
+    val effectAmount: GetEffectAmount = { _ -> 1 },
+    val isSuccess: SkillSuccessCondition = { _, _, _ -> true }
 )

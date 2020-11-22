@@ -1,8 +1,12 @@
 package com.ovle.rll3
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.github.czyzby.noise4j.map.Grid
+import com.ovle.rll3.model.module.core.component.ComponentMappers
+import ktx.ashley.get
+import ktx.ashley.has
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -83,4 +87,19 @@ fun <E: Enum<E>> E.prev(): E {
     val enumConstants = this.declaringClass.enumConstants
     val nextOrdinal = if (this.ordinal == 0) enumConstants.size - 1 else this.ordinal - 1
     return enumConstants[nextOrdinal]
+}
+
+fun Collection<Entity>.info(): String {
+    val entityInfos = this.map { it.info() }
+    return entityInfos.groupBy { it }.entries.joinToString(", ") { (k, v) -> "${v.count()}x $k" }
+}
+
+fun Any?.info() = when {
+    this == null -> "(nothing)"
+    this is Entity -> when {
+        this.has(ComponentMappers.template) -> this[ComponentMappers.template]!!.template.name
+        else -> "(unknown entity)"
+    }
+    this is GridPoint2 -> this
+    else -> "(unknown)"
 }

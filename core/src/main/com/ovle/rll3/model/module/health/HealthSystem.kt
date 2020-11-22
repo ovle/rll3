@@ -17,10 +17,7 @@ class HealthSystem : EventSystem() {
 
     private fun onEntityTakeDamageEvent(entity: Entity, source: Entity?, amount: Int) {
         val lc = entity[health]!!
-        if (lc.health == 0) {
-            println("${entity.id()} is already dead")
-            return
-        }
+        if (lc.health == 0) return
 
         lc.health = max(lc.health - amount, 0)
 

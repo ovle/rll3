@@ -50,7 +50,7 @@ class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard
                     val root = behaviorTree.getChild(0)
                     if (task == root) {
                         val status = task.status
-                        println("statusUpdated: $status;  performer: ${task.`object`.task.performer};  target: ${task.`object`.task.target}")
+//                        println("statusUpdated: $status;  performer: ${task.`object`.task.performer};  target: ${task.`object`.task.target}")
                         if (status == Task.Status.SUCCEEDED) {
                             //todo cleanup?
                             send(TaskSucceedCommand(taskInfo))
@@ -61,6 +61,9 @@ class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard
         )
 
         aiComponent.behaviorTree = behaviorTree
+
+        //todo
+//        processEntity(performer)
     }
 
     //todo cleanup?

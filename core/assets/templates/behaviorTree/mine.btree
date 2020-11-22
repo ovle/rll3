@@ -2,5 +2,5 @@ import useSkill:"com.ovle.rll3.model.module.ai.action.UseSkillAction"
 
 root
     sequence
-        include subtree:"templates/behaviorTree/moveTo.btree"
+        include subtree:"templates/behaviorTree/moveNearTo.btree"
         useSkill skillName:"mine"

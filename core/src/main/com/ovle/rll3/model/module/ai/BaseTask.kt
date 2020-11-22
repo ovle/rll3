@@ -37,7 +37,7 @@ abstract class BaseTask: LeafTask<BaseBlackboard>() {
     override fun copyTo(otherTask: Task<BaseBlackboard>) = otherTask
 
     override fun execute(): Status {
-        println("execute ${this.javaClass}")
+//        println("execute ${this.javaClass}")
         return executeIntr()
     }
 

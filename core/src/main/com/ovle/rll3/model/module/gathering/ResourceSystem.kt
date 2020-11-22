@@ -20,7 +20,6 @@ class ResourceSystem : EventSystem() {
     }
 
     private fun onEntityGathered(entity: Entity) {
-        println("onEntityGathered!")
         val sourceComponent = entity[source]!!  //todo
         val gridPosition = entity[position]!!.gridPosition
         val resourceType = sourceComponent.type.name.decapitalize()

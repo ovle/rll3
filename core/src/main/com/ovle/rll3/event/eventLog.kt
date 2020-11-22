@@ -1,13 +1,10 @@
 package com.ovle.rll3.event
 
-import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.event.Event.*
-import com.ovle.rll3.event.Event.GameEvent.*
+import com.ovle.rll3.event.Event.DebugSwitchControlMode
+import com.ovle.rll3.event.Event.DebugSwitchSelectionMode
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.core.component.ComponentMappers.template
-import ktx.ashley.get
-import ktx.ashley.has
+import com.ovle.rll3.info
 
 fun eventLogHook(event: Event) {
     val message = message(event) ?: return
@@ -25,37 +22,20 @@ private fun message(event: Event) =
             "switch control mode: ${event.controlMode}"
         }
         is CheckTaskCommand -> {
-           "check task.. target: ${event.target}"
+           "check task.. target: ${event.target.info()}"
         }
-//        is EntityInteraction -> {
-//            val sourceInfo = event.source.info()
-//            val entityInfo = event.entity.info()
-//            val actionInfo = event.interaction
-//            "$sourceInfo $actionInfo $entityInfo"
-//        }
-//        is EntityTakeDamageEvent -> {
-//            val entityInfo = event.entity.info()
-//            val sourceInfo = event.source?.info() ?: " unknown source"
-//            "$entityInfo takes ${event.amount} damage from $sourceInfo"
-//        }
+        is EntityTakeDamageEvent -> {
+           "${event.entity.info()} takes ${event.amount} damage from ${event.source.info()}"
+        }
+        is EntityUseSkillCommand -> {
+            "${event.source.info()} selected skill ${event.skillTemplate.name} for use on ${event.target.info()}"
+        }
+        is EntityStartUseSkillEvent -> {
+            " > ${event.source.info()} started skill ${event.skillTemplate.name} on ${event.target.info()}"
+        }
+        is EntityFinishUseSkillEvent -> {
+            " < ${event.source.info()} finished skill ${event.skillTemplate.name} on ${event.target.info()} (amount: ${event.amount})"
+        }
         is EntityDiedEvent -> { "${event.entity.info()} died" }
-//        is EntityTakeItems -> {
-//            val itemsInfo = event.items.info()
-//            "${event.entity.info()} taken: $itemsInfo"
-//        }
-//        is QuestStatusUpdatedEvent -> {
-//            val quest = event.quest
-//            "${quest.performer.info()} updated quest: ${quest.description.title}; status: ${quest.status}"
-//        }
         else -> null
     }
-
-fun Collection<Entity>.info(): String {
-    val entityInfos = this.map { it.info() }
-    return entityInfos.groupBy { it }.entries.joinToString(", ") { (k, v) -> "${v.count()}x $k" }
-}
-
-fun Entity.info() = when {
-    has(template) -> this[template]!!.template.name
-    else -> "(unknown)"
-}

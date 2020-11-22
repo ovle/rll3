@@ -40,6 +40,6 @@ fun TaskTarget.asEntityTarget() = (this as TaskTarget.EntityTarget)
 fun taskTemplates() = arrayOf(
     gatherTaskTemplate,
     attackTaskTemplate,
-    moveToTaskTemplate,
     mineTaskTemplate
+//    moveToTaskTemplate
 )
