@@ -81,6 +81,12 @@ class TaskSystem : EventSystem() {
     }
 
     private fun enqueueTask(taskTemplate: TaskTemplate, target: TaskTarget) {
+        taskTemplate.targetMap.invoke(target).forEach {
+            enqueueSingleTask(taskTemplate, it)
+        }
+    }
+
+    private fun enqueueSingleTask(taskTemplate: TaskTemplate, target: TaskTarget) {
         val task = TaskInfo(
             template = taskTemplate,
             performer = null,
@@ -90,8 +96,7 @@ class TaskSystem : EventSystem() {
         //older task = more priority
         tasks.addLast(task)
 //        tasks.addFirst(task)
-
-        println("enqueueTask: $task")
+        println("enqueueSingleTask: $task")
     }
 
     private fun cleanupTask(task: TaskInfo) {

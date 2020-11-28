@@ -6,6 +6,7 @@ import com.ovle.rll3.SkillEffect
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.procedural.config.location.lowGroundTileId
+import com.ovle.rll3.model.procedural.config.location.structureWallSTileId
 
 //todo combine
 //todo commands, not events
@@ -20,5 +21,9 @@ val gatherEffect: SkillEffect = { source, target, _ ->
 }
 
 val mineEffect: SkillEffect = { source, target, amount ->
-    EventBus.send(ChangeTileCommand(lowGroundTileId, target as GridPoint2))
+    EventBus.send(ChangeTileCommand(lowGroundTileId, target as GridPoint2)) //todo tileId
+}
+
+val buildEffect: SkillEffect = { source, target, amount ->
+    EventBus.send(ChangeTileCommand(structureWallSTileId, target as GridPoint2)) //todo tileId
 }

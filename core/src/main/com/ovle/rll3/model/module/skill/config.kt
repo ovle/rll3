@@ -31,6 +31,14 @@ fun skillTemplates() = arrayOf(
         isSuccess = { _, t, l -> !isSource(t.asPositionTarget().position, l) }
     ),
     SkillTemplate(
+        name = "build",
+        cost = { staminaCost(it, 1) },
+        target = { p, l -> isPassable(p, l) },
+        turns = 3,
+        effect = buildEffect,
+        isSuccess = { _, t, l -> !isPassable(t.asPositionTarget().position, l) }    //todo
+    ),
+    SkillTemplate(
         name = "attack",
         cost = { staminaCost(it, 1) },
         target = { p, l -> entityTarget(p, l) { isLivingEntity(it) } },

@@ -22,6 +22,7 @@ typealias SetScreen = (BaseScreen, Any?) -> Unit
 typealias EntityFilter = (Entity) -> Boolean
 typealias TaskPerformerFilter = EntityFilter
 typealias TaskTargetFilter = (TaskTarget, LocationInfo) -> Boolean
+typealias TaskTargetMap = (TaskTarget) -> Collection<TaskTarget>
 typealias TaskAction = (Entity, TaskTarget) -> Unit
 typealias SuccessCondition = (Entity, TaskTarget) -> Boolean
 //typealias FailCondition = (Entity, TaskTarget) -> Boolean
@@ -76,3 +77,5 @@ typealias GridPointCheck2 = (Grid, Grid, GridPoint2) -> Boolean
 
 typealias MoveStrategy = (GridPoint2, GridPoint2, LocationInfo) -> Boolean
 typealias IsAtPositionStrategy = (Entity, GridPoint2) -> Boolean
+
+typealias Area = Collection<GridPoint2>

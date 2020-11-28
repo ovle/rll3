@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.module.task
 
 import com.ovle.rll3.model.module.core.entity.anyTaskPerformer
+import com.ovle.rll3.model.module.task.AreaConditions.isFreeArea
 import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
 import com.ovle.rll3.model.module.task.EntityConditions.isResourceEntity
 import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
@@ -38,16 +39,26 @@ val carryTaskTemplate = TaskTemplate(
     btName = "carry"
 )
 
+val buildTaskTemplate = TaskTemplate(
+    performerFilter = ::anyTaskPerformer,
+    targetFilter = { t, l -> isAreaTarget(t) && isFreeArea(t.asAreaTarget().area, l) },
+    targetMap = { t -> t.asAreaTarget().area.map { TaskTarget.PositionTarget(it) } },
+    btName = "build"
+)
+
 //todo
 fun isPositionTarget(t: TaskTarget): Boolean = t is TaskTarget.PositionTarget
 fun TaskTarget.asPositionTarget() = (this as TaskTarget.PositionTarget)
 fun isEntityTarget(t: TaskTarget): Boolean = t is TaskTarget.EntityTarget
 fun TaskTarget.asEntityTarget() = (this as TaskTarget.EntityTarget)
+fun isAreaTarget(t: TaskTarget): Boolean = t is TaskTarget.AreaTarget
+fun TaskTarget.asAreaTarget() = (this as TaskTarget.AreaTarget)
 
 fun taskTemplates() = arrayOf(
     gatherTaskTemplate,
     attackTaskTemplate,
     mineTaskTemplate,
-    carryTaskTemplate
+    carryTaskTemplate,
+    buildTaskTemplate
 //    moveToTaskTemplate
 )
