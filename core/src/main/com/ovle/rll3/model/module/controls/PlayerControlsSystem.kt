@@ -31,7 +31,7 @@ class PlayerControlsSystem : EventSystem() {
     }
 
     private fun onMouseClick(position: GridPoint2, button: Int) {
-        val level = locationInfoNullable() ?: return
+        val location = locationInfoNullable() ?: return
 
 //        val skillTemplate = selectedSkillTemplate()
 //        val skillWithTarget = skillTemplate?.target != null
@@ -42,7 +42,7 @@ class PlayerControlsSystem : EventSystem() {
 //        if (skillTemplate != null && isCorrectTarget) {
 //            send(EntityUseSkill(controlledEntity!!, skillTarget, skillTemplate!!))
         } else {
-            val entities = level.entities.on(position)
+            val entities = location.entities.on(position)
 //            val partyEntities = player()!!.party.entities.toList().on(position)
             when {
                 entities.isNotEmpty() -> send(GameEvent.EntityClickEvent(button, entities.single()))

@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.template.entity
 
-
+//todo template inheritance
 data class EntityTemplate(
     var name: String = "",
     var version: String = "0.1",

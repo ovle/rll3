@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
@@ -115,6 +116,9 @@ class RenderObjectsSystem(
         batch.begin()
 
         for (entity in entities) {
+            checkNotNull(entity[render])
+            checkNotNull(entity[position])
+
             val renderComponent = entity[render]!!
             val position = entity[position]!!.gridPosition
 

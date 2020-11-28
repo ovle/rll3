@@ -11,6 +11,7 @@ state:
     stamina: 3
   collision:
   container:
+  carrier:
   move:
   task:
   ai:

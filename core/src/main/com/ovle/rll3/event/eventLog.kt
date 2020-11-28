@@ -5,6 +5,8 @@ import com.ovle.rll3.event.Event.DebugSwitchSelectionMode
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.info
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import ktx.ashley.get
 
 fun eventLogHook(event: Event) {
     val message = message(event) ?: return
@@ -37,5 +39,12 @@ private fun message(event: Event) =
             " < ${event.source.info()} finished skill ${event.skillTemplate.name} on ${event.target.info()} (amount: ${event.amount})"
         }
         is EntityDiedEvent -> { "${event.entity.info()} died" }
+        is EntityCarryItemEvent -> {
+            "${event.entity.info()} carry ${event.item.info()}"
+        }
+        is EntityDropItemEvent -> {
+            val position = event.entity[position]!!.gridPosition.info()
+            "${event.entity.info()} drop ${event.item.info()} on position $position"
+        }
         else -> null
     }

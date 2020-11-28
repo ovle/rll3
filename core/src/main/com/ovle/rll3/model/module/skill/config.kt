@@ -17,7 +17,7 @@ fun skillTemplates() = arrayOf(
     SkillTemplate(
         name = "gather",
         cost = { staminaCost(it, 1) },
-        target = { position, level -> entityTarget(position, level) { isSourceEntity(it) } },
+        target = { p, l -> entityTarget(p, l) { isSourceEntity(it) } },
         turns = 2,
         effect = gatherEffect,
         isSuccess = { _, t, _ -> !isExists(t.asEntityTarget().entity) }
@@ -25,15 +25,15 @@ fun skillTemplates() = arrayOf(
     SkillTemplate(
         name = "mine",
         cost = { staminaCost(it, 1) },
-        target = { position, level -> isSource(position, level) },
+        target = { p, l -> isSource(p, l) },
         turns = 4,
         effect = mineEffect,
-        isSuccess = { _, t, l -> isPassable(t.asPositionTarget().position, l) }
+        isSuccess = { _, t, l -> !isSource(t.asPositionTarget().position, l) }
     ),
     SkillTemplate(
         name = "attack",
         cost = { staminaCost(it, 1) },
-        target = { position, level -> entityTarget(position, level) { isLivingEntity(it) } },
+        target = { p, l -> entityTarget(p, l) { isLivingEntity(it) } },
         turns = 1,
         effect = damageEffect,
         isSuccess = { _, t, _ -> isDead(t.asEntityTarget().entity) }

@@ -2,6 +2,7 @@ package com.ovle.rll3.model.module.task
 
 import com.ovle.rll3.model.module.core.entity.anyTaskPerformer
 import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
+import com.ovle.rll3.model.module.task.EntityConditions.isResourceEntity
 import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
 import com.ovle.rll3.model.module.task.TileConditions.isPassable
 import com.ovle.rll3.model.module.task.TileConditions.isSource
@@ -31,6 +32,12 @@ val attackTaskTemplate = TaskTemplate(
     btName = "attack"
 )
 
+val carryTaskTemplate = TaskTemplate(
+    performerFilter = ::anyTaskPerformer,
+    targetFilter = { t, _ -> isEntityTarget(t) && isResourceEntity(t.asEntityTarget().entity)},
+    btName = "carry"
+)
+
 //todo
 fun isPositionTarget(t: TaskTarget): Boolean = t is TaskTarget.PositionTarget
 fun TaskTarget.asPositionTarget() = (this as TaskTarget.PositionTarget)
@@ -40,6 +47,7 @@ fun TaskTarget.asEntityTarget() = (this as TaskTarget.EntityTarget)
 fun taskTemplates() = arrayOf(
     gatherTaskTemplate,
     attackTaskTemplate,
-    mineTaskTemplate
+    mineTaskTemplate,
+    carryTaskTemplate
 //    moveToTaskTemplate
 )

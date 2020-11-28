@@ -5,6 +5,7 @@ import com.ovle.rll3.model.module._deprecated.DoorComponent
 import com.ovle.rll3.model.module._deprecated.StashComponent
 import com.ovle.rll3.model.module.ai.AIComponent
 import com.ovle.rll3.model.module.collision.CollisionComponent
+import com.ovle.rll3.model.module.container.CarrierComponent
 import com.ovle.rll3.model.module.container.ContainerComponent
 import com.ovle.rll3.model.module.entityAction.EntityActionComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
@@ -37,12 +38,14 @@ object ComponentMappers {
     val render = mapper<RenderComponent>()
     val health = mapper<HealthComponent>()
     val entityAction = mapper<EntityActionComponent>()
-    val container = mapper<ContainerComponent>()
     val ai = mapper<AIComponent>()
     val questOwner = mapper<QuestOwnerComponent>()
     val taskPerformer = mapper<TaskPerformerComponent>()
     val resource = mapper<ResourceComponent>()
     val source = mapper<SourceComponent>()
+
+    val container = mapper<ContainerComponent>()
+    val carrier = mapper<CarrierComponent>()
 
     //todo remove these
     val door = mapper<DoorComponent>()

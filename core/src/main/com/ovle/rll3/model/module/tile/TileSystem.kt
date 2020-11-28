@@ -8,6 +8,7 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.task.TileConditions.isSource
 
 
 class TileSystem : EventSystem() {
@@ -19,9 +20,16 @@ class TileSystem : EventSystem() {
 
     private fun onChangeTileCommand(tileId: Tile, position: GridPoint2) {
         val locationInfo = locationInfo()
+        val tiles = locationInfo.tiles
 
-        locationInfo.tiles[position.x, position.y] = tileId
+        val oldTileId = tiles[position.x, position.y]
+        tiles[position.x, position.y] = tileId
+
         send(TileChangedEvent(tileId, position))
+
+        if (isSource(oldTileId)) {
+            send(TileGatheredEvent(oldTileId, position))
+        }
     }
 
     private fun onTimeChanged(turn: Turn) {

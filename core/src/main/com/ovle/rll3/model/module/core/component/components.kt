@@ -10,6 +10,7 @@ import com.ovle.rll3.model.module.light.AOEData
 import com.ovle.rll3.model.module.ai.AIType
 import com.ovle.rll3.model.module.ai.AIComponent
 import com.ovle.rll3.model.module.collision.CollisionComponent
+import com.ovle.rll3.model.module.container.CarrierComponent
 import com.ovle.rll3.model.module.container.ContainerComponent
 import com.ovle.rll3.model.module.entityAction.EntityActionComponent
 import com.ovle.rll3.model.module.gathering.ResourceComponent
@@ -25,7 +26,7 @@ import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.template.entity.entityViewTemplate
 
-
+//todo use modules
 private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "light" to { value -> LightSourceComponent(AOEData(value!!["radius"] as Int)) },
     "collision" to { value ->
@@ -50,6 +51,7 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "door" to { _ -> DoorComponent() },
     "stash" to { _ -> StashComponent() },
     "container" to { _ -> ContainerComponent() },
+    "carrier" to { _ -> CarrierComponent() },
     "ai" to { _ -> AIComponent() },
     "task" to { _ -> TaskPerformerComponent() },
     "resource" to { _ -> ResourceComponent() },

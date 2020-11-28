@@ -20,6 +20,7 @@ import com.ovle.rll3.model.module.task.EntityConditions.isNearPosition
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.nearHV
+import com.ovle.rll3.point
 import ktx.ashley.get
 
 //todo extract move strategy?
@@ -27,6 +28,7 @@ class MoveToAction: BaseTask() {
 
     @TaskAttribute(required = true)
     lateinit var type: String
+
 
     override fun executeIntr(): Status {
         checkNotNull(owner[position])
@@ -52,6 +54,12 @@ class MoveToAction: BaseTask() {
         return super.copyTo(otherTask).apply {
             otherTask as MoveToAction
             otherTask.type = type
+
+            //todo
+            if (type == "area-resource") {
+                otherTask as BaseTask
+                otherTask.customTarget = point(5, 82)
+            }
         }
     }
 

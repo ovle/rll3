@@ -76,10 +76,13 @@ sealed class Event {
         class EntityMovedEvent(val entity: Entity) : GameEvent()
         class EntityFinishedMoveEvent(val entity: Entity) : GameEvent()
         class EntityContentInteraction(val source: Entity, val target: Entity) : GameEvent()
-        class EntityTakeItems(val entity: Entity, val items: Collection<Entity>) : GameEvent()
+//        class EntityTakeItems(val entity: Entity, val items: Collection<Entity>) : GameEvent()
+        class EntityCarryItemEvent(val entity: Entity, val item: Entity) : GameEvent()
+        class EntityDropItemEvent(val entity: Entity, val item: Entity, val position: GridPoint2) : GameEvent()
 
         class ChangeTileCommand(val tile: Tile, val position: GridPoint2) : GameEvent()
         class TileChangedEvent(val tile: Tile, val position: GridPoint2) : Event()
+        class TileGatheredEvent(val tile: Tile, val position: GridPoint2) : Event()
 
         class TaskStartedEvent(val task: TaskInfo) : GameEvent()
         class TaskFinishedEvent(val task: TaskInfo) : GameEvent()

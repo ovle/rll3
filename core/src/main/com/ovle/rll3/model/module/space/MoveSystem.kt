@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
@@ -16,6 +17,7 @@ import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.point
 import ktx.ashley.get
+import ktx.ashley.has
 import kotlin.math.abs
 
 
@@ -98,6 +100,17 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
         positionComponent.gridPosition = newPosition
 
         send(EntityMovedEvent(entity))
+
+        if (entity.has(carrier)) {
+            processCarrier(entity, currentPosition)
+        }
+    }
+
+    private fun processCarrier(entity: Entity, currentPosition: GridPoint2) {
+        val carriedEntity = entity[carrier]!!.item ?: return
+        carriedEntity[position]!!.gridPosition = currentPosition.cpy()
+
+        send(EntityMovedEvent(carriedEntity))
     }
 
     private fun setMoveTarget(location: LocationInfo, to: GridPoint2, entity: Entity) {

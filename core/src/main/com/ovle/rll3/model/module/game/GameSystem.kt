@@ -48,10 +48,16 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
         val entity = newTemplatedEntity(randomId(), entityTemplate, engine)
             .apply { this[ComponentMappers.position]!!.gridPosition = position }
 
+        val location = locationInfo()
+        location.entities += entity
+
         send(EntityInitializedEvent(entity))
     }
 
     private fun onDestroyEntityCommand(entity: Entity) {
+        val location = locationInfo()
+        location.entities -= entity
+
         engine.removeEntity(entity)
         send(EntityDestroyedEvent(entity))
     }
