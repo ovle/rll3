@@ -77,7 +77,7 @@ class MoveToAction: BaseTask() {
         if (isPathExists) {
             EventBus.send(EntityStartMoveCommand(owner, targetPosition))
         }
-        println("move from $from to $to exists:$isPathExists")
+//        println("move from $from to $to exists:$isPathExists")
 
         return isPathExists
     }

@@ -42,7 +42,7 @@ val carryTaskTemplate = TaskTemplate(
 val buildTaskTemplate = TaskTemplate(
     performerFilter = ::anyTaskPerformer,
     targetFilter = { t, l -> isAreaTarget(t) && isFreeArea(t.asAreaTarget().area, l) },
-    targetMap = { t -> t.asAreaTarget().area.map { TaskTarget.PositionTarget(it) } },
+    targetMap = { t -> t.asAreaTarget().area.map { TaskTarget.PositionTarget(it) } },   //todo priority from center to border
     btName = "build"
 )
 

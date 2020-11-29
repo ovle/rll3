@@ -26,6 +26,12 @@ private fun message(event: Event) =
         is CheckTaskCommand -> {
            "check task.. target: ${event.target.info()}"
         }
+        is TaskStartedEvent -> {
+           " > start task! performer: ${event.task.performer.info()} bt: ${event.task.template.btName}"
+        }
+        is TaskFinishedEvent -> {
+           " < finished task. performer: ${event.task.performer.info()}"
+        }
         is EntityTakeDamageEvent -> {
            "${event.entity.info()} takes ${event.amount} damage from ${event.source.info()}"
         }
@@ -33,10 +39,10 @@ private fun message(event: Event) =
 //            "${event.source.info()} check skill ${event.skillTemplate.name} for use on ${event.target.info()}..."
 //        }
         is EntityStartUseSkillEvent -> {
-            " > ${event.source.info()} started skill ${event.skillTemplate.name} on ${event.target.info()}"
+            " > > ${event.source.info()} started skill ${event.skillTemplate.name} on ${event.target.info()}"
         }
         is EntityFinishUseSkillEvent -> {
-            " < ${event.source.info()} finished skill ${event.skillTemplate.name} on ${event.target.info()} (amount: ${event.amount})"
+            " < < ${event.source.info()} finished skill ${event.skillTemplate.name} on ${event.target.info()} (amount: ${event.amount})"
         }
         is EntityDiedEvent -> { "${event.entity.info()} died" }
         is EntityCarryItemEvent -> {

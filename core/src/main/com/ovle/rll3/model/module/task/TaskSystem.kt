@@ -40,7 +40,7 @@ class TaskSystem : EventSystem() {
     private fun onTimeChangedEvent(turn: Turn) {
         val controlledEntities = controlledEntities()
         controlledEntities
-            .filter { it[taskPerformer] != null }
+            .filter { isFreePerformer(it) }
             .forEach {
                 processFreePerformer(it)
             }
@@ -60,6 +60,11 @@ class TaskSystem : EventSystem() {
 
     private fun onTaskFailCommand(task: TaskInfo){
         cleanupTask(task)
+    }
+
+    private fun isFreePerformer(e: Entity): Boolean {
+        val performerComponent = e[taskPerformer]
+        return performerComponent != null && performerComponent.current == null
     }
 
     private fun processFreePerformer(performer: Entity) {
