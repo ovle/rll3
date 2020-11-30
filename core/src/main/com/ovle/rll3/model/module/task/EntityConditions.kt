@@ -24,7 +24,7 @@ object EntityConditions {
 
     fun isExists(e: Entity) = e.components.size() > 0   //todo
 
-    fun isLivingEntity(e: Entity) = e.has(health)
+    fun isLivingEntity(e: Entity) = e.has(health) && !e[health]!!.isDead
 
     fun isSourceEntity(e: Entity) = e.has(source)
 

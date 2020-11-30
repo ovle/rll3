@@ -17,7 +17,7 @@ val moveToTaskTemplate = TaskTemplate(
 
 val mineTaskTemplate = TaskTemplate(
     performerFilter = ::anyTaskPerformer,
-    targetFilter = { t, l -> isPositionTarget(t) && isSource(t.asPositionTarget().position, l) },
+    targetFilter = { t, l -> isPositionTarget(t) && isSource(t.asPositionTarget().position, l) },  //todo not only source
     btName = "mine"
 )
 
@@ -29,13 +29,13 @@ val gatherTaskTemplate = TaskTemplate(
 
 val attackTaskTemplate = TaskTemplate(
     performerFilter = ::anyTaskPerformer,
-    targetFilter = { t, _ -> isEntityTarget(t) && isLivingEntity(t.asEntityTarget().entity)},
+    targetFilter = { t, _ -> isEntityTarget(t) && isLivingEntity(t.asEntityTarget().entity)},   //todo only hostile/food source
     btName = "attack"
 )
 
 val carryTaskTemplate = TaskTemplate(
     performerFilter = ::anyTaskPerformer,
-    targetFilter = { t, _ -> isEntityTarget(t) && isResourceEntity(t.asEntityTarget().entity)},
+    targetFilter = { t, _ -> isEntityTarget(t) && isResourceEntity(t.asEntityTarget().entity)},    //todo not carried yet
     btName = "carry"
 )
 
@@ -54,9 +54,12 @@ fun TaskTarget.asEntityTarget() = (this as TaskTarget.EntityTarget)
 fun isAreaTarget(t: TaskTarget): Boolean = t is TaskTarget.AreaTarget
 fun TaskTarget.asAreaTarget() = (this as TaskTarget.AreaTarget)
 
+//todo gather without attack (i.e. cow -> milk)
+//todo mine non-source tiles
+//todo priority by order is not flexible
 fun taskTemplates() = arrayOf(
-    gatherTaskTemplate,
     attackTaskTemplate,
+    gatherTaskTemplate,
     mineTaskTemplate,
     carryTaskTemplate,
     buildTaskTemplate

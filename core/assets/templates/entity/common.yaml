@@ -227,8 +227,10 @@ state:
     stamina: 4
   collision:
   move:
+  source:
+    type: meat
+    amount: 3
   ai:
-    type: runAway
 ---
 
 name: wolf
@@ -264,17 +266,25 @@ state:
     passable4Light: false
 ---
 
+name: meat
+description: ''
+state:
+  resource:
+    type: meat
+---
+
 name: wood
 description: ''
 state:
   resource:
+    type: wood
 ---
 
 name: stone
 description: ''
 state:
   resource:
-
+    type: stone
 ---
 
 name: torch

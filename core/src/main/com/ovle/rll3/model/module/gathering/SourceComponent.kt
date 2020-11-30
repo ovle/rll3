@@ -8,8 +8,3 @@ class SourceComponent(
     val type: ResourceType,
     val amount: ResourceAmount
 ) : BaseComponent
-
-enum class ResourceType(val gatherCost: ResourceGatherCost) {
-    Wood(3),
-    Stone(8)
-}

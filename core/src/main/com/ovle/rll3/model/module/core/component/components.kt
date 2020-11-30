@@ -7,7 +7,6 @@ import com.ovle.rll3.ResourceAmount
 import com.ovle.rll3.model.module._deprecated.DoorComponent
 import com.ovle.rll3.model.module._deprecated.StashComponent
 import com.ovle.rll3.model.module.light.AOEData
-import com.ovle.rll3.model.module.ai.AIType
 import com.ovle.rll3.model.module.ai.AIComponent
 import com.ovle.rll3.model.module.collision.CollisionComponent
 import com.ovle.rll3.model.module.container.CarrierComponent
@@ -54,7 +53,11 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "carrier" to { _ -> CarrierComponent() },
     "ai" to { _ -> AIComponent() },
     "task" to { _ -> TaskPerformerComponent() },
-    "resource" to { _ -> ResourceComponent() },
+    "resource" to { value ->
+        ResourceComponent(
+            type = ResourceType.valueOf((value!!["type"] as String).capitalize())
+        )
+    },
     "source" to { value ->
         SourceComponent(
             type = ResourceType.valueOf((value!!["type"] as String).capitalize()),
