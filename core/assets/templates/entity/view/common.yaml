@@ -111,7 +111,8 @@ sprite:
 
 name: barrel
 sprite:
-  default: [13, 3]
+  default: [12, 2]
+  filled: [11, 2]
 
 ---
 

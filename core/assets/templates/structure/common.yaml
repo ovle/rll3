@@ -2,11 +2,12 @@
 
 name: embark
 mask: |
-  ` ` ` ` `
-  ` ` ` ` `
-  ` ` ` ` `
-  ` ` ` ` `
-  ` ` ` ` `
+  ` ` ` ` w w
+  ` ` ` ` ` w
+  ` ` ` ` ` `
+  ` ` ` ` ` `
+  ` ` ` ` ` `
+  ` ` ` ` ` `
 entities:
   - templateName: elder
     points:
@@ -20,12 +21,15 @@ entities:
   - templateName: stash
     points:
       - [2, 2]
+  - templateName: barrel
+    points:
+      - [2, 3]
   - templateName: wolf
     points:
       - [0, 4]
   - templateName: pig
     points:
-      - [4, 0]
+      - [4, 4]
 
 #---
 #name: test village

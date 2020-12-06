@@ -104,14 +104,22 @@ name: stash
 description: ''
 state:
   stash:
+  collision:
   container:
-spawns:
-  - mask: |
-      1 1 1
-      _ 0 _
-      _ 0 _
-    chance: 0.01
-    rotate: true
+#spawns:
+#  - mask: |
+#      1 1 1
+#      _ 0 _
+#      _ 0 _
+#    chance: 0.01
+#    rotate: true
+---
+
+name: barrel
+description: ''
+state:
+  collision:
+  container:
 ---
 
 name: table
@@ -133,12 +141,6 @@ description: ''
 state:
   light:
     radius: 3
----
-
-name: barrel
-description: ''
-state:
-  collision:
 ---
 
 name: well
