@@ -3,7 +3,7 @@ package com.ovle.rll3.model.procedural.grid.processor.location.room
 import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.RoomTiles
-import com.ovle.rll3.isNear
+import com.ovle.rll3.isAdjacent
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.tile.nearValues
@@ -29,7 +29,7 @@ class RoomsInfoProcessor : LocationProcessor {
                     if (currentRoom == null) {
                         //todo refactor
                         currentRoom = roomsData.find {
-                            coords -> coords.any { coord -> isNear(coord.x.roundToInt(), coord.y.roundToInt(), x, y) }
+                            coords -> coords.any { coord -> isAdjacent(coord.x.roundToInt(), coord.y.roundToInt(), x, y) }
                         } ?: mutableListOf<Vector2>().apply { roomsData.add(this) }
                     }
                     currentRoom.add(Vector2(x.toFloat(), y.toFloat()))

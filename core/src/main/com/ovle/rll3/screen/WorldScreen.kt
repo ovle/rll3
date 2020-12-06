@@ -125,16 +125,16 @@ class WorldScreen(
         batch.begin()
 
         cursorPoint?.let {
-            it.nearD().forEach {
+            it.adjacentD().forEach {
                 p -> batch.draw(vec2(p), cursorSprite.textureRegion())
             }
         }
 
         locationPoint?.let {
-            it.nearHV().forEach {
+            it.adjacentHV().forEach {
                 p -> batch.draw(vec2(p), cursorSprite.textureRegion())
             }
-            it.nearD().forEach {
+            it.adjacentD().forEach {
                 p -> batch.draw(vec2(p), selectionSprite.textureRegion())
             }
         }

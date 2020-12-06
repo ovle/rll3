@@ -8,8 +8,8 @@ import com.ovle.rll3.model.module.task.EntityConditions.isDead
 import com.ovle.rll3.model.module.task.EntityConditions.isExists
 import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
 import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
+import com.ovle.rll3.model.module.task.TileConditions.isMinable
 import com.ovle.rll3.model.module.task.TileConditions.isPassable
-import com.ovle.rll3.model.module.task.TileConditions.isSource
 import com.ovle.rll3.model.module.task.asEntityTarget
 import com.ovle.rll3.model.module.task.asPositionTarget
 
@@ -25,10 +25,10 @@ fun skillTemplates() = arrayOf(
     SkillTemplate(
         name = "mine",
         cost = { staminaCost(it, 1) },
-        target = { p, l -> isSource(p, l) },
+        target = { p, l -> isMinable(p, l) },
         turns = 4,
         effect = mineEffect,
-        isSuccess = { _, t, l -> !isSource(t.asPositionTarget().position, l) }
+        isSuccess = { _, t, l -> !isMinable(t.asPositionTarget().position, l) }
     ),
     SkillTemplate(
         name = "build",

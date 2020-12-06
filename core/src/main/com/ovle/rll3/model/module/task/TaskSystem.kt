@@ -10,13 +10,16 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.taskPerformer
 import com.ovle.rll3.model.module.core.entity.controlledEntities
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.game.LocationInfo
 import ktx.ashley.get
 
 
 //todo how to use with behaviour trees
 class TaskSystem : EventSystem() {
 
-    private val isRealTime = true
+    private val isRealTime = false
+
+    //todo move to entity/component to be available to render info, etc.
     private val tasks: Queue<TaskInfo> = Queue()
 
     override fun update(deltaTime: Float) {
@@ -38,11 +41,12 @@ class TaskSystem : EventSystem() {
     }
 
     private fun onTimeChangedEvent(turn: Turn) {
+        val location = locationInfo()
         val controlledEntities = controlledEntities()
         controlledEntities
             .filter { isFreePerformer(it) }
             .forEach {
-                processFreePerformer(it)
+                processFreePerformer(it, location)
             }
     }
 
@@ -51,7 +55,7 @@ class TaskSystem : EventSystem() {
         val taskTemplate = taskTemplates()
             .firstOrNull { it.targetFilter?.invoke(target, locationInfo) ?: true } ?: return
 
-        enqueueTask(taskTemplate, target)
+        enqueueTask(taskTemplate, target, locationInfo)
     }
 
     private fun onTaskSucceedCommand(task: TaskInfo) {
@@ -67,10 +71,10 @@ class TaskSystem : EventSystem() {
         return performerComponent != null && performerComponent.current == null
     }
 
-    private fun processFreePerformer(performer: Entity) {
+    private fun processFreePerformer(performer: Entity, location: LocationInfo) {
         val freeTasks = tasks.filter { it.performer == null }
         val task = freeTasks.find {
-            it.template.performerFilter.invoke(performer)
+            it.template.performerFilter.invoke(performer, it.target, location)
         } ?: return
 
         startTask(task, performer)
@@ -85,8 +89,8 @@ class TaskSystem : EventSystem() {
         send(TaskStartedEvent(task))
     }
 
-    private fun enqueueTask(taskTemplate: TaskTemplate, target: TaskTarget) {
-        taskTemplate.targetMap.invoke(target).forEach {
+    private fun enqueueTask(taskTemplate: TaskTemplate, target: TaskTarget, location: LocationInfo) {
+        taskTemplate.targetMap.invoke(target, location).forEach {
             enqueueSingleTask(taskTemplate, it)
         }
     }

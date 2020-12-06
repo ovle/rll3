@@ -43,7 +43,7 @@ fun floodFill(x: Int, y: Int, grid: Grid, check: ValueCheck): Area {
 //        println("floodFill ($x $y) value: $value")
         areaPoints.add(p)
 
-        nextPoints.addAll(p.nearHV())
+        nextPoints.addAll(p.adjacentHV())
     }
 
     return Area(areaPoints)

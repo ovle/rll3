@@ -2,7 +2,7 @@ package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.isNear
+import com.ovle.rll3.isAdjacent
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
@@ -14,7 +14,7 @@ import ktx.ashley.has
 
 object EntityConditions {
 
-    fun isNearPosition(e: Entity, p: GridPoint2) = e[position]!!.gridPosition.isNear(p)
+    fun isNearPosition(e: Entity, p: GridPoint2) = e[position]!!.gridPosition.isAdjacent(p)
 
     fun isAtPosition(e: Entity, p: GridPoint2) = e[position]!!.gridPosition == p
 

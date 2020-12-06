@@ -19,7 +19,7 @@ import com.ovle.rll3.model.module.task.EntityConditions.isMoving
 import com.ovle.rll3.model.module.task.EntityConditions.isNearPosition
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.util.pathfinding.aStar.path
-import com.ovle.rll3.nearHV
+import com.ovle.rll3.adjacentHV
 import com.ovle.rll3.point
 import ktx.ashley.get
 
@@ -83,7 +83,7 @@ class MoveToAction: BaseTask() {
     }
 
     private fun moveNearTo(from: GridPoint2, to: GridPoint2, location: LocationInfo): Boolean {
-        val nearPoints = to.nearHV().sortedBy { it.dst(from) }
+        val nearPoints = to.adjacentHV().sortedBy { it.dst(from) }
         var isPathExists = false
 
         for (it in nearPoints) {

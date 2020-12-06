@@ -20,9 +20,9 @@ import kotlin.random.Random
 typealias SetScreen = (BaseScreen, Any?) -> Unit
 
 typealias EntityFilter = (Entity) -> Boolean
-typealias TaskPerformerFilter = EntityFilter
+typealias TaskPerformerFilter = (Entity, TaskTarget, LocationInfo) -> Boolean
 typealias TaskTargetFilter = (TaskTarget, LocationInfo) -> Boolean
-typealias TaskTargetMap = (TaskTarget) -> Collection<TaskTarget>
+typealias TaskTargetMap = (TaskTarget, LocationInfo) -> Collection<TaskTarget>
 typealias TaskAction = (Entity, TaskTarget) -> Unit
 typealias SuccessCondition = (Entity, TaskTarget) -> Boolean
 //typealias FailCondition = (Entity, TaskTarget) -> Boolean

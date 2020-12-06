@@ -39,7 +39,7 @@ fun path(from: GridPoint2, to: GridPoint2, tiles: TileArray, obstacles: Collecti
         open -= currentPosition
         closed += currentPosition
 
-        val nearValues = nearHV(x, y)
+        val nearValues = adjacentHV(x, y)
             .filterNot { it in closed }
 
         for (neighbour in nearValues) {

@@ -30,39 +30,39 @@ fun vec2(point: GridPoint2) = Vector2(point.x.toFloat(), point.y.toFloat())
 
 //--- todo builder
 
-fun GridPoint2.nearHV() = nearHV(x, y)
-fun GridPoint2.nearD() = nearD(x, y)
+fun GridPoint2.adjacentHV() = adjacentHV(x, y)
+fun GridPoint2.adjacentD() = adjacentD(x, y)
 
-fun nearHV(x: Int, y: Int) = arrayOf(
+fun adjacentHV(x: Int, y: Int) = arrayOf(
     point(x - 1, y),
     point(x + 1, y),
     point(x, y - 1),
     point(x, y + 1)
 )
 
-fun nearD(x: Int, y: Int) = arrayOf(
+fun adjacentD(x: Int, y: Int) = arrayOf(
     point(x - 1, y - 1),
     point(x + 1, y + 1),
     point(x + 1, y - 1),
     point(x - 1, y + 1)
 )
 
-fun isNearHV(p1: GridPoint2, p2: GridPoint2?) =
+fun isAdjacentHV(p1: GridPoint2, p2: GridPoint2?) =
     if (p2 == null) false
-    else isNearHV(p1.x, p1.y, p2.x, p2.y)
+    else isAdjacentHV(p1.x, p1.y, p2.x, p2.y)
 
-fun isNearHV(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+fun isAdjacentHV(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     return x1 == x2 && y1 in ((y2 - 1)..(y2 + 1))
         || y1 == y2 && x1 in ((x2 - 1)..(x2 + 1))
 }
 
-fun isNear(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+fun isAdjacent(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     return (x1 in ((x2 - 1)..(x2 + 1))) && (y1 in ((y2 - 1)..(y2 + 1)))
 }
 
-fun GridPoint2.near() = (x-1..x+1).map { tx -> (y-1..y+1).map { ty -> point(tx, ty) } }.flatten()
-fun GridPoint2.nearExclusive() = near().filter { it != this }
-fun GridPoint2.isNear(other: GridPoint2, delta: Int = 1) = this.dst(other) <= delta
+fun GridPoint2.adjacent() = (x-1..x+1).map { tx -> (y-1..y+1).map { ty -> point(tx, ty) } }.flatten()
+fun GridPoint2.adjacentExclusive() = adjacent().filter { it != this }
+fun GridPoint2.isAdjacent(other: GridPoint2, delta: Int = 1) = this.dst(other) <= delta
 
 fun Grid.isPointValid(x: Int, y: Int) = x in (0 until width) && y in (0 until height)
 fun TileArray.toGrid() = Grid(data.map { it.toFloat() }.toFloatArray(), size, size)
