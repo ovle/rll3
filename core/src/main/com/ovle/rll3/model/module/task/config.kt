@@ -22,7 +22,7 @@ fun defaultPerformerFilter(e: Entity, t: TaskTarget, l: LocationInfo) =
 
 private fun havePathToAdjPosition(e: Entity, t: TaskTarget, l: LocationInfo): Boolean {
     val from = e[position]!!.gridPosition
-    val to = t.asPositionTarget().unbox()
+    val to = t.position()
 
     return to.adjacentHV().any { path(from, it, l).isNotEmpty() }
 }

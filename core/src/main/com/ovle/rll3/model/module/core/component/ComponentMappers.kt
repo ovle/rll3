@@ -20,6 +20,7 @@ import com.ovle.rll3.model.module.render.RenderComponent
 import com.ovle.rll3.model.module.space.MoveComponent
 import com.ovle.rll3.model.module.space.PositionComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
+import com.ovle.rll3.model.module.task.TasksComponent
 
 
 private inline fun <reified T : BaseComponent> mapper(): ComponentMapper<T> = ComponentMapper.getFor(T::class.java)
@@ -27,6 +28,7 @@ private inline fun <reified T : BaseComponent> mapper(): ComponentMapper<T> = Co
 object ComponentMappers {
     val id = mapper<IdComponent>()
     val game = mapper<GameComponent>()
+    val tasks = mapper<TasksComponent>()
     val template = mapper<TemplateComponent>()
 
     val playerInteraction = mapper<PlayerInteractionComponent>()

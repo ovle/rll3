@@ -9,6 +9,7 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers.taskPerformer
 import com.ovle.rll3.model.module.core.entity.controlledEntities
 import com.ovle.rll3.model.module.core.entity.locationInfo
+import com.ovle.rll3.model.module.core.entity.tasksInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
 import ktx.ashley.get
@@ -19,8 +20,6 @@ class TaskSystem : EventSystem() {
 
     private val isRealTime = false
 
-    //todo move to entity/component to be available to render info, etc.
-    private val tasks: Queue<TaskInfo> = Queue()
 
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
@@ -72,7 +71,7 @@ class TaskSystem : EventSystem() {
     }
 
     private fun processFreePerformer(performer: Entity, location: LocationInfo) {
-        val freeTasks = tasks.filter { it.performer == null }
+        val freeTasks = tasks().filter { it.performer == null }
         val task = freeTasks.find {
             it.template.performerFilter.invoke(performer, it.target, location)
         } ?: return
@@ -103,7 +102,7 @@ class TaskSystem : EventSystem() {
         )
 
         //older task = more priority
-        tasks.addLast(task)
+        tasks().addLast(task)
 //        tasks.addFirst(task)
         println("enqueueSingleTask: $task")
     }
@@ -113,8 +112,10 @@ class TaskSystem : EventSystem() {
         performer[taskPerformer]!!.current = null
 //        task.performer = null
 
-        tasks.removeValue(task, true)
+        tasks().removeValue(task, true)
 
         send(TaskFinishedEvent(task))
     }
+
+    private fun tasks() = tasksInfo()!!.tasks
 }

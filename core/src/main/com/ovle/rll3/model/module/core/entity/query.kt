@@ -12,6 +12,7 @@ import com.ovle.rll3.model.module.core.component.IdComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
+import com.ovle.rll3.model.module.core.component.ComponentMappers.tasks
 import com.ovle.rll3.model.module.game.GameComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import ktx.ashley.get
@@ -33,7 +34,10 @@ fun EntitySystem.allEntities() = this.engine.entities
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-fun EntitySystem.gameInfo() = entityWith(allEntities().toList(), GameComponent::class)?.get(game)
+fun EntitySystem.game() = entityWith(allEntities().toList(), GameComponent::class)
+
+fun EntitySystem.tasksInfo() = game()?.get(tasks)
+fun EntitySystem.gameInfo() = game()?.get(game)
 
 fun EntitySystem.locationInfoNullable() = gameInfo()?.location
 fun EntitySystem.locationInfo() = locationInfoNullable()!!
