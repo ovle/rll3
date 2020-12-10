@@ -3,11 +3,12 @@ package com.ovle.rll3.model.module.render
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.utils.Queue
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.model.module.core.component.ComponentMappers.game
+import com.ovle.rll3.info
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.entity.*
+import com.ovle.rll3.model.module.task.TaskInfo
 import com.ovle.rll3.view.fontName
 import com.ovle.rll3.view.palette.Palette
 import ktx.ashley.get
@@ -44,6 +45,8 @@ class RenderGUISystem(
         val selectedPoint = interaction[position]!!.gridPosition
 
         val interactionInfo = playerInteractionInfo()!!
+//        val gameInfo = gameInfo()!!
+        val tasksInfo = tasksInfo()!!
         val hoveredEntity = interactionInfo.hoveredEntity
 //        val selectedEntity = interactionInfo.selectedEntity
 //        val focusedEntity = interactionInfo.focusedEntity
@@ -59,12 +62,26 @@ class RenderGUISystem(
         val info = arrayOf(
             "$worldAreaName $locationPoint",
             "turn ${time.turn}",
-            "$selectedPoint " + (hoveredEntity?.let { "(${it.name()})" } ?: "")
+            "$selectedPoint " + (hoveredEntity?.let { "(${it.name()})" } ?: ""),
+            tasksInfo(tasksInfo.tasks)?.let {
+                "tasks:\n$it \n(total: ${tasksInfo.tasks.size})"
+            }
         ).filterNotNull()
 
         info.forEachIndexed {
             i, _ ->
             font.draw(stageBatch, info[i], point.x, point.y - dy * i)
         }
+    }
+
+    private fun tasksInfo(tasks: Queue<TaskInfo>): String? {
+        if (tasks.isEmpty) return null
+
+        return tasks.map {
+            val name = it.template.btName
+            val performer = if (it.performer == null) "" else "(${it.performer.info()})"
+            val target = it.target.unbox().info()
+            "   $name $target: ${it.status} $performer"
+        }.joinToString(separator = "\n")
     }
 }

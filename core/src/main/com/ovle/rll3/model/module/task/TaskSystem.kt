@@ -58,10 +58,12 @@ class TaskSystem : EventSystem() {
     }
 
     private fun onTaskSucceedCommand(task: TaskInfo) {
+        task.status = TaskStatus.Finished
         cleanupTask(task)
     }
 
     private fun onTaskFailCommand(task: TaskInfo){
+        task.status = TaskStatus.Cancelled
         cleanupTask(task)
     }
 
@@ -81,6 +83,7 @@ class TaskSystem : EventSystem() {
 
     private fun startTask(task: TaskInfo, performer: Entity) {
         task.performer = performer
+        task.status = TaskStatus.InProgress
 
         val performerComponent = performer[taskPerformer]!!
         performerComponent.current = task
@@ -113,9 +116,11 @@ class TaskSystem : EventSystem() {
 //        task.performer = null
 
         tasks().removeValue(task, true)
+        taskHistory().addLast(task)
 
         send(TaskFinishedEvent(task))
     }
 
     private fun tasks() = tasksInfo()!!.tasks
+    private fun taskHistory() = tasksInfo()!!.taskHistory
 }

@@ -12,6 +12,14 @@ import java.io.Serializable
 data class TaskInfo(
     val template: TaskTemplate,
     var performer: Entity?,
-    val target: TaskTarget
+    val target: TaskTarget,
+    var status: TaskStatus = TaskStatus.Waiting
 ): Serializable
+
+enum class TaskStatus {
+    Waiting,
+    InProgress,
+    Finished,
+    Cancelled
+}
 
