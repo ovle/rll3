@@ -273,6 +273,7 @@ description: ''
 state:
   resource:
     type: meat
+    isFood: true
 ---
 
 name: wood

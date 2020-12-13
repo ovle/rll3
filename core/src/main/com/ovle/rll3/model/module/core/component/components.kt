@@ -55,7 +55,8 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "task" to { _ -> TaskPerformerComponent() },
     "resource" to { value ->
         ResourceComponent(
-            type = ResourceType.valueOf((value!!["type"] as String).capitalize())
+            type = ResourceType.valueOf((value!!["type"] as String).capitalize()),
+            isFood = value["isFood"] as Boolean? ?: false
         )
     },
     "source" to { value ->
