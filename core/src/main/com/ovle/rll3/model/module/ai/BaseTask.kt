@@ -9,7 +9,7 @@ import com.ovle.rll3.model.module.task.TaskTarget.EntityTarget
 import com.ovle.rll3.model.module.task.TaskTarget.PositionTarget
 import ktx.ashley.get
 
-abstract class BaseTask: LeafTask<BaseBlackboard>() {
+class BaseTask(var exec: TaskExec? = null): LeafTask<BaseBlackboard>() {
 
     protected val owner: Entity
         get() = task.performer!!
@@ -36,14 +36,14 @@ abstract class BaseTask: LeafTask<BaseBlackboard>() {
             else -> throw UnsupportedOperationException()
         }
 
-
-    //todo use reflection to copy all TaskAttribute
-    override fun copyTo(otherTask: Task<BaseBlackboard>) = otherTask
+    override fun copyTo(otherTask: Task<BaseBlackboard>): Task<BaseBlackboard> {
+        otherTask as BaseTask
+        otherTask.exec = exec
+        return otherTask
+    }
 
     override fun execute(): Status {
 //        println("execute ${this.javaClass}")
-        return executeIntr()
+        return this.exec!!.invoke(this.`object`)
     }
-
-    abstract fun executeIntr(): Status
 }

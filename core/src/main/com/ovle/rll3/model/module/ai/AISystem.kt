@@ -16,7 +16,8 @@ import com.ovle.rll3.model.module.task.TaskInfo
 import ktx.ashley.get
 
 
-class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard>>) : EventSystem() {
+class AISystem() : EventSystem() {
+//class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard>>) : EventSystem() {
 
     private val isRealTime = true
 
@@ -44,7 +45,9 @@ class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard
         val blackboard = BaseBlackboard(taskInfo, engine)
         val taskTemplate = taskInfo.template
         val btName = taskTemplate.btName
-        val behaviorTreePrototype = behaviorTrees[btName]
+        val behaviorTreePrototype = BehaviorTree(config)
+
+//        val behaviorTreePrototype = behaviorTrees[btName]
         checkNotNull(behaviorTreePrototype, { "behavior tree '$btName' not found" })
 
         val behaviorTree = behaviorTreePrototype.cloneTask()

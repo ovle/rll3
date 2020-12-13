@@ -24,7 +24,7 @@ class AssetsManager(val assets: AssetManager): Disposable {
     private val entityTemplates = mutableMapOf<TemplatesType, EntityTemplates>()
     private val entityViewTemplates = mutableMapOf<TemplatesType, EntityViewTemplates>()
     private val structureTemplates = mutableMapOf<TemplatesType, StructureTemplates>()
-    val behaviorTrees = mutableMapOf<String, BehaviorTree<BaseBlackboard>>()
+//    val behaviorTrees = mutableMapOf<String, BehaviorTree<BaseBlackboard>>()
 
     init {
         val fileHandleResolver = InternalFileHandleResolver()
@@ -34,7 +34,7 @@ class AssetsManager(val assets: AssetManager): Disposable {
             setLoader(EntityTemplates::class.java, EntityTemplatesLoader(fileHandleResolver))
             setLoader(EntityViewTemplates::class.java, EntityViewTemplatesLoader(fileHandleResolver))
             setLoader(StructureTemplates::class.java, StructureTemplatesLoader(fileHandleResolver))
-            setLoader(BehaviorTrees::class.java, BehaviorTreesLoader(fileHandleResolver))
+//            setLoader(BehaviorTrees::class.java, BehaviorTreesLoader(fileHandleResolver))
         }
     }
 
@@ -43,7 +43,7 @@ class AssetsManager(val assets: AssetManager): Disposable {
             load(tileTexturePath, Texture::class.java)
             load(spriteTexturePath, Texture::class.java)
             load(guiTexturePath, Texture::class.java)
-            load(behaviorTreePath, BehaviorTrees::class.java)
+//            load(behaviorTreePath, BehaviorTrees::class.java)
         }
 
         TemplatesType.values().forEach {
@@ -64,10 +64,10 @@ class AssetsManager(val assets: AssetManager): Disposable {
         objectsTexture = TexturesInfo(assets.finishLoadingAsset(spriteTexturePath))
         guiTexture = TexturesInfo(assets.finishLoadingAsset(guiTexturePath))
 
-        val trees = assets.finishLoadingAsset<BehaviorTrees>(behaviorTreePath)
-        trees.trees.forEach {
-            behaviorTrees[it.name] = it.tree
-        }
+//        val trees = assets.finishLoadingAsset<BehaviorTrees>(behaviorTreePath)
+//        trees.trees.forEach {
+//            behaviorTrees[it.name] = it.tree
+//        }
 
         TemplatesRegistry.entityTemplates = entityTemplates
         TemplatesRegistry.entityViewTemplates = entityViewTemplates

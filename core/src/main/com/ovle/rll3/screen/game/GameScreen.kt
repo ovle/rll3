@@ -67,7 +67,7 @@ class GameScreen(
 
             TimeSystem(),
             TaskSystem(),
-            AISystem(assetsManager.behaviorTrees),
+            AISystem(),
             EntityActionSystem(),
             MoveSystem(),
 
