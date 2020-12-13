@@ -11,7 +11,7 @@ import com.ovle.rll3.*
  */
 data class SkillTemplate(
     val name: String = "",
-    val cost: SkillCost = {},
+    val cost: SkillCost = { CostStatus.Paid },
     val target: GetTarget? = null,
     val turns: Turn = 0,
     val effect: SkillEffect = { _, _, _ -> },

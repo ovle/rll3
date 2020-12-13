@@ -14,6 +14,7 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
 import com.ovle.rll3.model.module.core.component.ComponentMappers.tasks
 import com.ovle.rll3.model.module.game.GameComponent
+import com.ovle.rll3.model.module.health.HealthComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import ktx.ashley.get
 import ktx.ashley.has
@@ -42,6 +43,8 @@ fun EntitySystem.gameInfo() = game()?.get(game)
 fun EntitySystem.locationInfoNullable() = gameInfo()?.location
 fun EntitySystem.locationInfo() = locationInfoNullable()!!
 fun locationInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.location
+
+fun EntitySystem.livingEntities() = entitiesWith(allEntities().toList(), HealthComponent::class)
 
 fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
 fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)

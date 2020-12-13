@@ -18,9 +18,12 @@ import com.ovle.rll3.model.module.entityAction.EntityActionSystem
 import com.ovle.rll3.model.module.game.GameSystem
 import com.ovle.rll3.model.module.gathering.ResourceSystem
 import com.ovle.rll3.model.module.health.HealthSystem
+import com.ovle.rll3.model.module.health.HungerSystem
+import com.ovle.rll3.model.module.health.StaminaSystem
 import com.ovle.rll3.model.module.interaction.BaseInteractionSystem
 import com.ovle.rll3.model.module.interaction.EntityInteractionSystem
 import com.ovle.rll3.model.module.interaction.TileInteractionSystem
+import com.ovle.rll3.model.module.process.ProcessSystem
 import com.ovle.rll3.model.module.render.*
 import com.ovle.rll3.model.module.skill.SkillSystem
 import com.ovle.rll3.model.module.space.MoveSystem
@@ -67,7 +70,10 @@ class GameScreen(
             AISystem(assetsManager.behaviorTrees),
             EntityActionSystem(),
             MoveSystem(),
+
             HealthSystem(),
+            HungerSystem(),
+            StaminaSystem(),
 
             BaseInteractionSystem(),
             EntityInteractionSystem(),

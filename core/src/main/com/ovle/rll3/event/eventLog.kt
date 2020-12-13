@@ -44,6 +44,7 @@ private fun message(event: Event) =
         is EntityFinishUseSkillEvent -> {
             " < < ${event.source.info()} finished skill ${event.skillTemplate.name} on ${event.target.info()} (amount: ${event.amount})"
         }
+        is EntityStarvedEvent -> { "${event.entity.info()} starved" }
         is EntityDiedEvent -> { "${event.entity.info()} died" }
         is EntityCarryItemEvent -> {
             "${event.entity.info()} carry ${event.item.info()}"

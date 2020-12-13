@@ -9,6 +9,7 @@ import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.quest.QuestInfo
+import com.ovle.rll3.model.module.skill.CostStatus
 import com.ovle.rll3.model.util.Array2d
 import com.ovle.rll3.model.tile.LightPassType
 import com.ovle.rll3.model.tile.NearValues
@@ -37,13 +38,15 @@ typealias SkillEffect = (Entity, Any?, EffectAmount) -> Unit
 typealias SkillSuccessCondition = (Entity, TaskTarget, LocationInfo) -> Boolean
 typealias GetEffectAmount = (Entity) -> EffectAmount
 typealias GetTarget = (GridPoint2, LocationInfo) -> Any?
-typealias SkillCost = (Entity) -> Unit
+typealias SkillCost = (Entity) -> CostStatus
+
+typealias ProcessEffectCondition = (LocationInfo) -> Boolean
+typealias ProcessEffect = (LocationInfo) -> Unit
 
 typealias EntityId = String
 typealias PlayerId = String
 typealias WorldId = String
 typealias LocationId = String
-typealias LevelParamsId = String
 
 typealias QuestCondition = () -> Boolean
 typealias QuestHook = ((QuestInfo) -> Unit)?
