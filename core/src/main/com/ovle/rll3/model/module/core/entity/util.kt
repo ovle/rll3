@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
 import com.ovle.rll3.model.module.core.component.ComponentMappers.id
 import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.component.print
 import com.ovle.rll3.view.noVisibilityFilter
@@ -20,6 +21,16 @@ fun Entity.see(position: GridPoint2): Boolean {
 
     val fov = this[perception]!!.fov
     return noVisibilityFilter || position in fov
+}
+
+fun Entity.position(): GridPoint2 {
+    check(this.has(position))
+    return this[position]!!.gridPosition
+}
+
+fun Entity.setPosition(newPosition: GridPoint2) {
+    check(this.has(position))
+    this[position]!!.gridPosition = newPosition
 }
 
 fun Entity.id(): EntityId {

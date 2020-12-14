@@ -7,7 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.model.module.ai.BaseBlackboard
+import com.ovle.rll3.model.module.ai.bt.BTParams
+import com.ovle.rll3.model.module.ai.bt.TaskExecParams
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.quest.QuestInfo
@@ -30,7 +31,7 @@ typealias TaskAction = (Entity, TaskTarget) -> Unit
 typealias SuccessCondition = (Entity, TaskTarget) -> Boolean
 //typealias FailCondition = (Entity, TaskTarget) -> Boolean
 
-typealias TaskExec = (BaseBlackboard) -> Task.Status
+typealias TaskExec = (TaskExecParams) -> Task.Status
 
 typealias ComponentData = Map<String, Any?>
 typealias ComponentFactory = (ComponentData?) -> Component

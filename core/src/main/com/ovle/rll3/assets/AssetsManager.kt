@@ -1,13 +1,11 @@
 package com.ovle.rll3.assets
 
-import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.TextureLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.utils.Disposable
 import com.ovle.rll3.assets.loader.*
-import com.ovle.rll3.model.module.ai.BaseBlackboard
 import com.ovle.rll3.model.module.skill.skillTemplates
 import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.model.template.TemplatesType

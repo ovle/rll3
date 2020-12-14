@@ -7,7 +7,8 @@ import com.badlogic.gdx.ai.btree.Task
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.ai.BaseBlackboard.*
+import com.ovle.rll3.model.module.ai.bt.BTParams
+import com.ovle.rll3.model.module.ai.bt.testTreeInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.entitiesWith
@@ -42,22 +43,22 @@ class AISystem() : EventSystem() {
     private fun onTaskStartedEvent(taskInfo: TaskInfo) {
         val performer = taskInfo.performer!!
         val aiComponent = performer[ai] ?: return
-        val blackboard = BaseBlackboard(taskInfo, engine)
+        val blackboard = BTParams(taskInfo, engine)
         val taskTemplate = taskInfo.template
         val btName = taskTemplate.btName
-        val behaviorTreePrototype = BehaviorTree(config)
 
-//        val behaviorTreePrototype = behaviorTrees[btName]
+        val behaviorTreePrototype = testTreeInfo.bt    //todo
+
         checkNotNull(behaviorTreePrototype, { "behavior tree '$btName' not found" })
 
         val behaviorTree = behaviorTreePrototype.cloneTask()
-            .let { it as BehaviorTree<BaseBlackboard> }
+            .let { it as BehaviorTree<BTParams> }
             .apply { this.`object` = blackboard }
         println("start bt: $btName")
 
         behaviorTree.addListener(
             object : TaskStatusListener() {
-                override fun statusUpdated(task: Task<BaseBlackboard>, previousStatus: Task.Status?) {
+                override fun statusUpdated(task: Task<BTParams>, previousStatus: Task.Status?) {
                     val root = behaviorTree.getChild(0)
                     if (task == root) {
                         val status = task.status
@@ -96,6 +97,6 @@ class AISystem() : EventSystem() {
     }
 }
 
-abstract class TaskStatusListener: BehaviorTree.Listener<BaseBlackboard> {
-    override fun childAdded(task: Task<BaseBlackboard>?, index: Int) {}
+abstract class TaskStatusListener: BehaviorTree.Listener<BTParams> {
+    override fun childAdded(task: Task<BTParams>?, index: Int) {}
 }

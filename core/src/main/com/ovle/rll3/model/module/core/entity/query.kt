@@ -45,6 +45,7 @@ fun EntitySystem.locationInfo() = locationInfoNullable()!!
 fun locationInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.location
 
 fun EntitySystem.livingEntities() = entitiesWith(allEntities().toList(), HealthComponent::class)
+//fun EntitySystem.food() = entitiesWith(allEntities().toList(), Resou::class)
 
 fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
 fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)

@@ -9,10 +9,10 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.utils.Array
-import com.ovle.rll3.model.module.ai.BaseBlackboard
+import com.ovle.rll3.model.module.ai.bt.BTParams
 import ktx.assets.file
 
-data class BehaviorTreeInfo(val name: String, val tree: BehaviorTree<BaseBlackboard>)
+data class BehaviorTreeInfo(val name: String, val tree: BehaviorTree<BTParams>)
 data class BehaviorTrees(val trees: Collection<BehaviorTreeInfo>)
 
 class BehaviorTreesLoader(resolver: FileHandleResolver): SynchronousAssetLoader<BehaviorTrees, AssetLoaderParameters<BehaviorTrees>>(resolver) {
