@@ -1,10 +1,12 @@
-package com.ovle.rll3.model.module.ai.bt
+package com.ovle.rll3.model.module.ai.bt.config
 
 import com.badlogic.gdx.ai.btree.Task.Status.*
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rll3.TaskExec
 import com.ovle.rll3.adjacentHV
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.model.module.ai.bt.result
 import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.entity.setPosition
@@ -17,61 +19,51 @@ import com.ovle.rll3.model.util.pathfinding.aStar.path
 import ktx.ashley.get
 
 
-val testTreeInfo = BTInfo(
-    name = "test",
-    bt = tree(
-        seq(
-            action { _ -> println("1"); FAILED },
-            action { _ -> println("2"); SUCCEEDED }
-        )
-    )
-)
-
-val findMoveTargetNear = action { (btParams, target) ->
+fun findPositionNearTarget(): TaskExec = { (btParams, target) ->
     val owner = btParams.owner
     val location = btParams.location
     val from = owner.position()
-    target as GridPoint2
+    target as TaskTarget
+    val to = target.position()
 
-    val nearPoints = target.adjacentHV().sortedBy { it.dst(from) }
-    val result = nearPoints.find { path(from, it, location).isNotEmpty() }
-    //todo how to set target for the next task
+    val nearPoints = to.adjacentHV().sortedBy { it.dst(from) }
+    val nextTarget = nearPoints.find { path(from, it, location).isNotEmpty() }
+    val status = if (nextTarget != null) SUCCEEDED else FAILED
 
-    if (result != null) SUCCEEDED else FAILED
+    result(status, nextTarget)
 }
 
-val moveTask = action { (btParams, target) ->
+fun moveTask(): TaskExec =  { (btParams, target) ->
     val owner = btParams.owner
     target as TaskTarget
     val to = target.position()
 
     when {
-        isAtPosition(owner, to) -> SUCCEEDED
-        isMoving(owner) -> RUNNING
+        isAtPosition(owner, to) -> result(SUCCEEDED)
+        isMoving(owner) -> result(RUNNING)
         else -> {
             send(EntityStartMoveCommand(owner, to))
-            val result = isMoving(owner)
-            if (result) RUNNING else FAILED
+            val status = if (isMoving(owner)) RUNNING else FAILED
+            result(status)
         }
     }
 }
 
-val useSkill = action { (btParams, target) ->
-    val skillName: String = "todo"  //todo
+fun useSkill(skillName: String): TaskExec = { (btParams, target) ->
     val owner = btParams.owner
     target as TaskTarget
 
     val skillTemplate = TemplatesRegistry.skillTemplates[skillName]!!
     val isSucceeded = skillTemplate.isSuccess
-    if (isSucceeded.invoke(owner, target, btParams.location)) SUCCEEDED
+    if (isSucceeded.invoke(owner, target, btParams.location)) result(SUCCEEDED)
 
     val targetEntity = target.unbox()
     send(EntityUseSkillCommand(owner, targetEntity, skillTemplate))
 
-    RUNNING
+    result(RUNNING)
 }
 
-val takeTask = action { (btParams, target) ->
+fun takeTask(): TaskExec = { (btParams, target) ->
     val owner = btParams.owner
     target as TaskTarget
     val carried = target.asEntityTarget().unbox()
@@ -83,10 +75,10 @@ val takeTask = action { (btParams, target) ->
     //todo disable carried entity's systems?
     send(EntityCarryItemEvent(owner, carried))
 
-    SUCCEEDED
+    result(SUCCEEDED)
 }
 
-val dropTask = action { (btParams, target) ->
+fun dropTask(): TaskExec = { (btParams, target) ->
     val owner = btParams.owner
     target as TaskTarget
     val to = target.position()
@@ -97,5 +89,5 @@ val dropTask = action { (btParams, target) ->
 
     send(EntityDropItemEvent(owner, carried, to))
 
-    SUCCEEDED
+    result(SUCCEEDED)
 }

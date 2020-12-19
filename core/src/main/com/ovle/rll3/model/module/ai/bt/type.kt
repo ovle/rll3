@@ -3,6 +3,7 @@ package com.ovle.rll3.model.module.ai.bt
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.btree.BehaviorTree
+import com.badlogic.gdx.ai.btree.Task
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskInfo
@@ -12,9 +13,16 @@ data class TaskExecParams(
     val target: Any?
 )
 
+data class TaskExecResult(
+    val status: Task.Status,
+    val nextTarget: Any?
+)
+
+
 data class BTParams(
     val task: TaskInfo,
-    val engine: Engine
+    val engine: Engine,
+    var currentTarget: Any? //todo make it better?
 ) {
     val owner: Entity
         get() = task.performer!!

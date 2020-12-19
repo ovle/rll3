@@ -1,11 +1,11 @@
 package com.ovle.rll3.model.module.task
 
 import com.ovle.rll3.*
+import com.ovle.rll3.model.module.ai.bt.BTInfo
 
-//todo is this class necessary?
 data class TaskTemplate (
     val performerFilter: TaskPerformerFilter,
     val targetFilter: TaskTargetFilter? = null,
     val targetMap: TaskTargetMap = { t, _ -> listOf(t) },
-    val btName: String
+    val btInfo: BTInfo
 )

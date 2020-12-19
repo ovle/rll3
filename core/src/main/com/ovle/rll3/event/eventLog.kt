@@ -27,7 +27,7 @@ private fun message(event: Event) =
            "check task.. target: ${event.target.info()}"
         }
         is TaskStartedEvent -> {
-           " > start task! performer: ${event.task.performer.info()} bt: ${event.task.template.btName}"
+           " > start task! performer: ${event.task.performer.info()} bt: ${event.task.template.btInfo.name}"
         }
         is TaskFinishedEvent -> {
            " < finished task. performer: ${event.task.performer.info()}"

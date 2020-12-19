@@ -8,7 +8,6 @@ import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.ai.bt.BTParams
-import com.ovle.rll3.model.module.ai.bt.testTreeInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.entitiesWith
@@ -43,18 +42,13 @@ class AISystem() : EventSystem() {
     private fun onTaskStartedEvent(taskInfo: TaskInfo) {
         val performer = taskInfo.performer!!
         val aiComponent = performer[ai] ?: return
-        val blackboard = BTParams(taskInfo, engine)
+        val blackboard = BTParams(taskInfo, engine, null)
         val taskTemplate = taskInfo.template
-        val btName = taskTemplate.btName
-
-        val behaviorTreePrototype = testTreeInfo.bt    //todo
-
-        checkNotNull(behaviorTreePrototype, { "behavior tree '$btName' not found" })
+        val behaviorTreePrototype = taskTemplate.btInfo.bt
 
         val behaviorTree = behaviorTreePrototype.cloneTask()
             .let { it as BehaviorTree<BTParams> }
             .apply { this.`object` = blackboard }
-        println("start bt: $btName")
 
         behaviorTree.addListener(
             object : TaskStatusListener() {
