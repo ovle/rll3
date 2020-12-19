@@ -3,13 +3,12 @@ package com.ovle.rll3.model.module.interaction
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.Event.PlayerControlEvent.*
+import com.ovle.rll3.event.Event.PlayerControlEvent.VoidClickEvent
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.task.TaskTarget
 
 /**
  * player's interaction with entities (low-level)
@@ -42,7 +41,7 @@ class EntityInteractionSystem : EventSystem() {
 
         val needCheckTask = interactionInfo.controlMode == ControlMode.Task
         if (needCheckTask) {
-            send(CheckTaskCommand(TaskTarget.EntityTarget(entity)))
+            send(CheckTaskCommand(TaskTarget(entity)))
         }
     }
 
@@ -56,7 +55,7 @@ class EntityInteractionSystem : EventSystem() {
 
         val needCheckTask = interactionInfo.controlMode == ControlMode.Task
         if (needCheckTask) {
-            send(CheckTaskCommand(TaskTarget.PositionTarget(point)))
+            send(CheckTaskCommand(TaskTarget(point)))
         }
     }
 

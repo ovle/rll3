@@ -4,6 +4,7 @@ import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.Task
 import com.badlogic.gdx.ai.btree.branch.Sequence
 import com.ovle.rll3.TaskExec
+import com.ovle.rll3.model.module.task.TaskTarget
 
 
 //fun seq(vararg tasks: BaseTask): Sequence<BTParams> {
@@ -27,5 +28,5 @@ fun tree(root: Task<BTParams>): BehaviorTree<BTParams> {
 }
 
 fun result(status: Task.Status, nextTarget: Any? = null): TaskExecResult {
-    return TaskExecResult(status, nextTarget)
+    return TaskExecResult(status, nextTarget?.let { TaskTarget(nextTarget) })
 }

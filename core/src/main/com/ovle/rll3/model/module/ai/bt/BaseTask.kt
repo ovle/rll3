@@ -3,7 +3,6 @@ package com.ovle.rll3.model.module.ai.bt
 import com.badlogic.gdx.ai.btree.LeafTask
 import com.badlogic.gdx.ai.btree.Task
 import com.ovle.rll3.TaskExec
-import com.ovle.rll3.model.module.task.TaskTarget
 
 
 class BaseTask(var exec: TaskExec? = null): LeafTask<BTParams>() {
@@ -16,12 +15,12 @@ class BaseTask(var exec: TaskExec? = null): LeafTask<BTParams>() {
 
     override fun execute(): Status {
         val btParams = this.`object`
-        val initialTarget = btParams.target.unbox()
+        val initialTarget = btParams.btTaskTarget
         val target = btParams.currentTarget ?: initialTarget   //todo
         val params = TaskExecParams(btParams, target)
         val execResult = this.exec!!.invoke(params)
 
-        btParams.currentTarget = TaskTarget(execResult.nextTarget)
+        btParams.currentTarget = execResult.nextTarget
 
         return execResult.status
     }

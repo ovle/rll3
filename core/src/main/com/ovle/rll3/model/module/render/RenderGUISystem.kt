@@ -77,11 +77,11 @@ class RenderGUISystem(
     private fun tasksInfo(tasks: Queue<TaskInfo>): String? {
         if (tasks.isEmpty) return null
 
-        return tasks.map {
+        return tasks.joinToString(separator = "\n") {
             val name = it.template.btInfo.name
             val performer = if (it.performer == null) "" else "(${it.performer.info()})"
-            val target = it.target.unbox().info()
+            val target = it.target.target.info()
             "   $name $target: ${it.status} $performer"
-        }.joinToString(separator = "\n")
+        }
     }
 }

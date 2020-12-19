@@ -10,8 +10,7 @@ import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
 import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
 import com.ovle.rll3.model.module.task.TileConditions.isMinable
 import com.ovle.rll3.model.module.task.TileConditions.isPassable
-import com.ovle.rll3.model.module.task.asEntityTarget
-import com.ovle.rll3.model.module.task.asPositionTarget
+
 
 fun skillTemplates() = arrayOf(
     SkillTemplate(
@@ -20,7 +19,7 @@ fun skillTemplates() = arrayOf(
         target = { p, l -> entityTarget(p, l) { isSourceEntity(it) } },
         turns = 2,
         effect = gatherEffect,
-        isSuccess = { _, t, _ -> !isExists(t.asEntityTarget().entity) }
+        isSuccess = { _, t, _ -> !isExists(t.asEntity()) }
     ),
     SkillTemplate(
         name = "mine",
@@ -28,7 +27,7 @@ fun skillTemplates() = arrayOf(
         target = { p, l -> isMinable(p, l) },
         turns = 4,
         effect = mineEffect,
-        isSuccess = { _, t, l -> !isMinable(t.asPositionTarget().position, l) }
+        isSuccess = { _, t, l -> !isMinable(t.asPosition(), l) }
     ),
     SkillTemplate(
         name = "build",
@@ -36,7 +35,7 @@ fun skillTemplates() = arrayOf(
         target = { p, l -> isPassable(p, l) },
         turns = 3,
         effect = buildEffect,
-        isSuccess = { _, t, l -> !isPassable(t.asPositionTarget().position, l) }    //todo
+        isSuccess = { _, t, l -> !isPassable(t.asPosition(), l) }    //todo
     ),
     SkillTemplate(
         name = "attack",
@@ -44,7 +43,7 @@ fun skillTemplates() = arrayOf(
         target = { p, l -> entityTarget(p, l) { isLivingEntity(it) } },
         turns = 1,
         effect = damageEffect,
-        isSuccess = { _, t, _ -> isDead(t.asEntityTarget().entity) }
+        isSuccess = { _, t, _ -> isDead(t.asEntity()) }
     )
 )
 

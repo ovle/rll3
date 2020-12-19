@@ -18,10 +18,3 @@ private fun havePathToAdjPosition(e: Entity, t: TaskTarget, l: LocationInfo): Bo
 
     return to.adjacentHV().any { path(from, it, l).isNotEmpty() }
 }
-
-fun isPositionTarget(t: TaskTarget): Boolean = t is TaskTarget.PositionTarget
-fun TaskTarget.asPositionTarget() = (this as TaskTarget.PositionTarget)
-fun isEntityTarget(t: TaskTarget): Boolean = t is TaskTarget.EntityTarget
-fun TaskTarget.asEntityTarget() = (this as TaskTarget.EntityTarget)
-fun isAreaTarget(t: TaskTarget): Boolean = t is TaskTarget.AreaTarget
-fun TaskTarget.asAreaTarget() = (this as TaskTarget.AreaTarget)

@@ -7,26 +7,27 @@ import com.badlogic.gdx.ai.btree.Task
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskInfo
+import com.ovle.rll3.model.module.task.TaskTarget
 
 data class TaskExecParams(
     val btParams: BTParams,
-    val target: Any?
+    val target: TaskTarget?
 )
 
 data class TaskExecResult(
     val status: Task.Status,
-    val nextTarget: Any?
+    val nextTarget: TaskTarget?
 )
 
 
 data class BTParams(
     val task: TaskInfo,
     val engine: Engine,
-    var currentTarget: Any? //todo make it better?
+    var currentTarget: TaskTarget? //todo make it better?
 ) {
     val owner: Entity
         get() = task.performer!!
-    val target
+    val btTaskTarget
         get() = task.target
     val entities
         get() = engine.entities.toList()

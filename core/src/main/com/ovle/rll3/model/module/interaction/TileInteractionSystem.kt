@@ -39,8 +39,8 @@ class TileInteractionSystem : EventSystem() {
         val selectedTiles = interactionInfo.selectedTiles
         if (selectedTiles.isNotEmpty()) {
             val target =
-                if (selectedTiles.size == 1) PositionTarget(selectedTiles.single())
-                else AreaTarget(selectedTiles)
+                if (selectedTiles.size == 1) TaskTarget(selectedTiles.single())
+                else TaskTarget(selectedTiles)
 
             EventBus.send(CheckTaskCommand(target))
         }

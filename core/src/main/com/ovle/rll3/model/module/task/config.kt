@@ -32,7 +32,7 @@ import ktx.ashley.get
 
 val gatherTaskTemplate = TaskTemplate(
     performerFilter = ::defaultPerformerFilter,
-    targetFilter = { t, _ -> isEntityTarget(t) && isSourceEntity(t.asEntityTarget().entity) },
+    targetFilter = { t, _ -> t.target is Entity && isSourceEntity(t.asEntity()) },
     btInfo = testTreeInfo
 )
 
