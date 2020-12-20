@@ -14,6 +14,7 @@ fun seq(init: Sequence<BTParams>.() -> Unit): Sequence<BTParams> {
 }
 
 fun Sequence<BTParams>.task(name: String, exec: TaskExec): BaseTask {
+//    val resultHolder = TaskResultTargetHolder()
     val task = BaseTask(name, exec)
     this.addChild(task)
     return task
@@ -26,3 +27,5 @@ fun tree(root: Task<BTParams>): BehaviorTree<BTParams> {
 fun result(status: Task.Status, nextTarget: Any? = null): TaskExecResult {
     return TaskExecResult(status, nextTarget?.let { TaskTarget(nextTarget) })
 }
+
+data class TaskResultTargetHolder(var target: TaskTarget? = null)

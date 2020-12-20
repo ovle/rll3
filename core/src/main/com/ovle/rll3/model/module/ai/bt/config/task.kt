@@ -8,12 +8,15 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.ai.bt.result
 import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
 import com.ovle.rll3.model.module.core.entity.position
+import com.ovle.rll3.model.module.core.entity.resources
 import com.ovle.rll3.model.module.core.entity.setPosition
+import com.ovle.rll3.model.module.skill.SkillTemplate
 import com.ovle.rll3.model.module.task.EntityConditions.isAtPosition
 import com.ovle.rll3.model.module.task.EntityConditions.isMoving
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.template.TemplatesRegistry
 import com.ovle.rll3.model.util.pathfinding.aStar.path
+import com.ovle.rll3.point
 import ktx.ashley.get
 
 
@@ -47,18 +50,17 @@ fun moveTask(): TaskExec =  { (btParams, target) ->
     }
 }
 
-fun useSkill(skillName: String): TaskExec = { (btParams, target) ->
+fun useSkill(skill: SkillTemplate): TaskExec = { (btParams, target) ->
     val owner = btParams.owner
     target as TaskTarget
 
-    val skillTemplate = TemplatesRegistry.skillTemplates[skillName]!!
-    val isSucceeded = skillTemplate.isSuccess.invoke(owner, target, btParams.location)
+    val isSucceeded = skill.isSuccess.invoke(owner, target, btParams.location)
 
     if (isSucceeded) {
         result(SUCCEEDED)
     } else {
         val targetEntity = target.target
-        send(EntityUseSkillCommand(owner, targetEntity, skillTemplate))
+        send(EntityUseSkillCommand(owner, targetEntity, skill))
 
         result(RUNNING)
     }
@@ -90,5 +92,29 @@ fun dropTask(): TaskExec = { (btParams, target) ->
 
     send(EntityDropItemEvent(owner, carried, to))
 
+    result(SUCCEEDED)
+}
+
+fun findGatheredResource(): TaskExec = { (btParams, _) ->
+    val owner = btParams.owner
+    val position = owner.position()
+
+    val resources = btParams.entities.resources()
+    val closestResource = resources.map { it to it.position().dst(position) }
+        .minByOrNull { it.second }
+
+    if (closestResource == null) {
+        result(FAILED)
+    } else {
+        result(SUCCEEDED, closestResource.first)
+    }
+}
+
+fun findResourceStorage(): TaskExec = { (btParams, target) ->
+    //todo
+    result(SUCCEEDED, point(123, 77))
+}
+
+fun todo(): TaskExec = { (btParams, target) ->
     result(SUCCEEDED)
 }

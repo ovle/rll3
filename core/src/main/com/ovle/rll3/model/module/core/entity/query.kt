@@ -12,6 +12,7 @@ import com.ovle.rll3.model.module.core.component.IdComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
+import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
 import com.ovle.rll3.model.module.core.component.ComponentMappers.tasks
 import com.ovle.rll3.model.module.game.GameComponent
 import com.ovle.rll3.model.module.health.HealthComponent
@@ -76,6 +77,7 @@ fun Collection<Entity>.anyOn(position: GridPoint2, componentClass: KClass<out Co
             it[ComponentMappers.position]?.gridPosition?.equals(position) ?: false
         }
 
+fun Collection<Entity>.resources() = filter { it[resource] != null }
 fun Collection<Entity>.positions() = mapNotNull { it[ComponentMappers.position]?.gridPosition }.toSet()
 fun Collection<Entity>.lightObstacles() = obstacles { it.passable4Light }
 fun Collection<Entity>.bodyObstacles() = obstacles { it.passable4Body }

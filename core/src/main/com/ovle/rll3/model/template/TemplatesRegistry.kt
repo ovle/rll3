@@ -13,3 +13,4 @@ object TemplatesRegistry {
     lateinit var skillTemplates: Map<String, SkillTemplate>
 }
 
+fun skill(name: String) = TemplatesRegistry.skillTemplates[name]!!
