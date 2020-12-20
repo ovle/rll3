@@ -52,13 +52,16 @@ fun useSkill(skillName: String): TaskExec = { (btParams, target) ->
     target as TaskTarget
 
     val skillTemplate = TemplatesRegistry.skillTemplates[skillName]!!
-    val isSucceeded = skillTemplate.isSuccess
-    if (isSucceeded.invoke(owner, target, btParams.location)) result(SUCCEEDED)
+    val isSucceeded = skillTemplate.isSuccess.invoke(owner, target, btParams.location)
 
-    val targetEntity = target.target
-    send(EntityUseSkillCommand(owner, targetEntity, skillTemplate))
+    if (isSucceeded) {
+        result(SUCCEEDED)
+    } else {
+        val targetEntity = target.target
+        send(EntityUseSkillCommand(owner, targetEntity, skillTemplate))
 
-    result(RUNNING)
+        result(RUNNING)
+    }
 }
 
 fun takeTask(): TaskExec = { (btParams, target) ->

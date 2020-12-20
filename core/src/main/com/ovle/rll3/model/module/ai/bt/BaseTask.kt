@@ -5,10 +5,11 @@ import com.badlogic.gdx.ai.btree.Task
 import com.ovle.rll3.TaskExec
 
 
-class BaseTask(var exec: TaskExec? = null): LeafTask<BTParams>() {
+class BaseTask(var name: String? = "", var exec: TaskExec? = null): LeafTask<BTParams>() {
 
     override fun copyTo(otherTask: Task<BTParams>): Task<BTParams> {
         otherTask as BaseTask
+        otherTask.name = name
         otherTask.exec = exec
         return otherTask
     }

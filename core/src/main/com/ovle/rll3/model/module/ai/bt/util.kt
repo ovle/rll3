@@ -7,18 +7,14 @@ import com.ovle.rll3.TaskExec
 import com.ovle.rll3.model.module.task.TaskTarget
 
 
-//fun seq(vararg tasks: BaseTask): Sequence<BTParams> {
-//    return Sequence(*tasks)
-//}
-
-fun seq(init: Sequence<BTParams>.() -> Sequence<BTParams>): Sequence<BTParams> {
+fun seq(init: Sequence<BTParams>.() -> Unit): Sequence<BTParams> {
     val result = Sequence<BTParams>()
     result.init()
     return result
 }
 
-fun Sequence<BTParams>.task(exec: TaskExec): BaseTask {
-    val task = BaseTask(exec)
+fun Sequence<BTParams>.task(name: String, exec: TaskExec): BaseTask {
+    val task = BaseTask(name, exec)
     this.addChild(task)
     return task
 }

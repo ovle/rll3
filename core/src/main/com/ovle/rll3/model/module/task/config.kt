@@ -1,20 +1,8 @@
 package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.entity.freeTaskPerformer
-import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.task.AreaConditions.isFreeArea
-import com.ovle.rll3.model.module.task.AreaConditions.isMinableArea
-import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
-import com.ovle.rll3.model.module.task.EntityConditions.isResourceEntity
 import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
-import com.ovle.rll3.model.module.task.TileConditions.isMinable
-import com.ovle.rll3.model.module.task.TileConditions.isPassable
-import com.ovle.rll3.model.util.pathfinding.aStar.path
-import com.ovle.rll3.adjacentHV
-import com.ovle.rll3.model.module.ai.bt.config.testTreeInfo
-import ktx.ashley.get
+import com.ovle.rll3.model.module.ai.bt.config.gather
 
 
 //val moveToTaskTemplate = TaskTemplate(
@@ -33,7 +21,7 @@ import ktx.ashley.get
 val gatherTaskTemplate = TaskTemplate(
     performerFilter = ::defaultPerformerFilter,
     targetFilter = { t, _ -> t.target is Entity && isSourceEntity(t.asEntity()) },
-    btInfo = testTreeInfo
+    btInfo = gather
 )
 
 //val attackTaskTemplate = TaskTemplate(

@@ -24,7 +24,7 @@ private fun message(event: Event) =
             "switch control mode: ${event.controlMode}"
         }
         is CheckTaskCommand -> {
-           "check task.. target: ${event.target.info()}"
+           "check task.. target: ${event.target.target.info()}"
         }
         is TaskStartedEvent -> {
            " > start task! performer: ${event.task.performer.info()} bt: ${event.task.template.btInfo.name}"

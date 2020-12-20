@@ -3,15 +3,13 @@ package com.ovle.rll3.model.module.ai.bt.config
 import com.ovle.rll3.model.module.ai.bt.*
 
 
-val testTreeInfo = BTInfo(
-    name = "test",
+val gather = BTInfo(
+    name = "gather",
     bt = tree(
         seq {
-            task(findPositionNearTarget())
-            task(moveTask())
-            task(useSkill("gather"))
-
-            this
+            task("find path to target", findPositionNearTarget())
+            task("move to target", moveTask())
+            task("gather", useSkill("gather"))
         }
     )
 )
