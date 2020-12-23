@@ -6,28 +6,28 @@ import com.ovle.rll3.TaskExec
 import com.ovle.rll3.info
 
 
-class BaseTask(var name: String? = "", var exec: TaskExec? = null): LeafTask<BTParams>() {
+class BaseTask(var name: String? = "", var exec: TaskExec? = null, var holder: TaskTargetHolder? = null): LeafTask<BTParams>() {
 
     override fun copyTo(otherTask: Task<BTParams>): Task<BTParams> {
         otherTask as BaseTask
         otherTask.name = name
         otherTask.exec = exec
+        otherTask.holder = holder
         return otherTask
     }
 
     override fun execute(): Status {
         val btParams = this.`object`
-        val initialTarget = btParams.btTaskTarget
-        val target = btParams.currentTarget ?: initialTarget   //todo
-        val params = TaskExecParams(btParams, target)
+        val params = TaskExecParams(btParams)
         val execResult = this.exec!!.invoke(params)
 
         println(" > > > ${name}... ${execResult.status}")
 
         //todo
-        if (execResult.status == Status.SUCCEEDED && execResult.nextTarget != null) {
-            btParams.currentTarget = execResult.nextTarget
-            println(" > > > new target: ${execResult.nextTarget.info()}")
+        if (execResult.status == Status.SUCCEEDED) {
+            holder?.target = execResult.nextTarget
+//            btParams.currentTarget = execResult.nextTarget
+            println(" > > > new target: ${execResult.nextTarget?.target.info()}")
         }
 
         return execResult.status

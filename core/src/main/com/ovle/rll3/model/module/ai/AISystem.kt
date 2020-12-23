@@ -8,6 +8,7 @@ import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.ai.bt.BTParams
+import com.ovle.rll3.model.module.ai.bt.TaskTargetHolder
 import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.entitiesWith
@@ -42,9 +43,10 @@ class AISystem() : EventSystem() {
     private fun onTaskStartedEvent(taskInfo: TaskInfo) {
         val performer = taskInfo.performer!!
         val aiComponent = performer[ai] ?: return
-        val blackboard = BTParams(taskInfo, engine, null)
+        val blackboard = BTParams(taskInfo, engine)
         val taskTemplate = taskInfo.template
-        val behaviorTreePrototype = taskTemplate.btInfo.bt
+        val initialTargetHolder = TaskTargetHolder(taskInfo.target)
+        val behaviorTreePrototype = taskTemplate.btInfo.bt.invoke(initialTargetHolder)
 
         val behaviorTree = behaviorTreePrototype.cloneTask()
             .let { it as BehaviorTree<BTParams> }

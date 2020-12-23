@@ -10,8 +10,7 @@ import com.ovle.rll3.model.module.task.TaskInfo
 import com.ovle.rll3.model.module.task.TaskTarget
 
 data class TaskExecParams(
-    val btParams: BTParams,
-    val target: TaskTarget?
+    val btParams: BTParams
 )
 
 data class TaskExecResult(
@@ -22,8 +21,8 @@ data class TaskExecResult(
 
 data class BTParams(
     val task: TaskInfo,
-    val engine: Engine,
-    var currentTarget: TaskTarget? //todo make it better?
+    val engine: Engine
+//    var currentTarget: TaskTarget? //todo make it better?
 ) {
     val owner: Entity
         get() = task.performer!!
@@ -35,4 +34,4 @@ data class BTParams(
         get() = locationInfo(entities.toTypedArray())!!
 }
 
-data class BTInfo(val name: String, val bt: BehaviorTree<BTParams>)
+data class BTInfo(val name: String, val bt: (TaskTargetHolder) -> BehaviorTree<BTParams>)

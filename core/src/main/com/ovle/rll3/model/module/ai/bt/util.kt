@@ -13,19 +13,23 @@ fun seq(init: Sequence<BTParams>.() -> Unit): Sequence<BTParams> {
     return result
 }
 
-fun Sequence<BTParams>.task(name: String, exec: TaskExec): BaseTask {
-//    val resultHolder = TaskResultTargetHolder()
-    val task = BaseTask(name, exec)
+fun Sequence<BTParams>.task(name: String, exec: TaskExec): TaskTargetHolder {
+    val resultHolder = TaskTargetHolder()
+    val task = BaseTask(name, exec, resultHolder)
     this.addChild(task)
-    return task
+    return resultHolder
 }
 
-fun tree(root: Task<BTParams>): BehaviorTree<BTParams> {
-    return BehaviorTree(root)
+fun tree(init: BehaviorTree<BTParams>.() -> Task<BTParams>): BehaviorTree<BTParams> {
+    val result = BehaviorTree<BTParams>()
+    val root = result.init()
+    result.addChild(root)
+    return result
 }
 
 fun result(status: Task.Status, nextTarget: Any? = null): TaskExecResult {
     return TaskExecResult(status, nextTarget?.let { TaskTarget(nextTarget) })
 }
 
-data class TaskResultTargetHolder(var target: TaskTarget? = null)
+data class TaskTargetHolder(var target: TaskTarget? = null)
+
