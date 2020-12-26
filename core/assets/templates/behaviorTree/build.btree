@@ -1,8 +1,0 @@
-import useSkill:"com.ovle.rll3.model.module.ai.action.UseSkillAction"
-
-root
-    sequence
-#todo go to store
-#todo take material
-        include subtree:"templates/behaviorTree/moveNearTo.btree"
-        useSkill skillName:"build"

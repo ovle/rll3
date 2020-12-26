@@ -15,7 +15,6 @@ import com.ovle.rll3.model.module.game.LocationInfo
 import ktx.ashley.get
 
 
-//todo how to use with behaviour trees
 class TaskSystem : EventSystem() {
 
     private val isRealTime = false

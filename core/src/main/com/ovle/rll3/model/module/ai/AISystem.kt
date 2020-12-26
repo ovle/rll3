@@ -8,6 +8,7 @@ import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.ai.bt.BTParams
+import com.ovle.rll3.model.module.ai.bt.BaseTask
 import com.ovle.rll3.model.module.ai.bt.TaskTargetHolder
 import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
 import com.ovle.rll3.model.module.core.entity.allEntities
@@ -17,8 +18,7 @@ import com.ovle.rll3.model.module.task.TaskInfo
 import ktx.ashley.get
 
 
-class AISystem() : EventSystem() {
-//class AISystem(val behaviorTrees: MutableMap<String, BehaviorTree<BaseBlackboard>>) : EventSystem() {
+class AISystem : EventSystem() {
 
     private val isRealTime = true
 
@@ -55,11 +55,15 @@ class AISystem() : EventSystem() {
         behaviorTree.addListener(
             object : TaskStatusListener() {
                 override fun statusUpdated(task: Task<BTParams>, previousStatus: Task.Status?) {
-                    val root = behaviorTree.getChild(0)
-                    if (task == root) {
-                        val status = task.status
-//                        println("statusUpdated: $status;  performer: ${task.`object`.task.performer};  target: ${task.`object`.task.target}")
-                        if (status == Task.Status.SUCCEEDED) {
+                    val status = task.status
+                    if (status == Task.Status.SUCCEEDED) {
+                        if (task is BaseTask) {
+                            println("success: ${task.name}")
+                        }
+
+                        val root = behaviorTree.getChild(0)
+                        if (task == root) {
+//                          println("statusUpdated: $status;  performer: ${task.`object`.task.performer};  target: ${task.`object`.task.target}")
                             //todo cleanup?
                             send(TaskSucceedCommand(taskInfo))
                         }

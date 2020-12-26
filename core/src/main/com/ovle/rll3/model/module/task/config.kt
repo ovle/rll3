@@ -1,8 +1,11 @@
 package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
+import com.ovle.rll3.model.module.ai.bt.config.bt.attackBt
 import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
-import com.ovle.rll3.model.module.ai.bt.config.gather
+import com.ovle.rll3.model.module.ai.bt.config.bt.gatherBt
+import com.ovle.rll3.model.module.ai.bt.config.bt.testBt
+import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
 
 
 //val moveToTaskTemplate = TaskTemplate(
@@ -10,10 +13,10 @@ import com.ovle.rll3.model.module.ai.bt.config.gather
 //    targetFilter = { t, l -> isPositionTarget(t) && isPassable(t.asPositionTarget().position, l) },
 //    btName = "moveTo"
 //)
-//
+
 //val mineTaskTemplate = TaskTemplate(
 //    performerFilter = ::defaultPerformerFilter,
-//    targetFilter = { t, l -> isAreaTarget(t) && isMinableArea(t.asAreaTarget().area, l) },     //todo not only source
+//    targetFilter = { t, l -> t.target is Area && isMinableArea(t.asAreaTarget().area, l) },     //todo not only source
 //    targetMap = { t, l -> t.asAreaTarget().area.filter { isMinable(it, l) }.map { TaskTarget.PositionTarget(it) } },          //todo priority from center to border
 //    btName = "mine"
 //)
@@ -21,21 +24,21 @@ import com.ovle.rll3.model.module.ai.bt.config.gather
 val gatherTaskTemplate = TaskTemplate(
     performerFilter = ::defaultPerformerFilter,
     targetFilter = { t, _ -> t.target is Entity && isSourceEntity(t.asEntity()) },
-    btInfo = gather
+    btInfo = gatherBt
 )
 
-//val attackTaskTemplate = TaskTemplate(
-//    performerFilter = ::defaultPerformerFilter,
-//    targetFilter = { t, _ -> isEntityTarget(t) && isLivingEntity(t.asEntityTarget().entity)},   //todo only hostile/food source
-//    btName = "attack"
-//)
-//
-//val carryTaskTemplate = TaskTemplate(
-//    performerFilter = ::defaultPerformerFilter,
-//    targetFilter = { t, _ -> isEntityTarget(t) && isResourceEntity(t.asEntityTarget().entity)},    //todo not carried yet
-//    btName = "carry"
-//)
-//
+val attackTaskTemplate = TaskTemplate(
+    performerFilter = ::defaultPerformerFilter, //todo armed performer
+    targetFilter = { t, _ -> t.target is Entity && isLivingEntity(t.target) },   //todo only hostile/food source
+    btInfo = attackBt
+)
+
+val testTaskTemplate = TaskTemplate(
+    performerFilter = ::defaultPerformerFilter,
+    targetFilter = { t, _ -> t.target is Entity },   //todo only hostile/food source
+    btInfo = testBt
+)
+
 //val buildTaskTemplate = TaskTemplate(
 //    performerFilter = ::defaultPerformerFilter,
 //    targetFilter = { t, l -> isAreaTarget(t) && isFreeArea(t.asAreaTarget().area, l) },
@@ -55,8 +58,9 @@ val gatherTaskTemplate = TaskTemplate(
 //todo mine non-source tiles
 //todo priority by order is not flexible
 fun taskTemplates() = arrayOf(
-//    attackTaskTemplate,
-    gatherTaskTemplate
+    attackTaskTemplate,
+    gatherTaskTemplate,
+    testTaskTemplate
 //    carryTaskTemplate,
 //
 //    mineTaskTemplate,

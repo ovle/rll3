@@ -1,7 +1,0 @@
-#import moveTo:"com.ovle.rll3.model.module.ai.action.MoveToAction"
-#import eat:"com.ovle.rll3.model.module.ai.action.EatAction"
-#
-#root
-#    sequence
-#        moveTo type:"food"
-#        eat
