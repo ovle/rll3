@@ -2,19 +2,23 @@ package com.ovle.rll3.model.module.ai.bt.config
 
 import com.badlogic.gdx.ai.btree.Task.Status.*
 import com.ovle.rll3.TaskExec
-import com.ovle.rll3.TaskExecFactory
 import com.ovle.rll3.adjacentHV
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.ai.bt.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.bt.result
+import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
 import com.ovle.rll3.model.module.core.entity.position
+import com.ovle.rll3.model.module.core.entity.resources
+import com.ovle.rll3.model.module.core.entity.setPosition
 import com.ovle.rll3.model.module.skill.SkillTemplate
 import com.ovle.rll3.model.module.task.EntityConditions.isAtPosition
 import com.ovle.rll3.model.module.task.EntityConditions.isMoving
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.template.skill
 import com.ovle.rll3.model.util.pathfinding.aStar.path
+import com.ovle.rll3.point
+import ktx.ashley.get
 
 
 fun findPositionNearTarget(targetHolder: TaskTargetHolder): TaskExec = { (btParams) ->
@@ -51,7 +55,7 @@ fun moveTask(targetHolder: TaskTargetHolder): TaskExec =  { (btParams) ->
 
 fun gather(targetHolder: TaskTargetHolder) = useSkill(targetHolder, skill("gather"))
 
-fun useSkill(targetHolder: TaskTargetHolder, skill: SkillTemplate /*onSuccess, onFail*/): TaskExec = { (btParams) ->
+fun useSkill(targetHolder: TaskTargetHolder, skill: SkillTemplate): TaskExec = { (btParams) ->
     val owner = btParams.owner
     val target = targetHolder.target
     target as TaskTarget
@@ -68,55 +72,54 @@ fun useSkill(targetHolder: TaskTargetHolder, skill: SkillTemplate /*onSuccess, o
     }
 }
 
-//
-//fun takeTask(): TaskExec = { (btParams) ->
-//    val owner = btParams.owner
-//    target as TaskTarget
-//    val carried = target.asEntity()
-//
-//    val carrierComponent = owner[carrier]!!
-//    if (carrierComponent.item == carried) SUCCEEDED
-//
-//    carrierComponent.item = carried
-//    //todo disable carried entity's systems?
-//    send(EntityCarryItemEvent(owner, carried))
-//
-//    result(SUCCEEDED)
-//}
-//
-//fun dropTask(): TaskExec = { (btParams) ->
-//    val owner = btParams.owner
-//    target as TaskTarget
-//    val to = target.position()
-//
-//    val carried = owner[carrier]!!.item!!
-//    carried.setPosition(to)
-//    owner[carrier]!!.item = null
-//
-//    send(EntityDropItemEvent(owner, carried, to))
-//
-//    result(SUCCEEDED)
-//}
-//
-//fun findGatheredResource(): TaskExec = { (btParams) ->
-//    val owner = btParams.owner
-//    val position = owner.position()
-//
-//    val resources = btParams.entities.resources()
-//    val closestResource = resources.map { it to it.position().dst(position) }
-//        .minByOrNull { it.second }
-//
-//    if (closestResource == null) {
-//        result(FAILED)
-//    } else {
-//        result(SUCCEEDED, closestResource.first)
-//    }
-//}
-//
-//fun findResourceStorage(): TaskExec = { (btParams) ->
-//    //todo
-//    result(SUCCEEDED, point(123, 77))
-//}
+fun takeTask(targetHolder: TaskTargetHolder): TaskExec = { (btParams) ->
+    val owner = btParams.owner
+    val target = targetHolder.target
+    target as TaskTarget
+    val carried = target.asEntity()
+
+    val carrierComponent = owner[carrier]!!
+    if (carrierComponent.item == carried) SUCCEEDED
+
+    carrierComponent.item = carried
+    //todo disable carried entity's systems?
+    send(EntityCarryItemEvent(owner, carried))
+
+    result(SUCCEEDED)
+}
+
+fun dropTask(): TaskExec = { (btParams) ->
+    val owner = btParams.owner
+
+    val to = owner.position()
+    val carried = owner[carrier]!!.item!!
+    carried.setPosition(to)
+    owner[carrier]!!.item = null
+
+    send(EntityDropItemEvent(owner, carried, to))
+
+    result(SUCCEEDED)
+}
+
+fun findNearestResource(): TaskExec = { (btParams) ->
+    val owner = btParams.owner
+    val position = owner.position()
+
+    val resources = btParams.entities.resources()
+    val nearestResource = resources.map { it to it.position().dst(position) }
+        .minByOrNull { it.second }
+
+    if (nearestResource == null) {
+        result(FAILED)
+    } else {
+        result(SUCCEEDED, nearestResource.first)
+    }
+}
+
+fun findResourceStorage(): TaskExec = { (btParams) ->
+    //todo
+    result(SUCCEEDED, point(123, 77))
+}
 
 fun todo(): TaskExec = { (btParams) ->
     result(SUCCEEDED)
