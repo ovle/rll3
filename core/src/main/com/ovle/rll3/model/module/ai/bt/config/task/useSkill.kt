@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.module.ai.bt.config.task
 
-import com.badlogic.gdx.ai.btree.Task
+import com.badlogic.gdx.ai.btree.Task.Status.RUNNING
+import com.badlogic.gdx.ai.btree.Task.Status.SUCCEEDED
 import com.ovle.rll3.TaskExec
 import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.EventBus
@@ -17,11 +18,11 @@ fun useSkill(targetHolder: TaskTargetHolder, skill: SkillTemplate): TaskExec = {
     val isSucceeded = skill.isSuccess.invoke(owner, target, btParams.location)
 
     if (isSucceeded) {
-        result(Task.Status.SUCCEEDED)
+        result(SUCCEEDED)
     } else {
         val targetEntity = target.target
         EventBus.send(Event.GameEvent.EntityUseSkillCommand(owner, targetEntity, skill))
 
-        result(Task.Status.RUNNING)
+        result(RUNNING)
     }
 }

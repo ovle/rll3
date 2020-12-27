@@ -10,6 +10,7 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
 import com.ovle.rll3.model.module.task.TaskTarget
 import ktx.ashley.get
 
+//todo drop item on task cancellation
 fun takeTask(targetHolder: TaskTargetHolder): TaskExec = { (btParams) ->
     val owner = btParams.owner
     val target = targetHolder.target

@@ -3,6 +3,7 @@ package com.ovle.rll3.model.module.core.entity
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
+import com.ovle.rll3.info
 import com.ovle.rll3.model.module.core.component.ComponentMappers.id
 import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
@@ -17,28 +18,28 @@ fun Collection<Entity>.print() = map { it.print() }.foldRight("entities: ") { ac
 fun Entity.print() = components.map { it.print() }.foldRight("components: ") { acc, it -> "$acc, $it" }
 
 fun Entity.see(position: GridPoint2): Boolean {
-    check(this.has(perception))
+    check(this.has(perception)) { "no perception for entity ${this.info()}" }
 
     val fov = this[perception]!!.fov
     return noVisibilityFilter || position in fov
 }
 
 fun Entity.position(): GridPoint2 {
-    check(this.has(position))
+    check(this.has(position)) { "no position for entity ${this.info()}" }
     return this[position]!!.gridPosition
 }
 
 fun Entity.setPosition(newPosition: GridPoint2) {
-    check(this.has(position))
+    check(this.has(position)) { "no position for entity ${this.info()}" }
     this[position]!!.gridPosition = newPosition
 }
 
 fun Entity.id(): EntityId {
-    check(this.has(id))
+    check(this.has(id)) { "no id for entity ${this.info()}" }
     return this[id]!!.id
 }
 
 fun Entity.name(): EntityId {
-    check(this.has(template))
+    check(this.has(template)) { "no template for entity ${this.info()}" }
     return this[template]!!.template.name
 }

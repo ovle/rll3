@@ -22,12 +22,9 @@ data class TaskExecResult(
 data class BTParams(
     val task: TaskInfo,
     val engine: Engine
-//    var currentTarget: TaskTarget? //todo make it better?
 ) {
     val owner: Entity
         get() = task.performer!!
-    val btTaskTarget
-        get() = task.target
     val entities
         get() = engine.entities.toList()
     val location: LocationInfo

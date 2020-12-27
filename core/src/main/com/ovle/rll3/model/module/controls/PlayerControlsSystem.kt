@@ -1,8 +1,10 @@
 package com.ovle.rll3.model.module.controls
 
 import com.badlogic.gdx.Input
+import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.*
+import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.Event.PlayerControlEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
@@ -45,7 +47,7 @@ class PlayerControlsSystem : EventSystem() {
             val entities = location.entities.on(position)
 //            val partyEntities = player()!!.party.entities.toList().on(position)
             when {
-                entities.isNotEmpty() -> send(GameEvent.EntityClickEvent(button, entities.single()))
+                entities.isNotEmpty() -> send(EntityClickEvent(button, entities.single()))
 //                partyEntities.isNotEmpty() -> send(EntityClick(button, partyEntities.single()))
                 else -> {
 //                    send(EntitySetMoveTarget(controlledEntity, position))
@@ -62,12 +64,12 @@ class PlayerControlsSystem : EventSystem() {
         val positionComponent = interactionEntity[ComponentMappers.position]!!
         if (positionComponent.gridPosition == position) return
 
-        send(GameEvent.EntityUnhoverEvent())
+        send(EntityUnhoverEvent())
 
         positionComponent.gridPosition = position
         val entities = level.entities.on(position)
         entities.forEach {
-            send(GameEvent.EntityHoverEvent(it))
+            send(EntityHoverEvent(it))
         }
     }
 
@@ -93,13 +95,13 @@ class PlayerControlsSystem : EventSystem() {
     private fun onKeyPressed(code: Int) {
         val interactionComponent = playerInteractionInfo()!!
         when(code) {
-            //debug
-            Input.Keys.ESCAPE -> send(
+            ESCAPE -> send(
                 DebugSaveGame().then(ExitGameCommand())
             )
-            Input.Keys.S -> send(DebugSwitchSelectionMode(interactionComponent.selectionMode.next()))
-            Input.Keys.C -> send(DebugSwitchControlMode(interactionComponent.controlMode.next()))
-            Input.Keys.V -> { noVisibilityFilter = !noVisibilityFilter }
+            S -> send(DebugSwitchSelectionMode(interactionComponent.selectionMode.next()))
+            C -> send(DebugSwitchControlMode(interactionComponent.controlMode.next()))
+            Z -> send(CancelAllTasksCommand())
+            V -> { noVisibilityFilter = !noVisibilityFilter }
         }
     }
 }

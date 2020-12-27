@@ -89,7 +89,8 @@ sealed class Event {
         class TaskStartedEvent(val task: TaskInfo) : GameEvent()
         class TaskFinishedEvent(val task: TaskInfo) : GameEvent()
         class TaskSucceedCommand(val task: TaskInfo) : GameEvent()
-        class TaskFailCommand(val task: TaskInfo) : GameEvent()
+        class TaskFailedCommand(val task: TaskInfo) : GameEvent()
+        class CancelAllTasksCommand() : GameEvent()
     }
 
     //debug

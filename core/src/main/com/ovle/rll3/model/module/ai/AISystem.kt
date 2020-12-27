@@ -3,12 +3,10 @@ package com.ovle.rll3.model.module.ai
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.ai.btree.BehaviorTree
-import com.badlogic.gdx.ai.btree.Task
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.ai.bt.BTParams
-import com.ovle.rll3.model.module.ai.bt.BaseTask
+import com.ovle.rll3.model.module.ai.bt.TaskStatusListener
 import com.ovle.rll3.model.module.ai.bt.TaskTargetHolder
 import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
 import com.ovle.rll3.model.module.core.entity.allEntities
@@ -52,25 +50,7 @@ class AISystem : EventSystem() {
             .let { it as BehaviorTree<BTParams> }
             .apply { this.`object` = blackboard }
 
-        behaviorTree.addListener(
-            object : TaskStatusListener() {
-                override fun statusUpdated(task: Task<BTParams>, previousStatus: Task.Status?) {
-                    val status = task.status
-                    if (status == Task.Status.SUCCEEDED) {
-                        if (task is BaseTask) {
-                            println("success: ${task.name}")
-                        }
-
-                        val root = behaviorTree.getChild(0)
-                        if (task == root) {
-//                          println("statusUpdated: $status;  performer: ${task.`object`.task.performer};  target: ${task.`object`.task.target}")
-                            //todo cleanup?
-                            send(TaskSucceedCommand(taskInfo))
-                        }
-                    }
-                }
-            }
-        )
+        behaviorTree.addListener(TaskStatusListener(behaviorTree, taskInfo))
 
         aiComponent.behaviorTree = behaviorTree
     }
@@ -95,8 +75,4 @@ class AISystem : EventSystem() {
 
         behaviorTree.step()
     }
-}
-
-abstract class TaskStatusListener: BehaviorTree.Listener<BTParams> {
-    override fun childAdded(task: Task<BTParams>?, index: Int) {}
 }

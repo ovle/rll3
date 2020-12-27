@@ -1,7 +1,6 @@
 package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.utils.Queue
 import com.ovle.rll3.Turn
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
@@ -35,7 +34,8 @@ class TaskSystem : EventSystem() {
 
         EventBus.subscribe<CheckTaskCommand> { onCheckTaskCommand(it.target) }
         EventBus.subscribe<TaskSucceedCommand> { onTaskSucceedCommand(it.task) }
-        EventBus.subscribe<TaskFailCommand> { onTaskFailCommand(it.task) }
+        EventBus.subscribe<TaskFailedCommand> { onTaskFailCommand(it.task) }
+        EventBus.subscribe<CancelAllTasksCommand> { onCancelAllTasksCommand() }
     }
 
     private fun onTimeChangedEvent(turn: Turn) {
@@ -62,9 +62,18 @@ class TaskSystem : EventSystem() {
     }
 
     private fun onTaskFailCommand(task: TaskInfo){
-        task.status = TaskStatus.Cancelled
+        task.status = TaskStatus.Failed
         cleanupTask(task)
     }
+
+    private fun onCancelAllTasksCommand() {
+        val tasksCopy = tasks().toList()
+        tasksCopy.forEach {
+            it.status = TaskStatus.Cancelled
+            cleanupTask(it)
+        }
+    }
+
 
     private fun isFreePerformer(e: Entity): Boolean {
         val performerComponent = e[taskPerformer]

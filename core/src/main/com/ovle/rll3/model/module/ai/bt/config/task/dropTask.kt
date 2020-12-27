@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.module.ai.bt.config.task
 
-import com.badlogic.gdx.ai.btree.Task
+import com.badlogic.gdx.ai.btree.Task.Status.SUCCEEDED
 import com.ovle.rll3.TaskExec
-import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.GameEvent.EntityDropItemEvent
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.ai.bt.result
 import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
@@ -18,7 +18,7 @@ fun dropTask(): TaskExec = { (btParams) ->
     carried.setPosition(to)
     owner[carrier]!!.item = null
 
-    EventBus.send(Event.GameEvent.EntityDropItemEvent(owner, carried, to))
+    EventBus.send(EntityDropItemEvent(owner, carried, to))
 
-    result(Task.Status.SUCCEEDED)
+    result(SUCCEEDED)
 }

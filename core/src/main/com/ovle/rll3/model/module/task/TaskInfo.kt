@@ -1,7 +1,6 @@
 package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.module.core.entity.anyTaskPerformer
 import java.io.Serializable
 
 /**
@@ -16,10 +15,31 @@ data class TaskInfo(
     var status: TaskStatus = TaskStatus.Waiting
 ): Serializable
 
+
 enum class TaskStatus {
+    /**
+     * Waiting for performer to take
+     */
     Waiting,
+
+    /**
+     * Has performer, behavior tree is in work
+     */
     InProgress,
+
+    /**
+     * Successful finishing
+     */
     Finished,
+
+    /**
+     * Can't be finished by given performer
+     */
+    Failed,
+
+    /**
+     * Cancelled by external conditions
+     */
     Cancelled
 }
 

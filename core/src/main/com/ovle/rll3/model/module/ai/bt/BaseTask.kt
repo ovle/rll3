@@ -20,17 +20,15 @@ class BaseTask(var name: String? = "", var exec: TaskExec? = null, var holder: T
         val btParams = this.`object`
         val params = TaskExecParams(btParams)
         val execResult = this.exec!!.invoke(params)
+        val status = execResult.status
 
-        println(" > > > ${name}... ${execResult.status}")
-
-        //todo
-        if (execResult.status == Status.SUCCEEDED) {
+//        println(" > > > ${name}... $status")
+        if (status == Status.SUCCEEDED) {
             holder?.target = execResult.nextTarget
-//            btParams.currentTarget = execResult.nextTarget
-            println(" > > > new target: ${execResult.nextTarget?.target.info()}")
+//            println(" > > > new target: ${execResult.nextTarget?.target.info()}")
         }
 
-        return execResult.status
+        return status
     }
 }
 
