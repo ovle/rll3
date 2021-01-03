@@ -6,12 +6,13 @@ import com.ovle.rll3.TaskExec
 import com.ovle.rll3.model.module.ai.bt.result
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.entity.resources
+import com.ovle.rll3.model.module.gathering.ResourceType
 
-fun findNearestResourceTask(): TaskExec = { (btParams) ->
+fun findNearestResourceTask(type: ResourceType? = null): TaskExec = { (btParams) ->
     val owner = btParams.owner
     val position = owner.position()
 
-    val resources = btParams.entities.resources()
+    val resources = btParams.entities.resources(type)
     val nearestResource = resources.map { it to it.position().dst(position) }
         .minByOrNull { it.second }
 

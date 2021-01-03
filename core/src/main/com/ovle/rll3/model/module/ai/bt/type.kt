@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.Task
+import com.ovle.rll3.BTFactory
+import com.ovle.rll3.BehaviorSelector
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskInfo
@@ -31,4 +33,13 @@ data class BTParams(
         get() = locationInfo(entities.toTypedArray())!!
 }
 
-data class BTInfo(val name: String, val bt: (TaskTargetHolder) -> BehaviorTree<BTParams>)
+data class BTTemplate(
+    val name: String,
+    val priority: Int = 0,
+    val bt: BTFactory
+)
+
+data class BehaviorTemplate(
+    val name: String,
+    val selector: BehaviorSelector
+)

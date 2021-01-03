@@ -25,6 +25,7 @@ import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.template.entity.entityViewTemplate
 
+//todo defaults?
 //todo use modules
 private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "light" to { value -> LightSourceComponent(AOEData(value!!["radius"] as Int)) },
@@ -51,12 +52,11 @@ private val componentsMapper: Map<String, ComponentFactory> = mapOf(
     "stash" to { _ -> StashComponent() },
     "container" to { _ -> ContainerComponent() },
     "carrier" to { _ -> CarrierComponent() },
-    "ai" to { _ -> AIComponent() },
+    "ai" to { value -> AIComponent(behavior = (value?.get("behavior") as String?) ?: "base") },
     "task" to { _ -> TaskPerformerComponent() },
     "resource" to { value ->
         ResourceComponent(
-            type = ResourceType.valueOf((value!!["type"] as String).capitalize()),
-            isFood = value["isFood"] as Boolean? ?: false
+            type = ResourceType.valueOf((value!!["type"] as String).capitalize())
         )
     },
     "source" to { value ->

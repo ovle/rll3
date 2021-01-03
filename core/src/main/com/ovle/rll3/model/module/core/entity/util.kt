@@ -4,11 +4,14 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
 import com.ovle.rll3.info
+import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.component.ComponentMappers.id
 import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.component.print
+import com.ovle.rll3.model.module.gathering.ResourceType
 import com.ovle.rll3.view.noVisibilityFilter
 import ktx.ashley.get
 import ktx.ashley.has
@@ -42,4 +45,13 @@ fun Entity.id(): EntityId {
 fun Entity.name(): EntityId {
     check(this.has(template)) { "no template for entity ${this.info()}" }
     return this[template]!!.template.name
+}
+
+fun Entity.consumes(e: Entity): Boolean {
+    check(this.has(health)) { "no health for entity ${this.info()}" }
+    if (!e.has(resource)) return false
+
+    //todo consumer-specific
+    val foodTypes = setOf(ResourceType.Food)
+    return e[resource]!!.type in foodTypes
 }

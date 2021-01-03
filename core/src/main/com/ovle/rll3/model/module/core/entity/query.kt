@@ -12,9 +12,11 @@ import com.ovle.rll3.model.module.core.component.IdComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
 import com.ovle.rll3.model.module.core.component.ComponentMappers.tasks
 import com.ovle.rll3.model.module.game.GameComponent
+import com.ovle.rll3.model.module.gathering.ResourceType
 import com.ovle.rll3.model.module.health.HealthComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import ktx.ashley.get
@@ -46,7 +48,6 @@ fun EntitySystem.locationInfo() = locationInfoNullable()!!
 fun locationInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.location
 
 fun EntitySystem.livingEntities() = entitiesWith(allEntities().toList(), HealthComponent::class)
-//fun EntitySystem.food() = entitiesWith(allEntities().toList(), Resou::class)
 
 fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
 fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)
@@ -66,21 +67,23 @@ fun entity(id: EntityId, entities: Collection<Entity>) = entityNullable(id, enti
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-fun Collection<Entity>.on(position: GridPoint2): Collection<Entity> =
+fun Collection<Entity>.on(p: GridPoint2): Collection<Entity> =
     filter {
-        it[ComponentMappers.position]?.gridPosition?.equals(position) ?: false
+        it[position]?.gridPosition?.equals(p) ?: false
     }
 
-fun Collection<Entity>.anyOn(position: GridPoint2, componentClass: KClass<out Component>): Boolean =
+fun Collection<Entity>.anyOn(p: GridPoint2, componentClass: KClass<out Component>): Boolean =
     entitiesWith(this, componentClass)
         .any {
-            it[ComponentMappers.position]?.gridPosition?.equals(position) ?: false
+            it[position]?.gridPosition?.equals(p) ?: false
         }
 
-fun Collection<Entity>.resources() = filter { it[resource] != null }
-fun Collection<Entity>.positions() = mapNotNull { it[ComponentMappers.position]?.gridPosition }.toSet()
+fun Collection<Entity>.resources(type: ResourceType? = null) = filter {
+    it.has(resource) && (type == null || it[resource]!!.type == type)
+}
+fun Collection<Entity>.positions() = mapNotNull { it[position]?.gridPosition }.toSet()
 fun Collection<Entity>.lightObstacles() = obstacles { it.passable4Light }
 fun Collection<Entity>.bodyObstacles() = obstacles { it.passable4Body }
 fun Collection<Entity>.obstacles(fn: (CollisionComponent)-> Boolean) =
     filter { it[ComponentMappers.collision]?.let { c -> !fn.invoke(c) && c.active } ?: false }
-        .mapNotNull { it[ComponentMappers.position]?.gridPosition }
+        .mapNotNull { it[position]?.gridPosition }

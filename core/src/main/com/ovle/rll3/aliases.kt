@@ -2,15 +2,13 @@ package com.ovle.rll3
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.Task
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.model.module.ai.bt.BTParams
-import com.ovle.rll3.model.module.ai.bt.TaskExecParams
-import com.ovle.rll3.model.module.ai.bt.TaskExecResult
-import com.ovle.rll3.model.module.ai.bt.TaskTargetHolder
+import com.ovle.rll3.model.module.ai.bt.*
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.quest.QuestInfo
@@ -90,3 +88,6 @@ typealias MoveStrategy = (GridPoint2, GridPoint2, LocationInfo) -> Boolean
 typealias IsAtPositionStrategy = (Entity, GridPoint2) -> Boolean
 
 typealias Area = Collection<GridPoint2>
+
+typealias BTFactory = (TaskTargetHolder) -> BehaviorTree<BTParams>
+typealias BehaviorSelector = (Entity, LocationInfo) -> BTTemplate

@@ -12,7 +12,7 @@ import com.ovle.rll3.model.module.task.TaskInfo
 
 class TaskStatusListener(
     private val tree: BehaviorTree<BTParams>,
-    private val taskInfo: TaskInfo
+    private val taskInfo: TaskInfo?
 ) : BehaviorTree.Listener<BTParams> {
 
     override fun childAdded(task: Task<BTParams>?, index: Int) {}
@@ -26,7 +26,7 @@ class TaskStatusListener(
         }
 
         val root = tree.getChild(0)
-        if (task == root) {
+        if (task == root && taskInfo != null) {
             //todo cleanup?
             when (status) {
                 SUCCEEDED -> EventBus.send(TaskSucceedCommand(taskInfo))

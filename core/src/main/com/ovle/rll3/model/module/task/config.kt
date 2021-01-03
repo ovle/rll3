@@ -24,19 +24,19 @@ import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
 val gatherTaskTemplate = TaskTemplate(
     performerFilter = ::defaultPerformerFilter,
     targetFilter = { t, _ -> t.target is Entity && isSourceEntity(t.asEntity()) },
-    btInfo = gatherBt
+    btTemplate = gatherBt
 )
 
 val attackTaskTemplate = TaskTemplate(
     performerFilter = ::defaultPerformerFilter, //todo armed performer
     targetFilter = { t, _ -> t.target is Entity && isLivingEntity(t.target) },   //todo only hostile/food source
-    btInfo = attackBt
+    btTemplate = attackBt
 )
 
 val testTaskTemplate = TaskTemplate(
     performerFilter = ::defaultPerformerFilter,
-    targetFilter = { t, _ -> t.target is Entity },   //todo only hostile/food source
-    btInfo = testBt
+    targetFilter = { t, _ -> t.target is Entity },
+    btTemplate = testBt
 )
 
 //val buildTaskTemplate = TaskTemplate(

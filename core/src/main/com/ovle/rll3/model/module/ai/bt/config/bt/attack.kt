@@ -7,7 +7,7 @@ import com.ovle.rll3.model.module.ai.bt.config.task.useSkill
 import com.ovle.rll3.model.template.skill
 
 
-val attackBt = BTInfo(
+val attackBt = BTTemplate(
     name = "attack",
     bt = { initialTarget ->
         tree {

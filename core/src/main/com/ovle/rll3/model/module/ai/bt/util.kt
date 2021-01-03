@@ -2,6 +2,7 @@ package com.ovle.rll3.model.module.ai.bt
 
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.Task
+import com.badlogic.gdx.ai.btree.branch.RandomSelector
 import com.badlogic.gdx.ai.btree.branch.Selector
 import com.badlogic.gdx.ai.btree.branch.Sequence
 import com.ovle.rll3.TaskExec
@@ -22,8 +23,8 @@ fun Task<BTParams>.seq(init: Sequence<BTParams>.() -> Unit): Sequence<BTParams> 
     return result
 }
 
-fun Task<BTParams>.select(init: Selector<BTParams>.() -> Unit): Selector<BTParams> {
-    val result = Selector<BTParams>()
+fun Task<BTParams>.select(random: Boolean = false, init: Selector<BTParams>.() -> Unit): Selector<BTParams> {
+    val result = if (random) RandomSelector() else Selector<BTParams>()
     result.init()
     this.addChild(result)
     return result

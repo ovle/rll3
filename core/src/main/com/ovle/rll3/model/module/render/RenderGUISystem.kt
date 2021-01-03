@@ -78,7 +78,7 @@ class RenderGUISystem(
         if (tasks.isEmpty) return null
 
         return tasks.joinToString(separator = "\n") {
-            val name = it.template.btInfo.name
+            val name = it.template.btTemplate.name
             val performer = if (it.performer == null) "" else "(${it.performer.info()})"
             val target = it.target.target.info()
             "   $name $target: ${it.status} $performer"

@@ -1,13 +1,13 @@
 package com.ovle.rll3.model.module.ai.bt.config.bt
 
-import com.ovle.rll3.model.module.ai.bt.BTInfo
+import com.ovle.rll3.model.module.ai.bt.BTTemplate
 import com.ovle.rll3.model.module.ai.bt.config.task.*
 import com.ovle.rll3.model.module.ai.bt.seq
 import com.ovle.rll3.model.module.ai.bt.task
 import com.ovle.rll3.model.module.ai.bt.tree
 import com.ovle.rll3.model.template.skill
 
-val gatherBt = BTInfo(
+val gatherBt = BTTemplate(
     name = "gather",
     bt = { initialTarget ->
         tree {
