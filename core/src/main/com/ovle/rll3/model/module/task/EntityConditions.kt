@@ -44,7 +44,7 @@ object EntityConditions {
             e.consumes(it) && path(e.position(), it.position(), l).isNotEmpty()
         }
 
-    fun isInDanger(e: Entity, l: LocationInfo) = e.has(health) && e[health]!!.let { it.health > it.maxHealth / 2 }
+    fun isInDanger(e: Entity, l: LocationInfo) = e.has(health) && e[health]!!.let { it.health < it.maxHealth / 2 }
 
     fun isHaveAttackTarget(e: Entity, l: LocationInfo): Boolean {
         //todo

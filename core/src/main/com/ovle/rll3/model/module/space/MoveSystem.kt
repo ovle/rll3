@@ -125,7 +125,7 @@ class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionCompon
 
         val movePath = moveComponent.path
         if (newPath.isEmpty()) {
-            println("no path found from $from to $to!")
+//            println("no path found from $from to $to!")
             movePath.reset()
         } else {
             movePath.set(newPath)

@@ -30,6 +30,9 @@ entities:
   - templateName: pig
     points:
       - [4, 4]
+  - templateName: meat
+    points:
+      - [0, 1]
 
 #---
 #name: test village

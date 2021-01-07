@@ -272,7 +272,7 @@ name: meat
 description: ''
 state:
   resource:
-    type: meat
+    type: food
 ---
 
 name: wood

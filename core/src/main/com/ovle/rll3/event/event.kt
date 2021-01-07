@@ -1,11 +1,13 @@
 package com.ovle.rll3.event
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.EffectAmount
 import com.ovle.rll3.Tile
 import com.ovle.rll3.Turn
+import com.ovle.rll3.model.module.ai.bt.BTParams
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.interaction.ControlMode
 import com.ovle.rll3.model.module.interaction.SelectionMode
@@ -61,6 +63,9 @@ sealed class Event {
         class ShowEntityInfoCommand(val entity: Entity) : GameEvent()
         class EntityFovUpdatedEvent(val entity: Entity) : GameEvent()
         class FocusEntityCommand(val entity: Entity) : GameEvent()
+
+        class BtFinishedEvent(val tree: BehaviorTree<BTParams>) : GameEvent()
+
         //entity - model
         class EntityUseSkillCommand(val source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : GameEvent()
         class EntityStartUseSkillEvent(val source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : GameEvent()
@@ -70,7 +75,7 @@ sealed class Event {
         class EntityChangedEvent(val entity: Entity) : GameEvent()
         class EntityGatheredEvent(val entity: Entity, val source: Entity?) : GameEvent()
         class EntityTakeDamageEvent(val entity: Entity, val source: Entity?, val amount: Int) : GameEvent()
-        class EntityEatEvent(val entity: Entity, val amount: Int) : GameEvent()
+        class EntityEatEvent(val entity: Entity, val food: Entity) : GameEvent()
         class EntityDiedEvent(val entity: Entity) : GameEvent()
         class EntityStarvedEvent(val entity: Entity) : GameEvent()
         class EntityStartMoveCommand(val entity: Entity, val point: GridPoint2) : GameEvent()

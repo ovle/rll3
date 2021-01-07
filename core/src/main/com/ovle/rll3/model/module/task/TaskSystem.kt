@@ -7,11 +7,13 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers.taskPerformer
 import com.ovle.rll3.model.module.core.entity.controlledEntities
+import com.ovle.rll3.model.module.core.entity.isFreeTaskPerformer
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.entity.tasksInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
 import ktx.ashley.get
+import ktx.ashley.has
 
 
 class TaskSystem : EventSystem() {
@@ -42,7 +44,7 @@ class TaskSystem : EventSystem() {
         val location = locationInfo()
         val controlledEntities = controlledEntities()
         controlledEntities
-            .filter { isFreePerformer(it) }
+            .filter { isFreeTaskPerformer(it) }
             .forEach {
                 processFreePerformer(it, location)
             }
@@ -74,11 +76,6 @@ class TaskSystem : EventSystem() {
         }
     }
 
-
-    private fun isFreePerformer(e: Entity): Boolean {
-        val performerComponent = e[taskPerformer]
-        return performerComponent != null && performerComponent.current == null
-    }
 
     private fun processFreePerformer(performer: Entity, location: LocationInfo) {
         val freeTasks = tasks().filter { it.performer == null }

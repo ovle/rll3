@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.Turn
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.entity.livingEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
@@ -15,7 +16,7 @@ class HungerSystem : EventSystem() {
 
     override fun subscribe() {
         EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
-        EventBus.subscribe<EntityEatEvent> { onEntityEatEvent(it.entity, it.amount) }
+        EventBus.subscribe<EntityEatEvent> { onEntityEatEvent(it.entity, it.food) }
     }
 
     private fun onTimeChangedEvent(turn: Turn) {
@@ -35,8 +36,12 @@ class HungerSystem : EventSystem() {
         }
     }
 
-    private fun onEntityEatEvent(entity: Entity, amount: Int) {
+    private fun onEntityEatEvent(entity: Entity, food: Entity) {
         val health = entity[health]!!
-        health.hunger = max(amount, health.maxHunger)
+        //todo
+        health.hunger = 0
+//        health.hunger = max(health.hunger - food[resource]!!.amount, 0)
+
+        send(DestroyEntityCommand(food))
     }
 }

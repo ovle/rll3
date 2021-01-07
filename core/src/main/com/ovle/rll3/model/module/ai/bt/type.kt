@@ -2,7 +2,6 @@ package com.ovle.rll3.model.module.ai.bt
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.Task
 import com.ovle.rll3.BTFactory
 import com.ovle.rll3.BehaviorSelector
@@ -22,11 +21,10 @@ data class TaskExecResult(
 
 
 data class BTParams(
-    val task: TaskInfo,
+    val owner: Entity,
+    val task: TaskInfo?,
     val engine: Engine
 ) {
-    val owner: Entity
-        get() = task.performer!!
     val entities
         get() = engine.entities.toList()
     val location: LocationInfo

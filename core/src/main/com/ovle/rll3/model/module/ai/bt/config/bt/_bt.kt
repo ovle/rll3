@@ -2,24 +2,7 @@ package com.ovle.rll3.model.module.ai.bt.config.bt
 
 import com.ovle.rll3.model.module.ai.bt.*
 import com.ovle.rll3.model.module.ai.bt.config.task.*
-import com.ovle.rll3.model.module.gathering.ResourceType
-import com.ovle.rll3.model.module.gathering.ResourceType.*
 
-
-val eatBt = BTTemplate(
-    name = "eat",
-    bt = { _ ->
-        tree {
-            seq {
-                val nearestResource = task("find nearest food", findNearestResourceTask(Food))
-                task("move to food", moveTask(nearestResource))
-                task("take food", successTask())    //todo
-                task("move with food to table room", successTask()) //todo
-                task("eat food", eatTask(nearestResource))
-            }
-        }
-    }
-)
 
 val huntBt = BTTemplate(
     name = "hunt",
@@ -56,22 +39,6 @@ val startCombatBt = BTTemplate(
     bt = { initialTarget ->
         tree {
 
-        }
-    }
-)
-
-val restBt = BTTemplate(
-    name = "rest",
-    bt = { initialTarget ->
-        tree {
-            select(random = true) {
-                task("rest", restTask())
-                task("rest", restTask())
-                seq {
-                    val randomPoint = task("find random point", findRandomNearbyPoint())
-                    task("move to hideout", moveTask(randomPoint))
-                }
-            }
         }
     }
 )
