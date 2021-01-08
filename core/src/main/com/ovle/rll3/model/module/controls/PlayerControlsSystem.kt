@@ -1,6 +1,5 @@
 package com.ovle.rll3.model.module.controls
 
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.*
@@ -94,6 +93,7 @@ class PlayerControlsSystem : EventSystem() {
 
     private fun onKeyPressed(code: Int) {
         val interactionComponent = playerInteractionInfo()!!
+        val selectedEntity = selectedEntity()
         when(code) {
             ESCAPE -> send(
                 DebugSaveGame().then(ExitGameCommand())
@@ -101,6 +101,9 @@ class PlayerControlsSystem : EventSystem() {
             S -> send(DebugSwitchSelectionMode(interactionComponent.selectionMode.next()))
             C -> send(DebugSwitchControlMode(interactionComponent.controlMode.next()))
             Z -> send(CancelAllTasksCommand())
+            K -> selectedEntity?.let { send(KillEntityCommand(it)) }
+            R -> selectedEntity?.let { send(ResurrectEntityCommand(it)) }
+            D -> selectedEntity?.let { send(DestroyEntityCommand(it)) }
             V -> { noVisibilityFilter = !noVisibilityFilter }
         }
     }

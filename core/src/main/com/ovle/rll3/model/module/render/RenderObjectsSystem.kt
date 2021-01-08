@@ -10,12 +10,10 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.point
-import com.ovle.rll3.vec2
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 import ktx.ashley.get
@@ -32,7 +30,7 @@ class RenderObjectsSystem(
     //todo use all texture versions
     private val spriteRegions = split(spriteTexturesInfo.texture, spriteWidth.toInt(), spriteHeight.toInt())
     private val defaultSprite = sprite(spriteRegions, 6, 0)
-    private val defaultSpriteKey = "default"
+    private val defaultEntitySpriteKey = "default"
     private val deadEntitySpriteKey = "dead"
     private val deadEntitySpritePoint = point(7, 0)
 
@@ -44,11 +42,15 @@ class RenderObjectsSystem(
 
     fun subscribe() {
         EventBus.subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
+        EventBus.subscribe<EntityResurrectedEvent> { onEntityResurrectedEvent(it.entity) }
     }
 
     private fun onEntityDiedEvent(entity: Entity) {
-        val renderComponent = entity[render]!!
-        renderComponent.switchSprite(deadEntitySpriteKey)
+        entity[render]?.switchSprite(deadEntitySpriteKey)
+    }
+
+    private fun onEntityResurrectedEvent(entity: Entity) {
+        entity[render]?.switchSprite(defaultEntitySpriteKey)
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
@@ -99,7 +101,7 @@ class RenderObjectsSystem(
             }
 
             renderComponent.sprites = sprites
-            renderComponent.sprite = sprites[defaultSpriteKey]
+            renderComponent.sprite = sprites[defaultEntitySpriteKey]
         }
     }
 

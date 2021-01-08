@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.EffectAmount
 import com.ovle.rll3.Tile
 import com.ovle.rll3.Turn
-import com.ovle.rll3.model.module.ai.bt.BTParams
+import com.ovle.rll3.model.module.ai.behavior.BTParams
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.interaction.ControlMode
 import com.ovle.rll3.model.module.interaction.SelectionMode
@@ -77,6 +77,7 @@ sealed class Event {
         class EntityTakeDamageEvent(val entity: Entity, val source: Entity?, val amount: Int) : GameEvent()
         class EntityEatEvent(val entity: Entity, val food: Entity) : GameEvent()
         class EntityDiedEvent(val entity: Entity) : GameEvent()
+        class EntityResurrectedEvent(val entity: Entity) : GameEvent()
         class EntityStarvedEvent(val entity: Entity) : GameEvent()
         class EntityStartMoveCommand(val entity: Entity, val point: GridPoint2) : GameEvent()
         class EntityStartedMoveEvent(val entity: Entity) : GameEvent()
@@ -102,6 +103,8 @@ sealed class Event {
     class DebugSaveGame : Event()
     class ExitGameCommand : Event()
     class GameDidFinishedEvent : Event()
+    class KillEntityCommand(val entity: Entity) : Event()
+    class ResurrectEntityCommand(val entity: Entity) : Event()
     class DebugSwitchSelectionMode(val selectionMode: SelectionMode) : Event()
     class DebugSwitchControlMode(val controlMode: ControlMode) : Event()
 }

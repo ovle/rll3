@@ -9,7 +9,7 @@ class HealthComponent(
     var stamina: Int = 3,
     var maxStamina: Int = 3,
     var hunger: Int = 0,
-    var maxHunger: Int = 50
+    var maxHunger: Int = 20
 ) : BaseComponent {
     val isDead
         get() = health == 0
