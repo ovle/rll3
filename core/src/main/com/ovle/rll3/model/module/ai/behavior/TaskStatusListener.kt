@@ -1,12 +1,10 @@
-package com.ovle.rll3.model.module.ai.bt
+package com.ovle.rll3.model.module.ai.behavior
 
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.Task
 import com.badlogic.gdx.ai.btree.Task.Status.FAILED
 import com.badlogic.gdx.ai.btree.Task.Status.SUCCEEDED
-import com.ovle.rll3.event.Event
 import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.task.TaskInfo
 

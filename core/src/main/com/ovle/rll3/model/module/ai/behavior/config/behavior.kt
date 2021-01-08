@@ -1,7 +1,7 @@
-package com.ovle.rll3.model.module.ai.bt.config.behavior
+package com.ovle.rll3.model.module.ai.behavior.config
 
-import com.ovle.rll3.model.module.ai.bt.BehaviorTemplate
-import com.ovle.rll3.model.module.ai.bt.config.bt.*
+import com.ovle.rll3.model.module.ai.behavior.BehaviorTemplate
+import com.ovle.rll3.model.module.ai.behavior.config.bt.*
 import com.ovle.rll3.model.module.task.EntityConditions.isAttackTarget
 import com.ovle.rll3.model.module.task.EntityConditions.isHaveAttackTarget
 import com.ovle.rll3.model.module.task.EntityConditions.isHaveAvailableAttackTarget

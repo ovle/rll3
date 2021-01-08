@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.ai.bt.config.behavior
+package com.ovle.rll3.model.module.ai.behavior.config
 
 //val baseBehavior = BehaviorInfo(
 //    name = "base",

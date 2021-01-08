@@ -37,6 +37,8 @@ object EntityConditions {
 
     fun isResourceEntity(e: Entity) = e.has(resource)
 
+    fun isFoodEntity(e: Entity) = isResourceEntity(e) && e[resource]!!.type == Food
+
     fun isHungry(e: Entity, l: LocationInfo) = e.has(health) && e[health]!!.let { it.hunger > it.maxHunger / 2 }
 
     fun isHaveAvailableFood(e: Entity, l: LocationInfo) = e.has(health) &&

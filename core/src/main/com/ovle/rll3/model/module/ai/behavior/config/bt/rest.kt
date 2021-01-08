@@ -1,9 +1,7 @@
-package com.ovle.rll3.model.module.ai.bt.config.bt
+package com.ovle.rll3.model.module.ai.behavior.config.bt
 
-import com.ovle.rll3.model.module.ai.bt.*
-import com.ovle.rll3.model.module.ai.bt.config.task.findRandomNearbyPoint
-import com.ovle.rll3.model.module.ai.bt.config.task.moveTask
-import com.ovle.rll3.model.module.ai.bt.config.task.restTask
+import com.ovle.rll3.model.module.ai.behavior.*
+import com.ovle.rll3.model.module.ai.behavior.config.task.restTask
 
 val restBt = BTTemplate(
     name = "rest",

@@ -1,9 +1,8 @@
-package com.ovle.rll3.model.module.ai.bt
+package com.ovle.rll3.model.module.ai.behavior
 
 import com.badlogic.gdx.ai.btree.LeafTask
 import com.badlogic.gdx.ai.btree.Task
 import com.ovle.rll3.TaskExec
-import com.ovle.rll3.info
 
 
 class BaseTask(var name: String? = "", var exec: TaskExec? = null, var holder: TaskTargetHolder? = null): LeafTask<BTParams>() {

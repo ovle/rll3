@@ -1,10 +1,10 @@
 package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.module.ai.bt.config.bt.attackBt
+import com.ovle.rll3.model.module.ai.behavior.config.bt.attackBt
 import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
-import com.ovle.rll3.model.module.ai.bt.config.bt.gatherBt
-import com.ovle.rll3.model.module.ai.bt.config.bt.testBt
+import com.ovle.rll3.model.module.ai.behavior.config.bt.gatherBt
+import com.ovle.rll3.model.module.ai.behavior.config.bt.testBt
 import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
 
 

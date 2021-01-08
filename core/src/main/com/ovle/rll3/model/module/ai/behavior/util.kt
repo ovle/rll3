@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.ai.bt
+package com.ovle.rll3.model.module.ai.behavior
 
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.Task

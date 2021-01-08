@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.module.task
 
 import com.ovle.rll3.*
-import com.ovle.rll3.model.module.ai.bt.BTTemplate
+import com.ovle.rll3.model.module.ai.behavior.BTTemplate
 
 data class TaskTemplate (
     val performerFilter: TaskPerformerFilter,

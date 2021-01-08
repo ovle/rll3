@@ -1,8 +1,8 @@
-package com.ovle.rll3.model.module.ai.bt.config.task
+package com.ovle.rll3.model.module.ai.behavior.config.task
 
 import com.badlogic.gdx.ai.btree.Task.Status.*
 import com.ovle.rll3.TaskExec
-import com.ovle.rll3.model.module.ai.bt.result
+import com.ovle.rll3.model.module.ai.behavior.result
 import com.ovle.rll3.point
 
 
