@@ -48,7 +48,7 @@ class RenderGUISystem(
 //        val gameInfo = gameInfo()!!
         val tasksInfo = tasksInfo()!!
         val hoveredEntity = interactionInfo.hoveredEntity
-//        val selectedEntity = interactionInfo.selectedEntity
+        val selectedEntity = interactionInfo.selectedEntity
 //        val focusedEntity = interactionInfo.focusedEntity
 
         val locationInfo = locationInfo()
@@ -63,15 +63,13 @@ class RenderGUISystem(
             "$worldAreaName $locationPoint",
             "turn ${time.turn}",
             "$selectedPoint " + (hoveredEntity?.let { "(${it.name()})" } ?: ""),
+            selectedEntity?.let { it.info(recursive = true) },
             tasksInfo(tasksInfo.tasks)?.let {
                 "tasks:\n$it \n(total: ${tasksInfo.tasks.size})"
             }
-        ).filterNotNull()
+        ).filterNotNull().joinToString("\n")
 
-        info.forEachIndexed {
-            i, _ ->
-            font.draw(stageBatch, info[i], point.x, point.y - dy * i)
-        }
+        font.draw(stageBatch, info, point.x, point.y)
     }
 
     private fun tasksInfo(tasks: Queue<TaskInfo>): String? {
@@ -79,7 +77,7 @@ class RenderGUISystem(
 
         return tasks.joinToString(separator = "\n") {
             val name = it.template.btTemplate.name
-            val performer = if (it.performer == null) "" else "(${it.performer.info()})"
+            val performer = if (it.performer == null) "" else "(${it.performer!!.info()})"
             val target = it.target.target.info()
             "   $name $target: ${it.status} $performer"
         }
