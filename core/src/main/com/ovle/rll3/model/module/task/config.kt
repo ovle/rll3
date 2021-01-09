@@ -1,13 +1,13 @@
 package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.Area
 import com.ovle.rll3.model.module.ai.behavior.config.bt.attackBt
 import com.ovle.rll3.model.module.ai.behavior.config.bt.buildBt
 import com.ovle.rll3.model.module.ai.behavior.config.bt.gatherBt
 import com.ovle.rll3.model.module.task.AreaConditions.isFreeArea
 import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
 import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
+import com.ovle.rll3.model.util.Area
 
 
 val gatherTaskTemplate = TaskTemplate(
@@ -18,8 +18,8 @@ val gatherTaskTemplate = TaskTemplate(
 
 val buildTaskTemplate = TaskTemplate(
     performerFilter = ::defaultPerformerFilter,
-    targetFilter = { t, l -> (t.target is Collection<*>) && isFreeArea(t.target as Area, l) },
-    targetMap = { t, _ -> (t.target as Area).map { TaskTarget(it) } },   //todo priority from center to border
+    targetFilter = { t, l -> (t.target is Area) && isFreeArea(t.target, l) },
+    targetMap = { t, _ -> (t.target as Area).points.map { TaskTarget(it) } },   //todo priority from center to border
     btTemplate = buildBt
 )
 

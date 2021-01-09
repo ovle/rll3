@@ -86,7 +86,5 @@ typealias GridPointCheck2 = (Grid, Grid, GridPoint2) -> Boolean
 typealias MoveStrategy = (GridPoint2, GridPoint2, LocationInfo) -> Boolean
 typealias IsAtPositionStrategy = (Entity, GridPoint2) -> Boolean
 
-typealias Area = Collection<GridPoint2>
-
 typealias BTFactory = (TaskTargetHolder) -> BehaviorTree<BTParams>
 typealias BehaviorSelector = (Entity, LocationInfo) -> BTTemplate

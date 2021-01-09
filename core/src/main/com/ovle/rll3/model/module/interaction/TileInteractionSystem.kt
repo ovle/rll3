@@ -15,6 +15,7 @@ import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.task.TaskTarget.*
+import com.ovle.rll3.model.util.Area
 import com.ovle.rll3.point
 import com.ovle.rll3.view.viewportToGame
 import kotlin.math.min
@@ -40,7 +41,7 @@ class TileInteractionSystem : EventSystem() {
         if (selectedTiles.isNotEmpty()) {
             val target =
                 if (selectedTiles.size == 1) TaskTarget(selectedTiles.single())
-                else TaskTarget(selectedTiles)
+                else TaskTarget(Area(selectedTiles.toHashSet()))
 
             EventBus.send(CheckTaskCommand(target))
         }
