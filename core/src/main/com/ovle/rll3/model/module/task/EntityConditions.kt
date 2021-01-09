@@ -3,11 +3,13 @@ package com.ovle.rll3.model.module.task
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.isAdjacent
+import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
 import com.ovle.rll3.model.module.core.component.ComponentMappers.source
+import com.ovle.rll3.model.module.core.component.ComponentMappers.taskPerformer
 import com.ovle.rll3.model.module.core.entity.consumes
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.entity.resources
@@ -47,6 +49,10 @@ object EntityConditions {
         }
 
     fun isInDanger(e: Entity, l: LocationInfo) = e.has(health) && e[health]!!.let { it.health < it.maxHealth / 2 }
+
+    fun isTaskPerformer(e: Entity) = e.has(taskPerformer) && !isDead(e)
+
+    fun isFreeTaskPerformer(e: Entity) = isTaskPerformer(e) && e[taskPerformer]!!.current == null
 
     fun isHaveAttackTarget(e: Entity, l: LocationInfo): Boolean {
         //todo

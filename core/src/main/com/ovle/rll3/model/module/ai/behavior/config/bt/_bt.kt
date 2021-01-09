@@ -8,7 +8,7 @@ val huntBt = BTTemplate(
     name = "hunt",
     bt = { initialTarget ->
         tree {
-
+            task("todo", successTask())
         }
     }
 )
@@ -29,16 +29,16 @@ val combatBt = BTTemplate(
     name = "combat",
     bt = { initialTarget ->
         tree {
-
+            task("todo", successTask())
         }
     }
 )
 
 val startCombatBt = BTTemplate(
-    name = "runaway",
+    name = "start combat",
     bt = { initialTarget ->
         tree {
-
+            task("todo", successTask())
         }
     }
 )

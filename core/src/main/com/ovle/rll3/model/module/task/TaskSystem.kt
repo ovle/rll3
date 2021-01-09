@@ -7,13 +7,13 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers.taskPerformer
 import com.ovle.rll3.model.module.core.entity.controlledEntities
-import com.ovle.rll3.model.module.core.entity.isFreeTaskPerformer
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.entity.tasksInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.task.EntityConditions.isFreeTaskPerformer
+import com.ovle.rll3.model.module.task.TaskStatus.*
 import ktx.ashley.get
-import ktx.ashley.has
 
 
 class TaskSystem : EventSystem() {
@@ -41,6 +41,8 @@ class TaskSystem : EventSystem() {
     }
 
     private fun onTimeChangedEvent(turn: Turn) {
+        validateTasks()
+
         val location = locationInfo()
         val controlledEntities = controlledEntities()
         controlledEntities
@@ -59,23 +61,22 @@ class TaskSystem : EventSystem() {
     }
 
     private fun onTaskSucceedCommand(task: TaskInfo) {
-        task.status = TaskStatus.Finished
+        task.status = Finished
         cleanupTask(task)
     }
 
     private fun onTaskFailCommand(task: TaskInfo){
-        task.status = TaskStatus.Failed
+        task.status = Failed
         cleanupTask(task)
     }
 
     private fun onCancelAllTasksCommand() {
         val tasksCopy = tasks().toList()
         tasksCopy.forEach {
-            it.status = TaskStatus.Cancelled
+            it.status = Cancelled
             cleanupTask(it)
         }
     }
-
 
     private fun processFreePerformer(performer: Entity, location: LocationInfo) {
         val freeTasks = tasks().filter { it.performer == null }
@@ -86,9 +87,10 @@ class TaskSystem : EventSystem() {
         startTask(task, performer)
     }
 
+
     private fun startTask(task: TaskInfo, performer: Entity) {
         task.performer = performer
-        task.status = TaskStatus.InProgress
+        task.status = InProgress
 
         val performerComponent = performer[taskPerformer]!!
         performerComponent.current = task
@@ -113,6 +115,21 @@ class TaskSystem : EventSystem() {
         tasks().addLast(task)
 //        tasks.addFirst(task)
         println("enqueueSingleTask: $task")
+    }
+
+    private fun validateTasks() {
+        val tasksInfo = tasksInfo()!!
+        val invalidTasks = tasksInfo.tasks.filter { !isValid(it) }
+        invalidTasks.forEach {
+            println("task $it removed (is no longer valid)")
+            tasksInfo.tasks.removeValue(it, true)
+        }
+    }
+
+    private fun isValid(taskInfo: TaskInfo?): Boolean {
+        val isTargetValid = taskInfo?.target?.isValid() ?: true
+        val isPerformerValid = true //todo?
+        return isTargetValid && isPerformerValid
     }
 
     private fun cleanupTask(task: TaskInfo) {

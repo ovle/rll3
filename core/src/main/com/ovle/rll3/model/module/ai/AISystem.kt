@@ -121,12 +121,11 @@ class AISystem : EventSystem() {
         return newBehaviorTree
     }
 
-    private fun newBehaviorTree(prototype: BehaviorTree<BTParams>, blackboard: BTParams, taskInfo: TaskInfo?): BehaviorTree<BTParams> {
-        return prototype.cloneTask()
+    private fun newBehaviorTree(prototype: BehaviorTree<BTParams>, blackboard: BTParams, taskInfo: TaskInfo?) =
+        prototype.cloneTask()
             .let { it as BehaviorTree<BTParams> }
             .apply {
                 `object` = blackboard
                 addListener(TaskStatusListener(this, taskInfo))
             }
-    }
 }

@@ -2,7 +2,9 @@ package com.ovle.rll3.model.module.ai.behavior
 
 import com.badlogic.gdx.ai.btree.LeafTask
 import com.badlogic.gdx.ai.btree.Task
+import com.badlogic.gdx.ai.btree.Task.Status.*
 import com.ovle.rll3.TaskExec
+import com.ovle.rll3.model.module.task.InvalidTargetException
 
 
 class BaseTask(var name: String? = "", var exec: TaskExec? = null, var holder: TaskTargetHolder? = null): LeafTask<BTParams>() {
@@ -18,11 +20,18 @@ class BaseTask(var name: String? = "", var exec: TaskExec? = null, var holder: T
     override fun execute(): Status {
         val btParams = this.`object`
         val params = TaskExecParams(btParams)
-        val execResult = this.exec!!.invoke(params)
+        val execResult: TaskExecResult
+        try {
+            execResult = this.exec!!.invoke(params)
+        } catch (ex: InvalidTargetException) {
+            println(" > > > ${name}: target is no longer valid")
+            return FAILED
+        }
+
         val status = execResult.status
 
 //        println(" > > > ${name}... $status")
-        if (status == Status.SUCCEEDED) {
+        if (status == SUCCEEDED) {
             holder?.target = execResult.nextTarget
 //            println(" > > > new target: ${execResult.nextTarget?.target.info()}")
         }
