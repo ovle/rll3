@@ -1,47 +1,49 @@
 package com.ovle.rll3.model.module.space
 
-import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.Family.all
-import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
-import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.entity.*
+import com.ovle.rll3.model.module.core.entity.bodyObstacles
+import com.ovle.rll3.model.module.core.entity.locationInfo
+import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.util.pathfinding.aStar.path
 import com.ovle.rll3.point
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.math.abs
 
+//todo to manage speed
+//todo moving as the part of skills
+class MoveSystem : EventSystem() {
 
-class MoveSystem : IteratingSystem(all(MoveComponent::class.java, PositionComponent::class.java).get()) {
-
-    override fun addedToEngine(engine: Engine) {
-        super.addedToEngine(engine)
-        subscribe()
-    }
-
-    fun subscribe() {
+    override fun subscribe() {
         EventBus.subscribe<EntityStartMoveCommand> { onEntitySetMoveTargetEvent(it.entity, it.point) }
+        EventBus.subscribe<EntityMoveCommand> { onEntityMoveCommand(it.entity) }
+        EventBus.subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
     }
 
-    override fun processEntity(entity: Entity, deltaTime: Float) {
+    private fun onEntityMoveCommand(entity: Entity) {
         val moveComponent = entity[move]!!
         if (!moveComponent.path.started) return
 
         checkMove(entity)
     }
 
-
     private fun onEntitySetMoveTargetEvent(entity: Entity, point: GridPoint2) {
         setMoveTarget(locationInfo(), point, entity)
+    }
+
+    private fun onEntityDiedEvent(entity: Entity) {
+        val moveComponent = entity[move] ?: return
+        val movePath = moveComponent.path
+        movePath.reset()
     }
 
     private fun checkMove(entity: Entity) {

@@ -80,6 +80,7 @@ sealed class Event {
         class EntityResurrectedEvent(val entity: Entity) : GameEvent()
         class EntityStarvedEvent(val entity: Entity) : GameEvent()
         class EntityStartMoveCommand(val entity: Entity, val point: GridPoint2) : GameEvent()
+        class EntityMoveCommand(val entity: Entity) : GameEvent()
         class EntityStartedMoveEvent(val entity: Entity) : GameEvent()
         class EntityMovedEvent(val entity: Entity) : GameEvent()
         class EntityFinishedMoveEvent(val entity: Entity) : GameEvent()
