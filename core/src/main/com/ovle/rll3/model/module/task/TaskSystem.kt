@@ -37,6 +37,8 @@ class TaskSystem : EventSystem() {
         EventBus.subscribe<CheckTaskCommand> { onCheckTaskCommand(it.target) }
         EventBus.subscribe<TaskSucceedCommand> { onTaskSucceedCommand(it.task) }
         EventBus.subscribe<TaskFailedCommand> { onTaskFailCommand(it.task) }
+
+        EventBus.subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
         EventBus.subscribe<CancelAllTasksCommand> { onCancelAllTasksCommand() }
     }
 
@@ -70,6 +72,16 @@ class TaskSystem : EventSystem() {
         cleanupTask(task)
     }
 
+    private fun onEntityDiedEvent(entity: Entity) {
+        val performerComponent = entity[taskPerformer] ?: return
+        val currentTask = performerComponent.current ?: return
+
+        currentTask.status = Waiting
+        cleanupPerformer(currentTask)
+
+        currentTask.performer = null
+    }
+
     private fun onCancelAllTasksCommand() {
         val tasksCopy = tasks().toList()
         tasksCopy.forEach {
@@ -79,14 +91,13 @@ class TaskSystem : EventSystem() {
     }
 
     private fun processFreePerformer(performer: Entity, location: LocationInfo) {
-        val freeTasks = tasks().filter { it.performer == null }
+        val freeTasks = tasks().filter { isFreeTask(it) }
         val task = freeTasks.find {
             it.template.performerFilter.invoke(performer, it.target, location)
         } ?: return
 
         startTask(task, performer)
     }
-
 
     private fun startTask(task: TaskInfo, performer: Entity) {
         task.performer = performer
@@ -133,9 +144,7 @@ class TaskSystem : EventSystem() {
     }
 
     private fun cleanupTask(task: TaskInfo) {
-        val performer = task.performer!!
-        performer[taskPerformer]!!.current = null
-//        task.performer = null
+        cleanupPerformer(task)
 
         tasks().removeValue(task, true)
         taskHistory().addLast(task)
@@ -143,6 +152,14 @@ class TaskSystem : EventSystem() {
         send(TaskFinishedEvent(task))
     }
 
+    private fun cleanupPerformer(task: TaskInfo) {
+        val performer = task.performer ?: return
+
+        performer[taskPerformer]!!.current = null
+    }
+
+    private fun isFreeTask(it: TaskInfo) = it.status == Waiting
+//    private fun isFreeTask(it: TaskInfo) = it.performer == null
     private fun tasks() = tasksInfo()!!.tasks
     private fun taskHistory() = tasksInfo()!!.taskHistory
 }

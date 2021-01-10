@@ -7,6 +7,7 @@ import java.io.Serializable
  * task for ai
  * no duration (varies depend on conditions)
  * single performer (null if not taken yet)
+ * performer is still presents after task finishing (for history)
  */
 data class TaskInfo(
     val template: TaskTemplate,

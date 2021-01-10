@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.module.ai.behavior.BTParams
 import com.ovle.rll3.model.module.ai.behavior.TaskStatusListener
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
@@ -15,6 +16,7 @@ import com.ovle.rll3.model.module.core.entity.entitiesWith
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.task.EntityConditions.isAIActive
 import com.ovle.rll3.model.module.task.EntityConditions.isDead
 import com.ovle.rll3.model.module.task.TaskInfo
 import ktx.ashley.get
@@ -36,13 +38,28 @@ class AISystem : EventSystem() {
     }
 
     override fun subscribe() {
-        EventBus.subscribe<BtFinishedEvent> { onBtFinishedEvent(it.tree) }
+        subscribe<BtFinishedEvent> { onBtFinishedEvent(it.tree) }
 
-        EventBus.subscribe<TaskStartedEvent> { onTaskStartedEvent(it.task) }
-        EventBus.subscribe<TaskFinishedEvent> { onTaskFinishedEvent(it.task) }
+        subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
+        subscribe<EntityResurrectedEvent> { onEntityResurrectedEvent(it.entity) }
+
+        subscribe<TaskStartedEvent> { onTaskStartedEvent(it.task) }
+        subscribe<TaskFinishedEvent> { onTaskFinishedEvent(it.task) }
         if (!isRealTime) {
-            EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
+            subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
         }
+    }
+
+    private fun onEntityDiedEvent(entity: Entity) {
+        val aiComponent = entity[ai] ?: return
+        aiComponent.active = false
+
+        aiComponent.behaviorTree?.cancel()
+    }
+
+    private fun onEntityResurrectedEvent(entity: Entity) {
+        val aiComponent = entity[ai] ?: return
+        aiComponent.active = true
     }
 
 
@@ -70,8 +87,7 @@ class AISystem : EventSystem() {
 
     //todo cleanup?
     private fun onTaskFinishedEvent(task: TaskInfo) {
-        val performer = task.performer!!
-        val aiComponent = performer[ai] ?: return
+        val aiComponent = task.performer?.get(ai) ?: return
 
 //        aiComponent.behaviorTree!!.cancel()
         aiComponent.behaviorTree = null
@@ -86,7 +102,7 @@ class AISystem : EventSystem() {
     private fun processEntities(entities: List<Entity>) {
         val location = locationInfo()
         entities
-            .filter { !isDead(it) }
+            .filter { isAIActive(it) }
             .forEach { processEntity(it, location) }
     }
 

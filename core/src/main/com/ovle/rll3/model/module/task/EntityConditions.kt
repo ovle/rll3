@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.isAdjacent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
+import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
@@ -28,6 +29,8 @@ object EntityConditions {
     fun isAtPosition(e: Entity, p: GridPoint2) = e.has(position) && e.position() == p
 
     fun isMoving(e: Entity) = e.has(move) && e[move]!!.path.started
+
+    fun isAIActive(e: Entity) = e.has(ai) && e[ai]!!.active
 
     fun isDead(e: Entity) = e.has(health) && e[health]!!.isDead
 
