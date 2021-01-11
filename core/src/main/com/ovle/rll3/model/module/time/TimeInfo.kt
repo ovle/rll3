@@ -4,5 +4,5 @@ import java.io.Serializable
 
 class TimeInfo: Serializable {
     var turn: Long = 0
-    var fractionTicks: Int = 0
+    var fractionTicks: Long = 0
 }

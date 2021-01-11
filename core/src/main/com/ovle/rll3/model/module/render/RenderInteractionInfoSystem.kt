@@ -9,6 +9,7 @@ import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.model.module.core.component.ComponentMappers.playerInteraction
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.playerInteraction
+import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import com.ovle.rll3.vec2
 import com.ovle.rll3.view.sprite.Sprite
@@ -71,7 +72,7 @@ class RenderInteractionInfoSystem(
     }
 
     private fun draw(entity: Entity, sprite: Sprite) {
-        val position = entity[position]!!.gridPosition
+        val position = entity.position()
         draw(position, sprite)
     }
 

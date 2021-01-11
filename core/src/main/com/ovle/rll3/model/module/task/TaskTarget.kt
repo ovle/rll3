@@ -25,8 +25,9 @@ class TaskTarget(val target: Any?) {
         else -> throw IllegalStateException("isValid not supported by target $target")
     }
 
+    //todo if skill success is destroying entity then !isExists(t.asEntity()) check will throw an exception
     private fun validate() {
-        if (!isValid()) throw InvalidTargetException()
+//        if (!isValid()) throw InvalidTargetException()
     }
 }
 

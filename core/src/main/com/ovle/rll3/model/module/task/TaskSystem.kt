@@ -137,8 +137,9 @@ class TaskSystem : EventSystem() {
         }
     }
 
+    //todo break tasks that destroy entity and do something afterwards
     private fun isValid(taskInfo: TaskInfo?): Boolean {
-        val isTargetValid = taskInfo?.target?.isValid() ?: true
+        val isTargetValid = true //taskInfo?.target?.isValid() ?: true
         val isPerformerValid = true //todo?
         return isTargetValid && isPerformerValid
     }

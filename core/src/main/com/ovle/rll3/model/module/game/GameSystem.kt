@@ -8,6 +8,7 @@ import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers
+import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LocationGenerationParams
@@ -17,6 +18,7 @@ import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.screen.game.InitGameInfo
 import ktx.ashley.get
+import ktx.ashley.has
 
 
 class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
@@ -44,9 +46,13 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
         send(GameDidFinishedEvent())
     }
 
-    private fun onCreateEntityCommand(entityTemplate: EntityTemplate, position: GridPoint2) {
+    private fun onCreateEntityCommand(entityTemplate: EntityTemplate, startPosition: GridPoint2) {
         val entity = newTemplatedEntity(randomId(), entityTemplate, engine)
-            .apply { this[ComponentMappers.position]!!.gridPosition = position }
+            .apply {
+                if (has(position)) {
+                    setPosition(startPosition)
+                }
+            }
 
         val location = locationInfo()
         location.entities += entity
@@ -54,6 +60,7 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
         send(EntityInitializedEvent(entity))
     }
 
+    //todo soft delete? too much trouble with this approach
     private fun onDestroyEntityCommand(entity: Entity) {
         val location = locationInfo()
         location.entities -= entity

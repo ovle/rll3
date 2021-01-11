@@ -42,7 +42,7 @@ class RenderGUISystem(
 
     private fun drawSystemInfo() {
         val interaction = playerInteraction()!!
-        val selectedPoint = interaction[position]!!.gridPosition
+        val selectedPoint = interaction.position()
 
         val interactionInfo = playerInteractionInfo()!!
 //        val gameInfo = gameInfo()!!

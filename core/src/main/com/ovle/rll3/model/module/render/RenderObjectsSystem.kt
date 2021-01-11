@@ -10,9 +10,11 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
+import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.point
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
@@ -41,8 +43,8 @@ class RenderObjectsSystem(
     }
 
     fun subscribe() {
-        EventBus.subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
-        EventBus.subscribe<EntityResurrectedEvent> { onEntityResurrectedEvent(it.entity) }
+        subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
+        subscribe<EntityResurrectedEvent> { onEntityResurrectedEvent(it.entity) }
     }
 
     private fun onEntityDiedEvent(entity: Entity) {
@@ -66,7 +68,7 @@ class RenderObjectsSystem(
         super.update(deltaTime)
 
         toRender.sortWith(
-            compareBy({ it[render]!!.zLevel }, { -it[position]!!.gridPosition.y })
+            compareBy({ it[render]!!.zLevel }, { -it.position().y })
         )
 
 //        val controlledEntity = controlledEntity()
@@ -122,7 +124,7 @@ class RenderObjectsSystem(
             checkNotNull(entity[position])
 
             val renderComponent = entity[render]!!
-            val position = entity[position]!!.gridPosition
+            val position = entity.position()
 
             batch.draw(position, renderComponent)
         }

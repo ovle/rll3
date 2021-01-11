@@ -8,6 +8,7 @@ import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
+import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.render.Animation.*
 import com.ovle.rll3.model.util.Direction
 import ktx.ashley.get
@@ -38,12 +39,14 @@ class AnimationSystem: IteratingSystem(Family.all(RenderComponent::class.java).g
 
         EventBus.subscribe<EntityStartUseSkillEvent> { onEntityStartUseSkillEvent(it.source, it.target) }
         EventBus.subscribe<EntityFinishUseSkillEvent> { onEntityFinishUseSkillEvent(it.source, it.target) }
+
+        EventBus.subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
     }
 
     private fun onEntityStartUseSkillEvent(source: Entity, target: Any?) {
-        val sourcePosition = source[position]!!.gridPosition
+        val sourcePosition = source.position()
         val targetPosition = when (target) {
-            is Entity -> target[position]!!.gridPosition
+            is Entity -> target.position()
             is GridPoint2 -> target
             else -> throw IllegalArgumentException("todo")
         }
@@ -88,6 +91,11 @@ class AnimationSystem: IteratingSystem(Family.all(RenderComponent::class.java).g
     private fun onEntityFinishedMoveEvent(entity: Entity) {
         entity.setAnimation(null)
     }
+
+    private fun onEntityDiedEvent(entity: Entity) {
+        entity.setAnimation(null)
+    }
+
 
     private fun Entity.setAnimation(animation: Animation?) {
         this[render]!!.currentAnimation = if (animation == null) null else AnimationInfo(animation)

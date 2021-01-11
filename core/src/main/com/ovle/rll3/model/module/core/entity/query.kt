@@ -11,6 +11,7 @@ import com.ovle.rll3.model.module.collision.CollisionComponent
 import com.ovle.rll3.model.module.core.component.IdComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
+import com.ovle.rll3.model.module.core.component.ComponentMappers.collision
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
@@ -68,22 +69,14 @@ fun entity(id: EntityId, entities: Collection<Entity>) = entityNullable(id, enti
 //----------------------------------------------------------------------------------------------------------------------------------
 
 fun Collection<Entity>.on(p: GridPoint2): Collection<Entity> =
-    filter {
-        it[position]?.gridPosition?.equals(p) ?: false
-    }
-
-fun Collection<Entity>.anyOn(p: GridPoint2, componentClass: KClass<out Component>): Boolean =
-    entitiesWith(this, componentClass)
-        .any {
-            it[position]?.gridPosition?.equals(p) ?: false
-        }
+    filter { it.positionOrNull()?.equals(p) ?: false }
 
 fun Collection<Entity>.resources(type: ResourceType? = null) = filter {
     it.has(resource) && (type == null || it[resource]!!.type == type)
 }
-fun Collection<Entity>.positions() = mapNotNull { it[position]?.gridPosition }.toSet()
+fun Collection<Entity>.positions() = mapNotNull { it.positionOrNull() }.toSet()
 fun Collection<Entity>.lightObstacles() = obstacles { it.passable4Light }
 fun Collection<Entity>.bodyObstacles() = obstacles { it.passable4Body }
 fun Collection<Entity>.obstacles(fn: (CollisionComponent)-> Boolean) =
-    filter { it[ComponentMappers.collision]?.let { c -> !fn.invoke(c) && c.active } ?: false }
-        .mapNotNull { it[position]?.gridPosition }
+    filter { it[collision]?.let { c -> !fn.invoke(c) && c.active } ?: false }
+        .mapNotNull { it.position() }

@@ -3,8 +3,8 @@ package com.ovle.rll3.model.module.space
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
 import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
@@ -24,9 +24,9 @@ import kotlin.math.abs
 class MoveSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<EntityStartMoveCommand> { onEntitySetMoveTargetEvent(it.entity, it.point) }
-        EventBus.subscribe<EntityMoveCommand> { onEntityMoveCommand(it.entity) }
-        EventBus.subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
+        subscribe<EntityStartMoveCommand> { onEntitySetMoveTargetEvent(it.entity, it.point) }
+        subscribe<EntityMoveCommand> { onEntityMoveCommand(it.entity) }
+        subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
     }
 
     private fun onEntityMoveCommand(entity: Entity) {

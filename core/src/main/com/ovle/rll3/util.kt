@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2
 import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
+import com.ovle.rll3.model.module.core.entity.name
 import com.ovle.rll3.model.module.health.HealthComponent
 import com.ovle.rll3.model.module.space.PositionComponent
 import ktx.ashley.get
@@ -101,7 +102,7 @@ fun Collection<Entity>.info(): String {
 fun Any?.info(recursive: Boolean = false): String = when {
     this == null -> "(nothing)"
     this is Entity -> when {
-            this.has(template) -> this[template]!!.template.name
+            this.has(template) -> this.name()
             else -> "(unknown entity)"
         } + if (recursive) {
             this.components.map { it.info() }

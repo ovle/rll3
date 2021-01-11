@@ -6,6 +6,7 @@ import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.info
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rll3.model.module.core.entity.position
 import ktx.ashley.get
 
 fun eventLogHook(event: Event) {
@@ -50,7 +51,7 @@ private fun message(event: Event) =
             "${event.entity.info()} carry ${event.item.info()}"
         }
         is EntityDropItemEvent -> {
-            val position = event.entity[position]!!.gridPosition.info()
+            val position = event.entity.position().info()
             "${event.entity.info()} drop ${event.item.info()} on position $position"
         }
         else -> null

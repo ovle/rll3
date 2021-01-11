@@ -9,6 +9,7 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.source
+import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.template.entity.entityTemplate
 import ktx.ashley.get
@@ -24,7 +25,7 @@ class ResourceSystem : EventSystem() {
 
     private fun onEntityGatheredEvent(entity: Entity) {
         val sourceComponent = entity[source]!!  //todo
-        val gridPosition = entity[position]!!.gridPosition
+        val gridPosition = entity.position()
         val resourceType = sourceComponent.type.name.decapitalize()
 
         send(DestroyEntityCommand(entity))

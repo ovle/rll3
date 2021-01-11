@@ -23,7 +23,6 @@ import com.ovle.rll3.model.module.health.StaminaSystem
 import com.ovle.rll3.model.module.interaction.BaseInteractionSystem
 import com.ovle.rll3.model.module.interaction.EntityInteractionSystem
 import com.ovle.rll3.model.module.interaction.TileInteractionSystem
-import com.ovle.rll3.model.module.process.ProcessSystem
 import com.ovle.rll3.model.module.render.*
 import com.ovle.rll3.model.module.skill.SkillSystem
 import com.ovle.rll3.model.module.space.MoveSystem
@@ -72,7 +71,7 @@ class GameScreen(
             MoveSystem(),
 
             HealthSystem(),
-            HungerSystem(),
+//            HungerSystem(),
             StaminaSystem(),
 
             BaseInteractionSystem(),

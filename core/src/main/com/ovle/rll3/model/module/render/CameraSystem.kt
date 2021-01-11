@@ -10,6 +10,7 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.focusedEntity
 import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
+import com.ovle.rll3.model.module.core.entity.positionOrNull
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.interaction.ControlMode
 import com.ovle.rll3.view.*
@@ -72,7 +73,7 @@ class CameraSystem(
 
 
     private fun focusCamera(entity: Entity) {
-        val position = entity[position]?.gridPosition ?: return
+        val position = entity.positionOrNull() ?: return
         focusCamera(position)
     }
 

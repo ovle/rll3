@@ -36,6 +36,10 @@ fun Entity.position(): GridPoint2 {
     return this[position]!!.gridPosition
 }
 
+fun Entity.positionOrNull(): GridPoint2? {
+    return this[position]?.gridPosition
+}
+
 fun Entity.setPosition(newPosition: GridPoint2) {
     check(this.has(position)) { "no position for entity ${this.info()}" }
     this[position]!!.gridPosition = newPosition
