@@ -58,10 +58,6 @@ sealed class Event {
         class EntityClickEvent(val button: Int, val entity: Entity) : GameEvent()
         class EntityHoverEvent(val entity: Entity) : GameEvent()
 
-        /**
-         * todo
-         * how to handle ability of async destroying any entity. will cause NPE in different places on component queries
-         */
         class DestroyEntityCommand(val entity: Entity) : GameEvent()
         class EntityInitializedEvent(val entity: Entity) : GameEvent()
         class EntityDestroyedEvent(val entity: Entity) : GameEvent()

@@ -26,7 +26,7 @@ import com.ovle.rll3.model.module.task.TasksComponent
 private inline fun <reified T : BaseComponent> mapper(): ComponentMapper<T> = ComponentMapper.getFor(T::class.java)
 
 object ComponentMappers {
-    val id = mapper<IdComponent>()
+    val core = mapper<CoreComponent>()
     val game = mapper<GameComponent>()
     val tasks = mapper<TasksComponent>()
     val template = mapper<TemplateComponent>()

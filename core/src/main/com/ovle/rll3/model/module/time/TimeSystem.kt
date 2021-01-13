@@ -7,12 +7,13 @@ import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.game.GameComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
+import com.ovle.rll3.model.module.core.system.BaseIteratingSystem
 import ktx.ashley.get
 
 
-class TimeSystem : IteratingSystem(all(GameComponent::class.java).get()) {
+class TimeSystem : BaseIteratingSystem(all(GameComponent::class.java).get()) {
 
-    override fun processEntity(entity: Entity, deltaTime: Float) {
+    override fun processEntityIntr(entity: Entity, deltaTime: Float) {
         val gameComponent = entity[game]!!
         with(gameComponent.time) {
             fractionTicks += deltaTicks(deltaTime)

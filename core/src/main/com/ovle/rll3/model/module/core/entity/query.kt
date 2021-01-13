@@ -8,12 +8,12 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
 import com.ovle.rll3.model.module.collision.CollisionComponent
-import com.ovle.rll3.model.module.core.component.IdComponent
+import com.ovle.rll3.model.module.core.component.CoreComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.collision
+import com.ovle.rll3.model.module.core.component.ComponentMappers.core
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
 import com.ovle.rll3.model.module.core.component.ComponentMappers.tasks
 import com.ovle.rll3.model.module.game.GameComponent
@@ -27,15 +27,17 @@ import kotlin.reflect.KClass
 
 //todo use families?
 
-fun entitiesWith(entities: Collection<Entity>, componentClass: KClass<out Component>) = ComponentMapper.getFor(componentClass.java)
+fun entitiesWith(entities: Collection<Entity>, componentClass: KClass<out Component>) =
+    ComponentMapper.getFor(componentClass.java)
     .run {
-        entities.filter { it.has(this) }
+        entities.filter {
+            it.has(this) && it[core]!!.isExists
+        }
     }
 
 fun entityWith(entities: Collection<Entity>, componentClass: KClass<out Component>) = entitiesWith(entities, componentClass).singleOrNull()
 
-fun IteratingSystem.hostEntities() = this.entities
-fun EntitySystem.allEntities() = this.engine.entities
+fun EntitySystem.allEntities() = this.engine.entities.filter { it[core]!!.isExists }
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
@@ -53,7 +55,7 @@ fun EntitySystem.livingEntities() = entitiesWith(allEntities().toList(), HealthC
 fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
 fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)
     ?.get(ComponentMappers.playerInteraction)
-fun EntitySystem.playerInteraction() = playerInteraction(this.allEntities().toList())
+fun EntitySystem.playerInteraction() = playerInteraction(allEntities().toList())
 fun EntitySystem.playerInteractionInfo() = playerInteractionInfo(allEntities().toList())
 
 fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity
@@ -62,8 +64,8 @@ fun EntitySystem.controlledEntities() = entitiesWith(allEntities().toList(), Tas
 fun EntitySystem.entity(id: EntityId) = entity(id, allEntities().toList())
 fun EntitySystem.entityNullable(id: EntityId) = entityNullable(id, allEntities().toList())
 
-fun entityNullable(id: EntityId, entities: Collection<Entity>) = entitiesWith(entities, IdComponent::class)
-        .singleOrNull { it[ComponentMappers.id]!!.id == id }
+fun entityNullable(id: EntityId, entities: Collection<Entity>) = entitiesWith(entities, CoreComponent::class)
+        .singleOrNull { it[ComponentMappers.core]!!.id == id }
 fun entity(id: EntityId, entities: Collection<Entity>) = entityNullable(id, entities)!!
 
 //----------------------------------------------------------------------------------------------------------------------------------

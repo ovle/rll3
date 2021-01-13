@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
 import com.ovle.rll3.info
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
-import com.ovle.rll3.model.module.core.component.ComponentMappers.id
+import com.ovle.rll3.model.module.core.component.ComponentMappers.core
 import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
@@ -28,7 +28,7 @@ fun Entity.see(position: GridPoint2): Boolean {
 }
 
 fun Entity.isExists(): Boolean {
-    return !isScheduledForRemoval && components.toArray().isNotEmpty()
+    return this[core]!!.isExists
 }
 
 fun Entity.position(): GridPoint2 {
@@ -46,8 +46,8 @@ fun Entity.setPosition(newPosition: GridPoint2) {
 }
 
 fun Entity.id(): EntityId {
-    check(this.has(id)) { "no id for entity ${this.info()}" }
-    return this[id]!!.id
+    check(this.has(core)) { "no id for entity ${this.info()}" }
+    return this[core]!!.id
 }
 
 fun Entity.name(): EntityId {

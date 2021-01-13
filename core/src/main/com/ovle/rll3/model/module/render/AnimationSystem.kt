@@ -1,23 +1,23 @@
 package com.ovle.rll3.model.module.render
+
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
-import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import com.ovle.rll3.model.module.core.entity.position
-import com.ovle.rll3.model.module.render.Animation.*
+import com.ovle.rll3.model.module.core.system.BaseIteratingSystem
+import com.ovle.rll3.model.module.render.Animation.BlinkAnimation
+import com.ovle.rll3.model.module.render.Animation.ShiftAnimation
 import com.ovle.rll3.model.util.Direction
 import ktx.ashley.get
-import java.lang.IllegalArgumentException
 
 
-class AnimationSystem: IteratingSystem(Family.all(RenderComponent::class.java).get()) {
+class AnimationSystem: BaseIteratingSystem(Family.all(RenderComponent::class.java).get()) {
 
-    override fun processEntity(entity: Entity, deltaTime: Float) {
+    override fun processEntityIntr(entity: Entity, deltaTime: Float) {
         val renderComponent = entity[render]!!
         val animation = renderComponent.currentAnimation
         animation?.let {

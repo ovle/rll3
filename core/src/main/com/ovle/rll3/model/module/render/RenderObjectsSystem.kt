@@ -3,18 +3,18 @@ package com.ovle.rll3.model.module.render
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family.all
-import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.Event.GameEvent.EntityDiedEvent
+import com.ovle.rll3.event.Event.GameEvent.EntityResurrectedEvent
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.entity.position
+import com.ovle.rll3.model.module.core.system.BaseIteratingSystem
 import com.ovle.rll3.point
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
@@ -24,7 +24,7 @@ import ktx.ashley.get
 class RenderObjectsSystem(
     private val batch: Batch,
     assetsManager: AssetsManager
-) : IteratingSystem(all(RenderComponent::class.java).get()) {
+) : BaseIteratingSystem(all(RenderComponent::class.java).get()) {
 
     private val spriteTexturesInfo = assetsManager.objectsTexture
     private var toRender = mutableListOf<Entity>()
@@ -55,7 +55,7 @@ class RenderObjectsSystem(
         entity[render]?.switchSprite(defaultEntitySpriteKey)
     }
 
-    override fun processEntity(entity: Entity, deltaTime: Float) {
+    override fun processEntityIntr(entity: Entity, deltaTime: Float) {
         val renderComponent = entity[render]!!
         initSprites(renderComponent, entity) //todo move somewhere, not to do this for every update for every entity
 
