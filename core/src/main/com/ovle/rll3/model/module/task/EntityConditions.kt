@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.isAdjacent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
+import com.ovle.rll3.model.module.core.component.ComponentMappers.core
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
@@ -34,7 +35,7 @@ object EntityConditions {
 
     fun isDead(e: Entity) = e.has(health) && e[health]!!.isDead
 
-    fun isExists(e: Entity) = e.components.size() > 0   //todo
+    fun isExists(e: Entity) = e[core]!!.isExists
 
     fun isLivingEntity(e: Entity) = e.has(health) && e.has(health) && !e[health]!!.isDead
 

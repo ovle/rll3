@@ -20,7 +20,6 @@ class TaskSystem : EventSystem() {
 
     private val isRealTime = false
 
-
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
 
@@ -38,9 +37,9 @@ class TaskSystem : EventSystem() {
         EventBus.subscribe<TaskSucceedCommand> { onTaskSucceedCommand(it.task) }
         EventBus.subscribe<TaskFailedCommand> { onTaskFailCommand(it.task) }
 
-        EventBus.subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
         EventBus.subscribe<CancelAllTasksCommand> { onCancelAllTasksCommand() }
     }
+
 
     private fun onTimeChangedEvent(turn: Turn) {
         validateTasks()
@@ -72,22 +71,20 @@ class TaskSystem : EventSystem() {
         cleanupTask(task)
     }
 
-    private fun onEntityDiedEvent(entity: Entity) {
-        val performerComponent = entity[taskPerformer] ?: return
-        val currentTask = performerComponent.current ?: return
-
-        currentTask.status = Waiting
-        cleanupPerformer(currentTask)
-
-        currentTask.performer = null
-    }
-
     private fun onCancelAllTasksCommand() {
         val tasksCopy = tasks().toList()
         tasksCopy.forEach {
             it.status = Cancelled
             cleanupTask(it)
         }
+    }
+
+
+    private fun resetTask(currentTask: TaskInfo) {
+        currentTask.status = Waiting
+        cleanupPerformer(currentTask)
+
+        currentTask.performer = null
     }
 
     private fun processFreePerformer(performer: Entity, location: LocationInfo) {
@@ -130,18 +127,20 @@ class TaskSystem : EventSystem() {
 
     private fun validateTasks() {
         val tasksInfo = tasksInfo()!!
+
         val invalidTasks = tasksInfo.tasks.filter { !isValid(it) }
         invalidTasks.forEach {
             println("task $it removed (is no longer valid)")
             tasksInfo.tasks.removeValue(it, true)
         }
-    }
 
-    //todo break tasks that destroy entity and do something afterwards
-    private fun isValid(taskInfo: TaskInfo?): Boolean {
-        val isTargetValid = true //taskInfo?.target?.isValid() ?: true
-        val isPerformerValid = true //todo?
-        return isTargetValid && isPerformerValid
+        val tasksToReset = tasksInfo.tasks.filter {
+            it.performer == null || !isValidPerformer(it.performer!!)
+        }
+        tasksToReset.forEach {
+            println("task $it reset (no valid performer)")
+            resetTask(it)
+        }
     }
 
     private fun cleanupTask(task: TaskInfo) {
@@ -160,7 +159,8 @@ class TaskSystem : EventSystem() {
     }
 
     private fun isFreeTask(it: TaskInfo) = it.status == Waiting
-//    private fun isFreeTask(it: TaskInfo) = it.performer == null
+
     private fun tasks() = tasksInfo()!!.tasks
+
     private fun taskHistory() = tasksInfo()!!.taskHistory
 }

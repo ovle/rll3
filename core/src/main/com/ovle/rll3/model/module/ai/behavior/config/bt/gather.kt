@@ -17,7 +17,7 @@ val gatherBt = BTTemplate(
                 val initialTargetPosition = task("find path to target", findPositionNearTarget(initialTarget))
                 task("move to target", moveTask(initialTargetPosition))
                 task("gather", useSkill(initialTarget, skill("gather")))
-                //todo validateTasks has broke this
+                //todo still not works
                 val nearestResource = task("find nearest resource", findNearestEntityTask(::isResourceEntity))
                 task("move to gathered resource", moveTask(nearestResource))
                 task("take the resource", takeTask(nearestResource))

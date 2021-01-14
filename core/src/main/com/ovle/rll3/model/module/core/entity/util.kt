@@ -27,10 +27,6 @@ fun Entity.see(position: GridPoint2): Boolean {
     return noVisibilityFilter || position in fov
 }
 
-fun Entity.isExists(): Boolean {
-    return this[core]!!.isExists
-}
-
 fun Entity.position(): GridPoint2 {
     check(this.has(position)) { "no position for entity ${this.info()}" }
     return this[position]!!.gridPosition
