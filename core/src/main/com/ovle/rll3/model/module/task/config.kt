@@ -1,14 +1,18 @@
 package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.module.ai.behavior.config.bt.attackBt
-import com.ovle.rll3.model.module.ai.behavior.config.bt.buildBt
-import com.ovle.rll3.model.module.ai.behavior.config.bt.gatherBt
+import com.ovle.rll3.model.module.ai.behavior.config.bt.*
 import com.ovle.rll3.model.module.task.AreaConditions.isFreeArea
 import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
 import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
 import com.ovle.rll3.model.util.Area
 
+
+//val testTaskTemplate = TaskTemplate(
+//    performerFilter = ::defaultPerformerFilter,
+//    targetFilter = { t, _ -> t.target is Entity },
+//    btTemplate = testEntityValidationBt
+//)
 
 val gatherTaskTemplate = TaskTemplate(
     performerFilter = ::defaultPerformerFilter,
@@ -64,10 +68,11 @@ val attackTaskTemplate = TaskTemplate(
 //todo mine non-source tiles
 //todo priority by order is not flexible
 fun taskTemplates() = arrayOf(
-    attackTaskTemplate,
-    gatherTaskTemplate,
-    buildTaskTemplate
 //    testTaskTemplate
+//    attackTaskTemplate,
+    gatherTaskTemplate
+//    buildTaskTemplate
+
 //    carryTaskTemplate,
 //    mineTaskTemplate,
 //    moveToTaskTemplate

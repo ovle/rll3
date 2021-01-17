@@ -22,10 +22,9 @@ import com.ovle.rll3.model.module.task.TaskInfo
 import ktx.ashley.get
 
 
-class AISystem : EventSystem() {
-
-    private val isRealTime = false
-
+class AISystem(
+    private var isRealTime: Boolean = false
+) : EventSystem() {
 
     override fun update(deltaTime: Float) {
         super.update(deltaTime)

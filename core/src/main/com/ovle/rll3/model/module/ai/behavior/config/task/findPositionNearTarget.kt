@@ -14,8 +14,7 @@ fun findPositionNearTarget(targetHolder: TaskTargetHolder): TaskExec = { (btPara
     val owner = btParams.owner
     val location = btParams.location
     val from = owner.position()
-    val target = targetHolder.target
-    target as TaskTarget
+    val target = targetHolder.target()
     val to = target.position()
 
     val nearPoints = to.adjacentHV().sortedBy { it.dst(from) }

@@ -8,13 +8,13 @@ import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.result
 import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
 import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.model.module.task.checkValid
 import ktx.ashley.get
 
 //todo drop item on task cancellation
 fun takeTask(targetHolder: TaskTargetHolder): TaskExec = { (btParams) ->
     val owner = btParams.owner
-    val target = targetHolder.target
-    target as TaskTarget
+    val target = targetHolder.target()
     val carried = target.asEntity()
 
     val carrierComponent = owner[carrier]!!

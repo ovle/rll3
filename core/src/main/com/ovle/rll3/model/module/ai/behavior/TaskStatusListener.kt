@@ -20,7 +20,7 @@ class TaskStatusListener(
         val status = task.status
         val isTerminalStatus = status in arrayOf(SUCCEEDED, FAILED)
 
-        if (task is BaseTask && isTerminalStatus) {
+        if (task is BaseTask && isTerminalStatus && task.name != "rest") {  //todo
             println("$status: ${task.name}")
         }
 

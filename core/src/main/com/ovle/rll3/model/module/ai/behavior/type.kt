@@ -16,7 +16,7 @@ data class TaskExecParams(
 
 data class TaskExecResult(
     val status: Task.Status,
-    val nextTarget: TaskTarget?
+    val nextTarget: TaskTarget? = null
 )
 
 

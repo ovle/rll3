@@ -7,6 +7,7 @@ import com.badlogic.gdx.ai.btree.branch.Selector
 import com.badlogic.gdx.ai.btree.branch.Sequence
 import com.ovle.rll3.TaskExec
 import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.model.module.task.checkValid
 
 
 fun Task<BTParams>.task(name: String, exec: TaskExec): TaskTargetHolder {
@@ -40,5 +41,13 @@ fun result(status: Task.Status, nextTarget: Any? = null): TaskExecResult {
     return TaskExecResult(status, nextTarget?.let { TaskTarget(nextTarget) })
 }
 
-data class TaskTargetHolder(var target: TaskTarget? = null)
+data class TaskTargetHolder(var target: TaskTarget? = null) {
+
+    fun target(validated: Boolean = true): TaskTarget {
+        val result = target as TaskTarget
+        if (validated) checkValid(result)
+
+        return result
+    }
+}
 

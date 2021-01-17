@@ -15,8 +15,7 @@ import com.ovle.rll3.model.module.task.TaskTarget
 
 fun moveTask(targetHolder: TaskTargetHolder): TaskExec =  { (btParams) ->
     val owner = btParams.owner
-    val target = targetHolder.target
-    target as TaskTarget
+    val target = targetHolder.target()
     val to = target.position()
 
     when {

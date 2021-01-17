@@ -18,6 +18,10 @@ fun isValid(taskInfo: TaskInfo): Boolean {
     }
 }
 
+fun checkValid(target: TaskTarget) {
+    if (!isValidTarget(target)) throw InvalidTargetException(target)
+}
+
 fun isValidTarget(target: TaskTarget) = with(target.target) {
     when (this) {
         null -> true
