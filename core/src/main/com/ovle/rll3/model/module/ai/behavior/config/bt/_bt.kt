@@ -42,29 +42,3 @@ val startCombatBt = BTTemplate(
         }
     }
 )
-
-val testBt = BTTemplate(
-    name = "test",
-    bt = { initialTarget ->
-        tree {
-            seq {
-                select {
-                    task("branch 0", failTask())
-                    seq {
-                        task("branch 1.1", failTask())
-                        seq {
-                            task("branch 1.2.1", successTask())
-                            task("branch 1.2.2", successTask())
-                        }
-                    }
-                    seq {
-                        task("branch 2.1", successTask())
-                        task("branch 2.2", successTask())
-                    }
-                    task("branch 3", successTask())
-                }
-                task("branch 4", successTask())
-            }
-        }
-    }
-)
