@@ -1,9 +1,6 @@
 package com.ovle.rll3.model.module.core.entity
 
-import com.badlogic.ashley.core.Component
-import com.badlogic.ashley.core.ComponentMapper
-import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.EntitySystem
+import com.badlogic.ashley.core.*
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
@@ -36,8 +33,8 @@ fun entitiesWith(entities: Collection<Entity>, componentClass: KClass<out Compon
     }
 
 fun entityWith(entities: Collection<Entity>, componentClass: KClass<out Component>) = entitiesWith(entities, componentClass).singleOrNull()
-
-fun EntitySystem.allEntities() = this.engine.entities.filter { it[core]!!.isExists }
+fun EntitySystem.allEntities() = this.engine.allEntities()
+fun Engine.allEntities() = entities.filter { it[core]!!.isExists }
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
@@ -65,10 +62,11 @@ fun EntitySystem.entity(id: EntityId) = entity(id, allEntities().toList())
 fun EntitySystem.entityNullable(id: EntityId) = entityNullable(id, allEntities().toList())
 
 fun entityNullable(id: EntityId, entities: Collection<Entity>) = entitiesWith(entities, CoreComponent::class)
-        .singleOrNull { it[ComponentMappers.core]!!.id == id }
+        .singleOrNull { it[core]!!.id == id }
 fun entity(id: EntityId, entities: Collection<Entity>) = entityNullable(id, entities)!!
 
 //----------------------------------------------------------------------------------------------------------------------------------
+
 
 fun Collection<Entity>.on(p: GridPoint2): Collection<Entity> =
     filter { it.positionOrNull()?.equals(p) ?: false }

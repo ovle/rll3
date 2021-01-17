@@ -3,6 +3,7 @@ package com.ovle.rll3.model.module.skill
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.module.core.entity.on
+import com.ovle.rll3.model.module.core.entity.resources
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.EntityConditions.isDead
 import com.ovle.rll3.model.module.task.EntityConditions.isExists
@@ -19,7 +20,7 @@ fun skillTemplates() = arrayOf(
         target = { p, l -> entityTarget(p, l) { isSourceEntity(it) } },
         turns = 2,
         effect = gatherEffect,
-        isSuccess = { _, t, _ -> !isExists(t.asEntity()) }
+        isSuccess = { _, t, l -> l.entities.on(t.position()).resources().isNotEmpty() }
     ),
     SkillTemplate(
         name = "mine",

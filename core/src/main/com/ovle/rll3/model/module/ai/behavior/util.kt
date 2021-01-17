@@ -49,5 +49,7 @@ data class TaskTargetHolder(var target: TaskTarget? = null) {
 
         return result
     }
+
+    fun position() = TaskTargetHolder(TaskTarget(target?.position()))
 }
 

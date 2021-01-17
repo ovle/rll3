@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.btree.Task
 import com.ovle.rll3.BTFactory
 import com.ovle.rll3.BehaviorSelector
+import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskInfo
@@ -26,7 +27,7 @@ data class BTParams(
     val engine: Engine
 ) {
     val entities
-        get() = engine.entities.toList()
+        get() = engine.allEntities().toList()
     val location: LocationInfo
         get() = locationInfo(entities.toTypedArray())!!
 }

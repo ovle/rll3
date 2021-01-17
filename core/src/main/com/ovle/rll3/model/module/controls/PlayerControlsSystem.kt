@@ -46,7 +46,7 @@ class PlayerControlsSystem : EventSystem() {
             val entities = location.entities.on(position)
 //            val partyEntities = player()!!.party.entities.toList().on(position)
             when {
-                entities.isNotEmpty() -> send(EntityClickEvent(button, entities.single()))
+                entities.isNotEmpty() -> send(EntityClickEvent(button, entities.first()))
 //                partyEntities.isNotEmpty() -> send(EntityClick(button, partyEntities.single()))
                 else -> {
 //                    send(EntitySetMoveTarget(controlledEntity, position))
