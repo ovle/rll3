@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.SkillEffect
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.procedural.config.location.lowGroundTileId
 import com.ovle.rll3.model.procedural.config.location.structureWallSTileId
 
@@ -12,18 +13,19 @@ import com.ovle.rll3.model.procedural.config.location.structureWallSTileId
 //todo commands, not events
 val damageEffect: SkillEffect = { source, target, amount ->
     target as Entity
-    EventBus.send(EntityTakeDamageEvent(target, source, amount))
+    send(EntityTakeDamageEvent(target, source, amount))
 }
 
 val gatherEffect: SkillEffect = { source, target, _ ->
     target as Entity
-    EventBus.send(EntityGatheredEvent(target, source))
+    send(EntityGatheredEvent(target, source))
 }
 
 val mineEffect: SkillEffect = { source, target, amount ->
-    EventBus.send(ChangeTileCommand(lowGroundTileId, target as GridPoint2)) //todo tileId
+    send(ChangeTileCommand(lowGroundTileId, target as GridPoint2)) //todo tileId
 }
 
 val buildEffect: SkillEffect = { source, target, amount ->
-    EventBus.send(ChangeTileCommand(structureWallSTileId, target as GridPoint2)) //todo tileId
+    send(ChangeTileCommand(structureWallSTileId, target as GridPoint2)) //todo tileId
+    //todo remove material
 }

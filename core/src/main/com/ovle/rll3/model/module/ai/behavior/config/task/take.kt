@@ -20,6 +20,7 @@ fun takeTask(targetHolder: TaskTargetHolder): TaskExec = { (btParams) ->
     val carrierComponent = owner[carrier]!!
     if (carrierComponent.item == carried) SUCCEEDED
 
+    //todo fail if already taken by someone
     carrierComponent.item = carried
     //todo disable carried entity's systems?
     EventBus.send(Event.GameEvent.EntityCarryItemEvent(owner, carried))

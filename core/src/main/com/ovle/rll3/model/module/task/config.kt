@@ -3,8 +3,10 @@ package com.ovle.rll3.model.module.task
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.model.module.ai.behavior.config.bt.*
 import com.ovle.rll3.model.module.task.AreaConditions.isFreeArea
+import com.ovle.rll3.model.module.task.AreaConditions.isMinableArea
 import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
 import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
+import com.ovle.rll3.model.module.task.TileConditions.isMinable
 import com.ovle.rll3.model.util.Area
 
 
@@ -33,19 +35,12 @@ val attackTaskTemplate = TaskTemplate(
     btTemplate = attackBt
 )
 
-
-//val moveToTaskTemplate = TaskTemplate(
-//    performerFilter = ::defaultPerformerFilter,
-//    targetFilter = { t, l -> isPositionTarget(t) && isPassable(t.asPositionTarget().position, l) },
-//    btName = "moveTo"
-//)
-
-//val mineTaskTemplate = TaskTemplate(
-//    performerFilter = ::defaultPerformerFilter,
-//    targetFilter = { t, l -> t.target is Area && isMinableArea(t.asAreaTarget().area, l) },     //todo not only source
-//    targetMap = { t, l -> t.asAreaTarget().area.filter { isMinable(it, l) }.map { TaskTarget.PositionTarget(it) } },          //todo priority from center to border
-//    btName = "mine"
-//)
+val mineTaskTemplate = TaskTemplate(
+    performerFilter = ::defaultPerformerFilter,
+    targetFilter = { t, l -> t.target is Area && isMinableArea(t.target, l) },
+    targetMap = { t, l -> (t.target as Area).points.filter { isMinable(it, l) }.map { TaskTarget(it) } },          //todo priority from center to border
+    btTemplate = mineBt
+)
 
 
 //val testTaskTemplate = TaskTemplate(
@@ -70,10 +65,8 @@ val attackTaskTemplate = TaskTemplate(
 fun taskTemplates() = arrayOf(
 //    testTaskTemplate
 //    attackTaskTemplate,
-    gatherTaskTemplate
-//    buildTaskTemplate
-
-//    carryTaskTemplate,
-//    mineTaskTemplate,
+    gatherTaskTemplate,
+    buildTaskTemplate,
+    mineTaskTemplate
 //    moveToTaskTemplate
 )
