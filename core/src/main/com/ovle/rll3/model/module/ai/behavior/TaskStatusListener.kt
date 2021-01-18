@@ -9,7 +9,7 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.task.TaskInfo
 
 
-class TaskStatusListener(
+open class TaskStatusListener(
     private val tree: BehaviorTree<BTParams>,
     private val taskInfo: TaskInfo?
 ) : BehaviorTree.Listener<BTParams> {

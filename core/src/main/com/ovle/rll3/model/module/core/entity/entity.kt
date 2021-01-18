@@ -27,8 +27,8 @@ fun randomId() = UUID.randomUUID().toString()
 
 fun newGame(location: LocationInfo, world: WorldInfo, engine: Engine) = engine.entity(
     location.id,
-    GameComponent(location, world, TimeInfo()),
-    TasksComponent()
+    GameComponent(location, world, TimeInfo()), //todo separate
+    TasksComponent()    //todo separate
 )
 
 fun newPlayerInteraction(engine: Engine): Entity? = engine.entity(

@@ -15,7 +15,6 @@ import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.skill.SkillTemplate
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.module.task.TaskInfo
-import com.ovle.rll3.model.procedural.config.LocationGenerationParams
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
 
@@ -43,7 +42,7 @@ sealed class Event {
     sealed class GameEvent : Event() {
         class StartGameCommand : GameEvent()
         class TimeChangedEvent(val turn: Turn) : GameEvent()
-        class LocationLoadedEvent(val location: LocationInfo, val generationParams: LocationGenerationParams) : GameEvent()
+        class LocationLoadedEvent(val location: LocationInfo) : GameEvent()
 
         //technical
         class LogCommand(val message: String) : GameEvent()

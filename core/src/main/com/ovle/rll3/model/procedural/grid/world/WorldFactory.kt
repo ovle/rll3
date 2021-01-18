@@ -34,7 +34,7 @@ class WorldFactory(val params: WorldGenerationParams) {
             id = randomId(),
             name = "test",
             random = random,
-            params = params,
+//            params = params,
             tiles = tiles,
             heightGrid = heightMap,
             heatGrid = heatMap,

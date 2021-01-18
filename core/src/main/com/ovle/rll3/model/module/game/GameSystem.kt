@@ -7,7 +7,6 @@ import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.core
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.*
@@ -38,7 +37,9 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
     }
 
     private fun onStartGameCommand() {
-        val location = location(locationParams(world, locationPoint), world.random.seed)
+        val locationParams = locationParams(world, locationPoint)
+        val location = location(locationParams, world.random.seed)
+
         initEntities(location)
     }
 
@@ -77,7 +78,7 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
         val interactionEntity = newPlayerInteraction(engine)
         val locationEntity = newGame(location, world, engine)!!
 
-        send(LocationLoadedEvent(location, location.params))
+        send(LocationLoadedEvent(location))
 
         location.entities.forEach {
             send(EntityInitializedEvent(it))
@@ -102,9 +103,9 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
             id = id,
             random = random,
             tiles = tiles,
-            params = generationParams,
-            heightGrid = heightGrid,
-            heatGrid = heatGrid,
+//            params = generationParams,
+//            heightGrid = heightGrid,
+//            heatGrid = heatGrid,
             locationPoint = locationPoint
         )
 

@@ -19,7 +19,7 @@ data class WorldInfo(
     val id: WorldId,
     var name: String,
     val random: RandomParams,
-    val params: WorldGenerationParams,
+//    val params: WorldGenerationParams,
     val tiles: TileArray,
     val heightGrid: Grid,
     val heatGrid: Grid,

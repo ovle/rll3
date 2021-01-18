@@ -1,14 +1,11 @@
 package com.ovle.rll3.model.procedural.config.location
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.assets.loader.StructureTemplates
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
 import com.ovle.rll3.model.procedural.config.GridFactoryParams.FractalGridFactoryParams
 import com.ovle.rll3.model.procedural.config.LocationGenerationParams
 import com.ovle.rll3.model.procedural.grid.factory.FractalGridFactory
-import com.ovle.rll3.model.procedural.grid.processor.location.PondLocationProcessor
-import com.ovle.rll3.model.procedural.grid.processor.location.PondLocationProcessorParams
 import com.ovle.rll3.model.procedural.grid.processor.location.entity.EntityProcessor
 import com.ovle.rll3.model.procedural.grid.processor.location.structure.StructureTemplateProcessor
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
@@ -47,11 +44,11 @@ fun locationParams(world: WorldInfo, locationPoint: GridPoint2) = LocationGenera
         )
     ),
     postProcessors = arrayOf(
-        PondLocationProcessor(
-            PondLocationProcessorParams(
-                count = pondsCount(world, locationPoint)
-            )
-        ),
+//        PondLocationProcessor(
+//            PondLocationProcessorParams(
+//                count = pondsCount(world, locationPoint)
+//            )
+//        ),
 //        StructureProcessor(
 //            params = StructureProcessorParams(
 //                number = 2,
