@@ -18,7 +18,7 @@ open class TaskStatusListener(
 
     override fun statusUpdated(task: Task<BTParams>, previousStatus: Task.Status?) {
         val status = task.status
-        val isTerminalStatus = status in arrayOf(SUCCEEDED, FAILED)
+        val isTerminalStatus = isTerminal(status)
 
         if (task is BaseTask && isTerminalStatus && task.name != "rest") {  //todo
             println("$status: ${task.name}")

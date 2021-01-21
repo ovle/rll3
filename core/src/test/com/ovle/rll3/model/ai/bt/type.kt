@@ -1,7 +1,9 @@
 package com.ovle.rll3.model.ai.bt
 
+import com.badlogic.ashley.core.EntitySystem
 import com.ovle.rll3.BTFactory
 import com.ovle.rll3.model.module.ai.behavior.TaskExecResult
+import com.ovle.rll3.model.module.task.TaskTarget
 
 data class StepResult(
     val step: String,
@@ -12,6 +14,13 @@ fun step(step: String, result: TaskExecResult) = StepResult(step, result)
 
 data class TestCase(
     val description: String,
+    val environment: TestEnvironment,
     val bt: BTFactory,
+    val initialTarget: TaskTarget? = null,
     val expectedResult: Array<StepResult>
+)
+
+//todo entities
+data class TestEnvironment(
+    val systems: Array<EntitySystem>
 )

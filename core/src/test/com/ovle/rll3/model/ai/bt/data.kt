@@ -3,13 +3,19 @@ package com.ovle.rll3.model.ai.bt
 import com.badlogic.gdx.ai.btree.Task.Status.FAILED
 import com.badlogic.gdx.ai.btree.Task.Status.SUCCEEDED
 import com.ovle.rll3.model.module.ai.behavior.*
-import com.ovle.rll3.model.module.ai.behavior.config.task.*
-import com.ovle.rll3.model.template.skill
+import com.ovle.rll3.model.module.ai.behavior.config.task.failTask
+import com.ovle.rll3.model.module.ai.behavior.config.task.moveTask
+import com.ovle.rll3.model.module.ai.behavior.config.task.successTask
+import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.point
+
 
 val testCases = arrayOf(
+
     TestCase(
         description = "seq + select",
-        bt = { initialTarget ->
+        environment = AI,
+        bt = { _ ->
             tree {
                 seq {
                     select {
@@ -25,8 +31,25 @@ val testCases = arrayOf(
             step("1.2", TaskExecResult(SUCCEEDED)),
             step("2", TaskExecResult(SUCCEEDED))
         )
+    ),
+
+    TestCase(
+        description = "move to point",
+        environment = AIAndMovement,
+        initialTarget = TaskTarget(point(2, 2)),
+        bt = { initialTarget ->
+            tree {
+                seq {
+                    task("move", moveTask(initialTarget))
+                }
+            }
+        },
+        expectedResult = arrayOf(
+            step("move", TaskExecResult(SUCCEEDED))
+        )
     )
 )
+
 
 //val testEntityValidationBt = BTTemplate(
 //    name = "testEntityValidationBt",

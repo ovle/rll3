@@ -2,10 +2,8 @@ package com.ovle.rll3.model.ai.bt
 
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.Task
-import com.ovle.rll3.model.module.ai.behavior.BTParams
-import com.ovle.rll3.model.module.ai.behavior.BaseTask
-import com.ovle.rll3.model.module.ai.behavior.TaskExecResult
-import com.ovle.rll3.model.module.ai.behavior.TaskStatusListener
+import com.ovle.rll3.model.module.ai.behavior.*
+
 
 class TestTaskStatusListener(
     tree: BehaviorTree<BTParams>,
@@ -16,7 +14,10 @@ class TestTaskStatusListener(
         super.statusUpdated(task, previousStatus)
 
         if (task is BaseTask) {
-            actualResult += StepResult(task.name ?: "", TaskExecResult(task.status, null))
+            val status = task.status
+            if (!isTerminal(status)) return
+
+            actualResult += StepResult(task.name ?: "", TaskExecResult(status, null))
         }
     }
 }

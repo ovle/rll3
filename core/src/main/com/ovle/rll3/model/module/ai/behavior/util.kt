@@ -2,6 +2,8 @@ package com.ovle.rll3.model.module.ai.behavior
 
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.Task
+import com.badlogic.gdx.ai.btree.Task.Status.SUCCEEDED
+import com.badlogic.gdx.ai.btree.Task.Status.FAILED
 import com.badlogic.gdx.ai.btree.branch.RandomSelector
 import com.badlogic.gdx.ai.btree.branch.Selector
 import com.badlogic.gdx.ai.btree.branch.Sequence
@@ -53,3 +55,4 @@ data class TaskTargetHolder(var target: TaskTarget? = null) {
     fun position() = TaskTargetHolder(TaskTarget(target?.position()))
 }
 
+fun isTerminal(status: Task.Status) = status in arrayOf(SUCCEEDED, FAILED)
