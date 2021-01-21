@@ -15,7 +15,7 @@ val gatherBt = BTTemplate(
             seq {
                 val gatherPosition = task("find path to target", findPositionNearTarget(initialTarget))
                 task("move to target", moveTask(gatherPosition))
-                task("gather", useSkill(initialTarget, skill("gather")))
+                task("gather", useSkill(skill("gather"), initialTarget))
                 val nearestResource = task("find gathered resource", findEntityOnPositionTask(initialTarget, ::isResourceEntity))
                 task("take the resource", takeTask(nearestResource))
                 val storagePosition = task("find resource storage", findResourceStorageTask())

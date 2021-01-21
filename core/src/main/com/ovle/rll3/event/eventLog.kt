@@ -40,10 +40,12 @@ private fun message(event: Event) =
 //            "${event.source.info()} check skill ${event.skillTemplate.name} for use on ${event.target.info()}..."
 //        }
         is EntityStartUseSkillEvent -> {
-            " > > ${event.source.info()} started skill ${event.skillTemplate.name} on ${event.target.info()}"
+            val (skill, source, target, payload) = event.info
+            " > > ${source.info()} started skill ${skill.name} on ${target.info()}"
         }
         is EntityFinishUseSkillEvent -> {
-            " < < ${event.source.info()} finished skill ${event.skillTemplate.name} on ${event.target.info()} (amount: ${event.amount})"
+            val (skill, source, target, payload) = event.info
+            " < < ${source.info()} finished skill ${skill.name} on ${target.info()} (amount: ${event.amount})"
         }
         is EntityStarvedEvent -> { "${event.entity.info()} starved" }
         is EntityDiedEvent -> { "${event.entity.info()} died" }

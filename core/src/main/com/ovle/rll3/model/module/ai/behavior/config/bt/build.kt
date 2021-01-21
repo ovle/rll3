@@ -5,7 +5,6 @@ import com.ovle.rll3.model.module.ai.behavior.config.task.*
 import com.ovle.rll3.model.module.ai.behavior.seq
 import com.ovle.rll3.model.module.ai.behavior.task
 import com.ovle.rll3.model.module.ai.behavior.tree
-import com.ovle.rll3.model.module.task.EntityConditions
 import com.ovle.rll3.model.module.task.EntityConditions.isBuildMaterialEntity
 import com.ovle.rll3.model.template.skill
 
@@ -19,7 +18,7 @@ val buildBt = BTTemplate(
                 task("take material", takeTask(material))
                 val initialTargetPosition = task("find path to target tile", findPositionNearTarget(initialTarget))
                 task("move to target", moveTask(initialTargetPosition))
-                task("build", useSkill(initialTarget, skill("build")))   //todo what to build?
+                task("build", useSkill(skill("build"), initialTarget, material))   //todo what to build?
             }
         }
     }

@@ -14,7 +14,7 @@ data class SkillTemplate(
     val cost: SkillCost = { CostStatus.Paid },
     val target: GetTarget? = null,
     val turns: Turn = 0,
-    val effect: SkillEffect = { _, _, _ -> },
+    val effect: SkillEffect = { _, _ -> },
     val effectAmount: GetEffectAmount = { _ -> 1 },
     val isSuccess: SkillSuccessCondition = { _, _, _ -> true }
 )

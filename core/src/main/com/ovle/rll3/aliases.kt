@@ -12,6 +12,7 @@ import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.module.skill.CostStatus
+import com.ovle.rll3.model.module.skill.SkillUsage
 import com.ovle.rll3.model.util.Array2d
 import com.ovle.rll3.model.tile.LightPassType
 import com.ovle.rll3.model.tile.NearValues
@@ -39,7 +40,7 @@ typealias ComponentFactory = (ComponentData?) -> Component
 typealias EntityCheck = Entity.() -> Boolean
 
 typealias EffectAmount = Int
-typealias SkillEffect = (Entity, Any?, EffectAmount) -> Unit
+typealias SkillEffect = (SkillUsage, EffectAmount) -> Unit
 typealias SkillSuccessCondition = (Entity, TaskTarget, LocationInfo) -> Boolean
 typealias GetEffectAmount = (Entity) -> EffectAmount
 typealias GetTarget = (GridPoint2, LocationInfo) -> Any?

@@ -8,6 +8,7 @@ import com.ovle.rll3.model.module.collision.CollisionComponent
 import com.ovle.rll3.model.module.core.component.CoreComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers
+import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
 import com.ovle.rll3.model.module.core.component.ComponentMappers.collision
 import com.ovle.rll3.model.module.core.component.ComponentMappers.core
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
@@ -66,14 +67,16 @@ fun entityNullable(id: EntityId, entities: Collection<Entity>) = entitiesWith(en
 fun entity(id: EntityId, entities: Collection<Entity>) = entityNullable(id, entities)!!
 
 //----------------------------------------------------------------------------------------------------------------------------------
-
-
+//entities
 fun Collection<Entity>.on(p: GridPoint2): Collection<Entity> =
     filter { it.positionOrNull()?.equals(p) ?: false }
 
 fun Collection<Entity>.resources(type: ResourceType? = null) = filter {
     it.has(resource) && (type == null || it[resource]!!.type == type)
 }
+fun Collection<Entity>.carriers() = filter { it.has(carrier) }
+
+//components
 fun Collection<Entity>.positions() = mapNotNull { it.positionOrNull() }.toSet()
 fun Collection<Entity>.lightObstacles() = obstacles { it.passable4Light }
 fun Collection<Entity>.bodyObstacles() = obstacles { it.passable4Body }

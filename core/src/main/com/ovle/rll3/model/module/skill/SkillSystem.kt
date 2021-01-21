@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.info
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
@@ -15,41 +16,43 @@ import ktx.ashley.get
 class SkillSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<EntityUseSkillCommand> { onEntityUseSkillCommand(it.source, it.target, it.skillTemplate) }
+        subscribe<EntityUseSkillCommand> { onEntityUseSkillCommand(it.info) }
     }
 
-    private fun onEntityUseSkillCommand(source: Entity, target: Any?, skillTemplate: SkillTemplate) {
-        useSkill(source, target, skillTemplate)
+    private fun onEntityUseSkillCommand(info: SkillUsage) {
+        useSkill(info)
     }
 
     //todo animation on every use?
-    private fun useSkill(source: Entity, target: Any?, skillTemplate: SkillTemplate) {
-        val effect = skillTemplate.effect
+    private fun useSkill(info: SkillUsage) {
+        val (skill, source, target, _) = info
+        val (name, cost, _, turns, effect, effectAmount, isSuccess) = skill
+
         val actionComponent = source[entityAction]!!
 
         //todo when to interrupt? (action.current = null)
         if (actionComponent.current != null) return
 
-        val costStatus = skillTemplate.cost.invoke(source)
+        val costStatus = cost.invoke(source)
         if (costStatus == NotPaid) {
-            println("${source.info()} can't pay skill cost for skill: ${skillTemplate.name}")
+            println("${source.info()} can't pay skill cost for skill: $name")
             return
         }
 
         //todo non-skill actions?
         //todo non-entity actions?
         actionComponent.current = {
-            val amount = skillTemplate.effectAmount(source)
-            effect.invoke(source, target, amount)
+            val amount = effectAmount(source)
+            effect.invoke(info, amount)
 
             send(EntityChangedEvent(source))
             if (target is Entity) {
                 send(EntityChangedEvent(target))
             }
-            send(EntityFinishUseSkillEvent(source, target, skillTemplate, amount))
+            send(EntityFinishUseSkillEvent(info, amount))
         }
 
-        actionComponent.timeLeft = skillTemplate.turns * ticksInTurn
-        send(EntityStartUseSkillEvent(source, target, skillTemplate))
+        actionComponent.timeLeft = turns * ticksInTurn
+        send(EntityStartUseSkillEvent(info))
     }
 }

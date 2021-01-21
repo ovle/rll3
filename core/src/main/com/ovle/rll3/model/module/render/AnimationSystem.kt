@@ -11,6 +11,7 @@ import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.system.BaseIteratingSystem
 import com.ovle.rll3.model.module.render.Animation.BlinkAnimation
 import com.ovle.rll3.model.module.render.Animation.ShiftAnimation
+import com.ovle.rll3.model.module.skill.SkillUsage
 import com.ovle.rll3.model.util.Direction
 import ktx.ashley.get
 
@@ -37,13 +38,15 @@ class AnimationSystem: BaseIteratingSystem(Family.all(RenderComponent::class.jav
         EventBus.subscribe<EntityStartedMoveEvent> { onEntityStartedMoveEvent(it.entity) }
         EventBus.subscribe<EntityFinishedMoveEvent> { onEntityFinishedMoveEvent(it.entity) }
 
-        EventBus.subscribe<EntityStartUseSkillEvent> { onEntityStartUseSkillEvent(it.source, it.target) }
-        EventBus.subscribe<EntityFinishUseSkillEvent> { onEntityFinishUseSkillEvent(it.source, it.target) }
+        EventBus.subscribe<EntityStartUseSkillEvent> { onEntityStartUseSkillEvent(it.info) }
+        EventBus.subscribe<EntityFinishUseSkillEvent> { onEntityFinishUseSkillEvent(it.info) }
 
         EventBus.subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
     }
 
-    private fun onEntityStartUseSkillEvent(source: Entity, target: Any?) {
+    private fun onEntityStartUseSkillEvent(info: SkillUsage) {
+        val (_, source, target, _) = info
+
         val sourcePosition = source.position()
         val targetPosition = when (target) {
             is Entity -> target.position()
@@ -72,7 +75,8 @@ class AnimationSystem: BaseIteratingSystem(Family.all(RenderComponent::class.jav
         }
     }
 
-    private fun onEntityFinishUseSkillEvent(source: Entity, target: Any?) {
+    private fun onEntityFinishUseSkillEvent(info: SkillUsage) {
+        val (_, source, target, _) = info
         source.setAnimation(null)
         if (target is Entity) {
             target.setAnimation(null)

@@ -14,7 +14,7 @@ val attackBt = BTTemplate(
             seq {
                 val attackPosition = task("find attack position", findPositionNearTarget(initialTarget))
                 task("move to attack position", moveTask(attackPosition))
-                task("gather", useSkill(initialTarget, skill("attack")))
+                task("gather", useSkill(skill("attack"), initialTarget))
             }
         }
     }

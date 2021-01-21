@@ -11,21 +11,30 @@ import com.ovle.rll3.model.procedural.config.location.structureWallSTileId
 
 //todo combine
 //todo commands, not events
-val damageEffect: SkillEffect = { source, target, amount ->
+
+val damageEffect: SkillEffect = { info, amount ->
+    val (_, source, target, _) = info
     target as Entity
     send(EntityTakeDamageEvent(target, source, amount))
 }
 
-val gatherEffect: SkillEffect = { source, target, _ ->
+val gatherEffect: SkillEffect = { info, _ ->
+    val (_, source, target, _) = info
     target as Entity
     send(EntityGatheredEvent(target, source))
 }
 
-val mineEffect: SkillEffect = { source, target, amount ->
+val mineEffect: SkillEffect = { info, _ ->
+    val (_, _, target, _) = info
     send(ChangeTileCommand(lowGroundTileId, target as GridPoint2)) //todo tileId
 }
 
-val buildEffect: SkillEffect = { source, target, amount ->
+val buildEffect: SkillEffect = { info, _ ->
+    val (_, _, target, payload) = info
     send(ChangeTileCommand(structureWallSTileId, target as GridPoint2)) //todo tileId
-    //todo remove material
+
+    val material = payload as Entity?
+    material?.let {
+        send(DestroyEntityCommand(it))
+    }
 }

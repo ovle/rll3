@@ -14,6 +14,7 @@ import com.ovle.rll3.model.module.interaction.SelectionMode
 import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.skill.SkillTemplate
 import com.ovle.rll3.model.module.quest.QuestInfo
+import com.ovle.rll3.model.module.skill.SkillUsage
 import com.ovle.rll3.model.module.task.TaskInfo
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
@@ -67,9 +68,9 @@ sealed class Event {
         class BtFinishedEvent(val tree: BehaviorTree<BTParams>) : GameEvent()
 
         //entity - model
-        class EntityUseSkillCommand(val source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : GameEvent()
-        class EntityStartUseSkillEvent(val source: Entity, val target: Any?, val skillTemplate: SkillTemplate) : GameEvent()
-        class EntityFinishUseSkillEvent(val source: Entity, val target: Any?, val skillTemplate: SkillTemplate, val amount: EffectAmount) : GameEvent()
+        class EntityUseSkillCommand(val info: SkillUsage) : GameEvent()
+        class EntityStartUseSkillEvent(val info: SkillUsage) : GameEvent()
+        class EntityFinishUseSkillEvent(val info: SkillUsage, val amount: EffectAmount) : GameEvent()
 
         class EntityInteraction(val source: Entity, val target: Entity, val interaction: EntityInteraction) : GameEvent()
         class EntityChangedEvent(val entity: Entity) : GameEvent()
