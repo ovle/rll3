@@ -27,23 +27,14 @@ class Test {
 
     companion object {
         private lateinit var ecsEngine: PooledEngine
-        private lateinit var aiOwner: Entity    //todo
 
         @JvmStatic
         fun args() = testCases
 
         @JvmStatic
         @BeforeAll
-        fun setupEnv() {
+        fun setupGlobal() {
             ecsEngine = PooledEngine()
-
-            //todo describe entities in testcases
-            aiOwner = ecsEngine.entity(randomId(), AIComponent("base"))
-            aiOwner.add(MoveComponent())
-            aiOwner.add(PositionComponent())
-            aiOwner.add(EntityActionComponent())
-            locationInfo.entities.add(aiOwner)
-
             newGame(locationInfo, worldInfo, ecsEngine)
         }
     }
@@ -69,16 +60,28 @@ class Test {
         environment.systems.forEach {
             ecsEngine.addSystem(it)
         }
+        environment.entities.forEach {
+            val e = ecsEngine.entity(it.id, *it.components)
+
+            locationInfo.entities.add(e)
+        }
     }
 
     private fun cleanup(environment: TestEnvironment) {
         environment.systems.forEach {
             ecsEngine.removeSystem(it)
         }
+        environment.entities.forEach {
+            val e = entity(it.id, ecsEngine.entities.toList())
+            ecsEngine.removeEntity(e)
+        }
+
+        locationInfo.entities.clear()
     }
 
     private fun initBehaviorTree(bt: BTFactory, initialTarget: TaskTarget?, actualResult: MutableCollection<StepResult>) {
         val target = TaskTargetHolder(initialTarget)
+        val aiOwner = entity("aiOwner", ecsEngine.entities.toList())
         val btParams = BTParams(aiOwner, null, ecsEngine)
 
         val behaviorTree = bt.invoke(target).apply {
