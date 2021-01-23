@@ -14,6 +14,8 @@ class TimeSystem : EventSystem() {
     override fun subscribe() {
         subscribe<IncGameSpeedCommand> { onIncGameSpeedCommand() }
         subscribe<DecGameSpeedCommand> { onDecGameSpeedCommand() }
+
+        subscribe<SwitchPauseGameCommand> { onSwitchPauseGameCommand() }
     }
 
     private fun onIncGameSpeedCommand() {
@@ -26,6 +28,12 @@ class TimeSystem : EventSystem() {
         changeGameSpeed(gameComponent.time, 0.5)
     }
 
+    private fun onSwitchPauseGameCommand() {
+        val gameComponent = gameInfo()!!
+        val time = gameComponent.time
+        time.paused = !time.paused
+    }
+
     private fun changeGameSpeed(time: TimeInfo, multiplier: Double) {
         time.turnsInSecond *= multiplier
         send(GameSpeedChangedEvent(time.turnsInSecond))
@@ -34,6 +42,8 @@ class TimeSystem : EventSystem() {
     override fun update(deltaTime: Float) {
         val gameComponent = gameInfo()!!
         with(gameComponent.time) {
+            if (paused) return
+
             val exactDeltaTurns = deltaTime * turnsInSecond
             val lastTurn = turn.toLong()
             turn += exactDeltaTurns

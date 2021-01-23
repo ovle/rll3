@@ -60,7 +60,7 @@ class RenderGUISystem(
         val point = vec2(0.0f, Gdx.graphics.height - dy)
         val info = arrayOf(
             "$worldAreaName $locationPoint",
-            "turn ${time.turn.toLong()} (x${time.turnsInSecond})",
+            "turn ${time.turn.toLong()} (x${time.turnsInSecond})" + if (time.paused) " (pause)" else "",
             "$selectedPoint " + (hoveredEntity?.let { "(${it.name()})" } ?: ""),
             selectedEntity?.let { it.info(recursive = true) },
             tasksInfo(tasksInfo.tasks)?.let {

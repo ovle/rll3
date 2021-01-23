@@ -114,4 +114,5 @@ sealed class Event {
     class IncGameSpeedCommand : Event()
     class DecGameSpeedCommand : Event()
     class GameSpeedChangedEvent(val speed: Double) : Event()
+    class SwitchPauseGameCommand : Event()
 }

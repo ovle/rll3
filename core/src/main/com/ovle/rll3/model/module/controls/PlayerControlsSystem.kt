@@ -15,7 +15,7 @@ import com.ovle.rll3.view.noVisibilityFilter
 import com.ovle.rll3.view.viewportToGame
 import ktx.ashley.get
 
-//todo ambiguity - move vs entity action vs skill - all on left button, no way to order/separate using events for now
+
 class PlayerControlsSystem : EventSystem() {
 
     override fun subscribe() {
@@ -34,24 +34,12 @@ class PlayerControlsSystem : EventSystem() {
     private fun onMouseClick(position: GridPoint2, button: Int) {
         val location = locationInfoNullable() ?: return
 
-//        val skillTemplate = selectedSkillTemplate()
-//        val skillWithTarget = skillTemplate?.target != null
-//        val skillTarget = skillTemplate?.target?.invoke(position, level)
-//        val isCorrectTarget = !skillWithTarget || skillTarget != null
-
-        if (false) {
-//        if (skillTemplate != null && isCorrectTarget) {
-//            send(EntityUseSkill(controlledEntity!!, skillTarget, skillTemplate!!))
-        } else {
-            val entities = location.entities.on(position)
-//            val partyEntities = player()!!.party.entities.toList().on(position)
-            when {
-                entities.isNotEmpty() -> send(EntityClickEvent(button, entities.first()))
-//                partyEntities.isNotEmpty() -> send(EntityClick(button, partyEntities.single()))
-                else -> {
+        val entities = location.entities.on(position)
+        when {
+            entities.isNotEmpty() -> send(EntityClickEvent(button, entities.first()))
+            else -> {
 //                    send(EntitySetMoveTarget(controlledEntity, position))
-                    send(VoidClickEvent(button, position))
-                }
+                send(VoidClickEvent(button, position))
             }
         }
         send(ClickEvent(button, position))
@@ -107,6 +95,7 @@ class PlayerControlsSystem : EventSystem() {
             V -> { noVisibilityFilter = !noVisibilityFilter }
             LEFT_BRACKET -> send(DecGameSpeedCommand())
             RIGHT_BRACKET -> send(IncGameSpeedCommand())
+            SPACE -> send(SwitchPauseGameCommand())
         }
     }
 }
