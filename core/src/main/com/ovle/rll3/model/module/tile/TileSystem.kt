@@ -15,7 +15,7 @@ class TileSystem : EventSystem() {
 
     override fun subscribe() {
         subscribe<ChangeTileCommand> { onChangeTileCommand(it.tile, it.position) }
-        subscribe<TimeChangedEvent> { onTimeChanged(it.turn) }
+        subscribe<TurnChangedEvent> { onTimeChanged(it.turn) }
     }
 
     private fun onChangeTileCommand(tileId: Tile, position: GridPoint2) {

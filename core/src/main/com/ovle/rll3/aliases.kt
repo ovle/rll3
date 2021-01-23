@@ -59,7 +59,7 @@ typealias QuestHook = ((QuestInfo) -> Unit)?
 
 typealias Seed = Long
 typealias Turn = Long
-typealias Ticks = Long
+typealias ExactTurn = Double
 typealias ResourceAmount = Int
 typealias ResourceGatherCost = Int
 typealias RoomTiles = MutableList<Vector2>

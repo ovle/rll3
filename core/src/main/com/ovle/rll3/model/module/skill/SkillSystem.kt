@@ -2,15 +2,12 @@ package com.ovle.rll3.model.module.skill
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.info
-import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.skill.CostStatus.*
-import com.ovle.rll3.model.module.time.ticksInTurn
 import ktx.ashley.get
 
 class SkillSystem : EventSystem() {
@@ -52,7 +49,7 @@ class SkillSystem : EventSystem() {
             send(EntityFinishUseSkillEvent(info, amount))
         }
 
-        actionComponent.timeLeft = turns * ticksInTurn
+        actionComponent.turnsLeft = turns.toDouble()
         send(EntityStartUseSkillEvent(info))
     }
 }

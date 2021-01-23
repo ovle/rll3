@@ -9,17 +9,16 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.entity.livingEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
 import ktx.ashley.get
-import kotlin.math.max
 
 
 class HungerSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
+        EventBus.subscribe<TurnChangedEvent> { onTurnChangedEvent(it.turn) }
         EventBus.subscribe<EntityEatEvent> { onEntityEatEvent(it.entity, it.food) }
     }
 
-    private fun onTimeChangedEvent(turn: Turn) {
+    private fun onTurnChangedEvent(turn: Turn) {
         livingEntities().forEach {
             processEntity(it)
         }

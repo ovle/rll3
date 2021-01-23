@@ -2,15 +2,16 @@ package com.ovle.rll3.model.module.render
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rll3.ExactTurn
 import com.ovle.rll3.model.util.Direction
 
 
-sealed class Animation(val totalLength: Float) {
+sealed class Animation(val totalLength: ExactTurn) {
 
     class ShiftAnimation(
         val direction: Direction,
         val frames: Array<Int>,
-        val frameLength: Float
+        val frameLength: ExactTurn
     ): Animation(frameLength * frames.size) {
 
         override fun process(point: Vector2, animation: AnimationInfo): Vector2 {
@@ -22,7 +23,7 @@ sealed class Animation(val totalLength: Float) {
 
     class BlinkAnimation(
         val blinkRegion: TextureRegion?,
-        val frameLength: Float
+        val frameLength: ExactTurn
     ): Animation(frameLength * 2) {
 
         override fun process(region: TextureRegion, animation: AnimationInfo): TextureRegion? {
@@ -42,5 +43,5 @@ sealed class Animation(val totalLength: Float) {
 
 data class AnimationInfo(
     val animation: Animation,
-    var time: Float = 0.0f
+    var time: ExactTurn = 0.0
 )

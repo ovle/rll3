@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.module.ai.behavior.BTParams
 import com.ovle.rll3.model.module.ai.behavior.TaskStatusListener
@@ -17,7 +16,6 @@ import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.EntityConditions.isAIActive
-import com.ovle.rll3.model.module.task.EntityConditions.isDead
 import com.ovle.rll3.model.module.task.TaskInfo
 import ktx.ashley.get
 
@@ -32,7 +30,7 @@ class AISystem(
         GdxAI.getTimepiece().update(deltaTime);
 
         if (isRealTime) {
-            onTimeChangedEvent(0)
+            onTurnChangedEvent(0)
         }
     }
 
@@ -45,7 +43,7 @@ class AISystem(
         subscribe<TaskStartedEvent> { onTaskStartedEvent(it.task) }
         subscribe<TaskFinishedEvent> { onTaskFinishedEvent(it.task) }
         if (!isRealTime) {
-            subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
+            subscribe<TurnChangedEvent> { onTurnChangedEvent(it.turn) }
         }
     }
 
@@ -92,7 +90,7 @@ class AISystem(
         aiComponent.behaviorTree = null
     }
 
-    private fun onTimeChangedEvent(turn: Long) {
+    private fun onTurnChangedEvent(turn: Long) {
         val entities = entitiesWith(allEntities().toList(), AIComponent::class)
         processEntities(entities)
     }

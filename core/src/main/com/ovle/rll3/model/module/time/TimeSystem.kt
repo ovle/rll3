@@ -1,31 +1,51 @@
 package com.ovle.rll3.model.module.time
 
-import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.Family.all
-import com.badlogic.ashley.systems.IteratingSystem
+import com.ovle.rll3.event.Event
+import com.ovle.rll3.event.Event.*
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.model.module.game.GameComponent
-import com.ovle.rll3.model.module.core.component.ComponentMappers.game
-import com.ovle.rll3.model.module.core.system.BaseIteratingSystem
-import ktx.ashley.get
+import com.ovle.rll3.event.EventBus.subscribe
+import com.ovle.rll3.model.module.core.entity.gameInfo
+import com.ovle.rll3.model.module.core.system.EventSystem
 
 
-class TimeSystem : BaseIteratingSystem(all(GameComponent::class.java).get()) {
+class TimeSystem : EventSystem() {
 
-    override fun processEntityIntr(entity: Entity, deltaTime: Float) {
-        val gameComponent = entity[game]!!
+    override fun subscribe() {
+        subscribe<IncGameSpeedCommand> { onIncGameSpeedCommand() }
+        subscribe<DecGameSpeedCommand> { onDecGameSpeedCommand() }
+    }
+
+    private fun onIncGameSpeedCommand() {
+        val gameComponent = gameInfo()!!
+        changeGameSpeed(gameComponent.time, 2.0)
+    }
+
+    private fun onDecGameSpeedCommand() {
+        val gameComponent = gameInfo()!!
+        changeGameSpeed(gameComponent.time, 0.5)
+    }
+
+    private fun changeGameSpeed(time: TimeInfo, multiplier: Double) {
+        time.turnsInSecond *= multiplier
+        send(GameSpeedChangedEvent(time.turnsInSecond))
+    }
+
+    override fun update(deltaTime: Float) {
+        val gameComponent = gameInfo()!!
         with(gameComponent.time) {
-            fractionTicks += deltaTicks(deltaTime)
+            val exactDeltaTurns = deltaTime * turnsInSecond
+            val lastTurn = turn.toLong()
+            turn += exactDeltaTurns
+            val newTurn = turn.toLong()
 
-            if (fractionTicks >= ticksInTurn) {
-                val deltaTurns = fractionTicks / ticksInTurn
-                turn += deltaTurns
-                fractionTicks -= deltaTurns * ticksInTurn
-
-                send(TimeChangedEvent(turn))
-//                println("$turn . $fractionTicks")
+            if (newTurn != lastTurn) {
+                val deltaTurns = newTurn - lastTurn
+                send(TurnChangedEvent(newTurn, deltaTurns))
             }
+
+            send(TimeChangedEvent(exactDeltaTurns))
+//            println("$turn (dt=$deltaTime)")
         }
     }
 }

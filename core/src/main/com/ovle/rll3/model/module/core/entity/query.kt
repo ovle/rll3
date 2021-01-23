@@ -14,10 +14,13 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.core
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
 import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
 import com.ovle.rll3.model.module.core.component.ComponentMappers.tasks
+import com.ovle.rll3.model.module.entityAction.EntityActionComponent
+import com.ovle.rll3.model.module.entityAction.EntityActionSystem
 import com.ovle.rll3.model.module.game.GameComponent
 import com.ovle.rll3.model.module.gathering.ResourceType
 import com.ovle.rll3.model.module.health.HealthComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
+import com.ovle.rll3.model.module.render.RenderComponent
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.reflect.KClass
@@ -49,6 +52,8 @@ fun EntitySystem.locationInfo() = locationInfoNullable()!!
 fun locationInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.location
 
 fun EntitySystem.livingEntities() = entitiesWith(allEntities().toList(), HealthComponent::class)
+fun EntitySystem.actionEntities() = entitiesWith(allEntities().toList(), EntityActionComponent::class)
+fun EntitySystem.renderEntities() = entitiesWith(allEntities().toList(), RenderComponent::class)
 
 fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
 fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)

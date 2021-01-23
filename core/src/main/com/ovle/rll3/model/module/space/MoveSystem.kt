@@ -65,7 +65,7 @@ class MoveSystem : EventSystem() {
             val actionComponent = entity[entityAction]!!
             if (actionComponent.current == null) {
                 actionComponent.current = { move(entity) }
-                actionComponent.timeLeft = moveComponent.ticksPerTile
+                actionComponent.turnsLeft = moveComponent.turnsPerTile
             }
         }
     }

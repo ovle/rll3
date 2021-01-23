@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.module.entityAction
 
-import com.ovle.rll3.Ticks
+import com.ovle.rll3.ExactTurn
 import com.ovle.rll3.model.module.core.component.BaseComponent
 import com.ovle.rll3.model.module.skill.SkillTemplate
 
@@ -14,5 +14,5 @@ class EntityActionComponent(
     var current: (() -> Unit)? = null,
     var skill: SkillTemplate? = null,
 //    var animation: AnimationType? = null,
-    var timeLeft: Ticks? = null
+    var turnsLeft: ExactTurn? = null
 ) : BaseComponent

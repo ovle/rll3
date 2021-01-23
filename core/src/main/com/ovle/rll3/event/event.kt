@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.EffectAmount
+import com.ovle.rll3.ExactTurn
 import com.ovle.rll3.Tile
 import com.ovle.rll3.Turn
 import com.ovle.rll3.model.module.ai.behavior.BTParams
@@ -42,7 +43,8 @@ sealed class Event {
     //global
     sealed class GameEvent : Event() {
         class StartGameCommand : GameEvent()
-        class TimeChangedEvent(val turn: Turn) : GameEvent()
+        class TurnChangedEvent(val turn: Turn, val deltaTurns: Turn) : GameEvent()
+        class TimeChangedEvent(val exactDeltaTurns: ExactTurn) : GameEvent()
         class LocationLoadedEvent(val location: LocationInfo) : GameEvent()
 
         //technical
@@ -109,4 +111,7 @@ sealed class Event {
     class ResurrectEntityCommand(val entity: Entity) : Event()
     class DebugSwitchSelectionMode(val selectionMode: SelectionMode) : Event()
     class DebugSwitchControlMode(val controlMode: ControlMode) : Event()
+    class IncGameSpeedCommand : Event()
+    class DecGameSpeedCommand : Event()
+    class GameSpeedChangedEvent(val speed: Double) : Event()
 }

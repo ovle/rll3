@@ -24,13 +24,13 @@ class TaskSystem : EventSystem() {
         super.update(deltaTime)
 
         if (isRealTime) {
-            onTimeChangedEvent(0)
+            onTurnChangedEvent(0)
         }
     }
 
     override fun subscribe() {
         if (!isRealTime) {
-            EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it.turn) }
+            EventBus.subscribe<TurnChangedEvent> { onTurnChangedEvent(it.turn) }
         }
 
         EventBus.subscribe<CheckTaskCommand> { onCheckTaskCommand(it.target) }
@@ -41,7 +41,7 @@ class TaskSystem : EventSystem() {
     }
 
 
-    private fun onTimeChangedEvent(turn: Turn) {
+    private fun onTurnChangedEvent(turn: Turn) {
         validateTasks()
 
         val location = locationInfo()
@@ -125,6 +125,7 @@ class TaskSystem : EventSystem() {
         println("enqueueSingleTask: $task")
     }
 
+    //todo remove duplicates (same target+template? what priority?)
     private fun validateTasks() {
         val tasksInfo = tasksInfo()!!
 

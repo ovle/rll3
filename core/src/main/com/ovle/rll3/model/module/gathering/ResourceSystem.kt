@@ -7,7 +7,6 @@ import com.ovle.rll3.Turn
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.EventBus.subscribe
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.source
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.system.EventSystem
@@ -20,7 +19,7 @@ class ResourceSystem : EventSystem() {
     override fun subscribe() {
         subscribe<EntityGatheredEvent> { onEntityGatheredEvent(it.entity) }
         subscribe<TileGatheredEvent> { onTileGatheredEvent(it.tile, it.position) }
-        subscribe<TimeChangedEvent> { onTimeChanged(it.turn) }
+        subscribe<TurnChangedEvent> { onTimeChanged(it.turn) }
     }
 
     private fun onEntityGatheredEvent(entity: Entity) {

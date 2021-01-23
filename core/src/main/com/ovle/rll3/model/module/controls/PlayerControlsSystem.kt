@@ -105,6 +105,8 @@ class PlayerControlsSystem : EventSystem() {
             R -> selectedEntity?.let { send(ResurrectEntityCommand(it)) }
             D -> selectedEntity?.let { send(DestroyEntityCommand(it)) }
             V -> { noVisibilityFilter = !noVisibilityFilter }
+            LEFT_BRACKET -> send(DecGameSpeedCommand())
+            RIGHT_BRACKET -> send(IncGameSpeedCommand())
         }
     }
 }
