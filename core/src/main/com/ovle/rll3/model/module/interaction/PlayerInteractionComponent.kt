@@ -1,8 +1,9 @@
 package com.ovle.rll3.model.module.interaction
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.math.GridPoint2
+import com.badlogic.gdx.math.Rectangle
 import com.ovle.rll3.model.module.core.component.BaseComponent
+import com.ovle.rll3.model.module.game.AreaInfo
 
 /**
  * @property focusedEntity      entity, which has the camera focus
@@ -14,7 +15,9 @@ class PlayerInteractionComponent(
     var focusedEntity: Entity? = null,
     var hoveredEntity: Entity? = null,
     var selectedEntity: Entity? = null,
-    var selectedTiles: Set<GridPoint2> = setOf(),
+    var selectedArea: AreaInfo? = null,
+
+    var selectionRectangle: Rectangle? = null,
     var controlMode: ControlMode = ControlMode.View,
     var selectionMode: SelectionMode = SelectionMode.Entity
 ) : BaseComponent

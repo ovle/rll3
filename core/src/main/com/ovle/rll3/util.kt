@@ -3,6 +3,7 @@ package com.ovle.rll3
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.module.core.component.ComponentMappers
@@ -32,6 +33,14 @@ fun point(floatPoint: Vector2) = point(floatPoint.x, floatPoint.y)
 fun point(point: GridPoint2) = point(point.x, point.y)
 
 fun vec2(point: GridPoint2) = Vector2(point.x.toFloat(), point.y.toFloat())
+
+fun rectangle(x1: Int, y1: Int, x2: Int, y2: Int) = Rectangle(
+    x1.toFloat(), y1.toFloat(), (x2 - x1).toFloat(), (y2 - y1).toFloat()
+)
+fun Rectangle.rangeX() = (x.toInt()..x.toInt() + width.toInt())
+fun Rectangle.rangeY() = (y.toInt()..y.toInt() + height.toInt())
+fun Rectangle.points() = cartesianProduct(rangeX().toList(), rangeY().toList())
+    .map { (x, y) -> point(x, y) }
 
 //--- todo builder
 

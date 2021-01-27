@@ -24,6 +24,7 @@ data class LocationInfo(
 //    val heightGrid: Grid,
 //    val heatGrid: Grid
 ): Serializable {
+    val areas: MutableCollection<AreaInfo> = mutableListOf()
     val rooms: MutableCollection<RoomInfo> = mutableListOf()
     val entities: MutableCollection<Entity> = mutableListOf()
     val structureTemplates: MutableCollection<StructureTemplateInfo> = mutableListOf()

@@ -8,6 +8,9 @@ data class Area(
     val points: MutableSet<GridPoint2> = mutableSetOf()
 ) {
 
+    fun borders(d: Direction, delta: Int): Set<GridPoint2> =
+        points.filter { d.plus(point(it.x, it.y), delta) !in points }.toSet()
+
     fun apply(grid: Grid, marker: Float) {
         points.forEach {
             (x, y) ->

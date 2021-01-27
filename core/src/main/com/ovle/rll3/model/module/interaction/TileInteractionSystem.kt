@@ -2,24 +2,23 @@ package com.ovle.rll3.model.module.interaction
 
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.cartesianProduct
 import com.ovle.rll3.component1
 import com.ovle.rll3.component2
-import com.ovle.rll3.event.Event
-import com.ovle.rll3.event.Event.GameEvent
-import com.ovle.rll3.event.Event.GameEvent.*
+import com.ovle.rll3.event.Event.GameEvent.CheckTaskCommand
 import com.ovle.rll3.event.Event.PlayerControlEvent.ClickEvent
 import com.ovle.rll3.event.Event.PlayerControlEvent.DragEvent
 import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.game.AreaInfo
 import com.ovle.rll3.model.module.task.TaskTarget
-import com.ovle.rll3.model.module.task.TaskTarget.*
 import com.ovle.rll3.model.util.Area
-import com.ovle.rll3.point
+import com.ovle.rll3.points
+import com.ovle.rll3.rectangle
 import com.ovle.rll3.view.viewportToGame
-import kotlin.math.min
 import kotlin.math.max
+import kotlin.math.min
 
 
 class TileInteractionSystem : EventSystem() {
@@ -28,28 +27,42 @@ class TileInteractionSystem : EventSystem() {
         EventBus.subscribe<ClickEvent> { onClickEvent(it.button, it.point) }
         EventBus.subscribe<DragEvent> { onDragEvent(it.start, it.current) }
 
-//        EventBus.subscribe<DebugChangeSelectedTiles> { onDebugChangeSelectedTilesEvent() }
 //        EventBus.subscribe<EntityUseSkill> { onEntityUseSkillEvent(it.entity, it.target, it.skillTemplate) }
     }
 
     private fun onClickEvent(button: Int, point: GridPoint2) {
         val interactionInfo = playerInteractionInfo()!!
-        if (interactionInfo.controlMode != ControlMode.Task) return
         if (interactionInfo.selectionMode != SelectionMode.Tile) return
 
-        val selectedTiles = interactionInfo.selectedTiles
-        if (selectedTiles.isNotEmpty()) {
-            val target =
-                if (selectedTiles.size == 1) TaskTarget(selectedTiles.single())
-                else TaskTarget(Area(selectedTiles.toHashSet()))
-
-            EventBus.send(CheckTaskCommand(target))
+        when (interactionInfo.controlMode) {
+            ControlMode.Task -> {
+                val selectionRectangle = interactionInfo.selectionRectangle ?: return
+                val points = selectionRectangle.points()
+                val target =
+                    if (points.size == 1) TaskTarget(points.single())
+                    else TaskTarget(Area(points.toHashSet()))
+                EventBus.send(CheckTaskCommand(target))
+            }
+            ControlMode.Areas -> {
+                //todo area system?
+                val location = locationInfo()
+                val existingArea = location.areas.find { it.area.points.contains(point) }
+                if (existingArea != null) {
+                    interactionInfo.selectedArea = existingArea
+                } else {
+                    //todo
+                    val newArea = interactionInfo.selectionRectangle
+                    newArea?.let {
+                        location.areas += AreaInfo(Area(newArea.points().toMutableSet()))
+                    }
+                }
+            }
         }
     }
 
     private fun onDragEvent(start: Vector2, current: Vector2) {
         val interactionInfo = playerInteractionInfo()!!
-        if (interactionInfo.controlMode != ControlMode.Task) return
+        if (interactionInfo.controlMode == ControlMode.View) return
         if (interactionInfo.selectionMode != SelectionMode.Tile) return
 
         val (sx, sy) = start.viewportToGame()
@@ -58,22 +71,6 @@ class TileInteractionSystem : EventSystem() {
         val xRange = (min(sx, cx)..max(sx, cx))
         val yRange = (min(sy, cy)..max(sy, cy))
 
-        val selectedTiles = cartesianProduct(xRange.toList(), yRange.toList())
-            .map { (x, y) -> point(x, y) }
-        interactionInfo.selectedTiles = selectedTiles.toSet()
+        interactionInfo.selectionRectangle = rectangle(xRange.first, yRange.first, xRange.last, yRange.last)
     }
-
-//    private fun onDebugChangeSelectedTilesEvent() {
-//        val interactionInfo = playerInteractionInfo()!!
-//        if (interactionInfo.selectionMode != SelectionMode.Tile) return
-//
-//        val tiles = levelInfo().tiles
-//        val selectedTiles = interactionInfo.selectedTiles
-//        selectedTiles.forEach {
-//            val tile = tiles.get(it.x, it.y)
-//            tile.typeId = typeId(tile)
-//
-//            send(Event.DebugTileChanged(tile, it))
-//        }
-//    }
 }
