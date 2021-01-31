@@ -11,10 +11,10 @@ import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.space.MoveComponent
 import com.ovle.rll3.model.module.space.MoveSystem
 import com.ovle.rll3.model.module.space.PositionComponent
-import com.ovle.rll3.model.procedural.config.RandomParams
+import com.ovle.rlUtil.RandomParams
 import com.ovle.rll3.model.procedural.config.location.lowGroundTileId
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
-import com.ovle.rll3.point
+import com.ovle.rlUtil.gdx.math.point
 import kotlin.math.sqrt
 
 const val empty = lowGroundTileId

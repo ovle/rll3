@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.template
 
-import com.ovle.rll3.Tile
+import com.ovle.rlUtil.Tile
 
 
 fun parsedMask(mask: String?): List<List<Tile>>? {

@@ -10,7 +10,7 @@ import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.next
+import com.ovle.rlUtil.next
 import com.ovle.rll3.view.noVisibilityFilter
 import com.ovle.rll3.view.viewportToGame
 import ktx.ashley.get

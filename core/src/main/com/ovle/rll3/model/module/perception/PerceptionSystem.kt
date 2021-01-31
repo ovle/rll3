@@ -15,7 +15,7 @@ import com.ovle.rll3.model.module.core.entity.lightObstacles
 import com.ovle.rll3.model.module.core.entity.see
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.util.lightTilePassMapper
-import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
+import com.ovle.rlUtil.gdx.math.lineOfSight.rayTracing.fieldOfView
 import ktx.ashley.get
 
 

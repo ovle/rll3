@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.lightning.line
 
-import com.ovle.rll3.model.util.discretization.bresenham.line
+import com.ovle.rlUtil.gdx.math.discretization.bresenham.line
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource

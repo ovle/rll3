@@ -15,7 +15,7 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.system.BaseIteratingSystem
-import com.ovle.rll3.point
+import com.ovle.rlUtil.gdx.math.point
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth
 import ktx.ashley.get

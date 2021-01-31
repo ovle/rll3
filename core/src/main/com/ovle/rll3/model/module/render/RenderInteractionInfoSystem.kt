@@ -13,11 +13,11 @@ import com.ovle.rll3.model.module.core.entity.playerInteraction
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.game.AreaInfo
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
-import com.ovle.rll3.model.util.Direction
-import com.ovle.rll3.point
-import com.ovle.rll3.rangeX
-import com.ovle.rll3.rangeY
-import com.ovle.rll3.vec2
+import com.ovle.rlUtil.gdx.math.Direction
+import com.ovle.rlUtil.gdx.math.point
+import com.ovle.rlUtil.gdx.math.rangeX
+import com.ovle.rlUtil.gdx.math.rangeY
+import com.ovle.rlUtil.gdx.math.vec2
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth

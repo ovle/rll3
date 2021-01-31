@@ -11,6 +11,10 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.Align
+import com.ovle.rlUtil.gdx.math.adjD
+import com.ovle.rlUtil.gdx.math.adjHV
+import com.ovle.rlUtil.gdx.math.point
+import com.ovle.rlUtil.gdx.math.vec2
 import com.ovle.rll3.*
 import com.ovle.rll3.ScreenManager.ScreenType.GameScreenType
 import com.ovle.rll3.assets.AssetsManager
@@ -19,7 +23,7 @@ import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.module.render.draw
 import com.ovle.rll3.model.module.render.sprite
-import com.ovle.rll3.model.procedural.config.RandomParams
+import com.ovle.rlUtil.RandomParams
 import com.ovle.rll3.model.procedural.config.world.*
 import com.ovle.rll3.model.procedural.grid.world.WorldFactory
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
@@ -125,16 +129,16 @@ class WorldScreen(
         batch.begin()
 
         cursorPoint?.let {
-            it.adjacentD().forEach {
+            it.adjD().forEach {
                 p -> batch.draw(vec2(p), cursorSprite.textureRegion())
             }
         }
 
         locationPoint?.let {
-            it.adjacentHV().forEach {
+            it.adjHV().forEach {
                 p -> batch.draw(vec2(p), cursorSprite.textureRegion())
             }
-            it.adjacentD().forEach {
+            it.adjD().forEach {
                 p -> batch.draw(vec2(p), selectionSprite.textureRegion())
             }
         }

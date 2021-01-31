@@ -2,15 +2,16 @@ package com.ovle.rll3.model.procedural.grid.processor.world
 
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.GridPointCheck2
+import com.ovle.rlUtil.GridPointCheck2
 import com.ovle.rll3.model.procedural.config.location.shallowWaterTreshold
 import com.ovle.rll3.model.procedural.config.world.shallowWaterTileId
 import com.ovle.rll3.model.procedural.grid.WorldProcessor
-import com.ovle.rll3.model.util.Area
-import com.ovle.rll3.model.util.GradientPathParams
-import com.ovle.rll3.model.util.gradientPath
+import com.ovle.rlUtil.gdx.math.Area
+import com.ovle.rlUtil.noise4j.grid.GradientPathParams
+import com.ovle.rlUtil.noise4j.grid.gradientPath
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
-import com.ovle.rll3.point
+import com.ovle.rlUtil.gdx.math.point
+import com.ovle.rlUtil.noise4j.grid.apply
 
 data class RiverInfo(
     val area: Area

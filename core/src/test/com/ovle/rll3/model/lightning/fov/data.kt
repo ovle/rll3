@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.lightning.fov
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.point
+import com.ovle.rlUtil.gdx.math.point
 
 data class TestCase(
     val source: GridPoint2,

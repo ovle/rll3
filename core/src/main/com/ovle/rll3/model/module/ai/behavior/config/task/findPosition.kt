@@ -2,12 +2,16 @@ package com.ovle.rll3.model.module.ai.behavior.config.task
 
 import com.badlogic.gdx.ai.btree.Task.Status.FAILED
 import com.badlogic.gdx.ai.btree.Task.Status.SUCCEEDED
+import com.ovle.rlUtil.gdx.math.adjHV
+import com.ovle.rlUtil.gdx.math.component1
+import com.ovle.rlUtil.gdx.math.component2
+import com.ovle.rlUtil.gdx.math.point
 import com.ovle.rll3.*
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.result
 import com.ovle.rll3.model.module.core.entity.position
-import com.ovle.rll3.model.module.task.TaskTarget
-import com.ovle.rll3.model.util.pathfinding.aStar.path
+import com.ovle.rlUtil.gdx.math.pathfinding.aStar.path
+import com.ovle.rll3.model.util.path
 
 fun findPositionNearTarget(targetHolder: TaskTargetHolder): TaskExec = { (btParams) ->
     val owner = btParams.owner
@@ -16,7 +20,7 @@ fun findPositionNearTarget(targetHolder: TaskTargetHolder): TaskExec = { (btPara
     val target = targetHolder.target()
     val to = target.position()
 
-    val nearPoints = to.adjacentHV().sortedBy { it.dst(from) }
+    val nearPoints = to.adjHV().sortedBy { it.dst(from) }
     val nextTarget = nearPoints.find { path(from, it, location).isNotEmpty() }
     val status = if (nextTarget != null) SUCCEEDED else FAILED
 

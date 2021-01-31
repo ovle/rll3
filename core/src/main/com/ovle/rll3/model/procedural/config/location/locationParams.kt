@@ -1,11 +1,11 @@
 package com.ovle.rll3.model.procedural.config.location
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.component1
-import com.ovle.rll3.component2
-import com.ovle.rll3.model.procedural.config.GridFactoryParams.FractalGridFactoryParams
+import com.ovle.rlUtil.gdx.math.component1
+import com.ovle.rlUtil.gdx.math.component2
+import com.ovle.rlUtil.noise4j.grid.factory.FractalGridFactory
+import com.ovle.rlUtil.noise4j.grid.factory.GridFactoryParams.FractalGridFactoryParams
 import com.ovle.rll3.model.procedural.config.LocationGenerationParams
-import com.ovle.rll3.model.procedural.grid.factory.FractalGridFactory
 import com.ovle.rll3.model.procedural.grid.processor.location.entity.EntityProcessor
 import com.ovle.rll3.model.procedural.grid.processor.location.structure.StructureTemplateProcessor
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo

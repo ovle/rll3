@@ -1,13 +1,15 @@
 package com.ovle.rll3.model.util
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.TileArray
+import com.ovle.rlUtil.Tile
+import com.ovle.rlUtil.TileArray
 import com.ovle.rll3.model.module.light.LightSourceComponent
 import com.ovle.rll3.model.module.light.AOETilePosition
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.entitiesWith
-import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
+import com.ovle.rlUtil.gdx.math.lineOfSight.rayTracing.fieldOfView
+import com.ovle.rll3.model.procedural.config.location.solidWallTypes
 import ktx.ashley.get
 
 object LightConfig {
@@ -70,4 +72,9 @@ fun lightPositions(position: GridPoint2, tiles: TileArray, lightConfig: LightCon
 fun lightValue(maxLightValue: Float, center: GridPoint2, position: GridPoint2): Float {
     val distance = center.dst(position)
     return (maxLightValue / (distance * distance))
+}
+
+fun lightTilePassMapper(tile: Tile) = when(tile) {
+    in solidWallTypes -> false
+    else -> true    //todo will there be more options?
 }

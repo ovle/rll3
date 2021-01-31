@@ -2,12 +2,9 @@ package com.ovle.rll3.model.module.game
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.LocationId
-import com.ovle.rll3.TileArray
-import com.ovle.rll3.model.module.quest.QuestInfo
-import com.ovle.rll3.model.procedural.config.LocationGenerationParams
-import com.ovle.rll3.model.procedural.config.RandomParams
+import com.ovle.rlUtil.RandomParams
+import com.ovle.rlUtil.TileArray
 import com.ovle.rll3.model.procedural.grid.processor.location.room.RoomInfo
 import com.ovle.rll3.model.procedural.grid.processor.location.structure.StructureTemplateInfo
 import java.io.Serializable

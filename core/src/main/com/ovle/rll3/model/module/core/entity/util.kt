@@ -3,7 +3,6 @@ package com.ovle.rll3.model.module.core.entity
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
-import com.ovle.rll3.info
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.component.ComponentMappers.core
 import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
@@ -12,6 +11,7 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.component.print
 import com.ovle.rll3.model.module.gathering.ResourceType
+import com.ovle.rll3.model.util.info
 import com.ovle.rll3.view.noVisibilityFilter
 import ktx.ashley.get
 import ktx.ashley.has

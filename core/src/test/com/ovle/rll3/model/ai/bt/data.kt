@@ -7,7 +7,7 @@ import com.ovle.rll3.model.module.ai.behavior.config.task.failTask
 import com.ovle.rll3.model.module.ai.behavior.config.task.moveTask
 import com.ovle.rll3.model.module.ai.behavior.config.task.successTask
 import com.ovle.rll3.model.module.task.TaskTarget
-import com.ovle.rll3.point
+import com.ovle.rlUtil.gdx.math.point
 
 
 val testCases = arrayOf(

@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.TextureRegions
-import com.ovle.rll3.point
-import com.ovle.rll3.roundToClosestByAbsInt
-import com.ovle.rll3.vec2
+import com.ovle.rlUtil.gdx.math.point
+import com.ovle.rlUtil.roundToClosestByAbsInt
+import com.ovle.rlUtil.gdx.math.vec2
 import com.ovle.rll3.view.sprite.Sprite
 import com.ovle.rll3.view.spriteHeight
 import com.ovle.rll3.view.spriteWidth

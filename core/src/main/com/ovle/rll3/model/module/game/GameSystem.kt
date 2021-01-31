@@ -12,10 +12,10 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LocationGenerationParams
-import com.ovle.rll3.model.procedural.config.RandomParams
+import com.ovle.rlUtil.RandomParams
+import com.ovle.rlUtil.noise4j.grid.gridToTileArray
 import com.ovle.rll3.model.procedural.config.location.locationParams
 import com.ovle.rll3.model.template.entity.EntityTemplate
-import com.ovle.rll3.model.util.gridToTileArray
 import com.ovle.rll3.screen.game.InitGameInfo
 import ktx.ashley.get
 import ktx.ashley.has

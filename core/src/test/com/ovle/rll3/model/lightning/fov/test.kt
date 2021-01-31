@@ -1,13 +1,5 @@
 package com.ovle.rll3.model.lightning.fov
 
-import com.ovle.rll3.Tile
-import com.ovle.rll3.TileArray
-import com.ovle.rll3.model.util.lightTilePassMapper
-import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
-
 
 class Test {
 

@@ -7,10 +7,10 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.utils.Array
-import com.ovle.rll3.Tile
-import com.ovle.rll3.TileArray
+import com.ovle.rlUtil.Tile
+import com.ovle.rlUtil.TileArray
 import com.ovle.rll3.TileToTextureRegion
-import com.ovle.rll3.point
+import com.ovle.rlUtil.gdx.math.point
 import com.ovle.rll3.view.layer.CustomTiledMapTileLayer
 import com.ovle.rll3.view.layer.TextureRegionsInfo
 import com.ovle.rll3.view.layer.TileTextureInfo

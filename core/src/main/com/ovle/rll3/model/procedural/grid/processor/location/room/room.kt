@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.procedural.grid.processor.location.room
 
-import com.ovle.rll3.NearTiles
-import com.ovle.rll3.Tile
-import com.ovle.rll3.TileArray
+import com.ovle.rlUtil.AdjTiles
+import com.ovle.rlUtil.Tile
+import com.ovle.rlUtil.TileArray
 import com.ovle.rll3.model.procedural.config.location.floorTypes
 import com.ovle.rll3.model.procedural.config.location.highGroundTileId
 import com.ovle.rll3.model.procedural.config.location.naturalHighWallTileId
@@ -13,7 +13,7 @@ import com.ovle.rll3.model.procedural.grid.processor.location.room.RoomStructure
 enum class RoomStructure {
     Nop {
         override fun initParams(room: RoomInfo, r: kotlin.random.Random): Map<ParamKey, Any> = mapOf()
-        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {}
+        override fun processTile(adjTiles: AdjTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {}
     },
 
     Pit {
@@ -21,8 +21,8 @@ enum class RoomStructure {
             PitBridgeDirection to DirectionValue.values().random(r)
         )
 
-        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
-            val isFreeSpaceTile = nearTiles.all.all { it in floorTypes }
+        override fun processTile(adjTiles: AdjTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
+            val isFreeSpaceTile = adjTiles.all.all { it in floorTypes }
             if (!isFreeSpaceTile) return
 
             var resultTileId = pitFloorTileId
@@ -30,13 +30,13 @@ enum class RoomStructure {
             if (dirValue != NoDirection) {
                 val haveHBridge = dirValue in setOf(H, HV)
                 val haveVBridge = dirValue in setOf(V, HV)
-                val isHBridgeTile = nearTiles.y == room.y + room.height / 2
-                val isVBridgeTile = nearTiles.x == room.x + room.width / 2
+                val isHBridgeTile = adjTiles.y == room.y + room.height / 2
+                val isVBridgeTile = adjTiles.x == room.x + room.width / 2
                 val isBridgeTile = haveHBridge && isHBridgeTile || haveVBridge && isVBridgeTile
                 if (isBridgeTile) resultTileId = highGroundTileId
             }
 
-            setTile(tiles, nearTiles, resultTileId)
+            setTile(tiles, adjTiles, resultTileId)
         }
     },
 
@@ -51,7 +51,7 @@ enum class RoomStructure {
             )
         }
 
-        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
+        override fun processTile(adjTiles: AdjTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
             val sizeCoef = params[FilledCenterSize] as Int
             val isHollow = params[FilledCenterHollowness] as Boolean
             val dirValue =  params[FilledCenterPathDirection]
@@ -63,24 +63,24 @@ enum class RoomStructure {
             val xRange = (roomCenterX - sizeX..roomCenterX + sizeX)
             val yRange = (roomCenterY - sizeY..roomCenterY + sizeY)
 
-            val xInRange = nearTiles.x in xRange
-            val yInRange = nearTiles.y in yRange
+            val xInRange = adjTiles.x in xRange
+            val yInRange = adjTiles.y in yRange
             val isColumn = if (!isHollow) xInRange && yInRange
             else {
-                val isVWall = (nearTiles.x == xRange.first || nearTiles.x == xRange.last) && yInRange
-                val isHWall = (nearTiles.y == yRange.first || nearTiles.y == yRange.last) && xInRange
+                val isVWall = (adjTiles.x == xRange.first || adjTiles.x == xRange.last) && yInRange
+                val isHWall = (adjTiles.y == yRange.first || adjTiles.y == yRange.last) && xInRange
                 isVWall || isHWall
             }
 
-            val isHPathTile = nearTiles.y == room.y + room.height / 2
-            val isVPathTile = nearTiles.x == room.x + room.width / 2
+            val isHPathTile = adjTiles.y == room.y + room.height / 2
+            val isVPathTile = adjTiles.x == room.x + room.width / 2
             val haveHPath = dirValue in setOf(H, HV)
             val haveVPath = dirValue in setOf(V, HV)
             val isPathTile = haveHPath && isHPathTile || haveVPath && isVPathTile
             if (isPathTile) return
 
             if (isColumn) {
-                setTile(tiles, nearTiles, naturalHighWallTileId)
+                setTile(tiles, adjTiles, naturalHighWallTileId)
             }
         }
     },
@@ -88,18 +88,18 @@ enum class RoomStructure {
     Colonnade {
         override fun initParams(room: RoomInfo, r: kotlin.random.Random): Map<ParamKey, Any> = mapOf(ColonnadeDirection to DirectionValue.values().random(r))
 
-        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
+        override fun processTile(adjTiles: AdjTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
             val dirValue = params[ColonnadeDirection]
-            val isFreeSpaceTile = nearTiles.nearHV.all { it in floorTypes }
+            val isFreeSpaceTile = adjTiles.nearHV.all { it in floorTypes }
             if (!isFreeSpaceTile) return
 
-            val isHColumn = nearTiles.x % 2 == 0 && (nearTiles.y == room.y + 1 || nearTiles.y == room.y + room.height - 1)
-            val isVColumn = nearTiles.y % 2 == 0 && (nearTiles.x == room.x + 1 || nearTiles.x == room.x + room.width - 1)
+            val isHColumn = adjTiles.x % 2 == 0 && (adjTiles.y == room.y + 1 || adjTiles.y == room.y + room.height - 1)
+            val isVColumn = adjTiles.y % 2 == 0 && (adjTiles.x == room.x + 1 || adjTiles.x == room.x + room.width - 1)
             val isColumn = isHColumn && (dirValue in setOf(H, HV))
                         || isVColumn && (dirValue in setOf(V, HV))
                         || isHColumn && isVColumn && dirValue == NoDirection
             if (isColumn) {
-                setTile(tiles, nearTiles, naturalHighWallTileId)
+                setTile(tiles, adjTiles, naturalHighWallTileId)
             }
         }
     },
@@ -109,26 +109,26 @@ enum class RoomStructure {
             RandomNoiseAmount to r.nextFloat()
         )
 
-        override fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
+        override fun processTile(adjTiles: AdjTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random) {
             val amount = params[RandomNoiseAmount] as Float
             if (r.nextDouble() >= amount) return
 
             val tile = arrayOf(naturalHighWallTileId, pitFloorTileId).random(r)
 
-            setTile(tiles, nearTiles, tile)
+            setTile(tiles, adjTiles, tile)
         }
     };
 
-    protected fun setTile(tiles: TileArray, nearTiles: NearTiles, tile: Tile) {
-        val x = nearTiles.x
-        val y = nearTiles.y
+    protected fun setTile(tiles: TileArray, adjTiles: AdjTiles, tile: Tile) {
+        val x = adjTiles.x
+        val y = adjTiles.y
 
         tiles.set(x, y, tile)
     }
 
     abstract fun initParams(room: RoomInfo, r: kotlin.random.Random): Map<ParamKey, Any>
 
-    abstract fun processTile(nearTiles: NearTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random)
+    abstract fun processTile(adjTiles: AdjTiles, room: RoomInfo, tiles: TileArray, params: Map<ParamKey, Any>, r: kotlin.random.Random)
 
 
     enum class DirectionValue {

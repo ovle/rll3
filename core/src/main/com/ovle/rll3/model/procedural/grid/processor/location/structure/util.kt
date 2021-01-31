@@ -1,10 +1,10 @@
 package com.ovle.rll3.model.procedural.grid.processor.location.structure
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.TileArray
-import com.ovle.rll3.TileCondition
-import com.ovle.rll3.cartesianProduct
-import com.ovle.rll3.point
+import com.ovle.rlUtil.TileArray
+import com.ovle.rlUtil.TileCondition
+import com.ovle.rlUtil.cartesianProduct
+import com.ovle.rlUtil.gdx.math.point
 import kotlin.random.Random
 
 fun TileArray.setArray(index: GridPoint2, value: TileArray, tilePostFilter: TileCondition?) {

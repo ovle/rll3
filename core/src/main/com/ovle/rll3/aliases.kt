@@ -6,20 +6,14 @@ import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
-import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.module.ai.behavior.*
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.module.skill.CostStatus
 import com.ovle.rll3.model.module.skill.SkillUsage
-import com.ovle.rll3.model.util.Array2d
-import com.ovle.rll3.model.tile.LightPassType
-import com.ovle.rll3.model.tile.NearValues
-import com.ovle.rll3.model.tile.TilePassType
+import com.ovle.rll3.model.module.task.TaskTarget
 import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.layer.TileToTextureParams
-import kotlin.random.Random
 
 typealias SetScreen = (BaseScreen, Any?) -> Unit
 
@@ -63,29 +57,9 @@ typealias ExactTurn = Double
 typealias ResourceAmount = Int
 typealias ResourceGatherCost = Int
 typealias RoomTiles = MutableList<Vector2>
-
 typealias TileToTextureRegion = (TileToTextureParams) -> TextureRegion
 typealias TextureRegions = Array<Array<TextureRegion>>
-typealias MoveCostFn = (Tile, Tile?, TilePassTypeFn) -> Int
-typealias MoveCostFn2 = (GridPoint2, GridPoint2?, TilePassTypeFn) -> Int
-typealias IsPassableFn = (GridPoint2, TilePassTypeFn) -> Boolean
-typealias GridValueCombinator = (Float, Float, Random) -> Float
-
-typealias Tile = Char
-typealias TileCondition = (Tile) -> Boolean
-typealias TilePassTypeFn = (Tile) -> TilePassType
-typealias LightPassTypeFn = (Tile) -> LightPassType
-typealias TileArray = Array2d<Tile>
-typealias NearTiles = NearValues<Tile?>
-typealias TileMapper2 = (Float, Float) -> Tile
-typealias TileMapper1 = (Float) -> Tile
-
-typealias ValueCheck = (Float) -> Boolean
-typealias GridPointCheck1 = (Grid, GridPoint2) -> Boolean
-typealias GridPointCheck2 = (Grid, Grid, GridPoint2) -> Boolean
 
 typealias MoveStrategy = (GridPoint2, GridPoint2, LocationInfo) -> Boolean
-typealias IsAtPositionStrategy = (Entity, GridPoint2) -> Boolean
-
 typealias BTFactory = (TaskTargetHolder) -> BehaviorTree<BTParams>
 typealias BehaviorSelector = (Entity, LocationInfo) -> BTTemplate

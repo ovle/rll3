@@ -13,8 +13,8 @@ import com.ovle.rll3.model.module.core.entity.bodyObstacles
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.util.pathfinding.aStar.path
-import com.ovle.rll3.point
+import com.ovle.rlUtil.gdx.math.point
+import com.ovle.rll3.model.util.path
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.math.abs

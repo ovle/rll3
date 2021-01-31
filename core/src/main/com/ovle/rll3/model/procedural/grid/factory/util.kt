@@ -1,9 +1,9 @@
 package com.ovle.rll3.model.procedural.grid.factory
 
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.GridValueCombinator
-import com.ovle.rll3.model.procedural.config.RandomParams
-import com.ovle.rll3.model.procedural.grid.GridFactory
+import com.ovle.rlUtil.GridValueCombinator
+import com.ovle.rlUtil.RandomParams
+import com.ovle.rlUtil.noise4j.grid.factory.GridFactory
 
 
 class Combine(val factory1: GridFactory, val factory2: GridFactory, val combinator: GridValueCombinator): GridFactory {

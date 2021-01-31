@@ -136,7 +136,7 @@ class TaskSystem : EventSystem() {
         }
 
         val tasksToReset = tasksInfo.tasks.filter {
-            it.performer == null || !isValidPerformer(it.performer!!)
+            it.performer != null && !isValidPerformer(it.performer!!)
         }
         tasksToReset.forEach {
             println("task $it reset (no valid performer)")

@@ -4,16 +4,15 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rlUtil.Tile
 import com.ovle.rll3.EffectAmount
 import com.ovle.rll3.ExactTurn
-import com.ovle.rll3.Tile
 import com.ovle.rll3.Turn
 import com.ovle.rll3.model.module.ai.behavior.BTParams
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.interaction.ControlMode
 import com.ovle.rll3.model.module.interaction.SelectionMode
 import com.ovle.rll3.model.module.task.TaskTarget
-import com.ovle.rll3.model.module.skill.SkillTemplate
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.module.skill.SkillUsage
 import com.ovle.rll3.model.module.task.TaskInfo

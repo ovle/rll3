@@ -5,8 +5,3 @@ enum class TilePassType {
     Passable,
     Restricted,
 }
-
-enum class LightPassType {
-    Solid,
-    Passable
-}

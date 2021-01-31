@@ -3,7 +3,7 @@ package com.ovle.rll3.model.module.task
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TileConditions.isMinable
 import com.ovle.rll3.model.tile.isPassable
-import com.ovle.rll3.model.util.Area
+import com.ovle.rlUtil.gdx.math.Area
 
 object AreaConditions {
     fun isFreeArea(a: Area, l: LocationInfo): Boolean = a.points.all { l.tiles.isPassable(it) }

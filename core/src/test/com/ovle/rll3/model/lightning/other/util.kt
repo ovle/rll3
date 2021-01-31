@@ -1,10 +1,8 @@
 package com.ovle.rll3.model.lightning.other
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.module.light.AOEData
 import com.ovle.rll3.model.module.space.PositionComponent
-import com.ovle.rll3.point
-import ktx.math.vec2
+import com.ovle.rlUtil.gdx.math.point
 
 class EntitiesData(val entities: Array<Entity>, val note: String = "")
 

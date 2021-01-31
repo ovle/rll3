@@ -1,20 +1,16 @@
 package com.ovle.rll3.model.procedural.grid.processor.location.entity
 
-import com.ovle.rll3.NearTiles
-import com.ovle.rll3.Tile
+import com.ovle.rlUtil.*
 import com.ovle.rll3.model.procedural.config.location.whateverTileId
 import com.ovle.rll3.model.template.entity.SpawnTemplate
 import com.ovle.rll3.model.template.entity.EntityTemplate
-import com.ovle.rll3.model.tile.*
-import com.ovle.rll3.model.util.rotate180
-import com.ovle.rll3.model.util.rotate270
-import com.ovle.rll3.model.util.rotate90
 import kotlin.random.Random
 
-class SpawnTable(spawnTemplates: List<EntityTemplate>, nearTiles: NearTiles, val r: Random) {
+
+class SpawnTable(spawnTemplates: List<EntityTemplate>, adjTiles: AdjTiles, val r: Random) {
 
     private val spawnData = spawnTemplates
-        .map { it to it.spawns.filter { spawn -> matchesTemplate(spawn, nearTiles) } }
+        .map { it to it.spawns.filter { spawn -> matchesTemplate(spawn, adjTiles) } }
         .filter { (_, spawns) -> spawns.isNotEmpty() }
 
 
@@ -42,11 +38,11 @@ class SpawnTable(spawnTemplates: List<EntityTemplate>, nearTiles: NearTiles, val
         return spawnData[spawnIndex].first
     }
 
-    private fun matchesTemplate(spawnTemplate: SpawnTemplate, nearTiles: NearValues<Tile?>): Boolean {
+    private fun matchesTemplate(spawnTemplate: SpawnTemplate, adjTiles: AdjTiles): Boolean {
         val parsedMask = spawnTemplate.parsedMask ?: return true
         if (!spawnTemplate.rotate) {
             val maskTiles = parsedMask.reversed().flatten()
-            return matchesMask(maskTiles, nearTiles)
+            return matchesMask(maskTiles, adjTiles)
         }
 
         val maskTilesR = rotate180(parsedMask).flatten()
@@ -54,14 +50,14 @@ class SpawnTable(spawnTemplates: List<EntityTemplate>, nearTiles: NearTiles, val
         val maskTilesR2 = parsedMask.flatten()
         val maskTilesR3 = rotate270(parsedMask).flatten()
 
-        return matchesMask(maskTilesR, nearTiles) ||
-            matchesMask(maskTilesR1, nearTiles) ||
-            matchesMask(maskTilesR2, nearTiles) ||
-            matchesMask(maskTilesR3, nearTiles)
+        return matchesMask(maskTilesR, adjTiles) ||
+            matchesMask(maskTilesR1, adjTiles) ||
+            matchesMask(maskTilesR2, adjTiles) ||
+            matchesMask(maskTilesR3, adjTiles)
     }
 
-    private fun matchesMask(maskTiles: List<Tile>, nearTiles: NearValues<Tile?>): Boolean {
-        val actualTiles = nearTiles.asList.flatten().map { it }
+    private fun matchesMask(maskTiles: List<Tile>, adjTiles: AdjTiles): Boolean {
+        val actualTiles = adjTiles.asList.flatten().map { it }
         return maskTiles
             .zip(actualTiles)
             .all { (maskTile, actualTile) -> maskTile == whateverTileId || maskTile == actualTile }

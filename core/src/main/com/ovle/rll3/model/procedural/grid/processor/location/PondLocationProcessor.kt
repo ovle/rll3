@@ -3,15 +3,15 @@
 //import com.badlogic.ashley.core.Engine
 //import com.badlogic.gdx.math.GridPoint2
 //import com.github.czyzby.noise4j.map.Grid
-//import com.ovle.rll3.component1
-//import com.ovle.rll3.component2
+//import com.ovle.rlUtil.gdx.math.component1
+//import com.ovle.rlUtil.gdx.math.component2
 //import com.ovle.rll3.model.module.game.LocationInfo
 //import com.ovle.rll3.model.procedural.config.location.outdoorHighGroundTreshold
 //import com.ovle.rll3.model.procedural.config.location.outdoorLowGroundTreshold
 //import com.ovle.rll3.model.procedural.config.location.shallowWaterTileId
 //import com.ovle.rll3.model.procedural.grid.LocationProcessor
 //import com.ovle.rll3.model.util.*
-//import com.ovle.rll3.point
+//import com.ovle.rlUtil.gdx.math.point
 //
 //data class PondLocationProcessorParams(
 //    val count: Int = 10,

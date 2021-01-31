@@ -2,12 +2,10 @@ package com.ovle.rll3.model.procedural.grid.world
 
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.TileArray
 import com.ovle.rll3.WorldId
-import com.ovle.rll3.model.module.time.TimeInfo
-import com.ovle.rll3.model.procedural.config.RandomParams
-import com.ovle.rll3.model.procedural.config.WorldGenerationParams
-import com.ovle.rll3.model.util.Area
+import com.ovle.rlUtil.RandomParams
+import com.ovle.rlUtil.TileArray
+import com.ovle.rlUtil.gdx.math.Area
 import java.io.Serializable
 
 data class WorldArea(

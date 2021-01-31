@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.template.structure
 
-import com.ovle.rll3.Tile
+import com.ovle.rlUtil.Tile
 import com.ovle.rll3.model.template.entity.SpawnTemplate
 import com.ovle.rll3.model.template.parsedMask
 

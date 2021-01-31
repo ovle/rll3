@@ -2,11 +2,11 @@ package com.ovle.rll3.model.procedural.grid.processor.location.room
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rlUtil.gdx.math.adjTiles
 import com.ovle.rll3.RoomTiles
-import com.ovle.rll3.isAdjacent
+import com.ovle.rlUtil.gdx.math.isAdj
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
-import com.ovle.rll3.model.tile.nearValues
 import com.ovle.rll3.model.procedural.config.location.floorTypes
 import kotlin.math.roundToInt
 
@@ -23,13 +23,13 @@ class RoomsInfoProcessor : LocationProcessor {
         var currentRoom: RoomTiles? = null
         for (x in 0 until tiles.size) {
             for (y in 0 until tiles.size) {
-                val nearTiles = nearValues(tiles, x, y)
-                val isRoomTile = nearTiles.value in floorTypes
+                val adjTiles = adjTiles(tiles, x, y)
+                val isRoomTile = adjTiles.value in floorTypes
                 if (isRoomTile) {
                     if (currentRoom == null) {
                         //todo refactor
                         currentRoom = roomsData.find {
-                            coords -> coords.any { coord -> isAdjacent(coord.x.roundToInt(), coord.y.roundToInt(), x, y) }
+                            coords -> coords.any { coord -> isAdj(coord.x.roundToInt(), coord.y.roundToInt(), x, y) }
                         } ?: mutableListOf<Vector2>().apply { roomsData.add(this) }
                     }
                     currentRoom.add(Vector2(x.toFloat(), y.toFloat()))

@@ -2,7 +2,7 @@ package com.ovle.rll3.view
 
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.point
+import com.ovle.rlUtil.gdx.math.point
 import ktx.math.vec2
 
 fun Vector2.viewportToGame(): GridPoint2 = point(x / tileWidth, y / tileHeight)

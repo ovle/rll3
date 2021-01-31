@@ -2,6 +2,7 @@ package com.ovle.rll3.model.procedural.grid.processor.location.entity
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.ovle.rlUtil.gdx.math.adjTiles
 import com.ovle.rll3.assets.loader.EntityTemplates
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
@@ -10,7 +11,7 @@ import com.ovle.rll3.model.module.core.entity.newTemplatedEntity
 import com.ovle.rll3.model.module.core.entity.randomId
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.tile.*
-import com.ovle.rll3.point
+import com.ovle.rlUtil.gdx.math.point
 import ktx.ashley.get
 
 class EntityProcessor(val templates: EntityTemplates) : LocationProcessor {
@@ -28,7 +29,7 @@ class EntityProcessor(val templates: EntityTemplates) : LocationProcessor {
             for (y in 0 until tiles.size) {
                 if (point(x, y) in claimed) continue
 
-                val nearTiles = nearValues(tiles, x, y)
+                val nearTiles = adjTiles(tiles, x, y)
                 val spawnTable = SpawnTable(spawnTemplates, nearTiles, random)
                 val check = random.nextDouble()
                 val spawnTemplate = spawnTable.spawn(check) ?: continue

@@ -2,7 +2,7 @@ package com.ovle.rll3.model.module.gathering
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.Tile
+import com.ovle.rlUtil.Tile
 import com.ovle.rll3.Turn
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send

@@ -3,7 +3,7 @@ package com.ovle.rll3.model.module.render
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rll3.ExactTurn
-import com.ovle.rll3.model.util.Direction
+import com.ovle.rlUtil.gdx.math.Direction
 
 
 sealed class Animation(val totalLength: ExactTurn) {

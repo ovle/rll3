@@ -1,20 +1,20 @@
 package com.ovle.rll3.model.procedural.grid.world
 
-import com.ovle.rll3.TileArray
-import com.ovle.rll3.component1
-import com.ovle.rll3.component2
+import com.github.czyzby.noise4j.map.Grid
 import com.ovle.rll3.model.module.core.entity.randomId
-import com.ovle.rll3.model.procedural.config.RandomParams
+import com.ovle.rlUtil.RandomParams
+import com.ovle.rlUtil.TileArray
 import com.ovle.rll3.model.procedural.config.WorldGenerationParams
 import com.ovle.rll3.model.procedural.config.world.deepWaterTileId
 import com.ovle.rll3.model.procedural.config.world.highMountainTileId
 import com.ovle.rll3.model.procedural.config.world.lowMountainTileId
 import com.ovle.rll3.model.procedural.config.world.shallowWaterTileId
-import com.ovle.rll3.model.util.Area
-import com.ovle.rll3.model.util.floodFill
-import com.ovle.rll3.model.util.gridToTileArray
-import com.ovle.rll3.model.util.normalize
-import com.ovle.rll3.toGrid
+import com.ovle.rlUtil.gdx.math.Area
+import com.ovle.rlUtil.gdx.math.component1
+import com.ovle.rlUtil.gdx.math.component2
+import com.ovle.rlUtil.noise4j.grid.floodFill
+import com.ovle.rlUtil.noise4j.grid.gridToTileArray
+import com.ovle.rlUtil.noise4j.grid.normalize
 
 
 class WorldFactory(val params: WorldGenerationParams) {
@@ -55,7 +55,7 @@ class WorldFactory(val params: WorldGenerationParams) {
 
     private fun areas(tiles: TileArray): Collection<Area> {
         val result = mutableListOf<Area>()
-        val grid = tiles.toGrid()
+        val grid = toGrid(tiles)
         val allPoints = tiles.points().toMutableList()
 
         while (allPoints.isNotEmpty()) {
@@ -75,4 +75,6 @@ class WorldFactory(val params: WorldGenerationParams) {
         val group = areaGroups.find { value1 in it } ?: return false
         return value2 in group
     }
+
+    private fun toGrid(tiles: TileArray) = Grid(tiles.data.map { it.toFloat() }.toFloatArray(), tiles.size, tiles.size)
 }

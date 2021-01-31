@@ -1,20 +1,5 @@
 package com.ovle.rll3.model.lightning.other
 
-import com.ovle.rll3.Tile
-import com.ovle.rll3.TileArray
-import com.ovle.rll3.model.module.core.component.ComponentMappers.light
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.entity.entityWith
-import com.ovle.rll3.model.module.light.AOEData
-import com.ovle.rll3.model.util.discretization.bresenham.filledCircle
-import com.ovle.rll3.model.util.lightTilePassMapper
-import com.ovle.rll3.model.util.lineOfSight.rayTracing.cropArea
-import com.ovle.rll3.model.util.lineOfSight.rayTracing.obstacles
-import ktx.ashley.get
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
-
 
 class Test {
 

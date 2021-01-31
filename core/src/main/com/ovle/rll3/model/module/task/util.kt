@@ -1,13 +1,11 @@
 package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.adjacentHV
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rlUtil.gdx.math.adjHV
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.EntityConditions.isTaskPerformer
-import com.ovle.rll3.model.util.pathfinding.aStar.path
-import ktx.ashley.get
+import com.ovle.rll3.model.util.path
 
 //todo finding path on each update is disaster
 fun defaultPerformerFilter(e: Entity, t: TaskTarget, l: LocationInfo) =
@@ -17,5 +15,5 @@ private fun havePathToAdjPosition(e: Entity, t: TaskTarget, l: LocationInfo): Bo
     val from = e.position()
     val to = t.position()
 
-    return to.adjacentHV().any { path(from, it, l).isNotEmpty() }
+    return to.adjHV().any { path(from, it, l).isNotEmpty() }
 }

@@ -4,10 +4,10 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.event.EventBus.subscribe
-import com.ovle.rll3.info
 import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.skill.CostStatus.*
+import com.ovle.rll3.model.util.info
 import ktx.ashley.get
 
 class SkillSystem : EventSystem() {

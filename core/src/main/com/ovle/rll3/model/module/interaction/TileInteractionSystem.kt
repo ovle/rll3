@@ -2,8 +2,8 @@ package com.ovle.rll3.model.module.interaction
 
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.component1
-import com.ovle.rll3.component2
+import com.ovle.rlUtil.gdx.math.component1
+import com.ovle.rlUtil.gdx.math.component2
 import com.ovle.rll3.event.Event.GameEvent.CheckTaskCommand
 import com.ovle.rll3.event.Event.PlayerControlEvent.ClickEvent
 import com.ovle.rll3.event.Event.PlayerControlEvent.DragEvent
@@ -13,9 +13,9 @@ import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.AreaInfo
 import com.ovle.rll3.model.module.task.TaskTarget
-import com.ovle.rll3.model.util.Area
-import com.ovle.rll3.points
-import com.ovle.rll3.rectangle
+import com.ovle.rlUtil.gdx.math.Area
+import com.ovle.rlUtil.gdx.math.points
+import com.ovle.rlUtil.gdx.math.rectangle
 import com.ovle.rll3.view.viewportToGame
 import kotlin.math.max
 import kotlin.math.min

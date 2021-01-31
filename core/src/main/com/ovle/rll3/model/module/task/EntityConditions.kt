@@ -2,8 +2,7 @@ package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.isAdjacent
-import com.ovle.rll3.model.module.core.component.ComponentMappers
+import com.ovle.rlUtil.gdx.math.isAdj
 import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
 import com.ovle.rll3.model.module.core.component.ComponentMappers.core
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
@@ -16,16 +15,15 @@ import com.ovle.rll3.model.module.core.entity.consumes
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.entity.resources
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.gathering.ResourceType
 import com.ovle.rll3.model.module.gathering.ResourceType.*
-import com.ovle.rll3.model.util.pathfinding.aStar.path
+import com.ovle.rll3.model.util.path
 import ktx.ashley.get
 import ktx.ashley.has
 
 
 object EntityConditions {
 
-    fun isNearPosition(e: Entity, p: GridPoint2) = e.has(position) && e.position().isAdjacent(p)
+    fun isNearPosition(e: Entity, p: GridPoint2) = e.has(position) && e.position().isAdj(p)
 
     fun isAtPosition(e: Entity, p: GridPoint2) = e.has(position) && e.position() == p
 

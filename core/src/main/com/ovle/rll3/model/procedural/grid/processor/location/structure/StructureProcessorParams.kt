@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.procedural.grid.processor.location.structure
 
-import com.ovle.rll3.TileCondition
-import com.ovle.rll3.TileMapper1
-import com.ovle.rll3.model.procedural.grid.GridFactory
+import com.ovle.rlUtil.TileCondition
+import com.ovle.rlUtil.TileMapper1
+import com.ovle.rlUtil.noise4j.grid.factory.GridFactory
 
 data class StructureProcessorParams(
     val number: Int,

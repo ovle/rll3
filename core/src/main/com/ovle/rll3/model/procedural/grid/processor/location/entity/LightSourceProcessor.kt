@@ -11,9 +11,9 @@
 //import com.ovle.rll3.model.tile.wallTileId
 //import com.ovle.rll3.model.util.LightConfig
 //import com.ovle.rll3.model.util.lightTilePassMapper
-//import com.ovle.rll3.model.util.lineOfSight.rayTracing.fieldOfView
-//import com.ovle.rll3.model.util.lineOfSight.rayTracing.obstacles
-//import com.ovle.rll3.point
+//import com.ovle.rlUtil.gdx.math.lineOfSight.rayTracing.fieldOfView
+//import com.ovle.rlUtil.gdx.math.lineOfSight.rayTracing.obstacles
+//import com.ovle.rlUtil.gdx.math.point
 //
 //class LightSourceProcessor : TilesProcessor {
 //

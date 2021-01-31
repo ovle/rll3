@@ -5,13 +5,11 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.utils.Queue
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.info
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.task.TaskInfo
+import com.ovle.rll3.model.util.info
 import com.ovle.rll3.view.fontName
 import com.ovle.rll3.view.palette.Palette
-import ktx.ashley.get
 import ktx.math.vec2
 import ktx.scene2d.Scene2DSkin
 

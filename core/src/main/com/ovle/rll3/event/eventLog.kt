@@ -4,10 +4,8 @@ import com.ovle.rll3.event.Event.DebugSwitchControlMode
 import com.ovle.rll3.event.Event.DebugSwitchSelectionMode
 import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.info
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.position
-import ktx.ashley.get
+import com.ovle.rll3.model.util.info
 
 fun eventLogHook(event: Event) {
     val message = message(event) ?: return

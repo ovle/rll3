@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.procedural.config.location
 
-import com.ovle.rll3.Tile
+import com.ovle.rlUtil.Tile
 import com.ovle.rll3.model.procedural.config.world.heatBorealTreshold
 import com.ovle.rll3.model.procedural.config.world.heatDesertTreshold
 

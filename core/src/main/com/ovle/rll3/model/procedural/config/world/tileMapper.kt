@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.procedural.config.world
 
-import com.ovle.rll3.Tile
+import com.ovle.rlUtil.Tile
 import com.ovle.rll3.model.procedural.config.location.outdoorHighWallTreshold
 import com.ovle.rll3.model.procedural.config.location.outdoorLowGroundTreshold
 import com.ovle.rll3.model.procedural.config.location.outdoorLowWallTreshold

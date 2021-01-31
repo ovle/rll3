@@ -25,7 +25,7 @@ class PlayerControls(batchViewport: FitViewport) : InputAdapter() {
         else -> { send(KeyPressedEvent(keycode)); true }
     }
 
-    override fun scrolled(amount: Int) = send(CameraScrollCommand(amount)).run { true }
+    override fun scrolled(amountX: Float, amountY: Float) = send(CameraScrollCommand(amountY.toInt())).run { true }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
         send(MouseMovedEvent(viewportPoint(screenX, screenY)))
