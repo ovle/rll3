@@ -2,10 +2,11 @@ package com.ovle.rll3.model.module.interaction
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.Event.PlayerControlEvent.VoidClickEvent
-import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.subscribe
+import com.ovle.rlUtil.gdx.controls.VoidClickEvent
+import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.task.TaskTarget
@@ -16,12 +17,12 @@ import com.ovle.rll3.model.module.task.TaskTarget
 class EntityInteractionSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<EntityClickEvent> { onEntityClickEvent(it.entity, it.button) }
-        EventBus.subscribe<VoidClickEvent> { onVoidClickEvent(it.button, it.point) }
-        EventBus.subscribe<EntityHoverEvent> { onEntityHoverEvent(it.entity) }
-        EventBus.subscribe<EntityUnhoverEvent> { onEntityUnhoverEvent() }
+        subscribe<EntityClickEvent> { onEntityClickEvent(it.entity, it.button) }
+        subscribe<VoidClickEvent> { onVoidClickEvent(it.button, it.point) }
+        subscribe<EntityHoverEvent> { onEntityHoverEvent(it.entity) }
+        subscribe<EntityUnhoverEvent> { onEntityUnhoverEvent() }
 
-        EventBus.subscribe<EntityDestroyedEvent> { onEntityDestroyedEvent(it.entity) }
+        subscribe<EntityDestroyedEvent> { onEntityDestroyedEvent(it.entity) }
     }
 
     private fun onEntityDestroyedEvent(entity: Entity) {

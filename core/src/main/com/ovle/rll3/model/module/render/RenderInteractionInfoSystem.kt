@@ -6,6 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Rectangle
+import com.ovle.rlUtil.gdx.math.Direction
+import com.ovle.rlUtil.gdx.math.point
+import com.ovle.rlUtil.gdx.math.rangeX
+import com.ovle.rlUtil.gdx.math.rangeY
+import com.ovle.rlUtil.gdx.view.Sprite
+import com.ovle.rlUtil.gdx.view.sprite
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.model.module.core.component.ComponentMappers.playerInteraction
 import com.ovle.rll3.model.module.core.entity.locationInfo
@@ -13,14 +19,7 @@ import com.ovle.rll3.model.module.core.entity.playerInteraction
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.game.AreaInfo
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
-import com.ovle.rlUtil.gdx.math.Direction
-import com.ovle.rlUtil.gdx.math.point
-import com.ovle.rlUtil.gdx.math.rangeX
-import com.ovle.rlUtil.gdx.math.rangeY
-import com.ovle.rlUtil.gdx.math.vec2
-import com.ovle.rll3.view.sprite.Sprite
-import com.ovle.rll3.view.spriteHeight
-import com.ovle.rll3.view.spriteWidth
+import com.ovle.rll3.view.spriteSize
 import ktx.ashley.get
 
 
@@ -29,7 +28,7 @@ class RenderInteractionInfoSystem(
     assetsManager: AssetsManager
 ) : EntitySystem() {
 
-    private val guiRegions = split(assetsManager.guiTexture.texture, spriteWidth.toInt(), spriteHeight.toInt())
+    private val guiRegions = split(assetsManager.guiTexture, spriteSize.toInt(), spriteSize.toInt())
 
     private val selectionEntitySprite = sprite(guiRegions, 1, 0)
     private val hoverSprite = sprite(guiRegions, 2, 0)
@@ -134,6 +133,6 @@ class RenderInteractionInfoSystem(
     private fun draw(position: GridPoint2, sprite: Sprite) {
         val region = sprite.textureRegion()
 
-        batch.draw(vec2(position), region)
+        batch.draw(position, region)
     }
 }

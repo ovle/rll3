@@ -11,29 +11,30 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.Align
+import com.ovle.rlUtil.RandomParams
+import com.ovle.rlUtil.event.EventBus
+import com.ovle.rlUtil.event.EventBus.subscribe
+import com.ovle.rlUtil.gdx.controls.*
 import com.ovle.rlUtil.gdx.math.adjD
 import com.ovle.rlUtil.gdx.math.adjHV
 import com.ovle.rlUtil.gdx.math.point
-import com.ovle.rlUtil.gdx.math.vec2
-import com.ovle.rll3.*
+import com.ovle.rlUtil.gdx.screen.BaseScreen
+import com.ovle.rlUtil.gdx.view.PaletteManager
+import com.ovle.rlUtil.gdx.view.sprite
+import com.ovle.rlUtil.gdx.view.textureRegions
+import com.ovle.rlUtil.gdx.view.tileMap.TileToTextureParams
+import com.ovle.rlUtil.gdx.view.tileMap.tiledMap
+import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.GameScreenType
+import com.ovle.rll3.Seed
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.event.Event.PlayerControlEvent.*
-import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.event.EventBus.subscribe
 import com.ovle.rll3.model.module.render.draw
-import com.ovle.rll3.model.module.render.sprite
-import com.ovle.rlUtil.RandomParams
 import com.ovle.rll3.model.procedural.config.world.*
 import com.ovle.rll3.model.procedural.grid.world.WorldFactory
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.screen.game.InitGameInfo
-import com.ovle.rll3.view.baseSize
-import com.ovle.rll3.view.cameraMoveCoeff
-import com.ovle.rll3.view.layer.TextureRegionsInfo
-import com.ovle.rll3.view.layer.TileToTextureParams
-import com.ovle.rll3.view.scaleScrollCoeff
-import com.ovle.rll3.view.tiledMap
+import com.ovle.rll3.view.*
+import com.ovle.util.screen.ScreenConfig
 import ktx.actors.onClick
 import ktx.scene2d.label
 import ktx.scene2d.textButton
@@ -44,16 +45,21 @@ import kotlin.random.Random
 
 class WorldScreen(
     private val assetsManager: AssetsManager,
-    screenManager: ScreenManager, batch: Batch, camera: OrthographicCamera
-) : BaseScreen(screenManager, batch, camera) {
+    private val screenManager: ScreenManager,
+    batch: Batch, camera: OrthographicCamera, screenConfig: ScreenConfig, paletteManager: PaletteManager
+) : BaseScreen(batch, camera, screenConfig) {
 
     private val worldFactory = WorldFactory(worldParams)
     private var world: WorldInfo = world()
     private var seed: Seed = 123L
 
-    private val textureRegions by lazy { TextureRegionsInfo(assetsManager.levelTexture) }
-    private val cursorSprite by lazy { sprite(textureRegions.regions, 7, 0) }
-    private val selectionSprite by lazy { sprite(textureRegions.regions, 6, 0) }
+    private val regions by lazy { textureRegions(
+        assetsManager.levelTexture,
+        paletteManager,
+        textureTileSize
+    ) }
+    private val cursorSprite by lazy { sprite(regions, 7, 0) }
+    private val selectionSprite by lazy { sprite(regions, 6, 0) }
 
     private var mapRenderer: TiledMapRenderer? = null
     private var tiledMap: TiledMap? = null
@@ -130,16 +136,16 @@ class WorldScreen(
 
         cursorPoint?.let {
             it.adjD().forEach {
-                p -> batch.draw(vec2(p), cursorSprite.textureRegion())
+                p -> batch.draw(p, cursorSprite.textureRegion())
             }
         }
 
         locationPoint?.let {
             it.adjHV().forEach {
-                p -> batch.draw(vec2(p), cursorSprite.textureRegion())
+                p -> batch.draw(p, cursorSprite.textureRegion())
             }
             it.adjD().forEach {
-                p -> batch.draw(vec2(p), selectionSprite.textureRegion())
+                p -> batch.draw(p, selectionSprite.textureRegion())
             }
         }
 
@@ -195,14 +201,14 @@ class WorldScreen(
 
     private fun initMap() {
         seedLabel.setText("Seed: $seed")
-        tiledMap = tiledMap(world.tiles, textureRegions, ::tileToTextureRegion)
+        tiledMap = tiledMap(world.tiles, regions, ::tileToTextureRegion, tileSize)
         mapRenderer = OrthogonalTiledMapRenderer(tiledMap)
     }
 
     private fun world() = worldFactory.get(RandomParams(seed))
 
     private fun tileToTextureRegion(params: TileToTextureParams): TextureRegion {
-        val regions = params.textureRegions.regions
+        val regions = params.textureRegions
         val emptyRegion = regions[0][7]
         return when (params.tile) {
             highMountainTileId -> regions[0][0]

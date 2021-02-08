@@ -1,9 +1,9 @@
 package com.ovle.rll3.model.module.health
 
 import com.badlogic.ashley.core.Entity
+import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.Turn
-import com.ovle.rll3.event.Event.GameEvent.TurnChangedEvent
-import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.entity.livingEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
@@ -13,7 +13,7 @@ import ktx.ashley.get
 class StaminaSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<TurnChangedEvent> { onTurnChangedEvent(it.turn) }
+        subscribe<TurnChangedEvent> { onTurnChangedEvent(it.turn) }
     }
 
     private fun onTurnChangedEvent(turn: Turn) {

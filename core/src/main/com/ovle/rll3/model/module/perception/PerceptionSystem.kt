@@ -2,9 +2,9 @@ package com.ovle.rll3.model.module.perception
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.model.module.space.PositionComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
@@ -16,15 +16,19 @@ import com.ovle.rll3.model.module.core.entity.see
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.util.lightTilePassMapper
 import com.ovle.rlUtil.gdx.math.lineOfSight.rayTracing.fieldOfView
+import com.ovle.rll3.event.EntityFovUpdatedEvent
+import com.ovle.rll3.event.EntityInitializedEvent
+import com.ovle.rll3.event.EntityMovedEvent
+import com.ovle.rll3.event.UpdateLightCollisionCommand
 import ktx.ashley.get
 
 
 class PerceptionSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<EntityInitializedEvent> { onEntityInitialized(it.entity) }
-        EventBus.subscribe<EntityMovedEvent> { onEntityMoved(it.entity) }
-        EventBus.subscribe<UpdateLightCollisionCommand> { onUpdateCollision(it.points) }
+        subscribe<EntityInitializedEvent> { onEntityInitialized(it.entity) }
+        subscribe<EntityMovedEvent> { onEntityMoved(it.entity) }
+        subscribe<UpdateLightCollisionCommand> { onUpdateCollision(it.points) }
     }
 
     private fun onUpdateCollision(points: Array<GridPoint2>) {

@@ -2,9 +2,10 @@ package com.ovle.rll3.model.module.space
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.event.EventBus.subscribe
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.subscribe
+import com.ovle.rlUtil.gdx.math.point
+import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
 import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.component.ComponentMappers.move
@@ -13,7 +14,6 @@ import com.ovle.rll3.model.module.core.entity.bodyObstacles
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rlUtil.gdx.math.point
 import com.ovle.rll3.model.util.path
 import ktx.ashley.get
 import ktx.ashley.has

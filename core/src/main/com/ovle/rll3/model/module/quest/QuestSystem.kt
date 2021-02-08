@@ -2,8 +2,8 @@ package com.ovle.rll3.model.module.quest
 
 //import com.badlogic.ashley.core.Entity
 //import com.ovle.rll3.event.Event
-//import com.ovle.rll3.event.EventBus
-//import com.ovle.rll3.event.EventBus.send
+//import com.ovle.util.event.EventBus
+//import com.ovle.util.event.EventBus.send
 //import com.ovle.rll3.model.module.core.entity.levelInfo
 //import com.ovle.rll3.model.module.core.entity.randomId
 //import com.ovle.rll3.model.module.core.system.EventSystem

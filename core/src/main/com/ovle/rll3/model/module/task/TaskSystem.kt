@@ -1,10 +1,11 @@
 package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
+import com.ovle.rlUtil.event.EventBus
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.Turn
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.core.component.ComponentMappers.taskPerformer
 import com.ovle.rll3.model.module.core.entity.controlledEntities
 import com.ovle.rll3.model.module.core.entity.locationInfo
@@ -30,14 +31,14 @@ class TaskSystem : EventSystem() {
 
     override fun subscribe() {
         if (!isRealTime) {
-            EventBus.subscribe<TurnChangedEvent> { onTurnChangedEvent(it.turn) }
+            subscribe<TurnChangedEvent> { onTurnChangedEvent(it.turn) }
         }
 
-        EventBus.subscribe<CheckTaskCommand> { onCheckTaskCommand(it.target) }
-        EventBus.subscribe<TaskSucceedCommand> { onTaskSucceedCommand(it.task) }
-        EventBus.subscribe<TaskFailedCommand> { onTaskFailCommand(it.task) }
+        subscribe<CheckTaskCommand> { onCheckTaskCommand(it.target) }
+        subscribe<TaskSucceedCommand> { onTaskSucceedCommand(it.task) }
+        subscribe<TaskFailedCommand> { onTaskFailCommand(it.task) }
 
-        EventBus.subscribe<CancelAllTasksCommand> { onCancelAllTasksCommand() }
+        subscribe<CancelAllTasksCommand> { onCancelAllTasksCommand() }
     }
 
 

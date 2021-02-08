@@ -3,8 +3,8 @@ package com.ovle.rll3.model.module.ai
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.ai.btree.BehaviorTree
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus.subscribe
+import com.ovle.rlUtil.event.EventBus.subscribe
+import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.ai.behavior.BTParams
 import com.ovle.rll3.model.module.ai.behavior.TaskStatusListener
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder

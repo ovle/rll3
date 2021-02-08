@@ -2,31 +2,32 @@ package com.ovle.rll3.model.module.render
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rlUtil.event.EventBus
+import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.ExactTurn
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.entity.renderEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.module.render.Animation.BlinkAnimation
-import com.ovle.rll3.model.module.render.Animation.ShiftAnimation
 import com.ovle.rll3.model.module.skill.SkillUsage
 import com.ovle.rlUtil.gdx.math.Direction
+import com.ovle.rlUtil.gdx.view.Animation
+import com.ovle.rlUtil.gdx.view.AnimationInfo
+import com.ovle.rll3.event.*
 import ktx.ashley.get
 
 class AnimationSystem: EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it) }
+        subscribe<TimeChangedEvent> { onTimeChangedEvent(it) }
 
-        EventBus.subscribe<EntityStartedMoveEvent> { onEntityStartedMoveEvent(it.entity) }
-        EventBus.subscribe<EntityFinishedMoveEvent> { onEntityFinishedMoveEvent(it.entity) }
+        subscribe<EntityStartedMoveEvent> { onEntityStartedMoveEvent(it.entity) }
+        subscribe<EntityFinishedMoveEvent> { onEntityFinishedMoveEvent(it.entity) }
 
-        EventBus.subscribe<EntityStartUseSkillEvent> { onEntityStartUseSkillEvent(it.info) }
-        EventBus.subscribe<EntityFinishUseSkillEvent> { onEntityFinishUseSkillEvent(it.info) }
+        subscribe<EntityStartUseSkillEvent> { onEntityStartUseSkillEvent(it.info) }
+        subscribe<EntityFinishUseSkillEvent> { onEntityFinishUseSkillEvent(it.info) }
 
-        EventBus.subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
+        subscribe<EntityDiedEvent> { onEntityDiedEvent(it.entity) }
     }
 
     private fun onTimeChangedEvent(event: TimeChangedEvent) {
@@ -59,12 +60,12 @@ class AnimationSystem: EventSystem() {
         val isPositive = if (direction == Direction.V) sourcePosition.y < targetPosition.y
             else sourcePosition.x < targetPosition.x
 
-        val sourceAnimation = ShiftAnimation(
-                direction = direction,
-                frames = arrayOf(0, 1, 2, 3, 4, 2).map { if (isPositive) it else -it }.toTypedArray(),
-                frameLength = 0.1
-            )
-        val targetAnimation = BlinkAnimation(
+        val sourceAnimation = Animation.ShiftAnimation(
+            direction = direction,
+            frames = arrayOf(0, 1, 2, 3, 4, 2).map { if (isPositive) it else -it }.toTypedArray(),
+            frameLength = 0.1
+        )
+        val targetAnimation = Animation.BlinkAnimation(
             blinkRegion = null,
             frameLength = 0.25
         )
@@ -85,7 +86,7 @@ class AnimationSystem: EventSystem() {
     }
 
     private fun onEntityStartedMoveEvent(entity: Entity) {
-        val animation = ShiftAnimation(
+        val animation = Animation.ShiftAnimation(
             direction = Direction.V,
             frames = arrayOf(0, 1, 2, 1),
             frameLength = 0.25

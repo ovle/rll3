@@ -11,36 +11,41 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rlUtil.Tile
+import com.ovle.rlUtil.event.EventBus.subscribe
+import com.ovle.rlUtil.gdx.view.PaletteManager
+import com.ovle.rlUtil.gdx.view.textureRegions
+import com.ovle.rlUtil.gdx.view.tileMap.CustomTiledMapTileLayer
+import com.ovle.rlUtil.gdx.view.tileMap.TileToTextureParams
+import com.ovle.rlUtil.gdx.view.tileMap.cell
+import com.ovle.rlUtil.gdx.view.tileMap.tiledMap
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.EntityFovUpdatedEvent
+import com.ovle.rll3.event.LocationLoadedEvent
+import com.ovle.rll3.event.TileChangedEvent
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.perception.PerceptionComponent
 import com.ovle.rll3.model.procedural.config.location.*
-import com.ovle.rll3.view.layer.CustomTiledMapTileLayer
-import com.ovle.rll3.view.layer.TextureRegionsInfo
-import com.ovle.rll3.view.layer.TileToTextureParams
-import com.ovle.rll3.view.palette.Palette.bgColor
-import com.ovle.rll3.view.tiledMap
-import com.ovle.rll3.view.updateTile
+import com.ovle.rll3.view.textureTileSize
+import com.ovle.rll3.view.tileSize
 
 
 class RenderLocationSystem(
     private val camera: OrthographicCamera,
-    assetsManager: AssetsManager
+    assetsManager: AssetsManager,
+    private val paletteManager: PaletteManager
 ) : EventSystem() {
 
-    private val textureRegions = TextureRegionsInfo(assetsManager.levelTexture)
+    private val textureRegions = textureRegions(assetsManager.levelTexture, paletteManager, textureTileSize)
 
     private var mapRenderer: TiledMapRenderer? = null
     private var tiledMap: TiledMap? = null
 
 
     override fun subscribe() {
-        EventBus.subscribe<LocationLoadedEvent> { onLocationLoaded(it.location) }
-        EventBus.subscribe<TileChangedEvent> { onTileChangedEvent(it.tile, it.position) }
-        EventBus.subscribe<EntityFovUpdatedEvent> { onEntityFovUpdated(it.entity) }
+        subscribe<LocationLoadedEvent> { onLocationLoaded(it.location) }
+        subscribe<TileChangedEvent> { onTileChangedEvent(it.tile, it.position) }
+        subscribe<EntityFovUpdatedEvent> { onEntityFovUpdated(it.entity) }
     }
 
     override fun update(deltaTime: Float) {
@@ -53,13 +58,15 @@ class RenderLocationSystem(
 
 
     private fun onLocationLoaded(location: LocationInfo) {
-        tiledMap = tiledMap(location.tiles, textureRegions, ::tileToTextureRegion)
+        tiledMap = tiledMap(location.tiles, textureRegions, ::tileToTextureRegion, tileSize)
         mapRenderer = OrthogonalTiledMapRenderer(tiledMap)
     }
 
     private fun onTileChangedEvent(tile: Tile, position: GridPoint2) {
         val layer = tiledMap!!.layers.single() as TiledMapTileLayer
-        layer.updateTile(tile, position, textureRegions, ::tileToTextureRegion)
+
+        val cell = layer.cell(tile, textureRegions, ::tileToTextureRegion)
+        layer.setCell(position.x, position.y, cell)
     }
 
     private fun onEntityFovUpdated(entity: Entity?) {
@@ -71,8 +78,9 @@ class RenderLocationSystem(
 
 
     private fun tileToTextureRegion(params: TileToTextureParams): TextureRegion {
-        val regions = params.textureRegions.regions
+        val regions = params.textureRegions
         val emptyRegion = regions[0][7]
+
         return when (params.tile) {
             structureWallSTileId -> regions[4][0]
             structureWallWTileId -> regions[4][1]
@@ -98,6 +106,7 @@ class RenderLocationSystem(
     }
 
     private fun draw() {
+        val bgColor = paletteManager.bgColor
         Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 

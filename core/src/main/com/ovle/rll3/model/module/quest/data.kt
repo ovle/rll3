@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.module.quest
 
 import com.badlogic.ashley.core.EntitySystem
-import com.ovle.rll3.event.Event
-import com.ovle.rll3.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rll3.event.LogCommand
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.entityNullable
@@ -32,7 +32,7 @@ fun questDescriptions(entitySystem: EntitySystem) =
                 false
             },
             onSuccess = {
-                send(Event.GameEvent.LogCommand("thank you!"))
+                send(LogCommand("thank you!"))
             }
         )
     )

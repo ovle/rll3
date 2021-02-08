@@ -1,4 +1,4 @@
-package com.ovle.rll3.view.layer
+package com.ovle.rll3.view.scene
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.*

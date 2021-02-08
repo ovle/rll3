@@ -1,9 +1,7 @@
 package com.ovle.rll3.event
 
-import com.ovle.rll3.event.Event.DebugSwitchControlMode
-import com.ovle.rll3.event.Event.DebugSwitchSelectionMode
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus.send
+import com.ovle.rlUtil.event.Event
+import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.util.info
 

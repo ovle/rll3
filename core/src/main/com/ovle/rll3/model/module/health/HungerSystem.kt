@@ -1,10 +1,10 @@
 package com.ovle.rll3.model.module.health
 
 import com.badlogic.ashley.core.Entity
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.Turn
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.entity.livingEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
@@ -14,8 +14,8 @@ import ktx.ashley.get
 class HungerSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<TurnChangedEvent> { onTurnChangedEvent(it.turn) }
-        EventBus.subscribe<EntityEatEvent> { onEntityEatEvent(it.entity, it.food) }
+        subscribe<TurnChangedEvent> { onTurnChangedEvent(it.turn) }
+        subscribe<EntityEatEvent> { onEntityEatEvent(it.entity, it.food) }
     }
 
     private fun onTurnChangedEvent(turn: Turn) {
@@ -31,7 +31,7 @@ class HungerSystem : EventSystem() {
         health.hunger += 1
 
         if (health.isStarved) {
-            EventBus.send(EntityStarvedEvent(entity))
+            send(EntityStarvedEvent(entity))
         }
     }
 

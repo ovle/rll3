@@ -12,7 +12,6 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.component.print
 import com.ovle.rll3.model.module.gathering.ResourceType
 import com.ovle.rll3.model.util.info
-import com.ovle.rll3.view.noVisibilityFilter
 import ktx.ashley.get
 import ktx.ashley.has
 
@@ -24,7 +23,8 @@ fun Entity.see(position: GridPoint2): Boolean {
     check(this.has(perception)) { "no perception for entity ${this.info()}" }
 
     val fov = this[perception]!!.fov
-    return noVisibilityFilter || position in fov
+    return position in fov
+//    return noVisibilityFilter || position in fov
 }
 
 fun Entity.position(): GridPoint2 {

@@ -4,13 +4,16 @@ import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.ovle.rlUtil.event.EventBus
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rlUtil.gdx.controls.CameraScrollCommand
+import com.ovle.rlUtil.gdx.controls.PlayerControls
+import com.ovle.rlUtil.gdx.screen.BaseScreen
+import com.ovle.rlUtil.gdx.view.PaletteManager
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.event.Event.*
-import com.ovle.rll3.event.Event.GameEvent.StartGameCommand
-import com.ovle.rll3.event.Event.PlayerControlEvent.CameraScrollCommand
-import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.event.EventBus.send
+import com.ovle.rll3.event.GameDidFinishedEvent
+import com.ovle.rll3.event.StartGameCommand
 import com.ovle.rll3.event.eventLogHook
 import com.ovle.rll3.model.module.ai.AISystem
 import com.ovle.rll3.model.module.controls.PlayerControlsSystem
@@ -18,7 +21,6 @@ import com.ovle.rll3.model.module.entityAction.EntityActionSystem
 import com.ovle.rll3.model.module.game.GameSystem
 import com.ovle.rll3.model.module.gathering.ResourceSystem
 import com.ovle.rll3.model.module.health.HealthSystem
-import com.ovle.rll3.model.module.health.HungerSystem
 import com.ovle.rll3.model.module.health.StaminaSystem
 import com.ovle.rll3.model.module.interaction.BaseInteractionSystem
 import com.ovle.rll3.model.module.interaction.EntityInteractionSystem
@@ -29,9 +31,9 @@ import com.ovle.rll3.model.module.space.MoveSystem
 import com.ovle.rll3.model.module.task.TaskSystem
 import com.ovle.rll3.model.module.tile.TileSystem
 import com.ovle.rll3.model.module.time.TimeSystem
-import com.ovle.rll3.screen.BaseScreen
-import com.ovle.rll3.screen.PlayerControls
 import com.ovle.rll3.view.scaleScrollCoeff
+import com.ovle.rll3.view.screenHeight
+import com.ovle.util.screen.ScreenConfig
 import ktx.scene2d.table
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -39,8 +41,10 @@ import kotlin.math.roundToInt
 
 class GameScreen(
     private val assetsManager: AssetsManager,
-    screenManager: ScreenManager, batch: Batch, camera: OrthographicCamera
-) : BaseScreen(screenManager, batch, camera) {
+    private val screenManager: ScreenManager,
+    private val paletteManager: PaletteManager,
+    batch: Batch, camera: OrthographicCamera, screenConfig: ScreenConfig
+) : BaseScreen(batch, camera, screenConfig) {
 
     private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls(batchViewport)
@@ -56,10 +60,10 @@ class GameScreen(
             PlayerControlsSystem(),
 
             CameraSystem(camera),
-            RenderLocationSystem(camera, assetsManager),
+            RenderLocationSystem(camera, assetsManager, paletteManager),
             RenderObjectsSystem(batch, assetsManager),
             RenderInteractionInfoSystem(batch, assetsManager),
-            RenderGUISystem(batch, assetsManager, stage.batch),
+            RenderGUISystem(batch, stage.batch, assetsManager, paletteManager),
             AnimationSystem(),
 
             GameSystem(gamePayload),

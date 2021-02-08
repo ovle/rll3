@@ -2,33 +2,31 @@ package com.ovle.rll3.model.module.controls
 
 import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.event.Event.*
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.Event.PlayerControlEvent.*
-import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.subscribe
+import com.ovle.rlUtil.gdx.controls.*
 import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rlUtil.next
-import com.ovle.rll3.view.noVisibilityFilter
-import com.ovle.rll3.view.viewportToGame
+import com.ovle.rll3.event.*
+import com.ovle.rll3.util.viewportToGame
 import ktx.ashley.get
 
 
 class PlayerControlsSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<MouseClickEvent> {
+        subscribe<MouseClickEvent> {
             val gamePoint = it.viewportPoint.viewportToGame()
             onMouseClick(gamePoint, it.button)
         }
-        EventBus.subscribe<MouseMovedEvent> {
+        subscribe<MouseMovedEvent> {
             val gamePoint = it.viewportPoint.viewportToGame()
             onMouseMoved(gamePoint)
         }
-        EventBus.subscribe<NumKeyPressedEvent> { onNumKeyPressed(it.number) }
-        EventBus.subscribe<KeyPressedEvent> { onKeyPressed(it.code) }
+        subscribe<NumKeyPressedEvent> { onNumKeyPressed(it.number) }
+        subscribe<KeyPressedEvent> { onKeyPressed(it.code) }
     }
 
     private fun onMouseClick(position: GridPoint2, button: Int) {
@@ -92,7 +90,7 @@ class PlayerControlsSystem : EventSystem() {
             K -> selectedEntity?.let { send(KillEntityCommand(it)) }
             R -> selectedEntity?.let { send(ResurrectEntityCommand(it)) }
             D -> selectedEntity?.let { send(DestroyEntityCommand(it)) }
-            V -> { noVisibilityFilter = !noVisibilityFilter }
+//            V -> { noVisibilityFilter = !noVisibilityFilter }
             LEFT_BRACKET -> send(DecGameSpeedCommand())
             RIGHT_BRACKET -> send(IncGameSpeedCommand())
             SPACE -> send(SwitchPauseGameCommand())

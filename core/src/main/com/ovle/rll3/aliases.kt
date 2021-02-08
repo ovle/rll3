@@ -3,17 +3,15 @@ package com.ovle.rll3
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.btree.BehaviorTree
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
+import com.ovle.rlUtil.gdx.screen.BaseScreen
 import com.ovle.rll3.model.module.ai.behavior.*
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.quest.QuestInfo
 import com.ovle.rll3.model.module.skill.CostStatus
 import com.ovle.rll3.model.module.skill.SkillUsage
 import com.ovle.rll3.model.module.task.TaskTarget
-import com.ovle.rll3.screen.BaseScreen
-import com.ovle.rll3.view.layer.TileToTextureParams
 
 typealias SetScreen = (BaseScreen, Any?) -> Unit
 
@@ -57,8 +55,6 @@ typealias ExactTurn = Double
 typealias ResourceAmount = Int
 typealias ResourceGatherCost = Int
 typealias RoomTiles = MutableList<Vector2>
-typealias TileToTextureRegion = (TileToTextureParams) -> TextureRegion
-typealias TextureRegions = Array<Array<TextureRegion>>
 
 typealias MoveStrategy = (GridPoint2, GridPoint2, LocationInfo) -> Boolean
 typealias BTFactory = (TaskTargetHolder) -> BehaviorTree<BTParams>

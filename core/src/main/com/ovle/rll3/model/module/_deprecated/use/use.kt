@@ -5,23 +5,23 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.door
 import com.ovle.rll3.model.module.core.component.ComponentMappers.stash
 import ktx.ashley.has
 
-class EntityInteractionCase(
-    val condition: (Entity, Entity) -> Boolean,
-    val action: (Entity, Entity) -> Unit
-)
-
-val entityInteractionCases = arrayOf(
-    EntityInteractionCase(
-        condition = { _, e: Entity -> e.has(door) },
-        action = { s, e: Entity -> processDoor(s, e) }
-    ),
-    EntityInteractionCase(
-        condition = { _, e: Entity -> e.has(stash) },
-        action = { s, e: Entity -> processStash(s, e) }
-    )
-)
-
-fun use(source: Entity, entity: Entity) {
-    val case = entityInteractionCases.find { it.condition.invoke(source, entity) }
-    case?.action?.invoke(source, entity)
-}
+//class EntityInteractionCase(
+//    val condition: (Entity, Entity) -> Boolean,
+//    val action: (Entity, Entity) -> Unit
+//)
+//
+//val entityInteractionCases = arrayOf(
+//    EntityInteractionCase(
+//        condition = { _, e: Entity -> e.has(door) },
+//        action = { s, e: Entity -> processDoor(s, e) }
+//    ),
+//    EntityInteractionCase(
+//        condition = { _, e: Entity -> e.has(stash) },
+//        action = { s, e: Entity -> processStash(s, e) }
+//    )
+//)
+//
+//fun use(source: Entity, entity: Entity) {
+//    val case = entityInteractionCases.find { it.condition.invoke(source, entity) }
+//    case?.action?.invoke(source, entity)
+//}

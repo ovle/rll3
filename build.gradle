@@ -22,7 +22,7 @@ allprojects {
     ext {
         appName = "rll3"
         gdxVersion = '1.9.13'
-        ktxVersion = '1.9.10-b2'
+        ktxVersion = '1.9.13-b1'
         kodeinVersion = '6.2.1'
         roboVMVersion = '2.3.7'
         box2DLightsVersion = '1.4'
@@ -34,7 +34,7 @@ allprojects {
         junitVersion = '5.5.2'
         snakeYamlVersion = '1.26'
 
-        rlUtilsVersion = '0.1.1'
+        rlUtilsVersion = '0.1.4'
     }
 
     repositories {

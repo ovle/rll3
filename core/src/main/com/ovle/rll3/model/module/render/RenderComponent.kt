@@ -1,7 +1,8 @@
 package com.ovle.rll3.model.module.render
 
+import com.ovle.rlUtil.gdx.view.AnimationInfo
+import com.ovle.rlUtil.gdx.view.Sprite
 import com.ovle.rll3.model.module.core.component.BaseComponent
-import com.ovle.rll3.view.sprite.Sprite
 
 class RenderComponent(
     var sprite: Sprite? = null,
@@ -24,4 +25,3 @@ class RenderComponent(
         flipped = !flipped
     }
 }
-

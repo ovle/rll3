@@ -1,10 +1,8 @@
 package com.ovle.rll3.model.module.time
 
-import com.ovle.rll3.event.Event
-import com.ovle.rll3.event.Event.*
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus.send
-import com.ovle.rll3.event.EventBus.subscribe
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.subscribe
+import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.core.entity.gameInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 

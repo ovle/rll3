@@ -2,21 +2,18 @@ package com.ovle.rll3.model.module.interaction
 
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rlUtil.gdx.math.component1
-import com.ovle.rlUtil.gdx.math.component2
-import com.ovle.rll3.event.Event.GameEvent.CheckTaskCommand
-import com.ovle.rll3.event.Event.PlayerControlEvent.ClickEvent
-import com.ovle.rll3.event.Event.PlayerControlEvent.DragEvent
-import com.ovle.rll3.event.EventBus
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.subscribe
+import com.ovle.rlUtil.gdx.controls.ClickEvent
+import com.ovle.rlUtil.gdx.controls.DragEvent
+import com.ovle.rlUtil.gdx.math.*
+import com.ovle.rll3.event.CheckTaskCommand
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.AreaInfo
 import com.ovle.rll3.model.module.task.TaskTarget
-import com.ovle.rlUtil.gdx.math.Area
-import com.ovle.rlUtil.gdx.math.points
-import com.ovle.rlUtil.gdx.math.rectangle
-import com.ovle.rll3.view.viewportToGame
+import com.ovle.rll3.util.viewportToGame
 import kotlin.math.max
 import kotlin.math.min
 
@@ -24,8 +21,8 @@ import kotlin.math.min
 class TileInteractionSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<ClickEvent> { onClickEvent(it.button, it.point) }
-        EventBus.subscribe<DragEvent> { onDragEvent(it.start, it.current) }
+        subscribe<ClickEvent> { onClickEvent(it.button, it.point) }
+        subscribe<DragEvent> { onDragEvent(it.start, it.current) }
 
 //        EventBus.subscribe<EntityUseSkill> { onEntityUseSkillEvent(it.entity, it.target, it.skillTemplate) }
     }
@@ -41,7 +38,7 @@ class TileInteractionSystem : EventSystem() {
                 val target =
                     if (points.size == 1) TaskTarget(points.single())
                     else TaskTarget(Area(points.toHashSet()))
-                EventBus.send(CheckTaskCommand(target))
+                send(CheckTaskCommand(target))
             }
             ControlMode.Areas -> {
                 //todo area system?

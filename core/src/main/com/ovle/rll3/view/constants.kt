@@ -8,12 +8,9 @@ const val screenHeight = 480.0f
 
 const val baseSize = 8
 
-const val tileWidth = baseSize
-const val tileHeight = baseSize
-const val textureTileWidth = tileWidth
-const val textureTileHeight = tileHeight
-const val spriteWidth = baseSize.toFloat()
-const val spriteHeight = baseSize.toFloat()
+const val tileSize = baseSize
+const val textureTileSize = tileSize
+const val spriteSize = baseSize.toFloat()
 
 const val gameFullscreen = false
 const val skinPath = "skins/c64/uiskin.json"
@@ -27,9 +24,3 @@ const val entityTemplatePath = "templates/entity/"
 const val entityViewTemplatePath = "templates/entity/view/"
 const val structureTemplatePath = "templates/structure/"
 const val behaviorTreePath = "templates/behaviorTree/"
-
-const val defaultAnimationInterval = 0.125f
-
-//debug
-var noLightning = true
-var noVisibilityFilter = true

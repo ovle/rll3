@@ -3,17 +3,16 @@ package com.ovle.rll3.model.module.game
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.event.Event.*
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.event.EventBus.send
 import com.ovle.rll3.model.module.core.component.ComponentMappers.core
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.procedural.config.LocationGenerationParams
 import com.ovle.rlUtil.RandomParams
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rlUtil.noise4j.grid.gridToTileArray
+import com.ovle.rll3.event.*
 import com.ovle.rll3.model.procedural.config.location.locationParams
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.screen.game.InitGameInfo
@@ -29,11 +28,11 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
 
 
     override fun subscribe() {
-        EventBus.subscribe<StartGameCommand> { onStartGameCommand() }
-        EventBus.subscribe<ExitGameCommand> { onExitGameCommand() }
+        subscribe<StartGameCommand> { onStartGameCommand() }
+        subscribe<ExitGameCommand> { onExitGameCommand() }
 
-        EventBus.subscribe<DestroyEntityCommand> { onDestroyEntityCommand(it.entity) }
-        EventBus.subscribe<CreateEntityCommand> { onCreateEntityCommand(it.entityTemplate, it.position) }
+        subscribe<DestroyEntityCommand> { onDestroyEntityCommand(it.entity) }
+        subscribe<CreateEntityCommand> { onCreateEntityCommand(it.entityTemplate, it.position) }
     }
 
     private fun onStartGameCommand() {

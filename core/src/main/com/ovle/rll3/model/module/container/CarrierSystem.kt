@@ -1,14 +1,5 @@
 package com.ovle.rll3.model.module.container
 
-import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.event.Event.GameEvent.EntityMovedEvent
-import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.system.EventSystem
-import ktx.ashley.get
-import ktx.ashley.has
-
 
 //class CarrierSystem : EventSystem() {
 //

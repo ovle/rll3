@@ -4,17 +4,20 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.Event.PlayerControlEvent.*
-import com.ovle.rll3.event.EventBus
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rlUtil.event.EventBus.subscribe
+import com.ovle.rlUtil.gdx.controls.CameraScaleDecCommand
+import com.ovle.rlUtil.gdx.controls.CameraScaleIncCommand
+import com.ovle.rlUtil.gdx.controls.CameraScrollCommand
+import com.ovle.rlUtil.gdx.controls.DragEvent
+import com.ovle.rll3.event.EntityInitializedEvent
+import com.ovle.rll3.event.EntityMovedEvent
+import com.ovle.rll3.event.FocusEntityCommand
 import com.ovle.rll3.model.module.core.entity.focusedEntity
 import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
 import com.ovle.rll3.model.module.core.entity.positionOrNull
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.interaction.ControlMode
 import com.ovle.rll3.view.*
-import ktx.ashley.get
 import ktx.math.vec3
 
 
@@ -26,15 +29,15 @@ class CameraSystem(
     private val focusZoom = 0.5f
 
     override fun subscribe() {
-        EventBus.subscribe<CameraScaleIncCommand> { onScaleChange(0.1f) }
-        EventBus.subscribe<CameraScaleDecCommand> { onScaleChange(-0.1f) }
-        EventBus.subscribe<CameraScrollCommand> { onScaleChange(-it.amount.toFloat() * scaleScrollCoeff) }
-        EventBus.subscribe<DragEvent> { onCameraMoved(it.lastDiff) }
+        subscribe<CameraScaleIncCommand> { onScaleChange(0.1f) }
+        subscribe<CameraScaleDecCommand> { onScaleChange(-0.1f) }
+        subscribe<CameraScrollCommand> { onScaleChange(-it.amount.toFloat() * scaleScrollCoeff) }
+        subscribe<DragEvent> { onCameraMoved(it.lastDiff) }
 
-        EventBus.subscribe<EntityInitializedEvent> { onEntityMoved(it.entity) }
-        EventBus.subscribe<EntityMovedEvent> { onEntityMoved(it.entity) }
+        subscribe<EntityInitializedEvent> { onEntityMoved(it.entity) }
+        subscribe<EntityMovedEvent> { onEntityMoved(it.entity) }
 
-        EventBus.subscribe<FocusEntityCommand> { onEntityFocusEvent(it.entity) }
+        subscribe<FocusEntityCommand> { onEntityFocusEvent(it.entity) }
     }
 
     private fun onEntityFocusEvent(entity: Entity) {
@@ -79,8 +82,8 @@ class CameraSystem(
 
     private fun focusCamera(position: GridPoint2) {
         val focusedWorldPosition = vec3(
-            position.x * tileWidth.toFloat(),
-            position.y * tileHeight.toFloat()
+            position.x * tileSize.toFloat(),
+            position.y * tileSize.toFloat()
         )
 
         if (focusedWorldPosition.epsilonEquals(camera.position)) return

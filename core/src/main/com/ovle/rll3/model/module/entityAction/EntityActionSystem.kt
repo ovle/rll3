@@ -1,9 +1,9 @@
 package com.ovle.rll3.model.module.entityAction
 
 import com.badlogic.ashley.core.Entity
+import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.ExactTurn
-import com.ovle.rll3.event.Event.GameEvent.TimeChangedEvent
-import com.ovle.rll3.event.EventBus
+import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.entity.actionEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
@@ -13,7 +13,7 @@ import ktx.ashley.get
 class EntityActionSystem : EventSystem() {
 
     override fun subscribe() {
-        EventBus.subscribe<TimeChangedEvent> { onTimeChangedEvent(it) }
+        subscribe<TimeChangedEvent> { onTimeChangedEvent(it) }
     }
 
     private fun onTimeChangedEvent(event: TimeChangedEvent) {

@@ -4,8 +4,8 @@ import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.ai.btree.Task
 import com.badlogic.gdx.ai.btree.Task.Status.FAILED
 import com.badlogic.gdx.ai.btree.Task.Status.SUCCEEDED
-import com.ovle.rll3.event.Event.GameEvent.*
-import com.ovle.rll3.event.EventBus.send
+import com.ovle.rlUtil.event.EventBus.send
+import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.task.TaskInfo
 
 

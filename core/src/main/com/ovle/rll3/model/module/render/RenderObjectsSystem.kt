@@ -6,18 +6,18 @@ import com.badlogic.ashley.core.Family.all
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion.split
 import com.badlogic.gdx.math.GridPoint2
+import com.ovle.rlUtil.event.EventBus.subscribe
+import com.ovle.rlUtil.gdx.math.point
+import com.ovle.rlUtil.gdx.view.sprite
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.event.Event.GameEvent.EntityDiedEvent
-import com.ovle.rll3.event.Event.GameEvent.EntityResurrectedEvent
-import com.ovle.rll3.event.EventBus.subscribe
+import com.ovle.rll3.event.EntityDiedEvent
+import com.ovle.rll3.event.EntityResurrectedEvent
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.system.BaseIteratingSystem
-import com.ovle.rlUtil.gdx.math.point
-import com.ovle.rll3.view.spriteHeight
-import com.ovle.rll3.view.spriteWidth
+import com.ovle.rll3.view.spriteSize
 import ktx.ashley.get
 
 
@@ -29,8 +29,7 @@ class RenderObjectsSystem(
     private val spriteTexturesInfo = assetsManager.objectsTexture
     private var toRender = mutableListOf<Entity>()
 
-    //todo use all texture versions
-    private val spriteRegions = split(spriteTexturesInfo.texture, spriteWidth.toInt(), spriteHeight.toInt())
+    private val spriteRegions = split(spriteTexturesInfo, spriteSize.toInt(), spriteSize.toInt())
     private val defaultSprite = sprite(spriteRegions, 6, 0)
     private val defaultEntitySpriteKey = "default"
     private val deadEntitySpriteKey = "dead"

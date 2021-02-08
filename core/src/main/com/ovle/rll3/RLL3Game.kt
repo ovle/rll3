@@ -7,15 +7,19 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.Disposable
+import com.ovle.rlUtil.gdx.screen.BaseScreen
+import com.ovle.rlUtil.gdx.view.PaletteManager
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.screen.BaseScreen
 import com.ovle.rll3.view.fontName
+import com.ovle.rll3.view.palette.paletteOil
 import com.ovle.rll3.view.screenHeight
 import com.ovle.rll3.view.screenWidth
 import com.ovle.rll3.view.skinPath
+import com.ovle.util.screen.ScreenConfig
 import ktx.app.KtxGame
 import ktx.async.KtxAsync
 import ktx.inject.Context
+import ktx.inject.register
 import ktx.scene2d.Scene2DSkin
 
 
@@ -31,20 +35,23 @@ class RLL3Game : KtxGame<BaseScreen>() {
         context = disposable(Context())
         val screenManager = disposable(
             ScreenManager(context) {
-                bs: BaseScreen, payload: Any? ->
+                    bs: BaseScreen, payload: Any? ->
                 bs.payload = payload
                 setScreen(bs.javaClass)
             }
         )
         val assetManager = disposable(AssetManager())
-
+        val paletteManager = PaletteManager(paletteOil, paletteOil)
+        val screenConfig = ScreenConfig(screenWidth, screenHeight, paletteManager.bgColor)
         val skin = Skin(Gdx.files.internal(skinPath))
-        val font = skin.getFont(fontName)
-        font.data.scale(-0.1f)
+        skin.getFont(fontName).apply { data.scale(-0.1f) }
+
         Scene2DSkin.defaultSkin = disposable(skin)
 
         context.register {
             bindSingleton<Batch>(disposable(SpriteBatch()))
+            bindSingleton(paletteManager)
+            bindSingleton(screenConfig)
             bindSingleton(assetManager)
             bindSingleton(AssetsManager(assetManager))
             bindSingleton(camera())
