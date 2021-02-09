@@ -36,10 +36,7 @@ import com.ovle.rll3.screen.game.InitGameInfo
 import com.ovle.rll3.view.*
 import com.ovle.util.screen.ScreenConfig
 import ktx.actors.onClick
-import ktx.scene2d.label
-import ktx.scene2d.textButton
-import ktx.scene2d.textField
-import ktx.scene2d.verticalGroup
+import ktx.scene2d.*
 import kotlin.random.Random
 
 
@@ -75,7 +72,7 @@ class WorldScreen(
 
     //todo extract view
     override fun rootActor() =
-        verticalGroup {
+        scene2d.verticalGroup {
             textField(style = "nobg") {
                 text = "test world"
             }.apply { nameTextField = this }

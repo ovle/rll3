@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.ui.Container
 import com.ovle.rlUtil.event.EventBus
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.gdx.controls.CameraScrollCommand
@@ -34,6 +35,7 @@ import com.ovle.rll3.model.module.time.TimeSystem
 import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.rll3.view.screenHeight
 import com.ovle.util.screen.ScreenConfig
+import ktx.scene2d.scene2d
 import ktx.scene2d.table
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -125,11 +127,10 @@ class GameScreen(
         ecsEngine.update(min(delta, 1 / 60f))
     }
 
-    override fun rootActor(): Actor {
-        return table {
+    override fun rootActor(): Actor =
+        scene2d.table {
             setFillParent(true)
         }
-    }
 
     override fun screenInputProcessor() = controls
 }

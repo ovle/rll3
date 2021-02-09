@@ -65,7 +65,7 @@ class RenderLocationSystem(
     private fun onTileChangedEvent(tile: Tile, position: GridPoint2) {
         val layer = tiledMap!!.layers.single() as TiledMapTileLayer
 
-        val cell = layer.cell(tile, textureRegions, ::tileToTextureRegion)
+        val cell = cell(tile, textureRegions, ::tileToTextureRegion)
         layer.setCell(position.x, position.y, cell)
     }
 

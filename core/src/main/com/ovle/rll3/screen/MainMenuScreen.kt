@@ -10,12 +10,13 @@ import com.ovle.rll3.ScreenManager.ScreenType.*
 import com.ovle.util.screen.ScreenConfig
 import ktx.actors.onClick
 import ktx.scene2d.label
+import ktx.scene2d.scene2d
 import ktx.scene2d.textButton
 import ktx.scene2d.verticalGroup
 
 
 class MainMenuScreen(
-    val screenManager: ScreenManager,
+    private val screenManager: ScreenManager,
     batch: Batch,
     camera: OrthographicCamera,
     screenConfig: ScreenConfig
@@ -26,7 +27,7 @@ class MainMenuScreen(
 ) {
 
     override fun rootActor() =
-        verticalGroup {
+        scene2d.verticalGroup {
             label(text = "The game") {}
 
             textButton(text = "Play") {
