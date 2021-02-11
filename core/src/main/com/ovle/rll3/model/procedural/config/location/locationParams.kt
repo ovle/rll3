@@ -35,6 +35,7 @@ import com.ovle.rll3.model.template.structure.structureTemplates
 
 fun locationParams(world: WorldInfo, locationPoint: GridPoint2) = LocationGenerationParams(
     templateName = "Common",
+    locationPoint = locationPoint,
     heightMapFactory = FractalGridFactory(
         params = FractalGridFactoryParams(
             size = 129,

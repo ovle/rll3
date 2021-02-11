@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.ui.Container
 import com.ovle.rlUtil.event.EventBus
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.gdx.controls.CameraScrollCommand
@@ -16,24 +15,8 @@ import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.GameDidFinishedEvent
 import com.ovle.rll3.event.StartGameCommand
 import com.ovle.rll3.event.eventLogHook
-import com.ovle.rll3.model.module.ai.AISystem
-import com.ovle.rll3.model.module.controls.PlayerControlsSystem
-import com.ovle.rll3.model.module.entityAction.EntityActionSystem
-import com.ovle.rll3.model.module.game.GameSystem
-import com.ovle.rll3.model.module.gathering.ResourceSystem
-import com.ovle.rll3.model.module.health.HealthSystem
-import com.ovle.rll3.model.module.health.StaminaSystem
-import com.ovle.rll3.model.module.interaction.BaseInteractionSystem
-import com.ovle.rll3.model.module.interaction.EntityInteractionSystem
-import com.ovle.rll3.model.module.interaction.TileInteractionSystem
-import com.ovle.rll3.model.module.render.*
-import com.ovle.rll3.model.module.skill.SkillSystem
-import com.ovle.rll3.model.module.space.MoveSystem
-import com.ovle.rll3.model.module.task.TaskSystem
-import com.ovle.rll3.model.module.tile.TileSystem
-import com.ovle.rll3.model.module.time.TimeSystem
+import com.ovle.rll3.model.module.core.system.SystemManager
 import com.ovle.rll3.view.scaleScrollCoeff
-import com.ovle.rll3.view.screenHeight
 import com.ovle.util.screen.ScreenConfig
 import ktx.scene2d.scene2d
 import ktx.scene2d.table
@@ -42,52 +25,28 @@ import kotlin.math.roundToInt
 
 
 class GameScreen(
-    private val assetsManager: AssetsManager,
     private val screenManager: ScreenManager,
-    private val paletteManager: PaletteManager,
+    assetsManager: AssetsManager,
+    paletteManager: PaletteManager,
     batch: Batch, camera: OrthographicCamera, screenConfig: ScreenConfig
 ) : BaseScreen(batch, camera, screenConfig) {
 
     private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls(batchViewport)
+    private val systemManager = SystemManager(
+        assetsManager,
+        paletteManager,
+        batch,
+        stage.batch,
+        camera
+    )
+
 
     override fun show() {
         super.show()
 
         val camera = batchViewport.camera as OrthographicCamera
-        val gamePayload = payload as InitGameInfo
-
-//      order matters here!
-        val systems = listOf(
-            PlayerControlsSystem(),
-
-            CameraSystem(camera),
-            RenderLocationSystem(camera, assetsManager, paletteManager),
-            RenderObjectsSystem(batch, assetsManager),
-            RenderInteractionInfoSystem(batch, assetsManager),
-            RenderGUISystem(batch, stage.batch, assetsManager, paletteManager),
-            AnimationSystem(),
-
-            GameSystem(gamePayload),
-
-            TimeSystem(),
-            TaskSystem(),
-            AISystem(),
-            EntityActionSystem(),
-            MoveSystem(),
-
-            HealthSystem(),
-//            HungerSystem(),
-            StaminaSystem(),
-
-            BaseInteractionSystem(),
-            EntityInteractionSystem(),
-            TileInteractionSystem(),
-
-            SkillSystem(),
-            ResourceSystem(),
-            TileSystem()
-        )
+        val systems = systemManager.systems()
 
         ecsEngine = PooledEngine()
         systems.forEach { ecsEngine.addSystem((it)) }
@@ -95,10 +54,12 @@ class GameScreen(
         EventBus.addHook(::eventLogHook)
         EventBus.subscribe<GameDidFinishedEvent> { onGameDidFinishedEvent() }
 
-        camera.zoom = 2.5f
-        camera.position.set(500.0f, 500.0f, 0.0f)
+        camera.apply {
+            zoom = 2.5f
+            position.set(500.0f, 500.0f, 0.0f)
+        }
 
-        send(StartGameCommand())
+        send(StartGameCommand(payload as InitGameInfo))
     }
 
     private fun onGameDidFinishedEvent() {

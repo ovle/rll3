@@ -14,28 +14,31 @@ import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rlUtil.noise4j.grid.gridToTileArray
 import com.ovle.rll3.event.*
 import com.ovle.rll3.model.procedural.config.location.locationParams
+import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.screen.game.InitGameInfo
 import ktx.ashley.get
 import ktx.ashley.has
 
 
-class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
+class GameSystem : EventSystem() {
 
     private val startFocusEntityId = "elder"
-    private val world = initGameInfo.world
-    private val locationPoint = initGameInfo.locationPoint
+    private lateinit var world: WorldInfo
 
 
     override fun subscribe() {
-        subscribe<StartGameCommand> { onStartGameCommand() }
+        subscribe<StartGameCommand> { onStartGameCommand(it.gameInfo) }
         subscribe<ExitGameCommand> { onExitGameCommand() }
 
         subscribe<DestroyEntityCommand> { onDestroyEntityCommand(it.entity) }
         subscribe<CreateEntityCommand> { onCreateEntityCommand(it.entityTemplate, it.position) }
     }
 
-    private fun onStartGameCommand() {
+    private fun onStartGameCommand(gameInfo: InitGameInfo) {
+        world = gameInfo.world
+
+        val locationPoint = gameInfo.locationPoint
         val locationParams = locationParams(world, locationPoint)
         val location = location(locationParams, world.random.seed)
 
@@ -89,14 +92,16 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
         }
     }
 
-    private fun location(generationParams: LocationGenerationParams, seed: Long): LocationInfo {
+    private fun location(params: LocationGenerationParams, seed: Long): LocationInfo {
         val random = RandomParams(seed)
-        val heightGrid = generationParams.heightMapFactory.get(random)
+        val locationPoint = params.locationPoint
+
+        val heightGrid = params.heightMapFactory.get(random)
         val heatValue = world.heatGrid[locationPoint.x, locationPoint.y]
         val heatGrid = Grid(heatValue, heightGrid.width, heightGrid.height) //todo
         val id = randomId()
 
-        val tiles = gridToTileArray(heightGrid, heatGrid, generationParams.tileMapper)
+        val tiles = gridToTileArray(heightGrid, heatGrid, params.tileMapper)
 
         val result = LocationInfo(
             id = id,
@@ -108,7 +113,7 @@ class GameSystem(initGameInfo: InitGameInfo) : EventSystem() {
             locationPoint = locationPoint
         )
 
-        val postProcessors = generationParams.postProcessors
+        val postProcessors = params.postProcessors
         postProcessors.forEach {
             processor ->
             processor.process(result, engine)
