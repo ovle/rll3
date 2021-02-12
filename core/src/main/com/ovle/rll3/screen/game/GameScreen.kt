@@ -15,9 +15,11 @@ import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.GameDidFinishedEvent
 import com.ovle.rll3.event.StartGameCommand
 import com.ovle.rll3.event.eventLogHook
-import com.ovle.rll3.model.module.core.system.SystemManager
+import com.ovle.rll3.model.module.core.system.systems
+import com.ovle.rll3.view.game.GameView
 import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.util.screen.ScreenConfig
+import ktx.inject.Context
 import ktx.scene2d.scene2d
 import ktx.scene2d.table
 import kotlin.math.min
@@ -25,28 +27,22 @@ import kotlin.math.roundToInt
 
 
 class GameScreen(
+    private val context: Context,
     private val screenManager: ScreenManager,
-    assetsManager: AssetsManager,
-    paletteManager: PaletteManager,
+    private val assetsManager: AssetsManager,
+    private val paletteManager: PaletteManager,
     batch: Batch, camera: OrthographicCamera, screenConfig: ScreenConfig
 ) : BaseScreen(batch, camera, screenConfig) {
 
     private lateinit var ecsEngine: PooledEngine
     private val controls = PlayerControls(batchViewport)
-    private val systemManager = SystemManager(
-        assetsManager,
-        paletteManager,
-        batch,
-        stage.batch,
-        camera
-    )
+    private lateinit var gameView: GameView
 
 
     override fun show() {
         super.show()
 
-        val camera = batchViewport.camera as OrthographicCamera
-        val systems = systemManager.systems()
+        val systems = systems(context)
 
         ecsEngine = PooledEngine()
         systems.forEach { ecsEngine.addSystem((it)) }
@@ -54,6 +50,16 @@ class GameScreen(
         EventBus.addHook(::eventLogHook)
         EventBus.subscribe<GameDidFinishedEvent> { onGameDidFinishedEvent() }
 
+        gameView = GameView(
+            assetsManager,
+            paletteManager,
+            batch,
+            stage.batch,
+            camera,
+            ecsEngine
+        )
+
+        val camera = batchViewport.camera as OrthographicCamera
         camera.apply {
             zoom = 2.5f
             position.set(500.0f, 500.0f, 0.0f)
@@ -86,6 +92,8 @@ class GameScreen(
 
     override fun renderIntr(delta: Float) {
         ecsEngine.update(min(delta, 1 / 60f))
+
+        gameView.render(delta)
     }
 
     override fun rootActor(): Actor =

@@ -43,6 +43,7 @@ fun Engine.allEntities() = entities.filter { it[core]!!.isExists }
 //----------------------------------------------------------------------------------------------------------------------------------
 
 fun EntitySystem.game() = entityWith(allEntities().toList(), GameComponent::class)
+fun Engine.game() = entityWith(allEntities().toList(), GameComponent::class)
 
 fun EntitySystem.tasksInfo() = game()?.get(tasks)
 fun EntitySystem.gameInfo() = game()?.get(game)
@@ -55,14 +56,15 @@ fun EntitySystem.livingEntities() = entitiesWith(allEntities().toList(), HealthC
 fun EntitySystem.actionEntities() = entitiesWith(allEntities().toList(), EntityActionComponent::class)
 fun EntitySystem.renderEntities() = entitiesWith(allEntities().toList(), RenderComponent::class)
 
+//todo not entity?
 fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
 fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)
     ?.get(ComponentMappers.playerInteraction)
-fun EntitySystem.playerInteraction() = playerInteraction(allEntities().toList())
+fun Engine.playerInteraction() = playerInteraction(allEntities().toList())
 fun EntitySystem.playerInteractionInfo() = playerInteractionInfo(allEntities().toList())
-
 fun EntitySystem.focusedEntity() = playerInteractionInfo()?.focusedEntity
 fun EntitySystem.selectedEntity() = playerInteractionInfo()?.selectedEntity
+
 fun EntitySystem.controlledEntities() = entitiesWith(allEntities().toList(), TaskPerformerComponent::class)
 fun EntitySystem.entity(id: EntityId) = entity(id, allEntities().toList())
 fun EntitySystem.entityNullable(id: EntityId) = entityNullable(id, allEntities().toList())

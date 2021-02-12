@@ -25,7 +25,7 @@ class ScreenManager(private val context: Context, val setScreen: SetScreen): Dis
                     LoadingScreenType to LoadingScreen(inject(), inject(), inject(), inject(), inject()),
                     MainMenuScreenType to MainMenuScreen(inject(), inject(), inject(), inject()),
                     WorldScreenType to WorldScreen(inject(), inject(), inject(), inject(), inject(), inject()),
-                    GameScreenType to GameScreen(inject(), inject(), inject(), inject(), inject(), inject())
+                    GameScreenType to GameScreen(context, inject(), inject(), inject(), inject(), inject(), inject())
             )
         }
     }

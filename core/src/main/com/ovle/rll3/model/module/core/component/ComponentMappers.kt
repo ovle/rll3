@@ -27,12 +27,13 @@ private inline fun <reified T : BaseComponent> mapper(): ComponentMapper<T> = Co
 
 //todo use modules
 object ComponentMappers {
-    val core = mapper<CoreComponent>()
+    //todo remove these
     val game = mapper<GameComponent>()
     val tasks = mapper<TasksComponent>()
-    val template = mapper<TemplateComponent>()
-
     val playerInteraction = mapper<PlayerInteractionComponent>()
+
+    val core = mapper<CoreComponent>()
+    val template = mapper<TemplateComponent>()
     val position = mapper<PositionComponent>()
     val collision = mapper<CollisionComponent>()
     val light = mapper<LightSourceComponent>()
