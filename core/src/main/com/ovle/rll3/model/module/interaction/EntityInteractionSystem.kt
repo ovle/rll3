@@ -26,7 +26,7 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     private fun onEntityDestroyedEvent(entity: Entity) {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         with(interactionInfo) {
             if (selectedEntity == entity) selectedEntity = null
             if (focusedEntity == entity) focusedEntity = null
@@ -35,7 +35,7 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     private fun onEntityClickEvent(entity: Entity, button: Int) {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         if (interactionInfo.selectionMode == SelectionMode.Entity) {
             select(entity)
         }
@@ -49,7 +49,7 @@ class EntityInteractionSystem : EventSystem() {
     private fun onVoidClickEvent(button: Int, point: GridPoint2) {
         unfocus()   //todo
 
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         if (interactionInfo.selectionMode == SelectionMode.Entity) {
             deselect()
         }
@@ -61,32 +61,32 @@ class EntityInteractionSystem : EventSystem() {
     }
 
     private fun onEntityHoverEvent(entity: Entity) {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         interactionInfo.hoveredEntity = entity
 
         send(ShowEntityInfoCommand(entity))
     }
 
     private fun onEntityUnhoverEvent() {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         interactionInfo.hoveredEntity = null
 
         send(HideEntityInfoCommand())
     }
 
     private fun select(entity: Entity) {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         interactionInfo.selectedEntity = entity
     }
 
     private fun deselect() {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
 
         interactionInfo.selectedEntity = null
     }
 
     private fun unfocus() {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         interactionInfo.focusedEntity = null
     }
 }

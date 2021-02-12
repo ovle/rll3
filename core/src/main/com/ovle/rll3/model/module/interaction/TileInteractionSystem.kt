@@ -28,7 +28,7 @@ class TileInteractionSystem : EventSystem() {
     }
 
     private fun onClickEvent(button: Int, point: GridPoint2) {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         if (interactionInfo.selectionMode != SelectionMode.Tile) return
 
         when (interactionInfo.controlMode) {
@@ -42,7 +42,7 @@ class TileInteractionSystem : EventSystem() {
             }
             ControlMode.Areas -> {
                 //todo area system?
-                val location = locationInfo()
+                val location = engine.locationInfo()!!
                 val existingArea = location.areas.find { it.area.points.contains(point) }
                 if (existingArea != null) {
                     interactionInfo.selectedArea = existingArea
@@ -58,7 +58,7 @@ class TileInteractionSystem : EventSystem() {
     }
 
     private fun onDragEvent(start: Vector2, current: Vector2) {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         if (interactionInfo.controlMode == ControlMode.View) return
         if (interactionInfo.selectionMode != SelectionMode.Tile) return
 

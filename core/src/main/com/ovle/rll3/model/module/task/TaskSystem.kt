@@ -45,8 +45,8 @@ class TaskSystem : EventSystem() {
     private fun onTurnChangedEvent(turn: Turn) {
         validateTasks()
 
-        val location = locationInfo()
-        val controlledEntities = controlledEntities()
+        val location = engine.locationInfo()!!
+        val controlledEntities = engine.controlledEntities()
         controlledEntities
             .filter { isFreeTaskPerformer(it) }
             .forEach {
@@ -55,7 +55,7 @@ class TaskSystem : EventSystem() {
     }
 
     private fun onCheckTaskCommand(target: TaskTarget) {
-        val locationInfo = locationInfo()
+        val locationInfo = engine.locationInfo()!!
         val taskTemplate = taskTemplates()
             .firstOrNull { it.targetFilter?.invoke(target, locationInfo) ?: true } ?: return
 
@@ -128,7 +128,7 @@ class TaskSystem : EventSystem() {
 
     //todo remove duplicates (same target+template? what priority?)
     private fun validateTasks() {
-        val tasksInfo = tasksInfo()!!
+        val tasksInfo = engine.tasksInfo()!!
 
         val invalidTasks = tasksInfo.tasks.filter { !isValid(it) }
         invalidTasks.forEach {
@@ -162,7 +162,7 @@ class TaskSystem : EventSystem() {
 
     private fun isFreeTask(it: TaskInfo) = it.status == Waiting
 
-    private fun tasks() = tasksInfo()!!.tasks
+    private fun tasks() = engine.tasksInfo()!!.tasks
 
-    private fun taskHistory() = tasksInfo()!!.taskHistory
+    private fun taskHistory() = engine.tasksInfo()!!.taskHistory
 }

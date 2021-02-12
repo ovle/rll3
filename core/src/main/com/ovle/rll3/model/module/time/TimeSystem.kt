@@ -17,17 +17,17 @@ class TimeSystem : EventSystem() {
     }
 
     private fun onIncGameSpeedCommand() {
-        val gameComponent = gameInfo()!!
+        val gameComponent = engine.gameInfo()!!
         changeGameSpeed(gameComponent.time, 2.0)
     }
 
     private fun onDecGameSpeedCommand() {
-        val gameComponent = gameInfo()!!
+        val gameComponent = engine.gameInfo()!!
         changeGameSpeed(gameComponent.time, 0.5)
     }
 
     private fun onSwitchPauseGameCommand() {
-        val gameComponent = gameInfo()!!
+        val gameComponent = engine.gameInfo()!!
         val time = gameComponent.time
         time.paused = !time.paused
     }
@@ -38,7 +38,7 @@ class TimeSystem : EventSystem() {
     }
 
     override fun update(deltaTime: Float) {
-        val gameComponent = gameInfo()!!
+        val gameComponent = engine.gameInfo()!!
         with(gameComponent.time) {
             if (paused) return
 

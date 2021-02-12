@@ -1,5 +1,6 @@
 package com.ovle.rll3.model.module.quest
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.EntitySystem
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rll3.event.LogCommand
@@ -9,7 +10,7 @@ import com.ovle.rll3.model.module.core.entity.entityNullable
 import ktx.ashley.get
 
 //todo most quest will not be bounded by particular level
-fun questDescriptions(entitySystem: EntitySystem) =
+fun questDescriptions(engine: Engine) =
     arrayOf(
         QuestDescription(
             id = "q1",
@@ -21,7 +22,7 @@ fun questDescriptions(entitySystem: EntitySystem) =
                 true
             },
             successCondition = {
-                val entities = entitySystem.allEntities().toList()
+                val entities = engine.allEntities().toList()
                 val e = entityNullable("b1", entities)
                     ?: return@QuestDescription false
 

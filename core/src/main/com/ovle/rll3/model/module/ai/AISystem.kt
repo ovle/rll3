@@ -10,6 +10,7 @@ import com.ovle.rll3.model.module.ai.behavior.TaskStatusListener
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.config.behaviors
 import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
+import com.ovle.rll3.model.module.core.entity.aiEntities
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.entitiesWith
 import com.ovle.rll3.model.module.core.entity.locationInfo
@@ -91,13 +92,13 @@ class AISystem(
     }
 
     private fun onTurnChangedEvent(turn: Long) {
-        val entities = entitiesWith(allEntities().toList(), AIComponent::class)
+        val entities = engine.aiEntities()
         processEntities(entities)
     }
 
 
     private fun processEntities(entities: List<Entity>) {
-        val location = locationInfo()
+        val location = engine.locationInfo()!!
         entities
             .filter { isAIActive(it) }
             .forEach { processEntity(it, location) }

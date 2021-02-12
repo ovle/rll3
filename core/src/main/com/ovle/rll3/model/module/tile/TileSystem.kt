@@ -22,7 +22,7 @@ class TileSystem : EventSystem() {
     }
 
     private fun onChangeTileCommand(tileId: Tile, position: GridPoint2) {
-        val locationInfo = locationInfo()
+        val locationInfo = engine.locationInfo()!!
         val tiles = locationInfo.tiles
 
         val oldTileId = tiles[position.x, position.y]

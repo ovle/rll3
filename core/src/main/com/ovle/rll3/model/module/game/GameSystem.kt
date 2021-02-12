@@ -58,7 +58,7 @@ class GameSystem : EventSystem() {
                 }
             }
 
-        val location = locationInfo()
+        val location = engine.locationInfo()!!
         location.entities += entity
 
         send(EntityInitializedEvent(entity))
@@ -66,7 +66,7 @@ class GameSystem : EventSystem() {
 
     //todo soft delete? too much trouble with this approach
     private fun onDestroyEntityCommand(entity: Entity) {
-        val location = locationInfo()
+        val location = engine.locationInfo()!!
         location.entities -= entity
 
         entity[core]!!.deleted = true
@@ -86,7 +86,7 @@ class GameSystem : EventSystem() {
             send(EntityInitializedEvent(it))
         }
 
-        val startEntity = entityNullable(startFocusEntityId)
+        val startEntity = engine.entityNullable(startFocusEntityId)
         startEntity?.let {
             send(FocusEntityCommand(it))
         }

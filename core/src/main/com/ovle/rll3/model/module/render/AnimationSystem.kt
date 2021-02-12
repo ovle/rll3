@@ -31,7 +31,7 @@ class AnimationSystem: EventSystem() {
     }
 
     private fun onTimeChangedEvent(event: TimeChangedEvent) {
-        val entities = renderEntities()
+        val entities = engine.renderEntities()
         entities.forEach { processEntity(it, event.exactDeltaTurns) }
     }
 

@@ -17,7 +17,7 @@ class EntityActionSystem : EventSystem() {
     }
 
     private fun onTimeChangedEvent(event: TimeChangedEvent) {
-        val entities = actionEntities()
+        val entities = engine.actionEntities()
         entities.forEach { processEntity(it, event.exactDeltaTurns) }
     }
 

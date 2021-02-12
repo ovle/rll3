@@ -37,7 +37,7 @@ class MoveSystem : EventSystem() {
     }
 
     private fun onEntitySetMoveTargetEvent(entity: Entity, point: GridPoint2) {
-        setMoveTarget(locationInfo(), point, entity)
+        setMoveTarget(engine.locationInfo()!!, point, entity)
     }
 
     private fun onEntityDiedEvent(entity: Entity) {
@@ -95,7 +95,7 @@ class MoveSystem : EventSystem() {
 
         val newPosition = point(currentPosition.x + dxStep, currentPosition.y + dyStep)
         //it can be expensive to do that on every move processing. cache?
-        val obstacles = locationInfo().entities.bodyObstacles()
+        val obstacles = engine.locationInfo()!!.entities.bodyObstacles()    //todo ??
         //should we finish move at that point, or consider obstacle to be temporary? or try to make another path?
         if (newPosition in obstacles) return
 

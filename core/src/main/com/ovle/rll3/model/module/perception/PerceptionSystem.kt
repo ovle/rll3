@@ -8,11 +8,6 @@ import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.model.module.space.PositionComponent
 import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
 import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.entity.allEntities
-import com.ovle.rll3.model.module.core.entity.entitiesWith
-import com.ovle.rll3.model.module.core.entity.locationInfo
-import com.ovle.rll3.model.module.core.entity.lightObstacles
-import com.ovle.rll3.model.module.core.entity.see
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.util.lightTilePassMapper
 import com.ovle.rlUtil.gdx.math.lineOfSight.rayTracing.fieldOfView
@@ -20,6 +15,7 @@ import com.ovle.rll3.event.EntityFovUpdatedEvent
 import com.ovle.rll3.event.EntityInitializedEvent
 import com.ovle.rll3.event.EntityMovedEvent
 import com.ovle.rll3.event.UpdateLightCollisionCommand
+import com.ovle.rll3.model.module.core.entity.*
 import ktx.ashley.get
 
 
@@ -32,7 +28,7 @@ class PerceptionSystem : EventSystem() {
     }
 
     private fun onUpdateCollision(points: Array<GridPoint2>) {
-        val entitiesWithSight = entitiesWith(allEntities().toList(), PerceptionComponent::class)
+        val entitiesWithSight = engine.perceptionEntities()
         val entitiesToUpdate = entitiesWithSight.filter { e -> points.any { e.see(it) } }
 
         entitiesToUpdate.forEach {
@@ -52,7 +48,7 @@ class PerceptionSystem : EventSystem() {
         val perceptionComponent = entity[perception] ?: return
         val positionComponent = entity[position] ?: return
 
-        val obstacles = locationInfo().entities.lightObstacles()
+        val obstacles = engine.locationInfo()!!.entities.lightObstacles() //todo ??
         perceptionComponent.fov = fov(positionComponent, perceptionComponent, obstacles)
 
         send(EntityFovUpdatedEvent(entity))
@@ -60,12 +56,13 @@ class PerceptionSystem : EventSystem() {
 
     private fun fov(positionComponent: PositionComponent, perceptionComponent: PerceptionComponent, obstacles: List<GridPoint2>): Set<GridPoint2> {
         val sightRadius = perceptionComponent.sightRadius ?: return setOf()
+        val tiles = engine.locationInfo()!!.tiles
 
         return fieldOfView(
             positionComponent.gridPosition,
             sightRadius,
             ::lightTilePassMapper,
-            locationInfo().tiles,
+            tiles,
             obstacles
         ).toSet()
     }

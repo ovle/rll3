@@ -15,12 +15,12 @@ class BaseInteractionSystem : EventSystem() {
     }
 
     private fun onSwitchSelectionModeEvent(selectionMode: SelectionMode) {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         switchSelectionMode(selectionMode, interactionInfo)
     }
 
     private fun onSwitchControlModeEvent(controlMode: ControlMode) {
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         switchControlMode(controlMode, interactionInfo)
     }
 

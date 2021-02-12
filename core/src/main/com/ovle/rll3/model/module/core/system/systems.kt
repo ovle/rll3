@@ -23,18 +23,19 @@ import ktx.inject.Context
 fun systems(context: Context) =
     with(context) {
         listOf(
-            //client
-            PlayerControlsSystem(), //system?
             //client.render
-            CameraSystem(inject()), //system?
+            PlayerControlsSystem(),
+            CameraSystem(inject()),
             RenderLocationSystem(inject(), inject(), inject()),
             RenderObjectsSystem(inject(), inject()),
             AnimationSystem(),
 
-            //server
+            //server.global
             GameSystem(),
             TimeSystem(),
             TaskSystem(),
+            TileSystem(),
+            //server
             AISystem(),
             EntityActionSystem(),
             MoveSystem(),
@@ -45,7 +46,6 @@ fun systems(context: Context) =
             EntityInteractionSystem(),
             TileInteractionSystem(),
             SkillSystem(),
-            ResourceSystem(),
-            TileSystem()
+            ResourceSystem()
         )
     }

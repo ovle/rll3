@@ -19,7 +19,7 @@ class HungerSystem : EventSystem() {
     }
 
     private fun onTurnChangedEvent(turn: Turn) {
-        livingEntities().forEach {
+        engine.livingEntities().forEach {
             processEntity(it)
         }
     }

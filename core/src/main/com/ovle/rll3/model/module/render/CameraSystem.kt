@@ -41,7 +41,7 @@ class CameraSystem(
     }
 
     private fun onEntityFocusEvent(entity: Entity) {
-        val interactionInfo = playerInteractionInfo() ?: return
+        val interactionInfo = engine.playerInteractionInfo() ?: return
         with (interactionInfo) {
             focusedEntity = entity
             focusedEntity?.let { focusCamera(it) }
@@ -49,7 +49,7 @@ class CameraSystem(
     }
 
     private fun onEntityMoved(entity: Entity) {
-        if (entity != focusedEntity()) return
+        if (entity != engine.focusedEntity()) return
 
         focusCamera(entity)
     }
@@ -62,10 +62,10 @@ class CameraSystem(
     }
 
     private fun onCameraMoved(amount: Vector2) {
-        val focusedEntity = focusedEntity()
+        val focusedEntity = engine.focusedEntity()
         if (focusedEntity != null) return
 
-        val interactionInfo = playerInteractionInfo()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         if (interactionInfo.controlMode != ControlMode.View) return
 
         camera.position.add(amount.x * cameraMoveCoeff, amount.y * cameraMoveCoeff, 0.0f)

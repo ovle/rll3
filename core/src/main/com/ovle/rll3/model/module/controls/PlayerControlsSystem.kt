@@ -30,7 +30,7 @@ class PlayerControlsSystem : EventSystem() {
     }
 
     private fun onMouseClick(position: GridPoint2, button: Int) {
-        val location = locationInfoNullable() ?: return
+        val location = engine.locationInfo() ?: return
 
         val entities = location.entities.on(position)
         when {
@@ -44,8 +44,8 @@ class PlayerControlsSystem : EventSystem() {
     }
 
     private fun onMouseMoved(position: GridPoint2) {
-        val level = locationInfoNullable() ?: return
-        val interactionEntity = playerInteraction(this.allEntities().toList()) ?: return
+        val level = engine.locationInfo() ?: return
+        val interactionEntity = playerInteraction(engine.allEntities().toList()) ?: return
         val positionComponent = interactionEntity[ComponentMappers.position]!!
         if (positionComponent.gridPosition == position) return
 
@@ -78,8 +78,8 @@ class PlayerControlsSystem : EventSystem() {
     }
 
     private fun onKeyPressed(code: Int) {
-        val interactionComponent = playerInteractionInfo()!!
-        val selectedEntity = selectedEntity()
+        val interactionComponent = engine.playerInteractionInfo()!!
+        val selectedEntity = engine.selectedEntity()
         when(code) {
             ESCAPE -> send(
                 DebugSaveGame().then(ExitGameCommand())
