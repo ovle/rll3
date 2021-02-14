@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Align
 import com.ovle.rlUtil.gdx.screen.BaseScreen
 import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.ScreenManager.ScreenType.*
+import com.ovle.rll3.screen.game.InitPlaygroundInfo
 import com.ovle.util.screen.ScreenConfig
 import ktx.actors.onClick
 import ktx.scene2d.label
@@ -35,6 +36,9 @@ class MainMenuScreen(
             }
             textButton(text = "Options") {
                 onClick { screenManager.goToScreen(OptionsScreenType) }
+            }
+            textButton(text = "Playground") {
+                onClick { screenManager.goToScreen(PlaygroundScreenType, InitPlaygroundInfo()) }
             }
             textButton(text = "Exit") {
                 onClick { Gdx.app.exit() }

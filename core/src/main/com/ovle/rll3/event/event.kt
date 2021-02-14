@@ -18,11 +18,13 @@ import com.ovle.rll3.model.module.skill.SkillUsage
 import com.ovle.rll3.model.module.task.TaskInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.screen.game.InitGameInfo
+import com.ovle.rll3.screen.game.InitPlaygroundInfo
 
 
 //global
 sealed class GameEvent : Event()
 class StartGameCommand(val gameInfo: InitGameInfo) : GameEvent()
+class StartPlaygroundCommand(val playgroundInfo: InitPlaygroundInfo) : GameEvent()
 class TurnChangedEvent(val turn: Turn, val deltaTurns: Turn) : GameEvent()
 class TimeChangedEvent(val exactDeltaTurns: ExactTurn) : GameEvent()
 class LocationLoadedEvent(val location: LocationInfo) : GameEvent()

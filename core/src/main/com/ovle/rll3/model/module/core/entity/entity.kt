@@ -25,7 +25,7 @@ fun Engine.entity(id: EntityId, vararg components: Component) = createEntity().a
 
 fun randomId() = UUID.randomUUID().toString()
 
-fun newGame(location: LocationInfo, world: WorldInfo, engine: Engine) = engine.entity(
+fun newGame(location: LocationInfo, world: WorldInfo?, engine: Engine) = engine.entity(
     location.id,
     GameComponent(location, world, TimeInfo()), //todo separate
     TasksComponent()    //todo separate

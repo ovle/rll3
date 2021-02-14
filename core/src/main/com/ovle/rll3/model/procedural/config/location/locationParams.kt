@@ -3,8 +3,12 @@ package com.ovle.rll3.model.procedural.config.location
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rlUtil.gdx.math.component1
 import com.ovle.rlUtil.gdx.math.component2
-import com.ovle.rlUtil.noise4j.grid.factory.FractalGridFactory
-import com.ovle.rlUtil.noise4j.grid.factory.GridFactoryParams.FractalGridFactoryParams
+import com.ovle.rlUtil.gdx.math.point
+import com.ovle.rlUtil.noise4j.grid.factory.impl.FractalGridFactory
+import com.ovle.rlUtil.noise4j.grid.factory.impl.FractalGridFactoryParams
+import com.ovle.rlUtil.noise4j.grid.factory.impl.NopGridFactory
+import com.ovle.rlUtil.noise4j.grid.factory.impl.NopGridFactoryParams
+import com.ovle.rlUtil.noise4j.grid.factory.size
 import com.ovle.rll3.model.procedural.config.LocationGenerationParams
 import com.ovle.rll3.model.procedural.grid.processor.location.entity.EntityProcessor
 import com.ovle.rll3.model.procedural.grid.processor.location.structure.StructureTemplateProcessor
@@ -33,6 +37,23 @@ import com.ovle.rll3.model.template.structure.structureTemplates
 //    tileMapper = ::tileMapper
 //)
 
+fun playgroundParams() = LocationGenerationParams(
+    templateName = "Playground",
+    locationPoint = point(0, 0),
+    heightMapFactory = NopGridFactory(
+        params = NopGridFactoryParams(
+        size = 16,
+        value = outdoorHighGroundTreshold
+        )
+    ),
+    postProcessors = arrayOf(
+        StructureTemplateProcessor(
+            structureTemplates(TemplatesType.Common, "playground")
+        )
+    ),
+    tileMapper = ::tileMapper
+)
+
 fun locationParams(world: WorldInfo, locationPoint: GridPoint2) = LocationGenerationParams(
     templateName = "Common",
     locationPoint = locationPoint,
@@ -45,11 +66,6 @@ fun locationParams(world: WorldInfo, locationPoint: GridPoint2) = LocationGenera
         )
     ),
     postProcessors = arrayOf(
-//        PondLocationProcessor(
-//            PondLocationProcessorParams(
-//                count = pondsCount(world, locationPoint)
-//            )
-//        ),
 //        StructureProcessor(
 //            params = StructureProcessorParams(
 //                number = 2,
@@ -69,7 +85,7 @@ fun locationParams(world: WorldInfo, locationPoint: GridPoint2) = LocationGenera
 //                tilePreFilter = ::groundTileFilter
 //            )
 //        ),
-        StructureTemplateProcessor(structureTemplates(TemplatesType.Common)),
+        StructureTemplateProcessor(structureTemplates(TemplatesType.Common, "embark")),
         EntityProcessor(entityTemplates())
     ),
     tileMapper = ::tileMapper
@@ -85,9 +101,4 @@ fun initialBorderValues(world: WorldInfo, locationPoint: GridPoint2): Array<Floa
         FloatArray(3) { i -> grid[x + 1, y - 1 + i] }
     )
     return result
-}
-
-fun pondsCount(world: WorldInfo, locationPoint: GridPoint2): Int {
-    //todo
-    return (0..10).random(world.random.kRandom)
 }

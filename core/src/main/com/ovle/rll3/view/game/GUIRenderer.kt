@@ -84,7 +84,7 @@ class GUIRenderer(
         val locationInfo = gameInfo.location
         val locationPoint = locationInfo.locationPoint
         val time = gameInfo.time
-        val worldAreaName = gameInfo.world.area(locationPoint).name
+        val worldAreaName = gameInfo.world?.area(locationPoint)?.name ?: "playground"
         val tasksInfo = game[ComponentMappers.tasks]!!
 
         val point = vec2(0.0f, Gdx.graphics.height - dy)

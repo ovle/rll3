@@ -2,8 +2,8 @@ package com.ovle.rll3.model.procedural.config.world
 
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rlUtil.noise4j.grid.factory.FractalGridFactory
-import com.ovle.rlUtil.noise4j.grid.factory.GridFactoryParams.*
+import com.ovle.rlUtil.noise4j.grid.factory.impl.FractalGridFactory
+import com.ovle.rlUtil.noise4j.grid.factory.impl.FractalGridFactoryParams
 import com.ovle.rll3.model.procedural.config.WorldGenerationParams
 import com.ovle.rll3.model.procedural.config.location.outdoorLowWallTreshold
 import com.ovle.rll3.model.procedural.grid.processor.world.RiverWorldProcessor

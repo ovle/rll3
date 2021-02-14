@@ -14,6 +14,7 @@ import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.GameDidFinishedEvent
 import com.ovle.rll3.event.StartGameCommand
+import com.ovle.rll3.event.StartPlaygroundCommand
 import com.ovle.rll3.event.eventLogHook
 import com.ovle.rll3.model.module.core.system.systems
 import com.ovle.rll3.view.game.GameView
@@ -26,7 +27,7 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 
-class GameScreen(
+open class GameScreen(
     private val context: Context,
     private val screenManager: ScreenManager,
     private val assetsManager: AssetsManager,
@@ -65,7 +66,11 @@ class GameScreen(
             position.set(500.0f, 500.0f, 0.0f)
         }
 
-        send(StartGameCommand(payload as InitGameInfo))
+        if (payload is InitPlaygroundInfo) {
+            send(StartPlaygroundCommand(payload as InitPlaygroundInfo))
+        } else {
+            send(StartGameCommand(payload as InitGameInfo))
+        }
     }
 
     private fun onGameDidFinishedEvent() {

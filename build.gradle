@@ -34,7 +34,7 @@ allprojects {
         junitVersion = '5.5.2'
         snakeYamlVersion = '1.26'
 
-        rlUtilsVersion = '0.1.4'
+        rlUtilsVersion = '0.1.5'
     }
 
     repositories {
