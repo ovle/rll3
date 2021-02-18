@@ -10,9 +10,9 @@ import com.ovle.rll3.model.module.container.ContainerComponent
 import com.ovle.rll3.model.module.entityAction.EntityActionComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import com.ovle.rll3.model.module.game.GameComponent
-import com.ovle.rll3.model.module.gathering.ResourceComponent
-import com.ovle.rll3.model.module.gathering.SourceComponent
-import com.ovle.rll3.model.module.health.HealthComponent
+import com.ovle.rll3.model.module.resource.ResourceComponent
+import com.ovle.rll3.model.module.resource.SourceComponent
+import com.ovle.rll3.model.module.life.HealthComponent
 import com.ovle.rll3.model.module.light.LightSourceComponent
 import com.ovle.rll3.model.module.perception.PerceptionComponent
 import com.ovle.rll3.model.module.quest.QuestOwnerComponent
@@ -21,6 +21,7 @@ import com.ovle.rll3.model.module.space.MoveComponent
 import com.ovle.rll3.model.module.space.PositionComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.task.TasksComponent
+import com.ovle.rll3.model.module.template.TemplateComponent
 
 
 private inline fun <reified T : BaseComponent> mapper(): ComponentMapper<T> = ComponentMapper.getFor(T::class.java)

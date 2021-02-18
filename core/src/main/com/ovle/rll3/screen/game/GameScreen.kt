@@ -1,5 +1,6 @@
 package com.ovle.rll3.screen.game
 
+import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -16,7 +17,8 @@ import com.ovle.rll3.event.GameDidFinishedEvent
 import com.ovle.rll3.event.StartGameCommand
 import com.ovle.rll3.event.StartPlaygroundCommand
 import com.ovle.rll3.event.eventLogHook
-import com.ovle.rll3.model.module.core.system.systems
+import com.ovle.rll3.model.module.core.Module
+import com.ovle.rll3.util.loadedClasses
 import com.ovle.rll3.view.game.GameView
 import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.util.screen.ScreenConfig
@@ -71,6 +73,12 @@ open class GameScreen(
         } else {
             send(StartGameCommand(payload as InitGameInfo))
         }
+    }
+
+    //todo
+    private fun systems(context: Context): List<EntitySystem> {
+        val classes = loadedClasses("com.ovle.rll3.model.module")
+        val moduleClasses = classes.getSubclasses(Module::class.simpleName)
     }
 
     private fun onGameDidFinishedEvent() {

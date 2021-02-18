@@ -1,7 +1,6 @@
-package com.ovle.rll3.model.module.health
+package com.ovle.rll3.model.module.life
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rlUtil.event.EventBus
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.event.*

@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.health
+package com.ovle.rll3.model.module.life
 
 import com.ovle.rll3.model.module.core.component.BaseComponent
 

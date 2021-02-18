@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.gathering
+package com.ovle.rll3.model.module.resource
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2

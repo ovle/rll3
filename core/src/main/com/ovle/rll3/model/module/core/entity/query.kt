@@ -18,8 +18,8 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.tasks
 import com.ovle.rll3.model.module.core.component.CoreComponent
 import com.ovle.rll3.model.module.entityAction.EntityActionComponent
 import com.ovle.rll3.model.module.game.GameComponent
-import com.ovle.rll3.model.module.gathering.ResourceType
-import com.ovle.rll3.model.module.health.HealthComponent
+import com.ovle.rll3.model.module.resource.ResourceType
+import com.ovle.rll3.model.module.life.HealthComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import com.ovle.rll3.model.module.perception.PerceptionComponent
 import com.ovle.rll3.model.module.render.RenderComponent

@@ -1,10 +1,9 @@
-package com.ovle.rll3.model.module.gathering
+package com.ovle.rll3.model.module.resource
 
 import com.ovle.rll3.ResourceAmount
 import com.ovle.rll3.model.module.core.component.BaseComponent
 
-class ResourceComponent(
+class SourceComponent(
     val type: ResourceType,
-    var amount: ResourceAmount = 0
+    val amount: ResourceAmount
 ) : BaseComponent
-

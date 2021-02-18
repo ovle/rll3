@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.core.component
+package com.ovle.rll3.model.module.template
 
 import com.ovle.rll3.model.module.core.component.BaseComponent
 import com.ovle.rll3.model.template.entity.EntityTemplate

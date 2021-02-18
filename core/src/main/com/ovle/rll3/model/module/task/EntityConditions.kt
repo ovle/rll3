@@ -15,7 +15,7 @@ import com.ovle.rll3.model.module.core.entity.consumes
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.entity.resources
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.gathering.ResourceType.*
+import com.ovle.rll3.model.module.resource.ResourceType.*
 import com.ovle.rll3.model.util.path
 import ktx.ashley.get
 import ktx.ashley.has

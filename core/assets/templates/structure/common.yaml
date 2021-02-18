@@ -25,6 +25,9 @@ entities:
   - templateName: pig
     points:
       - [2, 4]
+  - templateName: ogre
+    points:
+      - [6, 1]
 ---
 
 name: embark

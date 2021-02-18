@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.entity.name
-import com.ovle.rll3.model.module.health.HealthComponent
+import com.ovle.rll3.model.module.life.HealthComponent
 import com.ovle.rll3.model.module.space.PositionComponent
 import ktx.ashley.has
 

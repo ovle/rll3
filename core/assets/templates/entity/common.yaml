@@ -5,6 +5,7 @@ description: |
   dirty and grumpy farmer.
   still, may be useful.
 state:
+  render:
   living:
     race: human
     health: 3
@@ -24,6 +25,7 @@ name: wizard
 description: ''
 playable: true
 state:
+  render:
   living:
     health: 3
     stamina: 2
@@ -41,6 +43,7 @@ name: barbarian
 description: ''
 playable: true
 state:
+  render:
   living:
     health: 2
     stamina: 4
@@ -57,6 +60,7 @@ skills:
 name: lamp
 description: ''
 state:
+  render:
   light:
     radius: 5
 ---
@@ -64,6 +68,7 @@ state:
 name: door w
 description: ''
 state:
+  render:
   collision:
     passable4Light: false
   door:
@@ -79,6 +84,7 @@ spawns:
 name: door s
 description: ''
 state:
+  render:
   collision:
     passable4Light: false
   door:
@@ -103,7 +109,7 @@ description: ''
 name: stash
 description: ''
 state:
-  stash:
+  render:
   collision:
   container:
 #spawns:
@@ -118,71 +124,15 @@ state:
 name: barrel
 description: ''
 state:
+  render:
   collision:
   container:
----
-
-name: table
-description: ''
-state:
-  collision:
----
-
-name: chair
-description: ''
----
-
-name: bed
-description: ''
----
-
-name: oven
-description: ''
-state:
-  light:
-    radius: 3
----
-
-name: well
-description: ''
-state:
-  collision:
----
-
-name: anvil
-description: ''
-state:
-  collision:
----
-
-name: forge
-description: ''
-state:
-  collision:
-
----
-
-name: grave
-description: ''
-state:
-  collision:
-  container:
-
----
-
-name: stairs d
-description: ''
-
----
-
-name: test item
-description: ''
-
 ---
 
 name: common tree
 description: ''
 state:
+  render:
   source:
     type: wood
     amount: 3
@@ -197,6 +147,7 @@ spawns:
 name: common sapling
 description: ''
 state:
+  render:
   collision:
     passable4Light: false
 spawns:
@@ -208,6 +159,7 @@ spawns:
 name: reed
 description: ''
 state:
+  render:
   collision:
 spawns:
   - chance: 0.3
@@ -224,6 +176,7 @@ description: |
   rests in dirt and eats everything.
   almost as smart as you are.
 state:
+  render:
   living:
     health: 2
     stamina: 4
@@ -239,30 +192,34 @@ name: wolf
 description: |
   wolf
 state:
+  render:
   living:
     health: 2
     stamina: 4
   collision:
   move:
   ai:
-    type: follow
+---
+
+name: ogre
+description: |
+  ogre
+state:
+  render:
+  living:
+    health: 5
+    stamina: 4
+  collision:
+  move:
+  ai:
 ---
 
 name: elder
 description: ''
 state:
+  render:
   living:
     health: 2
-    stamina: 3
-  collision:
-    passable4Light: false
----
-
-name: blacksmith
-description: ''
-state:
-  living:
-    health: 4
     stamina: 3
   collision:
     passable4Light: false
@@ -271,6 +228,7 @@ state:
 name: meat
 description: ''
 state:
+  render:
   resource:
     type: food
 ---
@@ -278,6 +236,7 @@ state:
 name: wood
 description: ''
 state:
+  render:
   resource:
     type: wood
 ---
@@ -285,6 +244,7 @@ state:
 name: stone
 description: ''
 state:
+  render:
   resource:
     type: stone
 ---
@@ -292,6 +252,7 @@ state:
 name: torch
 description: ''
 state:
+  render:
   light:
     radius: 5
 spawns:
@@ -309,30 +270,3 @@ spawns:
     rotate: false
     groupBonusChance: -1.0
     groupRadius: 2
----
-
-name: sceleton
-description: ''
-state:
-  living:
-    health: 3
-    stamina: 3
-  collision:
-spawns:
-  - chance: 0.5
-    rotate: true
-    mask: |
-      1 1 `
-      1 _ _
-      ` _ `
-
----
-
-name: rockman
-description: ''
-state:
-  living:
-    health: 10
-    stamina: 10
-  collision:
-    passable4Light: false

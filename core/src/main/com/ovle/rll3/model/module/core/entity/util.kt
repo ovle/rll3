@@ -10,7 +10,7 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
 import com.ovle.rll3.model.module.core.component.ComponentMappers.template
 import com.ovle.rll3.model.module.core.component.print
-import com.ovle.rll3.model.module.gathering.ResourceType
+import com.ovle.rll3.model.module.resource.ResourceType
 import com.ovle.rll3.model.util.info
 import ktx.ashley.get
 import ktx.ashley.has
