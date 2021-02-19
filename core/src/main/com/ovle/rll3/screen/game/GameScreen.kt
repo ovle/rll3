@@ -11,18 +11,12 @@ import com.ovle.rlUtil.gdx.controls.CameraScrollCommand
 import com.ovle.rlUtil.gdx.controls.PlayerControls
 import com.ovle.rlUtil.gdx.screen.BaseScreen
 import com.ovle.rlUtil.gdx.view.PaletteManager
-import com.ovle.rll3.ScreenManager
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.event.GameDidFinishedEvent
-import com.ovle.rll3.event.StartGameCommand
-import com.ovle.rll3.event.StartPlaygroundCommand
-import com.ovle.rll3.event.eventLogHook
-import com.ovle.rll3.model.module.core.Module
-import com.ovle.rll3.util.loadedClasses
+import com.ovle.rll3.event.*
+import com.ovle.rll3.screen.WorldScreen
 import com.ovle.rll3.view.game.GameView
 import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.util.screen.ScreenConfig
-import ktx.inject.Context
 import ktx.scene2d.scene2d
 import ktx.scene2d.table
 import kotlin.math.min
@@ -30,8 +24,6 @@ import kotlin.math.roundToInt
 
 
 open class GameScreen(
-    private val context: Context,
-    private val screenManager: ScreenManager,
     private val assetsManager: AssetsManager,
     private val paletteManager: PaletteManager,
     batch: Batch, camera: OrthographicCamera, screenConfig: ScreenConfig
@@ -45,7 +37,7 @@ open class GameScreen(
     override fun show() {
         super.show()
 
-        val systems = systems(context)
+        val systems = listOf<EntitySystem>()//systems(context)
 
         ecsEngine = PooledEngine()
         systems.forEach { ecsEngine.addSystem((it)) }
@@ -76,13 +68,18 @@ open class GameScreen(
     }
 
     //todo
-    private fun systems(context: Context): List<EntitySystem> {
-        val classes = loadedClasses("com.ovle.rll3.model.module")
-        val moduleClasses = classes.getSubclasses(Module::class.simpleName)
-    }
+//    private fun modules(context: Context): List<Module> {
+//        val classes = loadedClasses("com.ovle.rll3.model.module")
+//        val moduleClasses = classes.getSubclasses(Module::class.simpleName)
+//        return moduleClasses.map { it. }
+//    }
+//    private fun systems(context: Context): List<EntitySystem> {
+//        val classes = loadedClasses("com.ovle.rll3.model.module")
+//        val moduleClasses = classes.getSubclasses(Module::class.simpleName)
+//    }
 
     private fun onGameDidFinishedEvent() {
-        screenManager.goToScreen(ScreenManager.ScreenType.WorldScreenType)
+        send(SwitchScreenCommand(WorldScreen::class.java))
     }
 
     override fun hide() {

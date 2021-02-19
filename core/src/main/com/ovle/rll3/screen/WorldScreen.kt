@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.Align
 import com.ovle.rlUtil.RandomParams
 import com.ovle.rlUtil.event.EventBus
+import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rlUtil.gdx.controls.*
 import com.ovle.rlUtil.gdx.math.adjD
@@ -24,14 +25,14 @@ import com.ovle.rlUtil.gdx.view.sprite
 import com.ovle.rlUtil.gdx.view.textureRegions
 import com.ovle.rlUtil.gdx.view.tileMap.TileToTextureParams
 import com.ovle.rlUtil.gdx.view.tileMap.tiledMap
-import com.ovle.rll3.ScreenManager
-import com.ovle.rll3.ScreenManager.ScreenType.GameScreenType
 import com.ovle.rll3.Seed
 import com.ovle.rll3.assets.AssetsManager
+import com.ovle.rll3.event.SwitchScreenCommand
 import com.ovle.rll3.model.module.render.draw
 import com.ovle.rll3.model.procedural.config.world.*
 import com.ovle.rll3.model.procedural.grid.world.WorldFactory
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
+import com.ovle.rll3.screen.game.GameScreen
 import com.ovle.rll3.screen.game.InitGameInfo
 import com.ovle.rll3.view.*
 import com.ovle.util.screen.ScreenConfig
@@ -42,8 +43,8 @@ import kotlin.random.Random
 
 class WorldScreen(
     private val assetsManager: AssetsManager,
-    private val screenManager: ScreenManager,
-    batch: Batch, camera: OrthographicCamera, screenConfig: ScreenConfig, paletteManager: PaletteManager
+    paletteManager: PaletteManager,
+    batch: Batch, camera: OrthographicCamera, screenConfig: ScreenConfig
 ) : BaseScreen(batch, camera, screenConfig) {
 
     private val worldFactory = WorldFactory(worldParams)
@@ -154,10 +155,7 @@ class WorldScreen(
     }
 
     private fun onEmbarkClick() {
-        screenManager.goToScreen(
-            GameScreenType,
-            InitGameInfo(world, locationPoint!!)
-        )
+        send(SwitchScreenCommand(GameScreen::class.java, InitGameInfo(world, locationPoint!!)))
     }
 
     private fun onScaleChange(diff: Float) {

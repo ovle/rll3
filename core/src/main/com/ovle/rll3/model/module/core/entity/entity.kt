@@ -9,8 +9,6 @@ import com.ovle.rll3.model.module.space.PositionComponent
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.game.GameComponent
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
-import com.ovle.rll3.model.module.core.component.basicComponents
-import com.ovle.rll3.model.module.core.component.stateComponents
 import com.ovle.rll3.model.module.render.RenderComponent
 import com.ovle.rll3.model.module.task.TasksComponent
 import com.ovle.rll3.model.module.template.TemplateComponent
@@ -54,7 +52,7 @@ private fun basicComponents(template: EntityTemplate): List<Component> {
     )
 }
 
-private fun stateComponents(template: EntityTemplate) =
-    template.state.map { (k, v) ->
-        (componentsMapper[k] ?: error("no mapper found for key $k")).invoke(v as ComponentData?)
-    }
+private fun stateComponents(template: EntityTemplate): List<Component> = listOf()
+//    template.state.map { (k, v) ->
+//        (componentsMapper[k] ?: error("no mapper found for key $k")).invoke(v as ComponentData?)
+//    }

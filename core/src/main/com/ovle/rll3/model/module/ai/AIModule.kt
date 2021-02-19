@@ -3,7 +3,6 @@ package com.ovle.rll3.model.module.ai
 import com.ovle.rll3.ComponentFactory
 import com.ovle.rll3.model.module.core.Module
 import ktx.inject.Context
-import org.kodein.di.Kodein
 
 class AIModule: Module {
 

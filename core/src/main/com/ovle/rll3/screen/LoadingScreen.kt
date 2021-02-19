@@ -3,9 +3,10 @@ package com.ovle.rll3.screen
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.utils.Align
+import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.gdx.screen.BaseScreen
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.ScreenManager
+import com.ovle.rll3.event.SwitchScreenCommand
 import com.ovle.util.screen.ScreenConfig
 import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
@@ -14,9 +15,9 @@ import ktx.scene2d.label
 import ktx.scene2d.scene2d
 import ktx.scene2d.verticalGroup
 
+
 class LoadingScreen(
     private val assetsManager: AssetsManager,
-    private val screenManager: ScreenManager,
     batch: Batch, camera: OrthographicCamera, screenConfig: ScreenConfig
 ): BaseScreen(batch, camera, screenConfig) {
 
@@ -27,7 +28,7 @@ class LoadingScreen(
             skipFrame()
             //performs on main thread
             assetsManager.load()
-            screenManager.goToScreen(ScreenManager.ScreenType.MainMenuScreenType)
+            send(SwitchScreenCommand(MainMenuScreen::class.java))
         }
     }
 

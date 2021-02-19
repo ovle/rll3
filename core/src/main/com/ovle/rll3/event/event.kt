@@ -1,10 +1,12 @@
 package com.ovle.rll3.event
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.Screen
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rlUtil.Tile
 import com.ovle.rlUtil.event.Event
+import com.ovle.rlUtil.gdx.screen.BaseScreen
 import com.ovle.rll3.EffectAmount
 import com.ovle.rll3.ExactTurn
 import com.ovle.rll3.Turn
@@ -30,6 +32,7 @@ class TimeChangedEvent(val exactDeltaTurns: ExactTurn) : GameEvent()
 class LocationLoadedEvent(val location: LocationInfo) : GameEvent()
 
 //technical
+class SwitchScreenCommand(val type: Class<out BaseScreen>, val payload: Any? = null) : GameEvent()
 class LogCommand(val message: String) : GameEvent()
 class UpdateLightCollisionCommand(val points: Array<GridPoint2>) : GameEvent()
 class QuestStatusUpdatedEvent(val quest: QuestInfo) : GameEvent()
