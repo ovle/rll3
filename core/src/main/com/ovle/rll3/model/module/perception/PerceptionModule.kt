@@ -2,11 +2,11 @@ package com.ovle.rll3.model.module.perception
 
 import com.ovle.rll3.ComponentFactory
 import com.ovle.rll3.model.module.core.Module
-import ktx.inject.Context
+
 
 class PerceptionModule: Module {
 
-    override fun systems(context: Context) = listOf(
+    override fun systems() = listOf(
         PerceptionSystem()
     )
 

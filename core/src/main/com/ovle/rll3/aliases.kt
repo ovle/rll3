@@ -59,3 +59,5 @@ typealias RoomTiles = MutableList<Vector2>
 typealias MoveStrategy = (GridPoint2, GridPoint2, LocationInfo) -> Boolean
 typealias BTFactory = (TaskTargetHolder) -> BehaviorTree<BTParams>
 typealias BehaviorSelector = (Entity, LocationInfo) -> BTTemplate
+
+typealias TemplatedState = Map<String, Any?>

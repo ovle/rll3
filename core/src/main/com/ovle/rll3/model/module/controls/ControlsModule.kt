@@ -1,11 +1,14 @@
 package com.ovle.rll3.model.module.controls
 
-import com.ovle.rll3.model.module.core.Module
-import ktx.inject.Context
+import com.badlogic.ashley.core.EntitySystem
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.inSet
+import org.kodein.di.singleton
 
-class ControlsModule: Module {
 
-    override fun systems(context: Context) = listOf(
+val controlsModule = DI.Module("controls") {
+    bind<EntitySystem>().inSet() with singleton {
         PlayerControlsSystem()
-    )
+    }
 }

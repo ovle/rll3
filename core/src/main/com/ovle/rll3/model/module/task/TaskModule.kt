@@ -1,21 +1,17 @@
 package com.ovle.rll3.model.module.task
 
-import com.ovle.rll3.ComponentFactory
-import com.ovle.rll3.model.module.core.Module
-import ktx.inject.Context
+import com.badlogic.ashley.core.EntitySystem
+import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.BaseComponent
+import org.kodein.di.*
 
-class TaskModule: Module {
 
-    override fun systems(context: Context) = listOf(
+val taskModule = DI.Module("task") {
+    bind<EntitySystem>().inSet() with singleton {
         TaskSystem()
-    )
+    }
 
-    override fun templateComponents(name: String): List<ComponentFactory> {
-        return when (name) {
-            "task" -> listOf { _ ->
-                TaskPerformerComponent()
-            }
-            else -> emptyList()
-        }
+    bind<BaseComponent>(tag = "task").inSet() with factory { _: TemplatedState? ->
+        TaskPerformerComponent()
     }
 }

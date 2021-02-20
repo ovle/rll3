@@ -1,15 +1,16 @@
 package com.ovle.rll3.model.module.entityAction
 
-import com.ovle.rll3.model.module.core.Module
-import ktx.inject.Context
+import com.badlogic.ashley.core.EntitySystem
+import com.ovle.rll3.model.module.core.component.BaseComponent
+import org.kodein.di.*
 
-class EntityActionModule: Module {
 
-    override fun systems(context: Context) = listOf(
+val entityActionModule = DI.Module("entityAction") {
+    bind<EntitySystem>().inSet() with singleton {
         EntityActionSystem()
-    )
+    }
 
-    override fun components() = listOf(
+    bind<BaseComponent>().inSet() with provider {
         EntityActionComponent()
-    )
+    }
 }

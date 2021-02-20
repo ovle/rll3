@@ -2,11 +2,11 @@ package com.ovle.rll3.model.module.life
 
 import com.ovle.rll3.ComponentFactory
 import com.ovle.rll3.model.module.core.Module
-import ktx.inject.Context
+
 
 class LifeModule: Module {
 
-    override fun systems(context: Context) = listOf(
+    override fun systems() = listOf(
         HealthSystem(),
         HungerSystem(),
         StaminaSystem()

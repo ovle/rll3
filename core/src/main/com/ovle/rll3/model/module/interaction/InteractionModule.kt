@@ -1,13 +1,20 @@
 package com.ovle.rll3.model.module.interaction
 
-import com.ovle.rll3.model.module.core.Module
-import ktx.inject.Context
+import com.badlogic.ashley.core.EntitySystem
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.inSet
+import org.kodein.di.singleton
 
-class InteractionModule: Module {
 
-    override fun systems(context: Context) = listOf(
-        BaseInteractionSystem(),
-        EntityInteractionSystem(),
+val interactionModule = DI.Module("interaction") {
+    bind<EntitySystem>().inSet() with singleton {
+        BaseInteractionSystem()
+    }
+    bind<EntitySystem>().inSet() with singleton {
+        EntityInteractionSystem()
+    }
+    bind<EntitySystem>().inSet() with singleton {
         TileInteractionSystem()
-    )
+    }
 }

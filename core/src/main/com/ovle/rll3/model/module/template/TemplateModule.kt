@@ -1,15 +1,12 @@
 package com.ovle.rll3.model.module.template
 
-import com.badlogic.ashley.core.Component
-import com.ovle.rll3.model.module.core.Module
-import com.ovle.rll3.model.template.entity.entityViewTemplate
-import ktx.inject.Context
+import org.kodein.di.DI
 
-class TemplateModule: Module {
-    override fun components(): List<Component> {
-        return super.components()
-    }
-
-//    val viewTemplate = entityViewTemplate(name = template.name)
-//    TemplateComponent(template, viewTemplate),
+//todo
+val templateModule = DI.Module("template") {
+//
+//    bind<BaseComponent>().inSet() with provider {
+//        val viewTemplate = entityViewTemplate(name = template.name)
+//        TemplateComponent()
+//    }
 }

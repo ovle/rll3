@@ -1,19 +1,17 @@
 package com.ovle.rll3.model.module.ai
 
-import com.ovle.rll3.ComponentFactory
-import com.ovle.rll3.model.module.core.Module
-import ktx.inject.Context
+import com.badlogic.ashley.core.EntitySystem
+import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.BaseComponent
+import org.kodein.di.*
 
-class AIModule: Module {
 
-    override fun systems(context: Context) = listOf(
+val aiModule = DI.Module("AI") {
+    bind<EntitySystem>().inSet() with singleton {
         AISystem()
-    )
+    }
 
-    override fun templateComponents(name: String): List<ComponentFactory> {
-        return when (name) {
-            "ai" -> listOf { value -> AIComponent(behavior = (value?.get("behavior") as String?) ?: "base") }
-            else -> emptyList()
-        }
+    bind<BaseComponent>(tag = "ai").inSet() with factory { value: TemplatedState? ->
+        AIComponent(behavior = (value?.get("behavior") as String?) ?: "base")
     }
 }

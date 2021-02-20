@@ -1,11 +1,14 @@
 package com.ovle.rll3.model.module.tile
 
-import com.ovle.rll3.model.module.core.Module
-import ktx.inject.Context
+import com.badlogic.ashley.core.EntitySystem
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.inSet
+import org.kodein.di.singleton
 
-class TileModule: Module {
 
-    override fun systems(context: Context) = listOf(
+val tileModule = DI.Module("tile") {
+    bind<EntitySystem>().inSet() with singleton {
         TileSystem()
-    )
+    }
 }

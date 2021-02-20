@@ -26,47 +26,29 @@ import ktx.app.KtxGame
 import ktx.async.KtxAsync
 import ktx.scene2d.Scene2DSkin
 import org.kodein.di.DI
+import org.kodein.di.direct
+import org.kodein.di.instance
 
 
 class RLL3Game : KtxGame<BaseScreen>() {
 
-    private val disposables = mutableListOf<Disposable>()
-
     override fun create() {
         KtxAsync.initiate()
 
-        val assetManager = AssetsManager(disposable(AssetManager()))
-        val paletteManager = PaletteManager(paletteOil, paletteOil)
-        val screenConfig = ScreenConfig(screenWidth, screenHeight, paletteManager.bgColor)
-        val skin = Skin(Gdx.files.internal(skinPath))
-        val batch = disposable(SpriteBatch())
-        val camera = camera()
-        skin.getFont(fontName).apply { data.scale(-0.1f) }
+        val directDI = di.direct
+        with(directDI) {
+            val ls = LoadingScreen(instance(), instance(), instance(), instance())
+            val mms = MainMenuScreen(instance(), instance(), instance())
+            val ws = WorldScreen(instance(), instance(), instance(), instance(), instance())
+            val gs = GameScreen(instance(), instance(), instance(), instance(), instance())
+            val pgs = PlaygroundScreen(instance(), instance(), instance(), instance(), instance())
 
-        Scene2DSkin.defaultSkin = disposable(skin)
-
-//        val di = DI {
-//            bind() from setBinding<String>()
-//            bind<String>().inSet() with singleton { "a" }
-//            bind<String>().inSet() with singleton { "b" }
-//        }
-//        val b: Collection<String> by di.instance()
-
-        val ls = LoadingScreen(assetManager, batch, camera, screenConfig)
-        val mms = MainMenuScreen(batch, camera, screenConfig)
-        val ws = WorldScreen(assetManager, paletteManager, batch, camera, screenConfig)
-        val gs = GameScreen(assetManager, paletteManager, batch, camera, screenConfig)
-        val pgs = PlaygroundScreen(assetManager, paletteManager, batch, camera, screenConfig)
-
-        val screens = listOf(ls, mms, ws, gs, pgs)
-        screens.forEach { addScreen(it.javaClass, it) }
+            val screens = listOf(ls, mms, ws, gs, pgs)
+            screens.forEach { addScreen(it.javaClass, it) }
+        }
 
         EventBus.subscribe<SwitchScreenCommand> {
-            setScreen(it.type)
-            //todo payload
-//            if (currentScreen is BaseScreen) {
-//                (currentScreen as BaseScreen).payload = it.payload
-//            }
+            setScreen(it.type, it.payload)
         }
 
         //todo not displayed 'loading'
@@ -76,17 +58,15 @@ class RLL3Game : KtxGame<BaseScreen>() {
     }
 
     override fun dispose() {
-        disposables.forEach { it.dispose() }
+//        disposables.forEach { it.dispose() }
 
         super.dispose()
     }
 
+    private fun <Type : BaseScreen> setScreen(type: Class<Type>, payload: Any?) {
+        val nextScreen = getScreen(type)
+        (nextScreen as BaseScreen).payload = payload
 
-    private fun camera() =
-        OrthographicCamera().apply {
-            setToOrtho(false, screenWidth, screenHeight);
-            update()
-        }
-
-    private inline fun <reified T : Disposable> disposable(d: T) = d.apply { disposables.add(d) }
+        setScreen(type)
+    }
 }
