@@ -11,7 +11,7 @@ val taskModule = DI.Module("task") {
         TaskSystem()
     }
 
-    bind<BaseComponent>(tag = "task").inSet() with factory { _: TemplatedState? ->
+    bind<BaseComponent>(tag = "task") with factory { _: TemplatedState? ->
         TaskPerformerComponent()
     }
 }

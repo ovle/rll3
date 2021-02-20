@@ -20,7 +20,7 @@ val renderModule = DI.Module("render") {
         AnimationSystem()
     }
 
-    bind<BaseComponent>(tag = "render").inSet() with factory { _: TemplatedState? ->
+    bind<BaseComponent>(tag = "render") with factory { _: TemplatedState? ->
         RenderComponent()
     }
 }

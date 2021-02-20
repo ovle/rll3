@@ -12,6 +12,7 @@ import com.ovle.rlUtil.gdx.controls.PlayerControls
 import com.ovle.rlUtil.gdx.screen.BaseScreen
 import com.ovle.rlUtil.gdx.view.PaletteManager
 import com.ovle.rll3.assets.AssetsManager
+import com.ovle.rll3.di
 import com.ovle.rll3.event.*
 import com.ovle.rll3.screen.WorldScreen
 import com.ovle.rll3.view.game.GameView
@@ -19,6 +20,8 @@ import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.util.screen.ScreenConfig
 import ktx.scene2d.scene2d
 import ktx.scene2d.table
+import org.kodein.di.allInstances
+import org.kodein.di.instance
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -33,11 +36,10 @@ open class GameScreen(
     private val controls = PlayerControls(batchViewport)
     private lateinit var gameView: GameView
 
+    private val systems: Set<EntitySystem> by di.instance()
 
     override fun show() {
         super.show()
-
-        val systems = listOf<EntitySystem>()//systems(context)
 
         ecsEngine = PooledEngine()
         systems.forEach { ecsEngine.addSystem((it)) }

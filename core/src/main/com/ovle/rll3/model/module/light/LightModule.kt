@@ -1,14 +1,15 @@
 package com.ovle.rll3.model.module.light
 
-import com.ovle.rll3.ComponentFactory
-import com.ovle.rll3.model.module.core.Module
+import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.BaseComponent
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.factory
 
-class LightModule: Module {
 
-    override fun templateComponents(name: String): List<ComponentFactory> = when (name) {
-        "light" -> listOf { value ->
-            LightSourceComponent(AOEData(value!!["radius"] as Int))
-        }
-        else -> emptyList()
+val lightModule = DI.Module("light") {
+    bind<BaseComponent>(tag = "light") with factory { value: TemplatedState? ->
+        LightSourceComponent(AOEData(value!!["radius"] as Int))
+
     }
 }

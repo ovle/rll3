@@ -1,29 +1,29 @@
 package com.ovle.rll3.model.module.life
 
-import com.ovle.rll3.ComponentFactory
-import com.ovle.rll3.model.module.core.Module
+import com.badlogic.ashley.core.EntitySystem
+import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.BaseComponent
+import org.kodein.di.*
 
 
-class LifeModule: Module {
-
-    override fun systems() = listOf(
-        HealthSystem(),
-        HungerSystem(),
+val lifeModule = DI.Module("life") {
+    bind<EntitySystem>().inSet() with singleton {
+        HealthSystem()
+    }
+    bind<EntitySystem>().inSet() with singleton {
+        HungerSystem()
+    }
+    bind<EntitySystem>().inSet() with singleton {
         StaminaSystem()
-    )
+    }
 
-    override fun templateComponents(name: String): List<ComponentFactory> {
-        return when (name) {
-            "living" -> listOf { value ->
-                HealthComponent(
-                    maxHealth = value!!["health"] as Int,
-                    maxStamina = value["stamina"] as Int
-                ).apply {
-                    health = maxHealth
-                    stamina = maxStamina
-                }
-            }
-            else -> emptyList()
+    bind<BaseComponent>(tag = "living") with factory { value: TemplatedState? ->
+        HealthComponent(
+            maxHealth = value!!["health"] as Int,
+            maxStamina = value["stamina"] as Int
+        ).apply {
+            health = maxHealth
+            stamina = maxStamina
         }
     }
 }

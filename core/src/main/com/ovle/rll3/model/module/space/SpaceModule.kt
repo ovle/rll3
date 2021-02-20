@@ -1,25 +1,21 @@
 package com.ovle.rll3.model.module.space
 
-import com.ovle.rll3.ComponentFactory
-import com.ovle.rll3.model.module.core.Module
+import com.badlogic.ashley.core.EntitySystem
+import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.BaseComponent
+import org.kodein.di.*
 
 
-class SpaceModule: Module {
-
-    override fun systems() = listOf(
+val spaceModule = DI.Module("space") {
+    bind<EntitySystem>().inSet() with singleton {
         MoveSystem()
-    )
+    }
 
-    override fun components() = listOf(
+    bind<BaseComponent>().inSet() with provider {
         PositionComponent()
-    )
+    }
 
-    override fun templateComponents(name: String): List<ComponentFactory> {
-        return when (name) {
-            "move" -> listOf { _ ->
-                MoveComponent()
-            }
-            else -> emptyList()
-        }
+    bind<BaseComponent>(tag = "move") with factory { _: TemplatedState? ->
+        MoveComponent()
     }
 }

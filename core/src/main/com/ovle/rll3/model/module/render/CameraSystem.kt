@@ -1,7 +1,6 @@
 package com.ovle.rll3.model.module.render
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
@@ -23,7 +22,7 @@ import ktx.math.vec3
 
 
 class CameraSystem(
-    private val camera: Camera
+    private val camera: OrthographicCamera
 ): EventSystem() {
 
     private val screenCenter = vec3(screenWidth / 2, screenHeight / 2)
@@ -57,9 +56,7 @@ class CameraSystem(
 
     private fun onScaleChange(diff: Float) {
         val c = camera
-        if (c is OrthographicCamera) {
-            c.zoom -= diff
-        }
+        c.zoom -= diff
         c.update()
 
 //        println("zoom: ${camera.zoom}")
@@ -93,9 +90,7 @@ class CameraSystem(
         if (focusedWorldPosition.epsilonEquals(camera.position)) return
         val c = camera
         c.position.set(focusedWorldPosition.x, focusedWorldPosition.y, 0.0f)
-        if (c is OrthographicCamera) {
-            c.zoom = focusZoom
-        }
+        c.zoom = focusZoom
         camera.update()
     }
 }

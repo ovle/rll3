@@ -1,20 +1,21 @@
 package com.ovle.rll3.model.module.container
 
-import com.ovle.rll3.ComponentFactory
-import com.ovle.rll3.model.module.core.Module
+import com.badlogic.ashley.core.EntitySystem
+import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.BaseComponent
+import org.kodein.di.*
 
-class ContainerModule: Module {
 
-    override fun systems() = listOf(
-//        ContainerSystem()
+val containerModule = DI.Module("container") {
+    //        ContainerSystem()
+    bind<EntitySystem>().inSet() with singleton {
         CarrierSystem()
-    )
+    }
 
-    override fun templateComponents(name: String): List<ComponentFactory> {
-        return when (name) {
-            "container" -> listOf { _ -> ContainerComponent() }
-            "carrier" -> listOf { _ -> CarrierComponent() }
-            else -> emptyList()
-        }
+    bind<BaseComponent>(tag = "container") with factory { _: TemplatedState? ->
+        ContainerComponent()
+    }
+    bind<BaseComponent>(tag = "carrier") with factory { _: TemplatedState? ->
+        CarrierComponent()
     }
 }

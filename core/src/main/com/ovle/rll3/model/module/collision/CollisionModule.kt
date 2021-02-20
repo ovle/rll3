@@ -1,20 +1,17 @@
 package com.ovle.rll3.model.module.collision
 
-import com.ovle.rll3.ComponentFactory
-import com.ovle.rll3.model.module.core.Module
+import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.BaseComponent
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.factory
 
-class CollisionModule: Module {
 
-    override fun templateComponents(name: String): List<ComponentFactory> {
-        return when (name) {
-            "collision" -> listOf {
-                    value ->
-                CollisionComponent(
-                    passable4Body = value?.get("passable4Body") as Boolean? ?: false,
-                    passable4Light = value?.get("passable4Light") as Boolean? ?: true
-                )
-            }
-            else -> emptyList()
-        }
+val collisionModule = DI.Module("collision") {
+    bind<BaseComponent>(tag = "collision") with factory { value: TemplatedState? ->
+        CollisionComponent(
+            passable4Body = value?.get("passable4Body") as Boolean? ?: false,
+            passable4Light = value?.get("passable4Light") as Boolean? ?: true
+        )
     }
 }

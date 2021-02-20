@@ -1,19 +1,17 @@
 package com.ovle.rll3.model.module.perception
 
-import com.ovle.rll3.ComponentFactory
-import com.ovle.rll3.model.module.core.Module
+import com.badlogic.ashley.core.EntitySystem
+import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.BaseComponent
+import org.kodein.di.*
 
 
-class PerceptionModule: Module {
-
-    override fun systems() = listOf(
+val perceptionModule = DI.Module("perception") {
+    bind<EntitySystem>().inSet() with singleton {
         PerceptionSystem()
-    )
+    }
 
-    override fun templateComponents(name: String): List<ComponentFactory> = when (name) {
-        "perception" -> listOf { value ->
-            PerceptionComponent(value!!["sight"] as Int? ?: 5)
-        }
-        else -> emptyList()
+    bind<BaseComponent>(tag = "perception") with factory { value: TemplatedState? ->
+        PerceptionComponent(value!!["sight"] as Int? ?: 5)
     }
 }

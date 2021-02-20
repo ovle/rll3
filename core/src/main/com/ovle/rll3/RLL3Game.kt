@@ -1,31 +1,15 @@
 package com.ovle.rll3
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.assets.AssetManager
-import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.utils.Disposable
 import com.ovle.rlUtil.event.EventBus
 import com.ovle.rlUtil.gdx.screen.BaseScreen
-import com.ovle.rlUtil.gdx.view.PaletteManager
-import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.SwitchScreenCommand
 import com.ovle.rll3.screen.LoadingScreen
 import com.ovle.rll3.screen.MainMenuScreen
 import com.ovle.rll3.screen.WorldScreen
 import com.ovle.rll3.screen.game.GameScreen
 import com.ovle.rll3.screen.game.PlaygroundScreen
-import com.ovle.rll3.view.fontName
-import com.ovle.rll3.view.palette.paletteOil
-import com.ovle.rll3.view.screenHeight
-import com.ovle.rll3.view.screenWidth
-import com.ovle.rll3.view.skinPath
-import com.ovle.util.screen.ScreenConfig
 import ktx.app.KtxGame
 import ktx.async.KtxAsync
-import ktx.scene2d.Scene2DSkin
-import org.kodein.di.DI
 import org.kodein.di.direct
 import org.kodein.di.instance
 

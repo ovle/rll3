@@ -15,13 +15,13 @@ val resourceModule = DI.Module("resource") {
 
     fun resourceType(value: ComponentData?) = ResourceType.valueOf((value!!["type"] as String).capitalize())
 
-    bind<BaseComponent>(tag = "source").inSet() with factory { value: TemplatedState? ->
+    bind<BaseComponent>(tag = "source") with factory { value: TemplatedState? ->
         SourceComponent(
             type = resourceType(value),
             amount = value!!["amount"] as ResourceAmount
         )
     }
-    bind<BaseComponent>(tag = "resource").inSet() with factory { value: TemplatedState? ->
+    bind<BaseComponent>(tag = "resource") with factory { value: TemplatedState? ->
         ResourceComponent(type = resourceType(value))
     }
 }

@@ -11,7 +11,7 @@ val aiModule = DI.Module("AI") {
         AISystem()
     }
 
-    bind<BaseComponent>(tag = "ai").inSet() with factory { value: TemplatedState? ->
+    bind<BaseComponent>(tag = "ai") with factory { value: TemplatedState? ->
         AIComponent(behavior = (value?.get("behavior") as String?) ?: "base")
     }
 }

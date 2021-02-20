@@ -1,7 +1,9 @@
 package com.ovle.rll3.screen
 
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.Disposable
 import com.ovle.rlUtil.gdx.view.PaletteManager
 import com.ovle.rll3.assets.AssetsManager
@@ -14,19 +16,23 @@ import com.ovle.util.screen.ScreenConfig
 import ktx.scene2d.Scene2DSkin
 import org.kodein.di.DI
 import org.kodein.di.bind
+import org.kodein.di.provider
+import org.kodein.di.singleton
 
 val screensModule = DI.Module("screens") {
-    bind(AssetsManager(disposable(AssetManager())))
+    bind<AssetsManager>() with singleton { AssetsManager(disposable(AssetManager()))}
+
     val paletteManager = PaletteManager(paletteOil, paletteOil)
-    bind(paletteManager)
-    bind(ScreenConfig(screenWidth, screenHeight, paletteManager.bgColor))
+    bind<PaletteManager>() with singleton { paletteManager }
+
+    bind<ScreenConfig>() with provider { (ScreenConfig(screenWidth, screenHeight, paletteManager.bgColor)) }
 
     val skin = skin().also {
         Scene2DSkin.defaultSkin = disposable(it)
     }
-    bind(skin)
-    bind(disposable(SpriteBatch()))
-    bind(camera())
+    bind<Skin>() with singleton { skin }
+    bind<SpriteBatch>() with singleton { (disposable(SpriteBatch())) }  //todo singleton ?
+    bind<OrthographicCamera>() with singleton { (camera()) }    //todo singleton ?
 }
 
 //todo
