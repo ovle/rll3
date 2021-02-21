@@ -1,11 +1,12 @@
 package com.ovle.rll3.model.module.game
 
-import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
-import com.ovle.rll3.model.module.time.TimeInfo
+import com.ovle.rll3.model.module.core.component.GlobalComponent
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 
+/**
+ * game in the context of player
+ */
 class GameComponent(
     val location: LocationInfo,
-    val world: WorldInfo?,
-    val time: TimeInfo
-): BaseComponent
+    val world: WorldInfo?
+): GlobalComponent()

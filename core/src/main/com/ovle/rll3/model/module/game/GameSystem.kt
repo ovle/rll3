@@ -84,7 +84,6 @@ class GameSystem : EventSystem() {
 
 
     private fun initEntities(location: LocationInfo) {
-        val interactionEntity = newPlayerInteraction(engine)
         val locationEntity = newGame(location, world, engine)!!
 
         send(LocationLoadedEvent(location))

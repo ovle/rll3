@@ -1,11 +1,12 @@
 package com.ovle.rll3
 
 import com.badlogic.ashley.core.EntitySystem
-import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.model.module.ai.aiModule
 import com.ovle.rll3.model.module.collision.collisionModule
 import com.ovle.rll3.model.module.container.containerModule
 import com.ovle.rll3.model.module.controls.controlsModule
+import com.ovle.rll3.model.module.core.component.EntityComponent
+import com.ovle.rll3.model.module.core.component.GlobalComponent
 import com.ovle.rll3.model.module.entityAction.entityActionModule
 import com.ovle.rll3.model.module.game.gameModule
 import com.ovle.rll3.model.module.interaction.interactionModule
@@ -28,7 +29,8 @@ val di = DI {
     import(screensModule)
 
     bind() from setBinding<EntitySystem>()
-    bind() from setBinding<BaseComponent>()
+    bind() from setBinding<EntityComponent>()
+    bind() from setBinding<GlobalComponent>()
 
     import(gameModule)
 

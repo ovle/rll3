@@ -1,6 +1,7 @@
 package com.ovle.rll3.model.module.life
 
 import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
+import com.ovle.rll3.model.module.core.component.EntityComponent
 
 
 class HealthComponent(
@@ -10,7 +11,7 @@ class HealthComponent(
     var maxStamina: Int = 3,
     var hunger: Int = 0,
     var maxHunger: Int = 100
-) : BaseComponent {
+) : EntityComponent() {
     val isDead
         get() = health == 0
     val isExhausted

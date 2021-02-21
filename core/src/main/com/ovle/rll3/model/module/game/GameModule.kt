@@ -11,4 +11,8 @@ val gameModule = DI.Module("game") {
     bind<EntitySystem>().inSet() with singleton {
         GameSystem()
     }
+
+//    bind<GlobalComponent>().inSet() with provider {
+//        GameComponent(location, world)
+//    }
 }

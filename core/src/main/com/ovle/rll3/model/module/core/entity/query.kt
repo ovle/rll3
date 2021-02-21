@@ -15,6 +15,7 @@ import com.ovle.rll3.model.module.core.component.ComponentMappers.core
 import com.ovle.rll3.model.module.core.component.ComponentMappers.game
 import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
 import com.ovle.rll3.model.module.core.component.ComponentMappers.tasks
+import com.ovle.rll3.model.module.core.component.ComponentMappers.time
 import com.ovle.rll3.model.module.core.component.CoreComponent
 import com.ovle.rll3.model.module.entityAction.EntityActionComponent
 import com.ovle.rll3.model.module.game.GameComponent
@@ -45,9 +46,11 @@ fun Engine.allEntities() = entities.filter { it[core]!!.isExists }
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-fun Engine.game() = entityWith(allEntities().toList(), GameComponent::class)
+fun game(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)
+fun Engine.game() = game(allEntities().toTypedArray())
 fun Engine.tasksInfo() = game()?.get(tasks)
 fun Engine.gameInfo() = game()?.get(game)
+fun Engine.timeInfo() = game()?.get(time)
 fun Engine.locationInfo() = gameInfo()?.location
 
 fun locationInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.location
@@ -59,10 +62,8 @@ fun Engine.aiEntities() = entitiesWith(allEntities().toList(), AIComponent::clas
 fun Engine.perceptionEntities() = entitiesWith(allEntities().toList(), PerceptionComponent::class)
 
 //todo not entity?
-fun playerInteraction(entities: List<Entity>) = entityWith(entities, PlayerInteractionComponent::class)
-fun playerInteractionInfo(entities: List<Entity>) = playerInteraction(entities)
+fun playerInteractionInfo(entities: List<Entity>) = game(entities.toTypedArray())
     ?.get(ComponentMappers.playerInteraction)
-fun Engine.playerInteraction() = playerInteraction(allEntities().toList())
 fun Engine.playerInteractionInfo() = playerInteractionInfo(allEntities().toList())
 fun Engine.focusedEntity() = playerInteractionInfo()?.focusedEntity
 fun Engine.selectedEntity() = playerInteractionInfo()?.selectedEntity

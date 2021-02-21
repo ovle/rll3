@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.module.container
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
+import com.ovle.rll3.model.module.core.component.EntityComponent
 
 //todo
 //capacity
@@ -10,4 +10,4 @@ import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 //states? opened, closed, empty
 class ContainerComponent(
     var items: MutableCollection<Entity> = mutableListOf()
-) : BaseComponent
+) : EntityComponent()

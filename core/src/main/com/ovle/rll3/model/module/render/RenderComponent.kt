@@ -1,15 +1,15 @@
 package com.ovle.rll3.model.module.render
 
-import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rlUtil.gdx.view.AnimationInfo
 import com.ovle.rlUtil.gdx.view.Sprite
+import com.ovle.rll3.model.module.core.component.EntityComponent
 
 class RenderComponent(
     var sprite: Sprite? = null,
     var visible: Boolean = true,
     var zLevel: Int = 0,
     var sprites: Map<String, Sprite> = mapOf()
-) : BaseComponent {
+) : EntityComponent() {
 
     var currentAnimation: AnimationInfo? = null
 

@@ -22,12 +22,13 @@ import com.ovle.rll3.model.module.space.PositionComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.task.TasksComponent
 import com.ovle.rll3.model.module.core.component.template.TemplateComponent
+import com.ovle.rll3.model.module.time.TimeComponent
 
 
 //todo use modules
 object ComponentMappers {
-    //todo remove these
     val game = mapper<GameComponent>()
+    val time = mapper<TimeComponent>()
     val tasks = mapper<TasksComponent>()
     val playerInteraction = mapper<PlayerInteractionComponent>()
 

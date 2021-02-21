@@ -1,10 +1,8 @@
 package com.ovle.rll3.model.module.interaction
 
 import com.badlogic.ashley.core.EntitySystem
-import org.kodein.di.DI
-import org.kodein.di.bind
-import org.kodein.di.inSet
-import org.kodein.di.singleton
+import com.ovle.rll3.model.module.core.component.GlobalComponent
+import org.kodein.di.*
 
 
 val interactionModule = DI.Module("interaction") {
@@ -16,5 +14,9 @@ val interactionModule = DI.Module("interaction") {
     }
     bind<EntitySystem>().inSet() with singleton {
         TileInteractionSystem()
+    }
+
+    bind<GlobalComponent>().inSet() with provider {
+        PlayerInteractionComponent()
     }
 }

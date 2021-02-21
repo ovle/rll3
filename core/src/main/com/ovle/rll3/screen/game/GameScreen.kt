@@ -20,7 +20,6 @@ import com.ovle.rll3.view.scaleScrollCoeff
 import com.ovle.util.screen.ScreenConfig
 import ktx.scene2d.scene2d
 import ktx.scene2d.table
-import org.kodein.di.allInstances
 import org.kodein.di.instance
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -68,17 +67,6 @@ open class GameScreen(
             send(StartGameCommand(payload as InitGameInfo))
         }
     }
-
-    //todo
-//    private fun modules(context: Context): List<Module> {
-//        val classes = loadedClasses("com.ovle.rll3.model.module")
-//        val moduleClasses = classes.getSubclasses(Module::class.simpleName)
-//        return moduleClasses.map { it. }
-//    }
-//    private fun systems(context: Context): List<EntitySystem> {
-//        val classes = loadedClasses("com.ovle.rll3.model.module")
-//        val moduleClasses = classes.getSubclasses(Module::class.simpleName)
-//    }
 
     private fun onGameDidFinishedEvent() {
         send(SwitchScreenCommand(WorldScreen::class.java))

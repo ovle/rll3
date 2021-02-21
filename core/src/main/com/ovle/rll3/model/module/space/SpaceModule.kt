@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.module.space
 
 import com.badlogic.ashley.core.EntitySystem
-import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.EntityComponent
 import org.kodein.di.*
 
 
@@ -11,11 +11,11 @@ val spaceModule = DI.Module("space") {
         MoveSystem()
     }
 
-    bind<BaseComponent>().inSet() with provider {
+    bind<EntityComponent>().inSet() with provider {
         PositionComponent()
     }
 
-    bind<BaseComponent>(tag = "move") with factory { _: TemplatedState? ->
+    bind<EntityComponent>(tag = "move") with factory { _: TemplatedState? ->
         MoveComponent()
     }
 }

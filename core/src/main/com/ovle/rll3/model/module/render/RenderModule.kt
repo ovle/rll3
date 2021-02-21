@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.module.render
 
 import com.badlogic.ashley.core.EntitySystem
-import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.EntityComponent
 import org.kodein.di.*
 
 
@@ -20,7 +20,7 @@ val renderModule = DI.Module("render") {
         AnimationSystem()
     }
 
-    bind<BaseComponent>(tag = "render") with factory { _: TemplatedState ->
+    bind<EntityComponent>(tag = "render") with factory { _: TemplatedState ->
         RenderComponent()
     }
 }

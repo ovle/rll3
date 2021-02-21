@@ -5,13 +5,14 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rlUtil.gdx.controls.*
-import com.ovle.rll3.model.module.core.component.ComponentMappers
-import com.ovle.rll3.model.module.core.entity.*
-import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rlUtil.next
 import com.ovle.rll3.event.*
+import com.ovle.rll3.model.module.core.entity.locationInfo
+import com.ovle.rll3.model.module.core.entity.on
+import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
+import com.ovle.rll3.model.module.core.entity.selectedEntity
+import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.util.viewportToGame
-import ktx.ashley.get
 
 
 class PlayerControlsSystem : EventSystem() {
@@ -45,13 +46,12 @@ class PlayerControlsSystem : EventSystem() {
 
     private fun onMouseMoved(position: GridPoint2) {
         val level = engine.locationInfo() ?: return
-        val interactionEntity = playerInteraction(engine.allEntities().toList()) ?: return
-        val positionComponent = interactionEntity[ComponentMappers.position]!!
-        if (positionComponent.gridPosition == position) return
+        val interactionInfo = engine.playerInteractionInfo() ?: return
+        if (interactionInfo.gridPosition == position) return
 
         send(EntityUnhoverEvent())
 
-        positionComponent.gridPosition = position
+        interactionInfo.gridPosition = position
         val entities = level.entities.on(position)
         entities.forEach {
             send(EntityHoverEvent(it))

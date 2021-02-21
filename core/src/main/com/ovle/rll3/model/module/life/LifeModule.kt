@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.module.life
 
 import com.badlogic.ashley.core.EntitySystem
-import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.TemplatedState
+import com.ovle.rll3.model.module.core.component.EntityComponent
 import org.kodein.di.*
 
 
@@ -17,7 +17,7 @@ val lifeModule = DI.Module("life") {
         StaminaSystem()
     }
 
-    bind<BaseComponent>(tag = "living") with factory { value: TemplatedState? ->
+    bind<EntityComponent>(tag = "living") with factory { value: TemplatedState? ->
         HealthComponent(
             maxHealth = value!!["health"] as Int,
             maxStamina = value["stamina"] as Int

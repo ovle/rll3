@@ -60,22 +60,20 @@ class GUIRenderer(
 
 
     override fun render(deltaTime: Float) {
-        val interaction = engine.playerInteraction()!!
+        val interactionInfo = engine.playerInteractionInfo()!!
         val game = engine.game()!!
 
         stageBatch.begin()
-        renderGUI(interaction, game)
+        renderGUI(interactionInfo, game)
         stageBatch.end()
 
         batch.begin()
-        renderInteractionInfo(interaction, game)
+        renderInteractionInfo(interactionInfo, game)
         batch.end()
     }
 
-    private fun renderGUI(interaction: Entity, game: Entity) {
-        val selectedPoint = interaction.position()
-
-        val interactionInfo = interaction[ComponentMappers.playerInteraction]!!
+    private fun renderGUI(interactionInfo: PlayerInteractionComponent, game: Entity) {
+        val selectedPoint = interactionInfo.gridPosition
         val hoveredEntity = interactionInfo.hoveredEntity
         val selectedEntity = interactionInfo.selectedEntity
 //        val focusedEntity = interactionInfo.focusedEntity
@@ -83,7 +81,7 @@ class GUIRenderer(
         val gameInfo = game[ComponentMappers.game]!!
         val locationInfo = gameInfo.location
         val locationPoint = locationInfo.locationPoint
-        val time = gameInfo.time
+        val time = game[ComponentMappers.time]!!.time
         val worldAreaName = gameInfo.world?.area(locationPoint)?.name ?: "playground"
         val tasksInfo = game[ComponentMappers.tasks]!!
 
@@ -112,19 +110,18 @@ class GUIRenderer(
         }
     }
 
-    private fun renderInteractionInfo(interaction: Entity, game: Entity) {
-        drawCursor(interaction)
+    private fun renderInteractionInfo(interactionInfo: PlayerInteractionComponent, game: Entity) {
+        drawCursor(interactionInfo)
 
-        val interactionComponent = interaction[ComponentMappers.playerInteraction]!!
         val locationInfo = game[ComponentMappers.game]!!.location
-        drawSelection(interactionComponent)
+        drawSelection(interactionInfo)
 //        drawControl(interactionComponent)
-        drawHover(interactionComponent)
-        drawAreas(interactionComponent, locationInfo)
+        drawHover(interactionInfo)
+        drawAreas(interactionInfo, locationInfo)
     }
 
-    private fun drawCursor(entity: Entity) {
-        draw(entity, cursorSprite)
+    private fun drawCursor(interactionInfo: PlayerInteractionComponent) {
+        draw(interactionInfo.gridPosition, cursorSprite)
     }
 
     private fun drawSelection(ic: PlayerInteractionComponent) {

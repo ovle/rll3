@@ -3,7 +3,7 @@ package com.ovle.rll3.model.module.time
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.event.*
-import com.ovle.rll3.model.module.core.entity.gameInfo
+import com.ovle.rll3.model.module.core.entity.timeInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 
 
@@ -17,18 +17,17 @@ class TimeSystem : EventSystem() {
     }
 
     private fun onIncGameSpeedCommand() {
-        val gameComponent = engine.gameInfo()!!
-        changeGameSpeed(gameComponent.time, 2.0)
+        val time = engine.timeInfo()!!.time
+        changeGameSpeed(time, 2.0)
     }
 
     private fun onDecGameSpeedCommand() {
-        val gameComponent = engine.gameInfo()!!
-        changeGameSpeed(gameComponent.time, 0.5)
+        val time = engine.timeInfo()!!.time
+        changeGameSpeed(time, 0.5)
     }
 
     private fun onSwitchPauseGameCommand() {
-        val gameComponent = engine.gameInfo()!!
-        val time = gameComponent.time
+        val time = engine.timeInfo()!!.time
         time.paused = !time.paused
     }
 
@@ -38,8 +37,8 @@ class TimeSystem : EventSystem() {
     }
 
     override fun update(deltaTime: Float) {
-        val gameComponent = engine.gameInfo()!!
-        with(gameComponent.time) {
+        val time = engine.timeInfo()!!.time
+        with(time) {
             if (paused) return
 
             val exactDeltaTurns = deltaTime * turnsInSecond

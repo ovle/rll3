@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.module.entityAction
 
-import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.ExactTurn
+import com.ovle.rll3.model.module.core.component.EntityComponent
 import com.ovle.rll3.model.module.skill.SkillTemplate
 
 /**
@@ -15,4 +15,4 @@ class EntityActionComponent(
     var skill: SkillTemplate? = null,
 //    var animation: AnimationType? = null,
     var turnsLeft: ExactTurn? = null
-) : BaseComponent
+) : EntityComponent()

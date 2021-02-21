@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.module.entityAction
 
 import com.badlogic.ashley.core.EntitySystem
-import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
+import com.ovle.rll3.model.module.core.component.EntityComponent
 import org.kodein.di.*
 
 
@@ -10,7 +10,7 @@ val entityActionModule = DI.Module("entityAction") {
         EntityActionSystem()
     }
 
-    bind<BaseComponent>().inSet() with provider {
+    bind<EntityComponent>().inSet() with provider {
         EntityActionComponent()
     }
 }
