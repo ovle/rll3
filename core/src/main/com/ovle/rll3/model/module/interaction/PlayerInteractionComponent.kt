@@ -2,7 +2,7 @@ package com.ovle.rll3.model.module.interaction
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Rectangle
-import com.ovle.rll3.model.module.core.component.BaseComponent
+import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.model.module.game.AreaInfo
 
 /**

@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.module.game
 
-import com.ovle.rll3.model.module.core.component.BaseComponent
+import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.model.module.time.TimeInfo
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 

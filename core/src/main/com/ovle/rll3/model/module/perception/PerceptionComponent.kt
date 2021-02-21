@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.module.perception
 
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.module.core.component.BaseComponent
+import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 
 //todo sight, hearing, feel living, feel magic
 class PerceptionComponent(

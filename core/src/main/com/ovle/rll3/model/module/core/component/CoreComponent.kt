@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.module.core.component
 
+import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.EntityId
-import com.ovle.rll3.model.module.core.component.BaseComponent
 
 class CoreComponent(
     var id: EntityId,

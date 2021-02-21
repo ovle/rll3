@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Align
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.gdx.screen.BaseScreen
 import com.ovle.rll3.event.SwitchScreenCommand
+import com.ovle.rll3.screen.game.InitPlaygroundInfo
 import com.ovle.rll3.screen.game.PlaygroundScreen
 import com.ovle.util.screen.ScreenConfig
 import ktx.actors.onClick
@@ -37,7 +38,7 @@ class MainMenuScreen(
 //                onClick { send(SwitchScreenCommand(OptionsScreen::class.java)) }
             }
             textButton(text = "Playground") {
-                onClick { send(SwitchScreenCommand(PlaygroundScreen::class.java)) }
+                onClick { send(SwitchScreenCommand(PlaygroundScreen::class.java, InitPlaygroundInfo())) }
             }
             textButton(text = "Exit") {
                 onClick { Gdx.app.exit() }

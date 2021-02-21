@@ -1,10 +1,10 @@
 package com.ovle.rll3.model.module.resource
 
 import com.badlogic.ashley.core.EntitySystem
+import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.ComponentData
 import com.ovle.rll3.ResourceAmount
 import com.ovle.rll3.TemplatedState
-import com.ovle.rll3.model.module.core.component.BaseComponent
 import org.kodein.di.*
 
 

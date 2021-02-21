@@ -1,8 +1,8 @@
 package com.ovle.rll3.model.module.render
 
+import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rlUtil.gdx.view.AnimationInfo
 import com.ovle.rlUtil.gdx.view.Sprite
-import com.ovle.rll3.model.module.core.component.BaseComponent
 
 class RenderComponent(
     var sprite: Sprite? = null,

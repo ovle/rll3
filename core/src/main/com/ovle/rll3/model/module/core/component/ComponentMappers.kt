@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.module.core.component
 
-import com.badlogic.ashley.core.ComponentMapper
+import com.ovle.rlUtil.gdx.ashley.component.mapper
 import com.ovle.rll3.model.module._deprecated.DoorComponent
 import com.ovle.rll3.model.module._deprecated.StashComponent
 import com.ovle.rll3.model.module.ai.AIComponent
@@ -21,10 +21,8 @@ import com.ovle.rll3.model.module.space.MoveComponent
 import com.ovle.rll3.model.module.space.PositionComponent
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
 import com.ovle.rll3.model.module.task.TasksComponent
-import com.ovle.rll3.model.module.template.TemplateComponent
+import com.ovle.rll3.model.module.core.component.template.TemplateComponent
 
-
-private inline fun <reified T : BaseComponent> mapper(): ComponentMapper<T> = ComponentMapper.getFor(T::class.java)
 
 //todo use modules
 object ComponentMappers {

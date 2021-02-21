@@ -1,7 +1,7 @@
 package com.ovle.rll3.model.module.light
 
+import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.TemplatedState
-import com.ovle.rll3.model.module.core.component.BaseComponent
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.factory
