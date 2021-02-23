@@ -7,7 +7,7 @@ import com.ovle.rll3.TaskExec
 import com.ovle.rll3.event.EntityCarryItemEvent
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.result
-import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
+import com.ovle.rll3.model.module.container.Components.carrier
 import com.ovle.rll3.model.module.core.entity.carriers
 import ktx.ashley.get
 

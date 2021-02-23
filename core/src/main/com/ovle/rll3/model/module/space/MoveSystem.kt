@@ -6,14 +6,14 @@ import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rlUtil.gdx.math.point
 import com.ovle.rll3.event.*
-import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
-import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
-import com.ovle.rll3.model.module.core.component.ComponentMappers.move
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rll3.model.module.container.Components.carrier
 import com.ovle.rll3.model.module.core.entity.bodyObstacles
 import com.ovle.rll3.model.module.core.entity.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.entityAction.Components.entityAction
 import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.space.Components.position
+import com.ovle.rll3.model.module.space.Components.move
 import com.ovle.rll3.model.util.path
 import ktx.ashley.get
 import ktx.ashley.has
@@ -108,6 +108,7 @@ class MoveSystem : EventSystem() {
         }
     }
 
+    //todo not modular
     private fun processCarrier(entity: Entity, currentPosition: GridPoint2) {
         val carriedEntity = entity[carrier]!!.item ?: return
         carriedEntity[position]!!.gridPosition = currentPosition.cpy()

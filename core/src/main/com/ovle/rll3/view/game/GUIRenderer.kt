@@ -16,12 +16,14 @@ import com.ovle.rlUtil.gdx.view.PaletteManager
 import com.ovle.rlUtil.gdx.view.Sprite
 import com.ovle.rlUtil.gdx.view.sprite
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.game.AreaInfo
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
 import com.ovle.rll3.model.module.render.draw
+import com.ovle.rll3.model.module.task.Components.tasks
+import com.ovle.rll3.model.module.time.Components.time
+import com.ovle.rll3.model.module.game.Components.game
 import com.ovle.rll3.model.module.task.TaskInfo
 import com.ovle.rll3.model.util.info
 import com.ovle.rll3.view.fontName
@@ -72,18 +74,18 @@ class GUIRenderer(
         batch.end()
     }
 
-    private fun renderGUI(interactionInfo: PlayerInteractionComponent, game: Entity) {
+    private fun renderGUI(interactionInfo: PlayerInteractionComponent, gameEntity: Entity) {
         val selectedPoint = interactionInfo.gridPosition
         val hoveredEntity = interactionInfo.hoveredEntity
         val selectedEntity = interactionInfo.selectedEntity
 //        val focusedEntity = interactionInfo.focusedEntity
 
-        val gameInfo = game[ComponentMappers.game]!!
+        val gameInfo = gameEntity[game]!!
         val locationInfo = gameInfo.location
         val locationPoint = locationInfo.locationPoint
-        val time = game[ComponentMappers.time]!!.time
+        val time = gameEntity[time]!!.time
         val worldAreaName = gameInfo.world?.area(locationPoint)?.name ?: "playground"
-        val tasksInfo = game[ComponentMappers.tasks]!!
+        val tasksInfo = gameEntity[tasks]!!
 
         val point = vec2(0.0f, Gdx.graphics.height - dy)
         val info = arrayOf(
@@ -110,10 +112,10 @@ class GUIRenderer(
         }
     }
 
-    private fun renderInteractionInfo(interactionInfo: PlayerInteractionComponent, game: Entity) {
+    private fun renderInteractionInfo(interactionInfo: PlayerInteractionComponent, gameEntity: Entity) {
         drawCursor(interactionInfo)
 
-        val locationInfo = game[ComponentMappers.game]!!.location
+        val locationInfo = gameEntity[game]!!.location
         drawSelection(interactionInfo)
 //        drawControl(interactionComponent)
         drawHover(interactionInfo)

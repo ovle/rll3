@@ -6,25 +6,28 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
+
+import com.ovle.rll3.model.module.core.component.CoreComponent
+
+//todo modules
 import com.ovle.rll3.model.module.ai.AIComponent
 import com.ovle.rll3.model.module.collision.CollisionComponent
-import com.ovle.rll3.model.module.core.component.ComponentMappers
-import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
-import com.ovle.rll3.model.module.core.component.ComponentMappers.collision
-import com.ovle.rll3.model.module.core.component.ComponentMappers.core
-import com.ovle.rll3.model.module.core.component.ComponentMappers.game
-import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
-import com.ovle.rll3.model.module.core.component.ComponentMappers.tasks
-import com.ovle.rll3.model.module.core.component.ComponentMappers.time
-import com.ovle.rll3.model.module.core.component.CoreComponent
+import com.ovle.rll3.model.module.collision.Components.collision
+import com.ovle.rll3.model.module.container.Components.carrier
+import com.ovle.rll3.model.module.core.Components.core
 import com.ovle.rll3.model.module.entityAction.EntityActionComponent
+import com.ovle.rll3.model.module.game.Components
 import com.ovle.rll3.model.module.game.GameComponent
+import com.ovle.rll3.model.module.interaction.Components.playerInteraction
 import com.ovle.rll3.model.module.resource.ResourceType
-import com.ovle.rll3.model.module.life.HealthComponent
-import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
+import com.ovle.rll3.model.module.life.LifeComponent
 import com.ovle.rll3.model.module.perception.PerceptionComponent
 import com.ovle.rll3.model.module.render.RenderComponent
+import com.ovle.rll3.model.module.resource.Components.resource
+import com.ovle.rll3.model.module.task.Components.tasks
 import com.ovle.rll3.model.module.task.TaskPerformerComponent
+import com.ovle.rll3.model.module.time.Components.time
+
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.reflect.KClass
@@ -49,13 +52,14 @@ fun Engine.allEntities() = entities.filter { it[core]!!.isExists }
 fun game(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)
 fun Engine.game() = game(allEntities().toTypedArray())
 fun Engine.tasksInfo() = game()?.get(tasks)
-fun Engine.gameInfo() = game()?.get(game)
+fun Engine.gameInfo() = game()?.get(Components.game)
 fun Engine.timeInfo() = game()?.get(time)
 fun Engine.locationInfo() = gameInfo()?.location
 
-fun locationInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)?.get(game)?.location
+fun locationInfo(entities: Array<Entity>) = entityWith(entities.toList(), GameComponent::class)
+    ?.get(Components.game)?.location
 
-fun Engine.livingEntities() = entitiesWith(allEntities().toList(), HealthComponent::class)
+fun Engine.livingEntities() = entitiesWith(allEntities().toList(), LifeComponent::class)
 fun Engine.actionEntities() = entitiesWith(allEntities().toList(), EntityActionComponent::class)
 fun Engine.renderEntities() = entitiesWith(allEntities().toList(), RenderComponent::class)
 fun Engine.aiEntities() = entitiesWith(allEntities().toList(), AIComponent::class)
@@ -63,7 +67,7 @@ fun Engine.perceptionEntities() = entitiesWith(allEntities().toList(), Perceptio
 
 //todo not entity?
 fun playerInteractionInfo(entities: List<Entity>) = game(entities.toTypedArray())
-    ?.get(ComponentMappers.playerInteraction)
+    ?.get(playerInteraction)
 fun Engine.playerInteractionInfo() = playerInteractionInfo(allEntities().toList())
 fun Engine.focusedEntity() = playerInteractionInfo()?.focusedEntity
 fun Engine.selectedEntity() = playerInteractionInfo()?.selectedEntity

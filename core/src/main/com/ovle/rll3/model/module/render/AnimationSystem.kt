@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rlUtil.event.EventBus
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.ExactTurn
-import com.ovle.rll3.model.module.core.component.ComponentMappers.render
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.entity.renderEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
@@ -14,6 +13,7 @@ import com.ovle.rlUtil.gdx.math.Direction
 import com.ovle.rlUtil.gdx.view.Animation
 import com.ovle.rlUtil.gdx.view.AnimationInfo
 import com.ovle.rll3.event.*
+import com.ovle.rll3.model.module.render.Components.render
 import ktx.ashley.get
 
 class AnimationSystem: EventSystem() {

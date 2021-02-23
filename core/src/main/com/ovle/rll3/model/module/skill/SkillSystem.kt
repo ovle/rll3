@@ -1,15 +1,14 @@
 package com.ovle.rll3.model.module.skill
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rlUtil.event.EventBus
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.event.EntityChangedEvent
 import com.ovle.rll3.event.EntityFinishUseSkillEvent
 import com.ovle.rll3.event.EntityStartUseSkillEvent
 import com.ovle.rll3.event.EntityUseSkillCommand
-import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.entityAction.Components.entityAction
 import com.ovle.rll3.model.module.skill.CostStatus.*
 import com.ovle.rll3.model.util.info
 import ktx.ashley.get

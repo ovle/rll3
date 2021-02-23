@@ -4,8 +4,8 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.event.*
-import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.life.Components.life
 import ktx.ashley.get
 import ktx.ashley.has
 import kotlin.math.max
@@ -21,15 +21,15 @@ class HealthSystem : EventSystem() {
     }
 
     private fun onKillSelectedEntityCommand(entity: Entity) {
-        if (!entity.has(health)) return
+        if (!entity.has(life)) return
 
-        applyDamage(entity, entity[health]!!.health)
+        applyDamage(entity, entity[life]!!.health)
     }
 
     private fun onResurrectEntityCommand(entity: Entity) {
-        if (!entity.has(health)) return
+        if (!entity.has(life)) return
 
-        applyHeal(entity, entity[health]!!.maxHealth)
+        applyHeal(entity, entity[life]!!.maxHealth)
     }
 
     private fun onEntityTakeDamageEvent(entity: Entity, source: Entity?, amount: Int) {
@@ -37,9 +37,9 @@ class HealthSystem : EventSystem() {
     }
 
     private fun onEntityStarvedEvent(entity: Entity) {
-        val health = entity[health]!!
+        val life = entity[life]!!
         //todo
-        health.health = 0
+        life.health = 0
 
         send(EntityDiedEvent(entity))
     }
@@ -48,12 +48,12 @@ class HealthSystem : EventSystem() {
     private fun applyDamage(entity: Entity, amount: Int) {
         check(amount >= 0) { "damage amount is negative: $amount" }
 
-        val health = entity[health]!!
-        if (health.isDead) return
+        val life = entity[life]!!
+        if (life.isDead) return
 
-        health.health = max(health.health - amount, 0)
+        life.health = max(life.health - amount, 0)
 
-        if (health.health == 0) {
+        if (life.health == 0) {
             send(EntityDiedEvent(entity))
         }
     }
@@ -61,10 +61,10 @@ class HealthSystem : EventSystem() {
     private fun applyHeal(entity: Entity, amount: Int) {
         check(amount >= 0) { "heal amount is negative: $amount" }
 
-        val health = entity[health]!!
-        val wasDead = health.isDead
+        val life = entity[life]!!
+        val wasDead = life.isDead
 
-        health.health = min(amount, health.maxHealth)
+        life.health = min(amount, life.maxHealth)
 
         if (wasDead) {
             send(EntityResurrectedEvent(entity))

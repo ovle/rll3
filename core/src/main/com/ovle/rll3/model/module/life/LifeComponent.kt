@@ -1,10 +1,9 @@
 package com.ovle.rll3.model.module.life
 
-import com.ovle.rlUtil.gdx.ashley.component.BaseComponent
 import com.ovle.rll3.model.module.core.component.EntityComponent
 
 
-class HealthComponent(
+class LifeComponent(
     var health: Int = 1,
     var maxHealth: Int = 1,
     var stamina: Int = 3,

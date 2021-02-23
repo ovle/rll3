@@ -3,9 +3,9 @@ package com.ovle.rll3.model.module.container
 import com.badlogic.ashley.core.Entity
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.event.EntityMovedEvent
-import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
+import com.ovle.rll3.model.module.container.Components.carrier
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.space.Components.position
 import ktx.ashley.get
 import ktx.ashley.has
 

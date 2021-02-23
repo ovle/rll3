@@ -5,9 +5,9 @@ import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.Turn
 import com.ovle.rll3.event.*
-import com.ovle.rll3.model.module.core.component.ComponentMappers.health
 import com.ovle.rll3.model.module.core.entity.livingEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.life.Components.life
 import ktx.ashley.get
 
 
@@ -25,21 +25,21 @@ class HungerSystem : EventSystem() {
     }
 
     private fun processEntity(entity: Entity) {
-        val health = entity[health]!!
-        if (health.isDead || health.isStarved) return
+        val life = entity[life]!!
+        if (life.isDead || life.isStarved) return
 
-        health.hunger += 1
+        life.hunger += 1
 
-        if (health.isStarved) {
+        if (life.isStarved) {
             send(EntityStarvedEvent(entity))
         }
     }
 
     private fun onEntityEatEvent(entity: Entity, food: Entity) {
-        val health = entity[health]!!
+        val life = entity[life]!!
         //todo
-        health.hunger = 0
-//        health.hunger = max(health.hunger - food[resource]!!.amount, 0)
+        life.hunger = 0
+//        life.hunger = max(life.hunger - food[resource]!!.amount, 0)
 
         send(DestroyEntityCommand(food))
     }

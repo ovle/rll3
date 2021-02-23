@@ -12,11 +12,11 @@ import com.ovle.rlUtil.gdx.view.sprite
 import com.ovle.rll3.assets.AssetsManager
 import com.ovle.rll3.event.EntityDiedEvent
 import com.ovle.rll3.event.EntityResurrectedEvent
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.component.ComponentMappers.render
-import com.ovle.rll3.model.module.core.component.ComponentMappers.template
+import com.ovle.rll3.model.module.core.Components.template
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.system.BaseIteratingSystem
+import com.ovle.rll3.model.module.render.Components.render
+import com.ovle.rll3.model.module.space.Components.position
 import com.ovle.rll3.view.spriteSize
 import ktx.ashley.get
 

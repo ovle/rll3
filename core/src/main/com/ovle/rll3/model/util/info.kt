@@ -3,9 +3,9 @@ package com.ovle.rll3.model.util
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.module.core.component.ComponentMappers.template
+import com.ovle.rll3.model.module.core.Components.template
 import com.ovle.rll3.model.module.core.entity.name
-import com.ovle.rll3.model.module.life.HealthComponent
+import com.ovle.rll3.model.module.life.LifeComponent
 import com.ovle.rll3.model.module.space.PositionComponent
 import ktx.ashley.has
 
@@ -30,7 +30,7 @@ fun Any?.info(recursive: Boolean = false): String = when {
             )
     } else ""
     this is Component -> when {
-        this is HealthComponent -> "he: [he:${health}/st:${stamina}/hu:${hunger}]"
+        this is LifeComponent -> "he: [he:${health}/st:${stamina}/hu:${hunger}]"
         this is PositionComponent -> "pos: [${gridPosition.info()}]"
         else -> ""
     }

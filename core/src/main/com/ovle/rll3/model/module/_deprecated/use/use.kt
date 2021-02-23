@@ -1,8 +1,6 @@
 package com.ovle.rll3.model.module._deprecated.use
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.module.core.component.ComponentMappers.door
-import com.ovle.rll3.model.module.core.component.ComponentMappers.stash
 import ktx.ashley.has
 
 //class EntityInteractionCase(

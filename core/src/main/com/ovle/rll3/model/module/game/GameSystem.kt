@@ -3,16 +3,16 @@ package com.ovle.rll3.model.module.game
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.model.module.core.component.ComponentMappers.core
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.entity.*
-import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.procedural.config.LocationGenerationParams
 import com.ovle.rlUtil.RandomParams
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rlUtil.noise4j.grid.gridToTileArray
 import com.ovle.rll3.event.*
+import com.ovle.rll3.model.module.core.Components.core
+import com.ovle.rll3.model.module.core.entity.*
+import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.space.Components.position
+import com.ovle.rll3.model.procedural.config.LocationGenerationParams
 import com.ovle.rll3.model.procedural.config.location.locationParams
 import com.ovle.rll3.model.procedural.config.location.playgroundParams
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
@@ -59,11 +59,9 @@ class GameSystem : EventSystem() {
 
     private fun onCreateEntityCommand(entityTemplate: EntityTemplate, startPosition: GridPoint2) {
         val entity = newTemplatedEntity(randomId(), entityTemplate, engine)
-            .apply {
-                if (has(position)) {
-                    setPosition(startPosition)
-                }
-            }
+        if (entity.has(position)) {
+            entity.setPosition(startPosition)
+        }
 
         val location = engine.locationInfo()!!
         location.entities += entity

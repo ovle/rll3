@@ -5,11 +5,11 @@ import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.ai.btree.BehaviorTree
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.event.*
+import com.ovle.rll3.model.module.ai.Components.ai
 import com.ovle.rll3.model.module.ai.behavior.BTParams
 import com.ovle.rll3.model.module.ai.behavior.TaskStatusListener
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.config.behaviors
-import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
 import com.ovle.rll3.model.module.core.entity.aiEntities
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.module.core.entity.entitiesWith

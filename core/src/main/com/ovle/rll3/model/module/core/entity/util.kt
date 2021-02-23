@@ -3,21 +3,25 @@ package com.ovle.rll3.model.module.core.entity
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.EntityId
-import com.ovle.rll3.model.module.core.component.ComponentMappers.health
-import com.ovle.rll3.model.module.core.component.ComponentMappers.core
-import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.component.ComponentMappers.resource
-import com.ovle.rll3.model.module.core.component.ComponentMappers.template
+import com.ovle.rll3.model.module.core.Components.core
+import com.ovle.rll3.model.module.core.Components.template
 import com.ovle.rll3.model.module.core.component.print
-import com.ovle.rll3.model.module.resource.ResourceType
 import com.ovle.rll3.model.util.info
 import ktx.ashley.get
 import ktx.ashley.has
 
+//todo modules
+import com.ovle.rll3.model.module.life.Components.life
+import com.ovle.rll3.model.module.perception.Components.perception
+import com.ovle.rll3.model.module.resource.Components.resource
+import com.ovle.rll3.model.module.resource.ResourceType
+import com.ovle.rll3.model.module.space.Components.position
+
+
 fun Collection<Entity>.print() = map { it.print() }.foldRight("entities: ") { acc, it -> "$acc; $it" }
 
 fun Entity.print() = components.map { it.print() }.foldRight("components: ") { acc, it -> "$acc, $it" }
+
 
 fun Entity.see(position: GridPoint2): Boolean {
     check(this.has(perception)) { "no perception for entity ${this.info()}" }
@@ -52,7 +56,7 @@ fun Entity.name(): EntityId {
 }
 
 fun Entity.consumes(e: Entity): Boolean {
-    check(this.has(health)) { "no health for entity ${this.info()}" }
+    check(this.has(life)) { "no life for entity ${this.info()}" }
     if (!e.has(resource)) return false
 
     //todo consumer-specific

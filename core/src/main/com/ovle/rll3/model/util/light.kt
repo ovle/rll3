@@ -6,9 +6,9 @@ import com.ovle.rlUtil.TileArray
 import com.ovle.rll3.model.module.light.LightSourceComponent
 import com.ovle.rll3.model.module.light.AOETilePosition
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.core.component.ComponentMappers
 import com.ovle.rll3.model.module.core.entity.entitiesWith
 import com.ovle.rlUtil.gdx.math.lineOfSight.rayTracing.fieldOfView
+import com.ovle.rll3.model.module.light.Components.light
 import com.ovle.rll3.model.procedural.config.location.solidWallTypes
 import ktx.ashley.get
 
@@ -51,7 +51,7 @@ object LightConfig {
 //todo cache / memoize
 fun lightTiles(locationInfo: LocationInfo): List<AOETilePosition> {
     val lightSources = entitiesWith(locationInfo.entities, LightSourceComponent::class)
-    return lightSources.map { it[ComponentMappers.light]!!.area.aoePositions }.flatten()
+    return lightSources.map { it[light]!!.area.aoePositions }.flatten()
 }
 
 fun lightByPosition(AOETiles: List<AOETilePosition>) = AOETiles.groupBy { it.tilePosition }

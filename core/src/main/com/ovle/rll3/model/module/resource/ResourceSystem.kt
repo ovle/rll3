@@ -7,9 +7,9 @@ import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.Turn
 import com.ovle.rll3.event.*
-import com.ovle.rll3.model.module.core.component.ComponentMappers.source
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.resource.Components.source
 import com.ovle.rll3.model.template.entity.entityTemplate
 import ktx.ashley.get
 

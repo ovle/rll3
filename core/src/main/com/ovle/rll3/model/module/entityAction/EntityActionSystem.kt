@@ -4,9 +4,9 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.ExactTurn
 import com.ovle.rll3.event.*
-import com.ovle.rll3.model.module.core.component.ComponentMappers.entityAction
 import com.ovle.rll3.model.module.core.entity.actionEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.entityAction.Components.entityAction
 import ktx.ashley.get
 
 

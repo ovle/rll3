@@ -5,7 +5,7 @@ import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rll3.TaskExec
 import com.ovle.rll3.event.EntityDropItemEvent
 import com.ovle.rll3.model.module.ai.behavior.result
-import com.ovle.rll3.model.module.core.component.ComponentMappers.carrier
+import com.ovle.rll3.model.module.container.Components.carrier
 import com.ovle.rll3.model.module.core.entity.position
 import com.ovle.rll3.model.module.core.entity.setPosition
 import ktx.ashley.get

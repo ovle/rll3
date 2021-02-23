@@ -18,7 +18,7 @@ val lifeModule = DI.Module("life") {
     }
 
     bind<EntityComponent>(tag = "living") with factory { value: TemplatedState? ->
-        HealthComponent(
+        LifeComponent(
             maxHealth = value!!["health"] as Int,
             maxStamina = value["stamina"] as Int
         ).apply {

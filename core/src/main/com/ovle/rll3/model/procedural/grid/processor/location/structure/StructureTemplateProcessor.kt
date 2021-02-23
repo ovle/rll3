@@ -11,8 +11,6 @@ import com.ovle.rlUtil.gdx.math.point
 import com.ovle.rll3.*
 import com.ovle.rll3.model.module.quest.QuestOwnerComponent
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
-import com.ovle.rll3.model.module.core.component.ComponentMappers.questOwner
 import com.ovle.rll3.model.module.core.entity.entity
 import com.ovle.rll3.model.module.core.entity.newTemplatedEntity
 import com.ovle.rll3.model.module.core.entity.randomId
@@ -20,6 +18,8 @@ import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.template.structure.StructureEntity
 import com.ovle.rll3.model.template.structure.StructureTemplate
 import com.ovle.rll3.assets.loader.StructureTemplates
+import com.ovle.rll3.model.module.quest.Components.questOwner
+import com.ovle.rll3.model.module.space.Components.position
 import com.ovle.rll3.model.procedural.config.location.groundTileFilter
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.procedural.config.location.whateverTileId

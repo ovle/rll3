@@ -6,8 +6,6 @@ import com.ovle.rlUtil.event.EventBus
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.model.module.space.PositionComponent
-import com.ovle.rll3.model.module.core.component.ComponentMappers.perception
-import com.ovle.rll3.model.module.core.component.ComponentMappers.position
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.util.lightTilePassMapper
 import com.ovle.rlUtil.gdx.math.lineOfSight.rayTracing.fieldOfView
@@ -16,6 +14,8 @@ import com.ovle.rll3.event.EntityInitializedEvent
 import com.ovle.rll3.event.EntityMovedEvent
 import com.ovle.rll3.event.UpdateLightCollisionCommand
 import com.ovle.rll3.model.module.core.entity.*
+import com.ovle.rll3.model.module.perception.Components.perception
+import com.ovle.rll3.model.module.space.Components.position
 import ktx.ashley.get
 
 
