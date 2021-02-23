@@ -2,6 +2,7 @@ package com.ovle.rll3.model.module.time
 
 import com.badlogic.ashley.core.EntitySystem
 import com.ovle.rll3.model.module.core.component.GlobalComponent
+import com.ovle.rll3.model.module.time.dto.TimeInfo
 import org.kodein.di.*
 
 

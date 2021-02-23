@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.game
+package com.ovle.rll3.model.module.game.dto
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2

@@ -23,7 +23,7 @@ import com.ovle.rll3.event.EntityFovUpdatedEvent
 import com.ovle.rll3.event.LocationLoadedEvent
 import com.ovle.rll3.event.TileChangedEvent
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.module.perception.PerceptionComponent
 import com.ovle.rll3.model.procedural.config.location.*
 import com.ovle.rll3.view.textureTileSize

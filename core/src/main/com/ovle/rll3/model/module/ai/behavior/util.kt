@@ -8,7 +8,7 @@ import com.badlogic.gdx.ai.btree.branch.RandomSelector
 import com.badlogic.gdx.ai.btree.branch.Selector
 import com.badlogic.gdx.ai.btree.branch.Sequence
 import com.ovle.rll3.TaskExec
-import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.model.module.task.dto.TaskTarget
 import com.ovle.rll3.model.module.task.checkValid
 
 

@@ -4,8 +4,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rlUtil.Tile
 import com.ovle.rlUtil.TileArray
 import com.ovle.rll3.model.module.light.LightSourceComponent
-import com.ovle.rll3.model.module.light.AOETilePosition
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.module.core.entity.entitiesWith
 import com.ovle.rlUtil.gdx.math.lineOfSight.rayTracing.fieldOfView
 import com.ovle.rll3.model.module.light.Components.light

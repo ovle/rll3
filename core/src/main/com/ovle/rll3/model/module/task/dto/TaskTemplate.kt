@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.task
+package com.ovle.rll3.model.module.task.dto
 
 import com.ovle.rll3.*
 import com.ovle.rll3.model.module.ai.behavior.BTTemplate

@@ -7,7 +7,7 @@ import com.ovle.rll3.model.module.ai.AISystem
 import com.ovle.rll3.model.module.core.entity.randomId
 import com.ovle.rll3.model.module.entityAction.EntityActionComponent
 import com.ovle.rll3.model.module.entityAction.EntityActionSystem
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.module.space.MoveComponent
 import com.ovle.rll3.model.module.space.MoveSystem
 import com.ovle.rll3.model.module.space.PositionComponent

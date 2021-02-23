@@ -8,7 +8,7 @@ import com.ovle.rll3.model.module.ai.behavior.*
 import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
 import com.ovle.rll3.model.util.newEntity
 import com.ovle.rll3.model.module.core.entity.newGame
-import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.model.module.task.dto.TaskTarget
 import ktx.ashley.get
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll

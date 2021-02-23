@@ -7,9 +7,9 @@ import com.ovle.rll3.BTFactory
 import com.ovle.rll3.BehaviorSelector
 import com.ovle.rll3.model.module.core.entity.allEntities
 import com.ovle.rll3.model.util.locationInfo
-import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.task.TaskInfo
-import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.model.module.game.dto.LocationInfo
+import com.ovle.rll3.model.module.task.dto.TaskInfo
+import com.ovle.rll3.model.module.task.dto.TaskTarget
 
 data class TaskExecParams(
     val btParams: BTParams

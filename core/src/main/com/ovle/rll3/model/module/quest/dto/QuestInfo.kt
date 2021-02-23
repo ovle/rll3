@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.quest
+package com.ovle.rll3.model.module.quest.dto
 
 import com.badlogic.ashley.core.Entity
 

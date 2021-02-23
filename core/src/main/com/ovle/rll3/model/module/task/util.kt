@@ -2,8 +2,9 @@ package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rlUtil.gdx.math.adjHV
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.module.space.position
+import com.ovle.rll3.model.module.task.dto.TaskTarget
 import com.ovle.rll3.model.util.conditions.EntityConditions.isTaskPerformer
 import com.ovle.rll3.model.util.path
 

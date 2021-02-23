@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Rectangle
 import com.ovle.rlUtil.gdx.math.point
 import com.ovle.rll3.model.module.core.component.GlobalComponent
-import com.ovle.rll3.model.module.game.AreaInfo
+import com.ovle.rll3.model.module.game.dto.AreaInfo
 
 /**
  * @property focusedEntity      entity, which has the camera focus

@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.light
+package com.ovle.rll3.model.util
 
 import com.badlogic.gdx.math.GridPoint2
 

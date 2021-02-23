@@ -10,6 +10,7 @@ import com.ovle.rll3.event.EntityUseSkillCommand
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.entityAction.Components.entityAction
 import com.ovle.rll3.model.module.skill.CostStatus.*
+import com.ovle.rll3.model.module.skill.dto.SkillUsage
 import com.ovle.rll3.model.util.info
 import ktx.ashley.get
 

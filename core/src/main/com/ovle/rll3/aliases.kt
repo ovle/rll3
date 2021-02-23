@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.GridPoint2
 import com.badlogic.gdx.math.Vector2
 import com.ovle.rlUtil.gdx.screen.BaseScreen
 import com.ovle.rll3.model.module.ai.behavior.*
-import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.quest.QuestInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
+import com.ovle.rll3.model.module.quest.dto.QuestInfo
 import com.ovle.rll3.model.module.skill.CostStatus
-import com.ovle.rll3.model.module.skill.SkillUsage
-import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.model.module.skill.dto.SkillUsage
+import com.ovle.rll3.model.module.task.dto.TaskTarget
 
 typealias SetScreen = (BaseScreen, Any?) -> Unit
 

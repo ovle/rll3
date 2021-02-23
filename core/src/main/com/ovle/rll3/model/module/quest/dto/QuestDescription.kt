@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.quest
+package com.ovle.rll3.model.module.quest.dto
 
 import com.ovle.rll3.QuestCondition
 import com.ovle.rll3.QuestHook

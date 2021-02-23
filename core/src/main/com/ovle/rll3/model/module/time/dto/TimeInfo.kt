@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.time
+package com.ovle.rll3.model.module.time.dto
 
 import java.io.Serializable
 

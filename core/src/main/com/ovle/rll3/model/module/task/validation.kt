@@ -3,9 +3,11 @@ package com.ovle.rll3.model.module.task
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.module.task.Components.taskPerformer
+import com.ovle.rll3.model.module.task.dto.TaskInfo
 import com.ovle.rll3.model.util.conditions.EntityConditions.isDead
 import com.ovle.rll3.model.util.conditions.EntityConditions.isExists
-import com.ovle.rll3.model.module.task.TaskStatus.*
+import com.ovle.rll3.model.module.task.dto.TaskStatus.*
+import com.ovle.rll3.model.module.task.dto.TaskTarget
 import ktx.ashley.has
 
 

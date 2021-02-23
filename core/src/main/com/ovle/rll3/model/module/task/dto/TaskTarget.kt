@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.task
+package com.ovle.rll3.model.module.task.dto
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2

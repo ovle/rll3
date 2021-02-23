@@ -2,7 +2,7 @@ package com.ovle.rll3.model.module.entityAction
 
 import com.ovle.rll3.ExactTurn
 import com.ovle.rll3.model.module.core.component.EntityComponent
-import com.ovle.rll3.model.module.skill.SkillTemplate
+import com.ovle.rll3.model.module.skill.dto.SkillTemplate
 
 /**
  * @property current       action (will be started when [timeLeft] expires)

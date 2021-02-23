@@ -3,7 +3,7 @@ package com.ovle.rll3.model.procedural.grid.processor.location.room
 import com.badlogic.ashley.core.Engine
 import com.ovle.rlUtil.TileArray
 import com.ovle.rlUtil.gdx.math.adjTiles
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import kotlin.random.Random
 

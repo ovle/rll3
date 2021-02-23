@@ -7,7 +7,7 @@ package com.ovle.rll3.model.module.quest
 //import com.ovle.rll3.model.module.core.entity.levelInfo
 //import com.ovle.rll3.model.module.core.entity.randomId
 //import com.ovle.rll3.model.module.core.system.EventSystem
-//import com.ovle.rll3.model.module.quest.QuestStatus.*
+//import com.ovle.rll3.model.module.quest.dto.QuestStatus.*
 //
 //
 //class DebugQuestSystem : EventSystem() {

@@ -5,7 +5,7 @@
 //import com.github.czyzby.noise4j.map.Grid
 //import com.ovle.rlUtil.gdx.math.component1
 //import com.ovle.rlUtil.gdx.math.component2
-//import com.ovle.rll3.model.module.game.LocationInfo
+//import com.ovle.rll3.model.module.game.dto.LocationInfo
 //import com.ovle.rll3.model.procedural.config.location.outdoorHighGroundTreshold
 //import com.ovle.rll3.model.procedural.config.location.outdoorLowGroundTreshold
 //import com.ovle.rll3.model.procedural.config.location.shallowWaterTileId

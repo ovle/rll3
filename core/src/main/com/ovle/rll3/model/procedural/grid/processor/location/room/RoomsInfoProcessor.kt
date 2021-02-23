@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2
 import com.ovle.rlUtil.gdx.math.adjTiles
 import com.ovle.rll3.RoomTiles
 import com.ovle.rlUtil.gdx.math.isAdj
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.procedural.config.location.floorTypes
 import kotlin.math.roundToInt

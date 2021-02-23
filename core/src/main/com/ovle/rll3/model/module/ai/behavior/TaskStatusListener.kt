@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.btree.Task.Status.FAILED
 import com.badlogic.gdx.ai.btree.Task.Status.SUCCEEDED
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rll3.event.*
-import com.ovle.rll3.model.module.task.TaskInfo
+import com.ovle.rll3.model.module.task.dto.TaskInfo
 
 
 open class TaskStatusListener(

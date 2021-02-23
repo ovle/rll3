@@ -8,7 +8,7 @@ import com.ovle.rll3.model.module.core.component.CoreComponent
 import com.ovle.rll3.model.module.core.component.basicComponents
 import com.ovle.rll3.model.module.core.component.globalComponents
 import com.ovle.rll3.model.module.core.component.templatedComponents
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.util.randomId

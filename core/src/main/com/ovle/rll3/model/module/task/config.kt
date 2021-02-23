@@ -8,6 +8,8 @@ import com.ovle.rll3.model.util.conditions.EntityConditions.isLivingEntity
 import com.ovle.rll3.model.util.conditions.EntityConditions.isSourceEntity
 import com.ovle.rll3.model.util.conditions.TileConditions.isMinable
 import com.ovle.rlUtil.gdx.math.Area
+import com.ovle.rll3.model.module.task.dto.TaskTarget
+import com.ovle.rll3.model.module.task.dto.TaskTemplate
 
 
 //val testTaskTemplate = TaskTemplate(

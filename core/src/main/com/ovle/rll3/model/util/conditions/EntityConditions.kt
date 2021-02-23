@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rlUtil.gdx.math.isAdj
 import com.ovle.rll3.model.module.ai.Components.ai
 import com.ovle.rll3.model.module.core.Components.core
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.module.life.Components.life
 import com.ovle.rll3.model.module.perception.Components.perception
 import com.ovle.rll3.model.module.resource.Components.resource

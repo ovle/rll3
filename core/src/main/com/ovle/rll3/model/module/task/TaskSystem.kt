@@ -9,10 +9,13 @@ import com.ovle.rll3.model.util.controlledEntities
 import com.ovle.rll3.model.util.locationInfo
 import com.ovle.rll3.model.util.tasksInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.module.task.Components.taskPerformer
+import com.ovle.rll3.model.module.task.dto.TaskInfo
 import com.ovle.rll3.model.util.conditions.EntityConditions.isFreeTaskPerformer
-import com.ovle.rll3.model.module.task.TaskStatus.*
+import com.ovle.rll3.model.module.task.dto.TaskStatus.*
+import com.ovle.rll3.model.module.task.dto.TaskTarget
+import com.ovle.rll3.model.module.task.dto.TaskTemplate
 import ktx.ashley.get
 
 

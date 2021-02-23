@@ -6,7 +6,7 @@ import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.ExactTurn
 import com.ovle.rll3.model.util.renderEntities
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.module.skill.SkillUsage
+import com.ovle.rll3.model.module.skill.dto.SkillUsage
 import com.ovle.rlUtil.gdx.math.Direction
 import com.ovle.rlUtil.gdx.view.Animation
 import com.ovle.rlUtil.gdx.view.AnimationInfo

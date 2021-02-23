@@ -5,7 +5,7 @@ import com.ovle.rll3.TemplatedState
 import com.ovle.rll3.di
 import com.ovle.rll3.model.module.core.component.template.TemplateComponent
 import com.ovle.rll3.model.module.game.GameComponent
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
 import com.ovle.rll3.model.template.entity.entityViewTemplate

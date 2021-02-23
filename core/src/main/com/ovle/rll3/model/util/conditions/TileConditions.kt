@@ -2,7 +2,7 @@ package com.ovle.rll3.model.util.conditions
 
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rlUtil.Tile
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.procedural.config.location.minableTypes
 import com.ovle.rll3.model.tile.isPassable
 

@@ -11,8 +11,8 @@ import com.ovle.rll3.event.CheckTaskCommand
 import com.ovle.rll3.model.util.locationInfo
 import com.ovle.rll3.model.util.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.module.game.AreaInfo
-import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.model.module.game.dto.AreaInfo
+import com.ovle.rll3.model.module.task.dto.TaskTarget
 import com.ovle.rll3.util.viewportToGame
 import kotlin.math.max
 import kotlin.math.min

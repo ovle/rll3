@@ -4,7 +4,8 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rll3.model.util.on
 import com.ovle.rll3.model.util.resources
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
+import com.ovle.rll3.model.module.skill.dto.SkillTemplate
 import com.ovle.rll3.model.util.conditions.EntityConditions.isDead
 import com.ovle.rll3.model.util.conditions.EntityConditions.isLivingEntity
 import com.ovle.rll3.model.util.conditions.EntityConditions.isSourceEntity

@@ -1,6 +1,6 @@
 package com.ovle.rll3.model.util.conditions
 
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.util.conditions.TileConditions.isMinable
 import com.ovle.rll3.model.tile.isPassable
 import com.ovle.rlUtil.gdx.math.Area

@@ -2,7 +2,7 @@ package com.ovle.rll3.model.procedural.grid.processor.location.structure
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rlUtil.RandomParams
 import com.ovle.rlUtil.TileArray
 import com.ovle.rlUtil.noise4j.grid.gridToTileArray

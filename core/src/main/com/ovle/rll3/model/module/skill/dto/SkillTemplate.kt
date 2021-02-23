@@ -1,6 +1,7 @@
-package com.ovle.rll3.model.module.skill
+package com.ovle.rll3.model.module.skill.dto
 
 import com.ovle.rll3.*
+import com.ovle.rll3.model.module.skill.CostStatus
 
 /**
  * @property name

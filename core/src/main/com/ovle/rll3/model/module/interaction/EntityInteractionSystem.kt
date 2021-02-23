@@ -8,7 +8,7 @@ import com.ovle.rlUtil.gdx.controls.VoidClickEvent
 import com.ovle.rll3.event.*
 import com.ovle.rll3.model.util.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.model.module.task.dto.TaskTarget
 
 /**
  * player's interaction with entities (low-level)

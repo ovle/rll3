@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.skill
+package com.ovle.rll3.model.module.skill.dto
 
 import com.badlogic.ashley.core.Entity
 

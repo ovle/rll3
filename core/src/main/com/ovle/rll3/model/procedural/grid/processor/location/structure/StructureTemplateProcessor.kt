@@ -9,7 +9,7 @@ import com.ovle.rlUtil.gdx.math.component1
 import com.ovle.rlUtil.gdx.math.component2
 import com.ovle.rlUtil.gdx.math.point
 import com.ovle.rll3.model.module.quest.QuestOwnerComponent
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.util.newEntity
 import com.ovle.rll3.model.module.core.entity.newTemplatedEntity
 import com.ovle.rll3.model.template.entity.entityTemplate

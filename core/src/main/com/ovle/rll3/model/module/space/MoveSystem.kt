@@ -11,7 +11,7 @@ import com.ovle.rll3.model.util.bodyObstacles
 import com.ovle.rll3.model.util.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.entityAction.Components.entityAction
-import com.ovle.rll3.model.module.game.LocationInfo
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.module.space.Components.position
 import com.ovle.rll3.model.module.space.Components.move
 import com.ovle.rll3.model.util.path

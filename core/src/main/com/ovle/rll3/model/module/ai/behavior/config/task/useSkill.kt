@@ -7,8 +7,8 @@ import com.ovle.rll3.TaskExec
 import com.ovle.rll3.event.EntityUseSkillCommand
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.result
-import com.ovle.rll3.model.module.skill.SkillTemplate
-import com.ovle.rll3.model.module.skill.SkillUsage
+import com.ovle.rll3.model.module.skill.dto.SkillTemplate
+import com.ovle.rll3.model.module.skill.dto.SkillUsage
 
 fun useSkill(skill: SkillTemplate, targetHolder: TaskTargetHolder, payloadHolder: TaskTargetHolder? = null): TaskExec = { (btParams) ->
     val owner = btParams.owner

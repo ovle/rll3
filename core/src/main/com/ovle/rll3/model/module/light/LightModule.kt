@@ -2,6 +2,7 @@ package com.ovle.rll3.model.module.light
 
 import com.ovle.rll3.TemplatedState
 import com.ovle.rll3.model.module.core.component.EntityComponent
+import com.ovle.rll3.model.util.AOEData
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.factory

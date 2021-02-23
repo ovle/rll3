@@ -6,7 +6,7 @@ import com.ovle.rll3.BTFactory
 import com.ovle.rll3.EntityId
 import com.ovle.rll3.model.module.ai.behavior.TaskExecResult
 import com.ovle.rll3.model.module.core.component.CoreComponent
-import com.ovle.rll3.model.module.task.TaskTarget
+import com.ovle.rll3.model.module.task.dto.TaskTarget
 
 data class StepResult(
     val step: String,

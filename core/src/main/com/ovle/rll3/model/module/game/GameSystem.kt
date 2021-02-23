@@ -11,6 +11,7 @@ import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.core.Components.core
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
+import com.ovle.rll3.model.module.game.dto.LocationInfo
 import com.ovle.rll3.model.module.space.Components.position
 import com.ovle.rll3.model.module.space.setPosition
 import com.ovle.rll3.model.procedural.config.LocationGenerationParams
