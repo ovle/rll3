@@ -8,8 +8,8 @@ import com.ovle.rlUtil.gdx.controls.ClickEvent
 import com.ovle.rlUtil.gdx.controls.DragEvent
 import com.ovle.rlUtil.gdx.math.*
 import com.ovle.rll3.event.CheckTaskCommand
-import com.ovle.rll3.model.module.core.entity.locationInfo
-import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
+import com.ovle.rll3.model.util.locationInfo
+import com.ovle.rll3.model.util.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.AreaInfo
 import com.ovle.rll3.model.module.task.TaskTarget

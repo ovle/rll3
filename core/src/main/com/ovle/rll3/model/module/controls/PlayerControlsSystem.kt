@@ -7,10 +7,10 @@ import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rlUtil.gdx.controls.*
 import com.ovle.rlUtil.next
 import com.ovle.rll3.event.*
-import com.ovle.rll3.model.module.core.entity.locationInfo
-import com.ovle.rll3.model.module.core.entity.on
-import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
-import com.ovle.rll3.model.module.core.entity.selectedEntity
+import com.ovle.rll3.model.util.locationInfo
+import com.ovle.rll3.model.util.on
+import com.ovle.rll3.model.util.playerInteractionInfo
+import com.ovle.rll3.model.util.selectedEntity
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.util.viewportToGame
 

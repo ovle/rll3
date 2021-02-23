@@ -1,18 +1,17 @@
 package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
-import com.ovle.rlUtil.event.EventBus
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.Turn
 import com.ovle.rll3.event.*
-import com.ovle.rll3.model.module.core.entity.controlledEntities
-import com.ovle.rll3.model.module.core.entity.locationInfo
-import com.ovle.rll3.model.module.core.entity.tasksInfo
+import com.ovle.rll3.model.util.controlledEntities
+import com.ovle.rll3.model.util.locationInfo
+import com.ovle.rll3.model.util.tasksInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.Components.taskPerformer
-import com.ovle.rll3.model.module.task.EntityConditions.isFreeTaskPerformer
+import com.ovle.rll3.model.util.conditions.EntityConditions.isFreeTaskPerformer
 import com.ovle.rll3.model.module.task.TaskStatus.*
 import ktx.ashley.get
 

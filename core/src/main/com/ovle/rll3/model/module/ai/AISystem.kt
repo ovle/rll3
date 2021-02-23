@@ -10,13 +10,11 @@ import com.ovle.rll3.model.module.ai.behavior.BTParams
 import com.ovle.rll3.model.module.ai.behavior.TaskStatusListener
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.config.behaviors
-import com.ovle.rll3.model.module.core.entity.aiEntities
-import com.ovle.rll3.model.module.core.entity.allEntities
-import com.ovle.rll3.model.module.core.entity.entitiesWith
-import com.ovle.rll3.model.module.core.entity.locationInfo
+import com.ovle.rll3.model.util.aiEntities
+import com.ovle.rll3.model.util.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.task.EntityConditions.isAIActive
+import com.ovle.rll3.model.util.conditions.EntityConditions.isAIActive
 import com.ovle.rll3.model.module.task.TaskInfo
 import ktx.ashley.get
 

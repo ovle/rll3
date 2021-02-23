@@ -5,13 +5,13 @@ import com.badlogic.ashley.core.Entity
 import com.ovle.rlUtil.gdx.math.adjTiles
 import com.ovle.rll3.assets.loader.EntityTemplates
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.core.entity.positions
+import com.ovle.rll3.model.util.positions
 import com.ovle.rll3.model.module.core.entity.newTemplatedEntity
-import com.ovle.rll3.model.module.core.entity.randomId
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.tile.*
 import com.ovle.rlUtil.gdx.math.point
 import com.ovle.rll3.model.module.space.Components.position
+import com.ovle.rll3.model.util.randomId
 import ktx.ashley.get
 
 class EntityProcessor(val templates: EntityTemplates) : LocationProcessor {

@@ -8,7 +8,7 @@ import com.ovle.rll3.model.module.ai.behavior.config.task.successTask
 import com.ovle.rll3.model.module.ai.behavior.seq
 import com.ovle.rll3.model.module.ai.behavior.task
 import com.ovle.rll3.model.module.ai.behavior.tree
-import com.ovle.rll3.model.module.task.EntityConditions.isFoodEntity
+import com.ovle.rll3.model.util.conditions.EntityConditions.isFoodEntity
 
 val eatBt = BTTemplate(
     name = "eat",

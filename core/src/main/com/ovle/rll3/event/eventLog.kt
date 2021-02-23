@@ -2,7 +2,7 @@ package com.ovle.rll3.event
 
 import com.ovle.rlUtil.event.Event
 import com.ovle.rlUtil.event.EventBus.send
-import com.ovle.rll3.model.module.core.entity.position
+import com.ovle.rll3.model.module.space.position
 import com.ovle.rll3.model.util.info
 
 fun eventLogHook(event: Event) {

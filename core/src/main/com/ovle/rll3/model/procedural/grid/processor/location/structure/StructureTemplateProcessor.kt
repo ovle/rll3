@@ -8,12 +8,10 @@ import com.ovle.rlUtil.TileArray
 import com.ovle.rlUtil.gdx.math.component1
 import com.ovle.rlUtil.gdx.math.component2
 import com.ovle.rlUtil.gdx.math.point
-import com.ovle.rll3.*
 import com.ovle.rll3.model.module.quest.QuestOwnerComponent
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.core.entity.entity
+import com.ovle.rll3.model.util.newEntity
 import com.ovle.rll3.model.module.core.entity.newTemplatedEntity
-import com.ovle.rll3.model.module.core.entity.randomId
 import com.ovle.rll3.model.template.entity.entityTemplate
 import com.ovle.rll3.model.template.structure.StructureEntity
 import com.ovle.rll3.model.template.structure.StructureTemplate
@@ -23,6 +21,7 @@ import com.ovle.rll3.model.module.space.Components.position
 import com.ovle.rll3.model.procedural.config.location.groundTileFilter
 import com.ovle.rll3.model.procedural.grid.LocationProcessor
 import com.ovle.rll3.model.procedural.config.location.whateverTileId
+import com.ovle.rll3.model.util.randomId
 import ktx.ashley.get
 
 data class StructureTemplateInfo(val template: StructureTemplate, val positions: Set<GridPoint2>)
@@ -68,7 +67,7 @@ class StructureTemplateProcessor(val templates: StructureTemplates) : LocationPr
             val quests = template.quests
             quests.forEach {
                 (questId, entityId) ->
-                val owner = entity(entityId, entities)
+                val owner = newEntity(entityId, entities)
                 var qc = owner[questOwner]
                 if (qc == null) {
                     qc = QuestOwnerComponent()

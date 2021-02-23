@@ -6,7 +6,7 @@ import com.ovle.rll3.event.Event.GameEvent.*
 import com.ovle.util.event.EventBus
 import com.ovle.rll3.model.module.ai.behavior.*
 import com.ovle.rll3.model.module.core.component.ComponentMappers.ai
-import com.ovle.rll3.model.module.core.entity.entity
+import com.ovle.rll3.model.util.newEntity
 import com.ovle.rll3.model.module.core.entity.newGame
 import com.ovle.rll3.model.module.task.TaskTarget
 import ktx.ashley.get
@@ -55,7 +55,7 @@ class Test {
             ecsEngine.addSystem(it)
         }
         environment.entities.forEach {
-            val e = ecsEngine.entity(it.id, *it.components)
+            val e = ecsEngine.newEntity(it.id, *it.components)
 
             locationInfo.entities.add(e)
         }
@@ -66,7 +66,7 @@ class Test {
             ecsEngine.removeSystem(it)
         }
         environment.entities.forEach {
-            val e = entity(it.id, ecsEngine.entities.toList())
+            val e = newEntity(it.id, ecsEngine.entities.toList())
             ecsEngine.removeEntity(e)
         }
 
@@ -75,7 +75,7 @@ class Test {
 
     private fun initBehaviorTree(bt: BTFactory, initialTarget: TaskTarget?, actualResult: MutableCollection<StepResult>) {
         val target = TaskTargetHolder(initialTarget)
-        val aiOwner = entity("aiOwner", ecsEngine.entities.toList())
+        val aiOwner = newEntity("aiOwner", ecsEngine.entities.toList())
         val btParams = BTParams(aiOwner, null, ecsEngine)
 
         val behaviorTree = bt.invoke(target).apply {

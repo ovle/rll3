@@ -2,7 +2,7 @@ package com.ovle.rll3.persistence
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
-import com.ovle.rll3.model.module.core.entity.id
+import com.ovle.rll3.model.module.core.id
 import java.io.Serializable
 
 data class StoredEntity(

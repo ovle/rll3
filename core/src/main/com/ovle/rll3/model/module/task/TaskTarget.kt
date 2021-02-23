@@ -2,7 +2,7 @@ package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.module.core.entity.position
+import com.ovle.rll3.model.module.space.position
 
 
 class TaskTarget(val target: Any?) {

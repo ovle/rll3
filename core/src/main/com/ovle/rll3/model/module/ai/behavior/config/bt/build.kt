@@ -5,7 +5,7 @@ import com.ovle.rll3.model.module.ai.behavior.config.task.*
 import com.ovle.rll3.model.module.ai.behavior.seq
 import com.ovle.rll3.model.module.ai.behavior.task
 import com.ovle.rll3.model.module.ai.behavior.tree
-import com.ovle.rll3.model.module.task.EntityConditions.isBuildMaterialEntity
+import com.ovle.rll3.model.util.conditions.EntityConditions.isBuildMaterialEntity
 import com.ovle.rll3.model.template.skill
 
 val buildBt = BTTemplate(

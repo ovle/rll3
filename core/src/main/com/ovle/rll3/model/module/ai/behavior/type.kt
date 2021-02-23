@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.btree.Task
 import com.ovle.rll3.BTFactory
 import com.ovle.rll3.BehaviorSelector
 import com.ovle.rll3.model.module.core.entity.allEntities
-import com.ovle.rll3.model.module.core.entity.locationInfo
+import com.ovle.rll3.model.util.locationInfo
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.task.TaskInfo
 import com.ovle.rll3.model.module.task.TaskTarget

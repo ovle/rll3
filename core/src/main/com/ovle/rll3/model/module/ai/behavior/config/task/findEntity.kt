@@ -6,8 +6,8 @@ import com.ovle.rll3.EntityFilter
 import com.ovle.rll3.TaskExec
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.result
-import com.ovle.rll3.model.module.core.entity.on
-import com.ovle.rll3.model.module.core.entity.position
+import com.ovle.rll3.model.module.space.position
+import com.ovle.rll3.model.util.on
 
 fun findEntityOnPositionTask(targetHolder: TaskTargetHolder, filter: EntityFilter): TaskExec = { (btParams) ->
     val position = targetHolder.target(validated = false).position()

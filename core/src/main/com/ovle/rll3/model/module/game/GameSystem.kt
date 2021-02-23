@@ -12,11 +12,15 @@ import com.ovle.rll3.model.module.core.Components.core
 import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.space.Components.position
+import com.ovle.rll3.model.module.space.setPosition
 import com.ovle.rll3.model.procedural.config.LocationGenerationParams
 import com.ovle.rll3.model.procedural.config.location.locationParams
 import com.ovle.rll3.model.procedural.config.location.playgroundParams
 import com.ovle.rll3.model.procedural.grid.world.WorldInfo
 import com.ovle.rll3.model.template.entity.EntityTemplate
+import com.ovle.rll3.model.util.entityNullable
+import com.ovle.rll3.model.util.locationInfo
+import com.ovle.rll3.model.util.randomId
 import com.ovle.rll3.screen.game.InitGameInfo
 import com.ovle.rll3.screen.game.InitPlaygroundInfo
 import ktx.ashley.get

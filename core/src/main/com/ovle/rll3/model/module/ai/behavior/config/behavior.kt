@@ -2,12 +2,12 @@ package com.ovle.rll3.model.module.ai.behavior.config
 
 import com.ovle.rll3.model.module.ai.behavior.BehaviorTemplate
 import com.ovle.rll3.model.module.ai.behavior.config.bt.*
-import com.ovle.rll3.model.module.task.EntityConditions.isAttackTarget
-import com.ovle.rll3.model.module.task.EntityConditions.isHaveAttackTarget
-import com.ovle.rll3.model.module.task.EntityConditions.isHaveAvailableAttackTarget
-import com.ovle.rll3.model.module.task.EntityConditions.isHaveAvailableFood
-import com.ovle.rll3.model.module.task.EntityConditions.isHungry
-import com.ovle.rll3.model.module.task.EntityConditions.isInDanger
+import com.ovle.rll3.model.util.conditions.EntityConditions.isAttackTarget
+import com.ovle.rll3.model.util.conditions.EntityConditions.isHaveAttackTarget
+import com.ovle.rll3.model.util.conditions.EntityConditions.isHaveAvailableAttackTarget
+import com.ovle.rll3.model.util.conditions.EntityConditions.isHaveAvailableFood
+import com.ovle.rll3.model.util.conditions.EntityConditions.isHungry
+import com.ovle.rll3.model.util.conditions.EntityConditions.isInDanger
 
 
 val baseBehavior = BehaviorTemplate(

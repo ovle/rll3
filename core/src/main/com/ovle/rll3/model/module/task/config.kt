@@ -2,11 +2,11 @@ package com.ovle.rll3.model.module.task
 
 import com.badlogic.ashley.core.Entity
 import com.ovle.rll3.model.module.ai.behavior.config.bt.*
-import com.ovle.rll3.model.module.task.AreaConditions.isFreeArea
-import com.ovle.rll3.model.module.task.AreaConditions.isMinableArea
-import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
-import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
-import com.ovle.rll3.model.module.task.TileConditions.isMinable
+import com.ovle.rll3.model.util.conditions.AreaConditions.isFreeArea
+import com.ovle.rll3.model.util.conditions.AreaConditions.isMinableArea
+import com.ovle.rll3.model.util.conditions.EntityConditions.isLivingEntity
+import com.ovle.rll3.model.util.conditions.EntityConditions.isSourceEntity
+import com.ovle.rll3.model.util.conditions.TileConditions.isMinable
 import com.ovle.rlUtil.gdx.math.Area
 
 

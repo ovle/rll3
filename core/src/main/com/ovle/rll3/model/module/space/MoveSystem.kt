@@ -7,8 +7,8 @@ import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rlUtil.gdx.math.point
 import com.ovle.rll3.event.*
 import com.ovle.rll3.model.module.container.Components.carrier
-import com.ovle.rll3.model.module.core.entity.bodyObstacles
-import com.ovle.rll3.model.module.core.entity.locationInfo
+import com.ovle.rll3.model.util.bodyObstacles
+import com.ovle.rll3.model.util.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.entityAction.Components.entityAction
 import com.ovle.rll3.model.module.game.LocationInfo

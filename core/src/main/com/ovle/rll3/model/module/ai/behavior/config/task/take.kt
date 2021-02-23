@@ -8,7 +8,7 @@ import com.ovle.rll3.event.EntityCarryItemEvent
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.result
 import com.ovle.rll3.model.module.container.Components.carrier
-import com.ovle.rll3.model.module.core.entity.carriers
+import com.ovle.rll3.model.util.carriers
 import ktx.ashley.get
 
 //todo drop item on task cancellation

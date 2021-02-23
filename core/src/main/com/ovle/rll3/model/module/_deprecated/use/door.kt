@@ -6,7 +6,7 @@ package com.ovle.rll3.model.module._deprecated.use
 //import com.ovle.rll3.model.module.core.component.ComponentMappers.collision
 //import com.ovle.rll3.model.module.core.component.ComponentMappers.door
 //import com.ovle.rll3.model.module.core.component.ComponentMappers.render
-//import com.ovle.rll3.model.module.core.entity.position
+//import com.ovle.rll3.model.util.position
 //import ktx.ashley.get
 //
 //fun processDoor(source: Entity, entity: Entity) {

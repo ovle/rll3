@@ -2,20 +2,19 @@ package com.ovle.rll3.model.module.perception
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rlUtil.event.EventBus
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rll3.model.module.space.PositionComponent
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.util.lightTilePassMapper
 import com.ovle.rlUtil.gdx.math.lineOfSight.rayTracing.fieldOfView
 import com.ovle.rll3.event.EntityFovUpdatedEvent
 import com.ovle.rll3.event.EntityInitializedEvent
 import com.ovle.rll3.event.EntityMovedEvent
 import com.ovle.rll3.event.UpdateLightCollisionCommand
-import com.ovle.rll3.model.module.core.entity.*
 import com.ovle.rll3.model.module.perception.Components.perception
 import com.ovle.rll3.model.module.space.Components.position
+import com.ovle.rll3.model.util.*
+import com.ovle.rll3.model.util.conditions.EntityConditions.isSees
 import ktx.ashley.get
 
 
@@ -29,7 +28,8 @@ class PerceptionSystem : EventSystem() {
 
     private fun onUpdateCollision(points: Array<GridPoint2>) {
         val entitiesWithSight = engine.perceptionEntities()
-        val entitiesToUpdate = entitiesWithSight.filter { e -> points.any { e.see(it) } }
+        val entitiesToUpdate = entitiesWithSight
+            .filter { e -> points.any {p ->  isSees(e, p) } }
 
         entitiesToUpdate.forEach {
             updateFov(it)

@@ -9,9 +9,9 @@ import com.ovle.rll3.event.ChangeTileCommand
 import com.ovle.rll3.event.TileChangedEvent
 import com.ovle.rll3.event.TileGatheredEvent
 import com.ovle.rll3.event.TurnChangedEvent
-import com.ovle.rll3.model.module.core.entity.locationInfo
+import com.ovle.rll3.model.util.locationInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
-import com.ovle.rll3.model.module.task.TileConditions.isSource
+import com.ovle.rll3.model.util.conditions.TileConditions.isSource
 
 
 class TileSystem : EventSystem() {

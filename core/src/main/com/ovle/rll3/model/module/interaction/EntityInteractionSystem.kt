@@ -2,12 +2,11 @@ package com.ovle.rll3.model.module.interaction
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rlUtil.event.EventBus
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rlUtil.event.EventBus.subscribe
 import com.ovle.rlUtil.gdx.controls.VoidClickEvent
 import com.ovle.rll3.event.*
-import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
+import com.ovle.rll3.model.util.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.task.TaskTarget
 

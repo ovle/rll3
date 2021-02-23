@@ -1,22 +1,21 @@
-package com.ovle.rll3.model.module.task
+package com.ovle.rll3.model.util.conditions
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rlUtil.gdx.math.isAdj
 import com.ovle.rll3.model.module.ai.Components.ai
 import com.ovle.rll3.model.module.core.Components.core
-import com.ovle.rll3.model.module.core.entity.consumes
-import com.ovle.rll3.model.module.core.entity.position
-import com.ovle.rll3.model.module.core.entity.resources
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.life.Components.life
+import com.ovle.rll3.model.module.perception.Components.perception
 import com.ovle.rll3.model.module.resource.Components.resource
 import com.ovle.rll3.model.module.resource.Components.source
 import com.ovle.rll3.model.module.resource.ResourceType.*
 import com.ovle.rll3.model.module.space.Components.move
 import com.ovle.rll3.model.module.space.Components.position
+import com.ovle.rll3.model.module.space.position
 import com.ovle.rll3.model.module.task.Components.taskPerformer
-import com.ovle.rll3.model.util.path
+import com.ovle.rll3.model.util.*
 import ktx.ashley.get
 import ktx.ashley.has
 
@@ -49,7 +48,7 @@ object EntityConditions {
 
     fun isHaveAvailableFood(e: Entity, l: LocationInfo) = e.has(life) &&
         l.entities.resources(Food).any {
-            e.consumes(it) && path(e.position(), it.position(), l).isNotEmpty()
+            isConsumes(e, it) && path(e.position(), it.position(), l).isNotEmpty()
         }
 
     fun isInDanger(e: Entity, l: LocationInfo) = e.has(life) && e[life]!!.let { it.health < it.maxHealth / 2 }
@@ -73,4 +72,14 @@ object EntityConditions {
         return false
     }
 
+    fun isSees(e: Entity, position: GridPoint2) = e.has(perception) && position in e[perception]!!.fov
+
+    fun isConsumes(consumer: Entity, food: Entity): Boolean {
+        check(consumer.has(life)) { "no life for entity ${consumer.info()}" }
+        if (!food.has(resource)) return false
+
+        //todo consumer-specific
+        val foodTypes = setOf(Food)
+        return food[resource]!!.type in foodTypes
+    }
 }

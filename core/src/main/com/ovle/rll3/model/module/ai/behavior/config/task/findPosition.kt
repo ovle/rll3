@@ -6,11 +6,10 @@ import com.ovle.rlUtil.gdx.math.adjHV
 import com.ovle.rlUtil.gdx.math.component1
 import com.ovle.rlUtil.gdx.math.component2
 import com.ovle.rlUtil.gdx.math.point
-import com.ovle.rll3.*
+import com.ovle.rll3.TaskExec
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.result
-import com.ovle.rll3.model.module.core.entity.position
-import com.ovle.rlUtil.gdx.math.pathfinding.aStar.path
+import com.ovle.rll3.model.module.space.position
 import com.ovle.rll3.model.util.path
 
 fun findPositionNearTarget(targetHolder: TaskTargetHolder): TaskExec = { (btParams) ->

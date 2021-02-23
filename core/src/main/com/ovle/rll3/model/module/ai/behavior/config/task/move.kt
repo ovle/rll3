@@ -8,8 +8,8 @@ import com.ovle.rll3.event.EntityMoveCommand
 import com.ovle.rll3.event.EntityStartMoveCommand
 import com.ovle.rll3.model.module.ai.behavior.TaskTargetHolder
 import com.ovle.rll3.model.module.ai.behavior.result
-import com.ovle.rll3.model.module.task.EntityConditions.isAtPosition
-import com.ovle.rll3.model.module.task.EntityConditions.isMoving
+import com.ovle.rll3.model.util.conditions.EntityConditions.isAtPosition
+import com.ovle.rll3.model.util.conditions.EntityConditions.isMoving
 
 
 fun moveTask(targetHolder: TaskTargetHolder): TaskExec =  { (btParams) ->

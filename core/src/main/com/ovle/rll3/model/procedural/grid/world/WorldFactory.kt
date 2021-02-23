@@ -1,7 +1,6 @@
 package com.ovle.rll3.model.procedural.grid.world
 
 import com.github.czyzby.noise4j.map.Grid
-import com.ovle.rll3.model.module.core.entity.randomId
 import com.ovle.rlUtil.RandomParams
 import com.ovle.rlUtil.TileArray
 import com.ovle.rll3.model.procedural.config.WorldGenerationParams
@@ -15,6 +14,7 @@ import com.ovle.rlUtil.gdx.math.component2
 import com.ovle.rlUtil.noise4j.grid.floodFill
 import com.ovle.rlUtil.noise4j.grid.gridToTileArray
 import com.ovle.rlUtil.noise4j.grid.normalize
+import com.ovle.rll3.model.util.randomId
 
 
 class WorldFactory(val params: WorldGenerationParams) {

@@ -2,15 +2,14 @@ package com.ovle.rll3.model.module.skill
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.GridPoint2
-import com.ovle.rll3.model.module.core.entity.on
-import com.ovle.rll3.model.module.core.entity.resources
+import com.ovle.rll3.model.util.on
+import com.ovle.rll3.model.util.resources
 import com.ovle.rll3.model.module.game.LocationInfo
-import com.ovle.rll3.model.module.task.EntityConditions.isDead
-import com.ovle.rll3.model.module.task.EntityConditions.isExists
-import com.ovle.rll3.model.module.task.EntityConditions.isLivingEntity
-import com.ovle.rll3.model.module.task.EntityConditions.isSourceEntity
-import com.ovle.rll3.model.module.task.TileConditions.isMinable
-import com.ovle.rll3.model.module.task.TileConditions.isPassable
+import com.ovle.rll3.model.util.conditions.EntityConditions.isDead
+import com.ovle.rll3.model.util.conditions.EntityConditions.isLivingEntity
+import com.ovle.rll3.model.util.conditions.EntityConditions.isSourceEntity
+import com.ovle.rll3.model.util.conditions.TileConditions.isMinable
+import com.ovle.rll3.model.util.conditions.TileConditions.isPassable
 
 
 fun skillTemplates() = arrayOf(

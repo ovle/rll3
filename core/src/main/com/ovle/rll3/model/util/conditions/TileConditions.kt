@@ -1,4 +1,4 @@
-package com.ovle.rll3.model.module.task
+package com.ovle.rll3.model.util.conditions
 
 import com.badlogic.gdx.math.GridPoint2
 import com.ovle.rlUtil.Tile

@@ -16,7 +16,7 @@ import com.ovle.rlUtil.gdx.view.PaletteManager
 import com.ovle.rlUtil.gdx.view.Sprite
 import com.ovle.rlUtil.gdx.view.sprite
 import com.ovle.rll3.assets.AssetsManager
-import com.ovle.rll3.model.module.core.entity.*
+import com.ovle.rll3.model.module.core.name
 import com.ovle.rll3.model.module.game.AreaInfo
 import com.ovle.rll3.model.module.game.LocationInfo
 import com.ovle.rll3.model.module.interaction.PlayerInteractionComponent
@@ -24,8 +24,9 @@ import com.ovle.rll3.model.module.render.draw
 import com.ovle.rll3.model.module.task.Components.tasks
 import com.ovle.rll3.model.module.time.Components.time
 import com.ovle.rll3.model.module.game.Components.game
+import com.ovle.rll3.model.module.space.position
 import com.ovle.rll3.model.module.task.TaskInfo
-import com.ovle.rll3.model.util.info
+import com.ovle.rll3.model.util.*
 import com.ovle.rll3.view.fontName
 import com.ovle.rll3.view.spriteSize
 import ktx.ashley.get

@@ -12,11 +12,11 @@ import com.ovle.rlUtil.gdx.controls.DragEvent
 import com.ovle.rll3.event.EntityInitializedEvent
 import com.ovle.rll3.event.EntityMovedEvent
 import com.ovle.rll3.event.FocusEntityCommand
-import com.ovle.rll3.model.module.core.entity.focusedEntity
-import com.ovle.rll3.model.module.core.entity.playerInteractionInfo
-import com.ovle.rll3.model.module.core.entity.positionOrNull
+import com.ovle.rll3.model.util.focusedEntity
+import com.ovle.rll3.model.util.playerInteractionInfo
 import com.ovle.rll3.model.module.core.system.EventSystem
 import com.ovle.rll3.model.module.interaction.ControlMode
+import com.ovle.rll3.model.module.space.positionOrNull
 import com.ovle.rll3.view.*
 import ktx.math.vec3
 

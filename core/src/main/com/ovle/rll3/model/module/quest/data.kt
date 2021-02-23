@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Engine
 import com.ovle.rlUtil.event.EventBus.send
 import com.ovle.rll3.event.LogCommand
 import com.ovle.rll3.model.module.core.entity.allEntities
-import com.ovle.rll3.model.module.core.entity.entityNullable
+import com.ovle.rll3.model.util.entityNullable
 import com.ovle.rll3.model.module.life.Components.life
 import ktx.ashley.get
 
